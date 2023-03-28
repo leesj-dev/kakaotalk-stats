@@ -66,7 +66,7 @@ const filterMessageLine = (line) => {
 
 const objectCheck = (data) => {
   const { year, month, day, hour, minute, speaker, message } = data;
-  if (!(year < 100 && month < 13 && day < 32 && hour < 25 && minute < 60 && typeof speaker === "string" && typeof speaker === "string")) {
+  if (!(year < 100 && month < 13 && day < 32 && hour < 25 && minute < 60 && typeof speaker === "string" && typeof message === "string")) {
     return data;
   } else {
     return null;
