@@ -75,6 +75,8 @@ const objectCheck = (data) => {
     return null;
   }
 };
+
+// 데이터 출력 확인
 (async () => {
   console.log(await breakdownTxtFile("c:/Users/young/Desktop/kmg/src/module/Talk_2023.3.23 02-10-1.txt"));
 })();
