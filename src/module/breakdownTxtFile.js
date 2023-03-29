@@ -37,6 +37,8 @@ const getDataArrayFromLineArray = (filteredMessageLineArray) => {
     const [year, month, day, time] = dateTime.split(". ");
     const [hour, minute] = time.split(":");
     const [speaker, message] = content.split(" : ");
+    const keyword = message.split(" ").map((word) => word.trim());
+
     return {
       year,
       month,
@@ -45,6 +47,7 @@ const getDataArrayFromLineArray = (filteredMessageLineArray) => {
       minute,
       speaker,
       message: message.trim(),
+      keyword,
     };
   });
   return result;
@@ -72,5 +75,8 @@ const objectCheck = (data) => {
     return null;
   }
 };
+(async () => {
+  console.log(await breakdownTxtFile("c:/Users/young/Desktop/kmg/src/module/Talk_2023.3.23 02-10-1.txt"));
+})();
 
 module.exports = breakdownTxtFile;
