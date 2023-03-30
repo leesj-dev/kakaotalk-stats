@@ -44,7 +44,7 @@ const getDataArrayFromLineArray = (filteredMessageLineArray) => {
       month,
       day,
       hour: hour.slice(0, 2) === "오전" ? parseInt(hour.slice(-2)) : parseInt(hour.slice(-2)) + 12,
-      minute,
+      minute: parseInt(minute),
       speaker,
       message: message.trim(),
       keyword,
