@@ -22,9 +22,9 @@ console.log(result);
 // 예시1)
 // {
 //   쥬히: {
-//     totalChatCount: {
-//       221105: {
-//         count: 1,
+//     221105: {
+//       totalChatCount: {
+//         "14:01": 1,
 //       },
 //     },
 //   },
@@ -33,9 +33,9 @@ console.log(result);
 // 예시2)
 // {
 //   영한: {
-//     totalChatCount: {
-//       230330: {
-//         count: 1,
+//     230330: {
+//       totalChatCount: {
+//         "00:10": 1,
 //       },
 //     },
 //   },
