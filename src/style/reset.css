@@ -19,25 +19,29 @@ reset
 --------------------------------------
 */
 
+:root {
+  --border: #e1e1e1;
+}
+
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
-    outline: none;
+  box-sizing: inherit;
+  outline: none;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: "Pretendard";
-    font-weight: normal;
-    line-height: 1;
-    letter-spacing: -0.025em;
-    color: #222222;
+  margin: 0;
+  padding: 0;
+  font-family: "Pretendard";
+  font-weight: normal;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: #222222;
 }
 
 ul,
@@ -46,9 +50,9 @@ li,
 dl,
 dt,
 dd {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 p,
@@ -59,62 +63,62 @@ h4,
 h5,
 h6,
 figure {
-    margin: 0;
-    padding: 0;
-    font-size: inherit;
-    font-weight: inherit;
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 img {
-    border: 0;
-    vertical-align: middle;
-    font-size: 0;
-    max-width: 100%;
+  border: 0;
+  vertical-align: middle;
+  font-size: 0;
+  max-width: 100%;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
 }
 
 select,
 input,
 textarea,
 button {
-    font-size: inherit;
-    font-family: "Noto Sans KR";
-    font-weight: inherit;
-    margin: 0;
+  font-size: inherit;
+  font-family: "Noto Sans KR";
+  font-weight: inherit;
+  margin: 0;
 }
 
 select,
 input,
 button {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 b,
 strong {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 address,
 em,
 i {
-    font-style: normal;
+  font-style: normal;
 }
 
 hr {
-    margin: 0;
-    padding: 0;
-    border: none;
-    display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: block;
 }
 
 header,
@@ -124,17 +128,17 @@ section,
 aside,
 nav,
 main {
-    display: block;
+  display: block;
 }
 
 button,
 input,
 select,
 textarea {
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
 }
 
 /* screen reader only */
@@ -142,43 +146,43 @@ textarea {
 .hidden,
 .blind,
 .IR {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 /* Skip to content */
 .skip-to {
-    position: absolute;
-    top: -99px;
-    left: 0;
-    background: #333;
-    color: #fff;
-    width: 100%;
-    padding: 10px 0;
-    text-align: center;
-    text-decoration: none;
-    z-index: 999;
+  position: absolute;
+  top: -99px;
+  left: 0;
+  background: #333;
+  color: #fff;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+  text-decoration: none;
+  z-index: 999;
 }
 
 .skip-to:hover,
 .skip-to:focus,
 .skip-to:active {
-    display: block;
-    top: 0;
+  display: block;
+  top: 0;
 }
 
 .row:after,
 .row:before {
-    content: "";
-    display: block;
+  content: "";
+  display: block;
 }
 
 .row:after {
-    clear: both;
+  clear: both;
 }

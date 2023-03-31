@@ -5,10 +5,14 @@ type WrapperProps = {
   children: ReactNode;
 };
 
-const Container = styled.div``;
+const Wrap = styled.div`
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+`;
 
 const Wrapper = ({ children }: WrapperProps) => {
-  return <div>{children}</div>;
+  return <Wrap>{children}</Wrap>;
 };
 
 export default Wrapper;
