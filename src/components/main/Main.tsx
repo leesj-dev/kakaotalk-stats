@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import "../../style/reset.css";
+import Attachment from "./attachment/Attachment";
 
 const Container = styled.div`
   width: 600px;
@@ -27,9 +28,9 @@ const Body = styled.p`
   border-bottom: 2px solid var(--border);
 `;
 
-const OptionWrapper = styled.div`
+const OptionBox = styled.div`
   display: flex;
-  background: #ffcb47;
+  background: var(--yellow);
 `;
 
 const Option = styled.div`
@@ -43,37 +44,35 @@ const Option = styled.div`
   }
 `;
 
-const AttachBox = styled.div``;
-
 const Main = () => {
   return (
-    <Container>
-      <Section>
-        <Title>카카오톡 돋보기</Title>
-        <Body>
-          Kakao Analytics를 사용하기 위해서는
-          {`\n`} 먼저 웹사이트를 등록해야 합니다.
-          {`\n`} 웹사이트를 등록하려면,
-          {`\n`} Kakao Analytics 콘솔에 로그인한 후{`\n`} "웹사이트 추가" 버튼을 클릭합니다.
-          {`\n`} 그런 다음, 웹사이트의 이름,
-          {`\n`} URL, 카테고리 등을 입력하고 등록합니다.
-          {`\n`}
-          {`\n`} 등록한 웹사이트에 추적 코드를 설치해야 합니다.
-          {`\n`} 추적 코드는 Kakao Analytics 콘솔에서 생성할 수 있습니다.
-          {`\n`} 생성한 추적 코드를 웹사이트의 모든 페이지에설치합니다.
-          {`\n`}{" "}
-        </Body>
-      </Section>
-      <Section>
-        <OptionWrapper>
-          <Option>Window</Option>
-          <Option>Mac O/S</Option>
-        </OptionWrapper>
-      </Section>
-      <Section>
-        <AttachBox></AttachBox>
-      </Section>
-    </Container>
+    <div>
+      <Container>
+        <Section>
+          <Title>카카오톡 돋보기</Title>
+          <Body>
+            Kakao Analytics를 사용하기 위해서는
+            {`\n`} 먼저 웹사이트를 등록해야 합니다.
+            {`\n`} 웹사이트를 등록하려면,
+            {`\n`} Kakao Analytics 콘솔에 로그인한 후{`\n`} "웹사이트 추가" 버튼을 클릭합니다.
+            {`\n`} 그런 다음, 웹사이트의 이름,
+            {`\n`} URL, 카테고리 등을 입력하고 등록합니다.
+            {`\n`}
+            {`\n`} 등록한 웹사이트에 추적 코드를 설치해야 합니다.
+            {`\n`} 추적 코드는 Kakao Analytics 콘솔에서 생성할 수 있습니다.
+            {`\n`} 생성한 추적 코드를 웹사이트의 모든 페이지에설치합니다.
+            {`\n`}{" "}
+          </Body>
+        </Section>
+        <Section>
+          <OptionBox>
+            <Option>Window</Option>
+            <Option>Mac O/S</Option>
+          </OptionBox>
+        </Section>
+      </Container>
+      <Attachment></Attachment>
+    </div>
   );
 };
 
