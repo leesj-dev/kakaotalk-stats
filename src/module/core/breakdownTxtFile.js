@@ -44,7 +44,7 @@ const getDataArrayFromLineArray = (filteredMessageLineArray) => {
       month,
       day,
       hour: hour.slice(0, 2) === "오전" ? parseInt(hour.slice(-2)) : parseInt(hour.slice(-2)) + 12,
-      minute,
+      minute: parseInt(minute),
       speaker,
       message: message.trim(),
       keyword,
@@ -75,8 +75,10 @@ const objectCheck = (data) => {
     return null;
   }
 };
+
+// 데이터 출력 확인
 (async () => {
-  console.log(await breakdownTxtFile("c:/Users/young/Desktop/kmg/src/module/Talk_2023.3.23 02-10-1.txt"));
+  console.log(await breakdownTxtFile("c:/Users/young/Desktop/kmg/src/module/core/Talk_2023.3.23 02-10-1.txt"));
 })();
 
 module.exports = breakdownTxtFile;
