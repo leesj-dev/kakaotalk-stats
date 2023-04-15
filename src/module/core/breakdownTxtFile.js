@@ -37,7 +37,9 @@ const getDataArrayFromLineArray = (filteredMessageLineArray) => {
   const result = filteredMessageLineArray.map((line, index) => {
     const [dateTime, content] = line.split(", ", 2);
     const [year, month, day, time] = dateTime.split(". ");
-    const [hour, minute] = time.split(":");
+    let [fullHour, minute] = time.split(":");
+    let [meridiem, hour] = fullHour.split(" ");
+    if (hour === "12") hour = 0;
     const [speaker, message] = content.split(" : ");
     const keywords = message.split(" ").map((word) => word.trim());
 
@@ -45,10 +47,9 @@ const getDataArrayFromLineArray = (filteredMessageLineArray) => {
       year: formatValue(year),
       month: formatValue(month),
       day: formatValue(day),
-      hour: hour.slice(0, 2) === "오전" ? formatValue(parseInt(hour.slice(-2))) : (parseInt(hour.slice(-2)) + 12).toString(),
+      hour: meridiem === "오전" ? formatValue(parseInt(hour)) : (parseInt(hour) + 12).toString(),
       minute: formatValue(parseInt(minute)),
       speaker,
-      message: message.trim(),
       keywords,
     };
   });
@@ -69,55 +70,48 @@ const filterMessageLine = (line) => {
   return line;
 };
 
-// 데이터 출력 확인
 const getMessageData = async () => {
   const results = await breakdownTxtFile(["c:/Users/young/Desktop/kmg/src/module/core/Talk_2023.3.23 02-10-1 copy.txt"]);
   const messageData = [];
   for (const result of results) {
-    const { year, month, day, hour, minute, speaker, message, keywords } = result;
-    // speaker 찾기
-    // 없다면? speaker와 date배열 추가하기
+    const { year, month, day, hour, minute, speaker, keywords } = result;
+    const todayDate = `${year}${month}${day}`;
+    const currentTime = `${hour}:${minute}`;
+
+    // speaker 찾기. 없다면? speaker와 date배열 추가하기
     let speakerIndex = messageData.findIndex((item) => item.speaker === speaker);
     if (speakerIndex === -1) {
       messageData.push({ speaker, date: [] });
       speakerIndex = messageData.length - 1;
     }
 
-    // date에 current message date 있는지 찾기
-    // 없다면? current message date, chatTimes: {} ,keywordCount:{},replyTime:{} 추가하기
+    // date에 current message date 있는지 찾기. 없다면? current message date, chatTimes: {} ,keywordCounts:{},replyTime:{} 추가하기
     let dates = messageData[speakerIndex].date;
     const lastMessageDate = dates.length && Object.keys(dates[dates.length - 1])[0];
-    if (lastMessageDate !== `${year}${month}${day}`) {
-      dates.push({ [`${year}${month}${day}`]: { chatTimes: {}, keywordCount: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
+    if (lastMessageDate !== todayDate) {
+      dates.push({ [todayDate]: { chatTimes: {}, keywordCounts: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
     }
 
-    // date정보의 마지막 요소에 current chat time있는지 찾기
-    // 없다면? chatTimes object 추가하기,
-    // 있다면? chatTimes count++
-    const lastChatTime = dates[dates.length - 1][`${year}${month}${day}`].chatTimes[`${hour}:${minute}`];
-    lastChatTime ? dates[dates.length - 1][`${year}${month}${day}`].chatTimes[`${hour}:${minute}`]++ : (dates[dates.length - 1][`${year}${month}${day}`].chatTimes[`${hour}:${minute}`] = 1);
+    // date정보의 마지막 요소에 current chat time있는지 찾기. 없다면? chatTimes object 추가하기, 있다면? chatTimes count++
+    const todayDateValue = dates[dates.length - 1][todayDate];
+    const lastChatTime = todayDateValue.chatTimes[currentTime];
+    lastChatTime ? todayDateValue.chatTimes[currentTime]++ : (todayDateValue.chatTimes[currentTime] = 1);
 
-    // keywordCount있는지 찾기
-    // 없다면? keywordCount object 추가하기
-    // 있다면? 키워드 또는 카운트 추가하기
-    // const keywordCount = dates[dates.length - 1][`${year}${month}${day}`].keywordCount;
-    // for (const keyword of keywords) {
-    //   dates[dates.length - 1][`${year}${month}${day}`].keywordCount[keyword]
-    //     ? dates[dates.length - 1][`${year}${month}${day}`].keywordCount[keyword]++
-    //     : (dates[dates.length - 1][`${year}${month}${day}`].keywordCount[keyword] = 1);
-    // }
+    // keywordCount있는지 찾기. 없다면? keywordCounts object 추가하기. 있다면? 키워드 또는 카운트 추가하기
+    const keywordCountObject = todayDateValue.keywordCounts;
+    for (const keyword of keywords) {
+      keywordCountObject[keyword] ? keywordCountObject[keyword]++ : (keywordCountObject[keyword] = 1);
+    }
 
-    // replyTime있는지 찾기
-    // 없다면? previous:currentMessageTime, difference:0, count:1 추가하기
+    // replyTime있는지 찾기. 없다면? previous:currentMessageTime, difference:0, count:1 추가하기
     // 있다면? previous:currentMessageTime, difference:previousMessageTime - currentMessageTime, count++ 추가하기
-    if (dates[dates.length - 1][`${year}${month}${day}`].replyTime.count === 0) {
-      dates[dates.length - 1][`${year}${month}${day}`].replyTime.previous = parseInt(hour * 60) + parseInt(minute);
-      dates[dates.length - 1][`${year}${month}${day}`].replyTime.count++;
-    } else {
-      dates[dates.length - 1][`${year}${month}${day}`].replyTime.difference += parseInt(hour * 60) + parseInt(minute) - dates[dates.length - 1][`${year}${month}${day}`].replyTime.previous;
-      dates[dates.length - 1][`${year}${month}${day}`].replyTime.previous = parseInt(hour * 60) + parseInt(minute);
-      dates[dates.length - 1][`${year}${month}${day}`].replyTime.count++;
+    const minuteTime = parseInt(hour * 60) + parseInt(minute);
+    const replyTimeObject = todayDateValue.replyTime;
+    if (replyTimeObject.count !== 0) {
+      replyTimeObject.difference += minuteTime - replyTimeObject.previous;
     }
+    replyTimeObject.previous = minuteTime;
+    replyTimeObject.count++;
   }
 
   messageData.forEach((data) => {
