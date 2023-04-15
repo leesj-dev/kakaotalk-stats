@@ -16,6 +16,8 @@ const inputData1 = {
   message: "500을 적었는데 잘했어가 뜨죠?!",
   keyword: ["500을", "적었는데", "잘했어가", "뜨죠?!"],
 };
+return { speaker: "쥬히", date: 221105, replyTime: {} };
+
 // 예시1)
 // {
 //   쥬히: {
@@ -23,6 +25,7 @@ const inputData1 = {
 //       replyTime: {
 //         previous: hour * 60 + minute,
 //         difference: 20,
+//         count:2,
 //       },
 //     },
 //   },
@@ -45,6 +48,7 @@ const inputData2 = {
 //       replyTime: {
 //         previous: "hour" * 60 + "minute",
 //         difference: 32,
+//         count:2,
 //       },
 //     },
 //   },
