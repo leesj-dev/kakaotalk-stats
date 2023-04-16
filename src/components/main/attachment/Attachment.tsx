@@ -14,6 +14,11 @@ const FileInput = styled.input``;
 const AttachmentButton = styled.div``;
 const CancelButton = styled.div``;
 
+const utf8Decode = (base64String: string) => {
+  const bytes = atob(base64String.replace(/^data:.*?;base64,/, ""));
+  return decodeURIComponent(escape(bytes));
+};
+
 const Attachment = () => {
   const [file, setFile] = useState<File | null>(null);
   const [fileContent, setFileContent] = useState<any>("");
@@ -28,19 +33,14 @@ const Attachment = () => {
       if (event.target.files[i]) {
         let reader = new FileReader();
         reader.readAsDataURL(event.target.files[i]); // 1. 파일을 읽어 버퍼에 저장합니다.
-        // 파일 상태 업데이트
         reader.onloadend = () => {
-          // 2. 읽기가 완료되면 아래코드가 실행됩니다.
           const base64 = reader.result;
           console.log(base64);
           if (base64) {
-            //  images.push(base64.toString())
-            var base64Sub = base64.toString();
+            const base64Sub = utf8Decode(base64.toString());
+            console.log(base64Sub);
 
             setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
-            //  setImgBase64(newObj);
-            // 파일 base64 상태 업데이트
-            //  console.log(images)
           }
         };
       }
@@ -62,6 +62,10 @@ const Attachment = () => {
 
   useEffect(() => {
     console.log(fileContent);
+  }, [fileContent]);
+
+  useEffect(() => {
+    console.log(imgBase64);
   }, [fileContent]);
 
   return (
