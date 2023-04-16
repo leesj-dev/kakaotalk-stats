@@ -68,6 +68,19 @@ const Attachment = () => {
     console.log(imgBase64);
   }, [fileContent]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(process.env.PUBLIC_URL + "/ad.txt");
+        const data = await response.text();
+        console.log(data); // 파일의 내용 출력
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <AttachmentBox>
       <List>
