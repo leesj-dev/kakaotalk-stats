@@ -73,6 +73,9 @@ const filterMessageLine = (line) => {
 const getMessageData = async () => {
   const results = await breakdownTxtFile(["c:/Users/young/Desktop/kmg/src/module/core/Talk_2023.3.23 02-10-1 copy.txt"]);
   const messageData = [];
+  let rightBeforeSpeaker;
+  let rightBeforeMessageTime;
+
   for (const result of results) {
     const { year, month, day, hour, minute, speaker, keywords } = result;
     const todayDate = `${year}${month}${day}`;
@@ -103,15 +106,16 @@ const getMessageData = async () => {
       keywordCountObject[keyword] ? keywordCountObject[keyword]++ : (keywordCountObject[keyword] = 1);
     }
 
-    // replyTime있는지 찾기. 없다면? previous:currentMessageTime, difference:0, count:1 추가하기
-    // 있다면? previous:currentMessageTime, difference:previousMessageTime - currentMessageTime, count++ 추가하기
+    // 직전의 메시지가 현재 메시지와 다른사람일 경우, 현재 메시지 - 직전의 메시지 시간을 더하고 count++
     const minuteTime = parseInt(hour * 60) + parseInt(minute);
     const replyTimeObject = todayDateValue.replyTime;
-    if (replyTimeObject.count !== 0) {
-      replyTimeObject.difference += minuteTime - replyTimeObject.previous;
+    if (rightBeforeSpeaker && rightBeforeSpeaker !== speaker) {
+      replyTimeObject.difference += minuteTime - rightBeforeMessageTime >= 0 && minuteTime - rightBeforeMessageTime;
+      replyTimeObject.previous = minuteTime;
+      replyTimeObject.count++;
     }
-    replyTimeObject.previous = minuteTime;
-    replyTimeObject.count++;
+    rightBeforeSpeaker = messageData[speakerIndex].speaker;
+    rightBeforeMessageTime = minuteTime;
   }
 
   messageData.forEach((data) => {
