@@ -71,7 +71,7 @@ const filterMessageLine = (line) => {
 };
 
 const getMessageData = async () => {
-  const results = await breakdownTxtFile(["c:/Users/young/Desktop/kmg/src/module/core/Talk_2023.3.23 02-10-1 copy.txt"]);
+  const results = await breakdownTxtFile(["c:/Users/young/Desktop/kmg/src/module/core/Talk_2023.3.23 02-10-1.txt"]);
   const messageData = [];
   let rightBeforeSpeaker;
   let rightBeforeMessageTime;
@@ -109,6 +109,7 @@ const getMessageData = async () => {
     // 직전의 메시지가 현재 메시지와 다른사람일 경우, 현재 메시지 - 직전의 메시지 시간을 더하고 count++
     const minuteTime = parseInt(hour * 60) + parseInt(minute);
     const replyTimeObject = todayDateValue.replyTime;
+
     if (rightBeforeSpeaker && rightBeforeSpeaker !== speaker) {
       replyTimeObject.difference += minuteTime - rightBeforeMessageTime >= 0 && minuteTime - rightBeforeMessageTime;
       replyTimeObject.previous = minuteTime;
@@ -118,7 +119,9 @@ const getMessageData = async () => {
     rightBeforeMessageTime = minuteTime;
   }
 
+  console.log(messageData);
   messageData.forEach((data) => {
+    console.log(data[1]);
     data.date.forEach((item) => {
       console.log(item);
     });
