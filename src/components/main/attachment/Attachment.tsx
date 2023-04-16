@@ -98,9 +98,16 @@ type MessageData = {
 };
 
 type DateInfo = {
-  chatTimes: any;
-  keywordCounts: any;
-  replyTime: any;
+  date: string;
+  data: {
+    chatTimes: Record<string, number>;
+    keywordCounts: Record<string, number>;
+    replyTime: {
+      previous: number;
+      difference: number;
+      count: number;
+    };
+  };
 };
 
 const getMessageData = (results: MessageData[]) => {
@@ -121,14 +128,14 @@ const getMessageData = (results: MessageData[]) => {
     }
 
     // date에 current message date 있는지 찾기. 없다면? current message date, chatTimes: {} ,keywordCounts:{},replyTime:{} 추가하기
-    let dates: { [key: string]: DateInfo }[] = messageData[speakerIndex].date;
+    let dates: DateInfo[] = messageData[speakerIndex].date;
     const lastMessageDate = dates.length && Object.keys(dates[dates.length - 1])[0];
     if (lastMessageDate !== todayDate) {
-      dates.push({ [todayDate]: { chatTimes: {}, keywordCounts: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
+      dates.push({ date: todayDate, data: { chatTimes: {}, keywordCounts: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
     }
 
     // date정보의 마지막 요소에 current chat time있는지 찾기. 없다면? chatTimes object 추가하기, 있다면? chatTimes count++
-    const todayDateValue = dates[dates.length - 1][todayDate];
+    const todayDateValue = dates[dates.length - 1].data;
     const lastChatTime = todayDateValue.chatTimes[currentTime];
     lastChatTime ? todayDateValue.chatTimes[currentTime]++ : (todayDateValue.chatTimes[currentTime] = 1);
 
@@ -144,7 +151,7 @@ const getMessageData = (results: MessageData[]) => {
 
     if (rightBeforeSpeaker && rightBeforeSpeaker !== speaker) {
       const difference = minuteTime - (rightBeforeMessageTime || 0);
-      replyTimeObject.difference += difference >= 0 && difference;
+      replyTimeObject.difference += difference >= 0 ? difference : 0;
       replyTimeObject.previous = minuteTime;
       replyTimeObject.count++;
     }
@@ -240,7 +247,18 @@ const Attachment = () => {
                   <span>{data.speaker}</span>
                   <span>
                     {data.date.map((item: any) => {
-                      return <span>{JSON.stringify(item)}</span>;
+                      const { chatTimes, keywordCounts, replyTime } = item.data;
+                      const { count, difference, previous } = replyTime;
+                      return (
+                        <div>
+                          {item.date}
+                          {Object.keys(chatTimes)}
+                          {Object.keys(keywordCounts)}
+                          {count}
+                          {difference}
+                          {previous}
+                        </div>
+                      );
                     })}
                   </span>
                 </p>

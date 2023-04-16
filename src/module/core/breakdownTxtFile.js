@@ -92,11 +92,11 @@ const getMessageData = async () => {
     let dates = messageData[speakerIndex].date;
     const lastMessageDate = dates.length && Object.keys(dates[dates.length - 1])[0];
     if (lastMessageDate !== todayDate) {
-      dates.push({ [todayDate]: { chatTimes: {}, keywordCounts: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
+      dates.push({ date: todayDate, data: { chatTimes: {}, keywordCounts: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
     }
 
     // date정보의 마지막 요소에 current chat time있는지 찾기. 없다면? chatTimes object 추가하기, 있다면? chatTimes count++
-    const todayDateValue = dates[dates.length - 1][todayDate];
+    const todayDateValue = dates[dates.length - 1].data;
     const lastChatTime = todayDateValue.chatTimes[currentTime];
     lastChatTime ? todayDateValue.chatTimes[currentTime]++ : (todayDateValue.chatTimes[currentTime] = 1);
 
