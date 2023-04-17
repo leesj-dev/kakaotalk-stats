@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getMessageData } from "../../../module/core/core";
-import { breakdownTxtFile, utf8Decode } from "../../../module/core/core2";
+import { getMessageData } from "../../../module/core/getMessageData";
+import { breakdownTxtFile, utf8Decode } from "../../../module/core/breakdownTxtFile";
 
 const AttachmentBox = styled.div`
   display: flex;

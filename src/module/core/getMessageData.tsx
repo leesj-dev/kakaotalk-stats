@@ -40,9 +40,7 @@ export const getMessageData = (results: MessageData[]) => {
 
     // date에 current message date 있는지 찾기. 없다면? current message date, chatTimes: {} ,keywordCounts:{},replyTime:{} 추가하기
     let dates: DateInfo[] = messageData[speakerIndex].date;
-    console.log(dates, "dates");
     const lastMessageDate = dates.length && Object.values(dates[dates.length - 1])[0];
-    console.log(lastMessageDate, "lastMessageDate");
     if (lastMessageDate !== todayDate) {
       dates.push({ date: todayDate, data: { chatTimes: {}, keywordCounts: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
     }
