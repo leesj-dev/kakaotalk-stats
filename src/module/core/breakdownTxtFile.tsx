@@ -3,7 +3,7 @@
  * @param {string} line
  * @returns {array[]}
  */
-const filterMessageLine = (line: string) => {
+ const filterMessageLine = (line: string) => {
   line = line.trim();
 
   if (!(parseInt(line.slice(0, 2)) < 100 && line.slice(2, 4) === ". ")) {
