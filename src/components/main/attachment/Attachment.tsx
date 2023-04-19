@@ -16,11 +16,30 @@ const FileInput = styled.input``;
 const AttachmentButton = styled.div``;
 const CancelButton = styled.div``;
 
+interface FileObject {
+  lastModified: number;
+  lastModifiedDate: Date;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+}
+
 const Attachment = () => {
-  const [messageData, setMessageData] = useState<any>("");
+  const [messages, setMessages] = useState<any[]>([]);
+  const [attachedFiles, setAttachedFiles] = useState<any[]>([]);
+
+  const addAttachedFiles = (files: FileObject[]) => {
+    if (attachedFiles.length) {
+      return setAttachedFiles([...attachedFiles, [...files]]);
+    }
+    setAttachedFiles([[...files]]);
+  };
 
   const handleChangeFile = (event: any) => {
-    console.log(event.target.files);
+    // 채팅방 별로 첨부된 파일들을 array에 담기
+    addAttachedFiles([...event.target.files]);
+
     for (var i = 0; i < event.target.files.length; i++) {
       if (event.target.files[i]) {
         let reader = new FileReader();
@@ -31,16 +50,55 @@ const Attachment = () => {
             const base64Sub = utf8Decode(base64.toString());
             const filteredMessages = breakdownTxtFile(base64Sub);
             const messageData = getMessageData(filteredMessages);
-            setMessageData(messageData);
+            if (messages.length) {
+              setMessages([...messages, ...messageData]);
+            } else {
+              setMessages([...messageData]);
+            }
           }
         };
       }
     }
   };
 
+  const final: any[] = [];
+
+  const analyzeMessage = async () => {
+    for (let i = 0; i < attachedFiles.length; i++) {
+      const filteredMessages: any[] = [];
+
+      for (let j = 0; j < attachedFiles[i].length; j++) {
+        console.log(attachedFiles[i][j], "attachedFiles[i][j]");
+        const base64 = await readAsDataURL(attachedFiles[i][j]);
+        if (base64) {
+          const decodedTextFile = utf8Decode(base64.toString());
+          filteredMessages.push(breakdownTxtFile(decodedTextFile));
+          console.log(breakdownTxtFile(decodedTextFile), "decodedTextFile");
+        }
+      }
+
+      console.log(filteredMessages, "filteredMessages");
+      const messageData = getMessageData(filteredMessages.flat());
+      final.push([...messageData]);
+    }
+    setMessages(final);
+  };
+
+  const readAsDataURL = (file: File) => {
+    return new Promise<string | null>((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => resolve(reader.result as string | null);
+    });
+  };
+
   useEffect(() => {
-    console.log(messageData);
-  }, [messageData]);
+    console.log(messages, "messages");
+  }, [messages]);
+
+  useEffect(() => {
+    console.log(attachedFiles, "attachedFiles");
+  }, [attachedFiles]);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -63,7 +121,8 @@ const Attachment = () => {
           <AttachmentButton>첨부</AttachmentButton>
         </Label>
         <CancelButton>X</CancelButton>
-        <div>
+        <button onClick={analyzeMessage}>분석하기</button>
+        {/* <div>
           {messageData &&
             messageData.map((data: any, index: number) => {
               return (
@@ -88,7 +147,7 @@ const Attachment = () => {
                 </div>
               );
             })}
-        </div>
+        </div> */}
       </List>
     </AttachmentBox>
   );
