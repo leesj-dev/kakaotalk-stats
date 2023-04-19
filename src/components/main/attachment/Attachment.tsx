@@ -50,16 +50,13 @@ const Attachment = () => {
       const filteredMessages: any[] = [];
 
       for (let j = 0; j < attachedFiles[i].length; j++) {
-        console.log(attachedFiles[i][j], "attachedFiles[i][j]");
         const base64 = await readAsDataURL(attachedFiles[i][j]);
         if (base64) {
           const decodedTextFile = utf8Decode(base64.toString());
           filteredMessages.push(breakdownTxtFile(decodedTextFile));
-          console.log(breakdownTxtFile(decodedTextFile), "decodedTextFile");
         }
       }
 
-      console.log(filteredMessages, "filteredMessages");
       const messageData = getMessageData(filteredMessages.flat());
       final.push([...messageData]);
     }
@@ -103,33 +100,9 @@ const Attachment = () => {
           <AttachmentButton>첨부</AttachmentButton>
         </Label>
         <CancelButton>X</CancelButton>
-        <button onClick={analyzeMessage}>분석하기</button>
-        {/* <div>
-          {messages &&
-            messages.map((data: any, index: number) => {
-              return (
-                <div key={index}>
-                  <span>{data.speaker}</span>
-                  <span>
-                    {data.date.map((item: any, index: number) => {
-                      const { chatTimes, keywordCounts, replyTime } = item.data;
-                      const { count, difference, previous } = replyTime;
-                      return (
-                        <div key={index}>
-                          {item.date}
-                          {Object.keys(chatTimes)}
-                          {Object.keys(keywordCounts)}
-                          {count}
-                          {difference}
-                          {previous}
-                        </div>
-                      );
-                    })}
-                  </span>
-                </div>
-              );
-            })}
-        </div> */}
+        <button onClick={analyzeMessage} disabled={!attachedFiles.length}>
+          분석하기
+        </button>
       </List>
     </AttachmentBox>
   );
