@@ -38,26 +38,8 @@ const Attachment = () => {
 
   const handleChangeFile = (event: any) => {
     // 채팅방 별로 첨부된 파일들을 array에 담기
-    addAttachedFiles([...event.target.files]);
-
-    for (var i = 0; i < event.target.files.length; i++) {
-      if (event.target.files[i]) {
-        let reader = new FileReader();
-        reader.readAsDataURL(event.target.files[i]);
-        reader.onloadend = () => {
-          const base64 = reader.result;
-          if (base64) {
-            const base64Sub = utf8Decode(base64.toString());
-            const filteredMessages = breakdownTxtFile(base64Sub);
-            const messageData = getMessageData(filteredMessages);
-            if (messages.length) {
-              setMessages([...messages, ...messageData]);
-            } else {
-              setMessages([...messageData]);
-            }
-          }
-        };
-      }
+    if (event.target.files.length) {
+      addAttachedFiles([...event.target.files]);
     }
   };
 
@@ -123,8 +105,8 @@ const Attachment = () => {
         <CancelButton>X</CancelButton>
         <button onClick={analyzeMessage}>분석하기</button>
         {/* <div>
-          {messageData &&
-            messageData.map((data: any, index: number) => {
+          {messages &&
+            messages.map((data: any, index: number) => {
               return (
                 <div key={index}>
                   <span>{data.speaker}</span>
