@@ -5,9 +5,10 @@ import { breakdownTxtFile, utf8Decode } from "../../../module/core/breakdownTxtF
 
 const AttachmentBox = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   width: 100%;
   margin-top: 20px;
+  background: #f00;
 `;
 
 const List = styled.ul``;
@@ -53,6 +54,7 @@ const Attachment = () => {
         const base64 = await readAsDataURL(attachedFiles[i][j]);
         if (base64) {
           const decodedTextFile = utf8Decode(base64.toString());
+          console.log(filteredMessages);
           filteredMessages.push(breakdownTxtFile(decodedTextFile));
         }
       }
@@ -100,10 +102,10 @@ const Attachment = () => {
           <AttachmentButton>첨부</AttachmentButton>
         </Label>
         <CancelButton>X</CancelButton>
-        <button onClick={analyzeMessage} disabled={!attachedFiles.length}>
-          분석하기
-        </button>
       </List>
+      <button onClick={analyzeMessage} disabled={!attachedFiles.length}>
+        분석하기
+      </button>
     </AttachmentBox>
   );
 };
