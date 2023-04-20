@@ -6,16 +6,53 @@ import { breakdownTxtFile, utf8Decode } from "../../../module/core/breakdownTxtF
 const AttachmentBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   margin-top: 20px;
-  background: #f00;
 `;
 
 const List = styled.ul``;
+
+const FileArray = styled.div`
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+`;
+
+const EachFile = styled.span`
+  margin-right: 5px;
+`;
+
 const Label = styled.label``;
-const FileInput = styled.input``;
-const AttachmentButton = styled.div``;
-const CancelButton = styled.div``;
+const FileInput = styled.input`
+  display: none;
+`;
+const AttachmentButton = styled.div`
+  margin: 0 auto;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--yellow);
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background: var(--yellow-hover);
+  }
+`;
+
+const PlusIcon = styled.i`
+  padding: 10px;
+  font-size: 20px;
+`;
+
+const DeleteButton = styled.div`
+  transform: scale(1.5);
+  cursor: pointer;
+  &:hover {
+    background: #ddd;
+  }
+`;
 
 interface FileObject {
   lastModified: number;
@@ -65,6 +102,11 @@ const Attachment = () => {
     setMessages(final);
   };
 
+  const deleteAttachedFileArray = (fileArrayIndex: number) => {
+    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
+    setAttachedFiles(filteredFileList);
+  };
+
   const readAsDataURL = (file: File) => {
     return new Promise<string | null>((resolve) => {
       const reader = new FileReader();
@@ -97,12 +139,28 @@ const Attachment = () => {
   return (
     <AttachmentBox>
       <List>
-        <Label>
-          <FileInput type="file" id="file" onChange={handleChangeFile} multiple />
-          <AttachmentButton>첨부</AttachmentButton>
-        </Label>
-        <CancelButton>X</CancelButton>
+        {attachedFiles.map((files: File[], fileArrayIndex) => {
+          return (
+            <FileArray key={fileArrayIndex}>
+              {files.map((file, fileIndex) => {
+                return (
+                  <EachFile key={fileIndex}>
+                    {file.name}
+                    {fileIndex !== files.length - 1 && ","}
+                  </EachFile>
+                );
+              })}
+              <DeleteButton onClick={() => deleteAttachedFileArray(fileArrayIndex)}>X</DeleteButton>
+            </FileArray>
+          );
+        })}
       </List>
+      <Label>
+        <FileInput type="file" id="file" onChange={handleChangeFile} multiple />
+        <AttachmentButton>
+          <PlusIcon>대화 추가하기</PlusIcon>
+        </AttachmentButton>
+      </Label>
       <button onClick={analyzeMessage} disabled={!attachedFiles.length}>
         분석하기
       </button>
