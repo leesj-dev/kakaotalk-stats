@@ -34,12 +34,12 @@ export const getMessageData = (results: MessageData[]) => {
     // speaker 찾기. 없다면? speaker와 date배열 추가하기
     let speakerIndex = messageData.findIndex((item) => item.speaker === speaker);
     if (speakerIndex === -1) {
-      messageData.push({ speaker, date: [] });
+      messageData.push({ speaker, dates: [] });
       speakerIndex = messageData.length - 1;
     }
 
     // date에 current message date 있는지 찾기. 없다면? current message date, chatTimes: {} ,keywordCounts:{},replyTime:{} 추가하기
-    let dates: DateInfo[] = messageData[speakerIndex].date;
+    let dates: DateInfo[] = messageData[speakerIndex].dates;
     const lastMessageDate = dates.length && Object.values(dates[dates.length - 1])[0];
     if (lastMessageDate !== todayDate) {
       dates.push({ date: todayDate, data: { chatTimes: {}, keywordCounts: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
