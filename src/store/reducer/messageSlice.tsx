@@ -4,15 +4,15 @@ import { AnalyzedMessages } from "../../components/main/Main";
 
 const initialState: AnalyzedMessages[] = [];
 
-export const analyzedMessageSlice = createSlice({
+export const analyzedMessagesSlice = createSlice({
   name: "analyzedMessage",
   initialState,
   reducers: {
-    setAnalyzedMessage: (state, action: PayloadAction<AnalyzedMessages[]>) => {
+    setAnalyzedMessages: (state, action: PayloadAction<AnalyzedMessages[]>) => {
       state = action.payload;
       return state;
     },
   },
 });
 
-export let { setAnalyzedMessage } = analyzedMessageSlice.actions;
+export let { setAnalyzedMessages } = analyzedMessagesSlice.actions;

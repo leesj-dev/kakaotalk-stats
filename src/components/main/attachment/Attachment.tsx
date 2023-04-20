@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getMessageData, readAsDataURL } from "../../../module/core/getMessageData";
 import { breakdownTxtFile } from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
-import { setAnalyzedMessage } from "../../../redux/reducer/messageSlice";
+import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -106,7 +106,7 @@ const Attachment = () => {
       analyzedMessages.push([...messageData]);
     }
 
-    dispatch(setAnalyzedMessage(analyzedMessages));
+    dispatch(setAnalyzedMessages(analyzedMessages));
   };
 
   useEffect(() => {}, [attachedFiles]);

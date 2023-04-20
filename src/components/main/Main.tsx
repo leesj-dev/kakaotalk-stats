@@ -59,7 +59,7 @@ export interface AnalyzedMessages {
 }
 
 const Main = () => {
-  const results = useSelector((state: { analyzedMessageSlice: AnalyzedMessages }) => state.analyzedMessageSlice);
+  const results = useSelector((state: { analyzedMessagesSlice: AnalyzedMessages }) => state.analyzedMessagesSlice);
 
   useEffect(() => {
     console.log(results, "results");
