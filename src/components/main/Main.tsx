@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import "../../style/reset.css";
 import Attachment from "./attachment/Attachment";
+import Summary from "./Summary/Summary";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 600px;
@@ -44,7 +46,25 @@ const Option = styled.div`
   }
 `;
 
+export interface AnalyzedMessages {
+  speaker: string;
+  dates: {
+    date: string;
+    data: {
+      chatTimes: { [key: string]: number };
+      keywordCounts: { [key: string]: number };
+      replyTime: { previous: number; difference: number; count: number };
+    };
+  }[];
+}
+
 const Main = () => {
+  const results = useSelector((state: { analyzedMessageSlice: AnalyzedMessages }) => state.analyzedMessageSlice);
+
+  useEffect(() => {
+    console.log(results, "results");
+  }, [results]);
+
   return (
     <div>
       <Container>
@@ -61,7 +81,6 @@ const Main = () => {
             {`\n`} 등록한 웹사이트에 추적 코드를 설치해야 합니다.
             {`\n`} 추적 코드는 Kakao Analytics 콘솔에서 생성할 수 있습니다.
             {`\n`} 생성한 추적 코드를 웹사이트의 모든 페이지에설치합니다.
-            {`\n`}{" "}
           </Body>
         </Section>
         <Section>
@@ -71,7 +90,8 @@ const Main = () => {
           </OptionBox>
         </Section>
       </Container>
-      <Attachment></Attachment>
+      <Attachment />
+      {Array.isArray(results) && results.length !== 0 && <Summary />}
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getMessageData, readAsDataURL } from "../../../module/core/getMessageData";
-import { breakdownTxtFile, utf8Decode } from "../../../module/core/breakdownTxtFile";
-import { useDispatch, useSelector } from "react-redux";
+import { breakdownTxtFile } from "../../../module/core/breakdownTxtFile";
+import { useDispatch } from "react-redux";
 import { setAnalyzedMessage } from "../../../redux/reducer/messageSlice";
 
 const AttachmentBox = styled.div`
@@ -26,9 +26,11 @@ const EachFile = styled.span`
 `;
 
 const Label = styled.label``;
+
 const FileInput = styled.input`
   display: none;
 `;
+
 const AttachmentButton = styled.div`
   margin: 0 auto;
   margin-bottom: 5px;
@@ -56,6 +58,8 @@ const DeleteButton = styled.div`
   }
 `;
 
+const AnalyzeButton = styled.button``;
+
 interface FileObject {
   lastModified: number;
   lastModifiedDate: Date;
@@ -65,22 +69,9 @@ interface FileObject {
   webkitRelativePath: string;
 }
 
-export interface MessageData {
-  speaker: string;
-  dates: {
-    date: string;
-    data: {
-      chatTimes: { [key: string]: number };
-      keywordCounts: { [key: string]: number };
-      replyTime: { previous: number; difference: number; count: number };
-    };
-  }[];
-}
-
 const Attachment = () => {
   const dispatch = useDispatch();
 
-  const analyzedMessage = useSelector((state: { analyzedMessageSlice: MessageData }) => state.analyzedMessageSlice);
   const [attachedFiles, setAttachedFiles] = useState<any[]>([]);
 
   const pushNewlyAttachedFiles = (files: FileObject[]) => {
@@ -91,13 +82,17 @@ const Attachment = () => {
   };
 
   const handleChangeFile = (event: any) => {
-    // 채팅방 별로 첨부된 파일들을 array에 담기
     if (event.target.files.length) {
       pushNewlyAttachedFiles([...event.target.files]);
     }
   };
 
-  const analyzedMessageData: any[] = [];
+  const deleteAttachedFileArray = (fileArrayIndex: number) => {
+    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
+    setAttachedFiles(filteredFileList);
+  };
+
+  const analyzedMessages: any[] = [];
 
   const analyzeMessage = async () => {
     for (let i = 0; i < attachedFiles.length; i++) {
@@ -107,36 +102,14 @@ const Attachment = () => {
         const base64 = await readAsDataURL(attachedFiles[i][j]);
         base64 && filteredMessages.push(breakdownTxtFile(base64));
       }
-
       const messageData = getMessageData(filteredMessages.flat());
-      analyzedMessageData.push([...messageData]);
+      analyzedMessages.push([...messageData]);
     }
-    dispatch(setAnalyzedMessage(analyzedMessageData));
-  };
 
-  const deleteAttachedFileArray = (fileArrayIndex: number) => {
-    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
-    setAttachedFiles(filteredFileList);
+    dispatch(setAnalyzedMessage(analyzedMessages));
   };
-
-  useEffect(() => {
-    console.log(analyzedMessage, "analyzedMessage");
-  }, [analyzedMessage]);
 
   useEffect(() => {}, [attachedFiles]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(process.env.PUBLIC_URL + "/ad.txt");
-  //       const data = await response.text();
-  //       console.log(data); // 파일의 내용 출력
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
 
   return (
     <AttachmentBox>
@@ -163,9 +136,9 @@ const Attachment = () => {
           <PlusIcon>대화 추가하기</PlusIcon>
         </AttachmentButton>
       </Label>
-      <button onClick={analyzeMessage} disabled={!attachedFiles.length}>
+      <AnalyzeButton onClick={analyzeMessage} disabled={!attachedFiles.length}>
         분석하기
-      </button>
+      </AnalyzeButton>
     </AttachmentBox>
   );
 };

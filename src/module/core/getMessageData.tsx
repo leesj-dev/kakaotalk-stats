@@ -1,4 +1,4 @@
-type MessageData = {
+type OriginMessageData = {
   day: string;
   hour: string;
   minute: string;
@@ -21,7 +21,7 @@ type DateInfo = {
   };
 };
 
-export const getMessageData = (results: MessageData[]) => {
+export const getMessageData = (results: OriginMessageData[]) => {
   const messageData = [];
   let rightBeforeSpeaker;
   let rightBeforeMessageTime;

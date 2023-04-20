@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { MessageData } from "../../components/main/attachment/Attachment";
+import { AnalyzedMessages } from "../../components/main/Main";
 
-const initialState: MessageData[] = [];
+const initialState: AnalyzedMessages[] = [];
 
 export const analyzedMessageSlice = createSlice({
   name: "analyzedMessage",
   initialState,
   reducers: {
-    setAnalyzedMessage: (state, action: PayloadAction<MessageData[]>) => {
+    setAnalyzedMessage: (state, action: PayloadAction<AnalyzedMessages[]>) => {
       state = action.payload;
       return state;
     },
