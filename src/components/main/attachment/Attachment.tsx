@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getMessageData } from "../../../module/core/getMessageData";
+import { getMessageData, readAsDataURL } from "../../../module/core/getMessageData";
 import { breakdownTxtFile, utf8Decode } from "../../../module/core/breakdownTxtFile";
+import { useDispatch, useSelector } from "react-redux";
+import { setAnalyzedMessage } from "../../../redux/reducer/messageSlice";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -63,11 +65,25 @@ interface FileObject {
   webkitRelativePath: string;
 }
 
+export interface MessageData {
+  speaker: string;
+  dates: {
+    date: string;
+    data: {
+      chatTimes: { [key: string]: number };
+      keywordCounts: { [key: string]: number };
+      replyTime: { previous: number; difference: number; count: number };
+    };
+  }[];
+}
+
 const Attachment = () => {
-  const [messages, setMessages] = useState<any[]>([]);
+  const dispatch = useDispatch();
+
+  const analyzedMessage = useSelector((state: { analyzedMessageSlice: MessageData }) => state.analyzedMessageSlice);
   const [attachedFiles, setAttachedFiles] = useState<any[]>([]);
 
-  const addAttachedFiles = (files: FileObject[]) => {
+  const pushNewlyAttachedFiles = (files: FileObject[]) => {
     if (attachedFiles.length) {
       return setAttachedFiles([...attachedFiles, [...files]]);
     }
@@ -77,11 +93,11 @@ const Attachment = () => {
   const handleChangeFile = (event: any) => {
     // 채팅방 별로 첨부된 파일들을 array에 담기
     if (event.target.files.length) {
-      addAttachedFiles([...event.target.files]);
+      pushNewlyAttachedFiles([...event.target.files]);
     }
   };
 
-  const final: any[] = [];
+  const analyzedMessageData: any[] = [];
 
   const analyzeMessage = async () => {
     for (let i = 0; i < attachedFiles.length; i++) {
@@ -89,17 +105,13 @@ const Attachment = () => {
 
       for (let j = 0; j < attachedFiles[i].length; j++) {
         const base64 = await readAsDataURL(attachedFiles[i][j]);
-        if (base64) {
-          const decodedTextFile = utf8Decode(base64.toString());
-          console.log(filteredMessages);
-          filteredMessages.push(breakdownTxtFile(decodedTextFile));
-        }
+        base64 && filteredMessages.push(breakdownTxtFile(base64));
       }
 
       const messageData = getMessageData(filteredMessages.flat());
-      final.push([...messageData]);
+      analyzedMessageData.push([...messageData]);
     }
-    setMessages(final);
+    dispatch(setAnalyzedMessage(analyzedMessageData));
   };
 
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
@@ -107,21 +119,11 @@ const Attachment = () => {
     setAttachedFiles(filteredFileList);
   };
 
-  const readAsDataURL = (file: File) => {
-    return new Promise<string | null>((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => resolve(reader.result as string | null);
-    });
-  };
-
   useEffect(() => {
-    console.log(messages, "messages");
-  }, [messages]);
+    console.log(analyzedMessage, "analyzedMessage");
+  }, [analyzedMessage]);
 
-  useEffect(() => {
-    console.log(attachedFiles, "attachedFiles");
-  }, [attachedFiles]);
+  useEffect(() => {}, [attachedFiles]);
 
   // useEffect(() => {
   //   const fetchData = async () => {

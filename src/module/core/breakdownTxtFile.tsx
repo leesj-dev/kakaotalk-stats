@@ -3,7 +3,7 @@
  * @param {string} line
  * @returns {array[]}
  */
- const filterMessageLine = (line: string) => {
+const filterMessageLine = (line: string) => {
   line = line.trim();
 
   if (!(parseInt(line.slice(0, 2)) < 100 && line.slice(2, 4) === ". ")) {
@@ -56,13 +56,15 @@ export const utf8Decode = (base64String: string) => {
 
 /**
  * txtFile을 넣으면 [{},{},{},{}] 형태의 데이터 반환
- * @param {"txtFile"[]} txtFiles
+ * @param {"txtFile"[]} base64
  * @returns {object[]}
  */
-export const breakdownTxtFile = (message: string) => {
+export const breakdownTxtFile = (base64: string) => {
+  const decodedTextFile = utf8Decode(base64.toString());
+
   const allMessageData = [];
   try {
-    const allLineArray = message.split("\n20");
+    const allLineArray = decodedTextFile.split("\n20");
 
     const filteredMessageLineArray = allLineArray.filter((line) => {
       return filterMessageLine(line);
