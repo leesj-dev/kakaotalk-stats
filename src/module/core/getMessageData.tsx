@@ -72,3 +72,11 @@ export const getMessageData = (results: MessageData[]) => {
 
   return messageData;
 };
+
+export const readAsDataURL = (file: File) => {
+  return new Promise<string | null>((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => resolve(reader.result as string | null);
+  });
+};
