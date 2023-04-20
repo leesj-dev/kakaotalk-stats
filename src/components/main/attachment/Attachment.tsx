@@ -4,6 +4,7 @@ import { getMessageData, readAsDataURL } from "../../../module/core/getMessageDa
 import { breakdownTxtFile } from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
+import DateForm from "../../datePicker/dateForm";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -113,6 +114,7 @@ const Attachment = () => {
 
   return (
     <AttachmentBox>
+      <DateForm />
       <List>
         {attachedFiles.map((files: File[], fileArrayIndex) => {
           return (
