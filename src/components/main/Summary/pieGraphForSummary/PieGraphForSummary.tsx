@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
 import { AnalyzedMessage } from "../../Main";
+import { getChatTimes, getDates, getKeywordCounts, getNames, getReplyTimes } from "../../../../module/common/getProperties";
 
 let data = [
   { name: "A", value: 400 },
@@ -15,11 +16,13 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 const PieChartExample = () => {
   const results = useSelector((state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice);
 
-  const names = results.map((result: any) => result.map((data: any) => data[0].speaker));
-  console.log(names, "names");
-
   useEffect(() => {
     console.log(results, "results");
+    console.log(getNames(results), "getNames");
+    console.log(getChatTimes(results), "getChatTimes");
+    console.log(getKeywordCounts(results), "getKeywordCounts");
+    console.log(getReplyTimes(results), "getReplyTimes");
+    console.log(getDates(results), "getDates");
   }, [results]);
 
   return (

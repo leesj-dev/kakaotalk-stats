@@ -8,10 +8,10 @@ type OriginMessageData = {
   keywords: string[];
 };
 
-type DateInfo = {
+type MessageInfo = {
   date: string;
   data: {
-    chatTimes: Record<string, number>;
+    chatTimes: Record<string, number>; // Record :string type의 키, number type의 value
     keywordCounts: Record<string, number>;
     replyTime: {
       previous: number;
@@ -39,7 +39,7 @@ export const getMessageData = (results: OriginMessageData[]) => {
     }
 
     // date에 current message date 있는지 찾기. 없다면? current message date, chatTimes: {} ,keywordCounts:{},replyTime:{} 추가하기
-    let dates: DateInfo[] = messageData[speakerIndex].dates;
+    let dates: MessageInfo[] = messageData[speakerIndex].dates;
     const lastMessageDate = dates.length && Object.values(dates[dates.length - 1])[0];
     if (lastMessageDate !== todayDate) {
       dates.push({ date: todayDate, data: { chatTimes: {}, keywordCounts: {}, replyTime: { previous: 0, difference: 0, count: 0 } } });
