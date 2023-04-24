@@ -50,12 +50,12 @@ const PieChartExample = () => {
 
   useEffect(() => {
     console.log(analyzedMessages, "analyzedMessages");
-    console.log(getSpeakers(analyzedMessages), "getSpeakers");
+    // console.log(getSpeakers(analyzedMessages), "getSpeakers");
     console.log(getChatTimes(analyzedMessages), "getChatTimes");
-    console.log(getKeywordCounts(analyzedMessages), "getKeywordCounts");
-    console.log(getReplyTimes(analyzedMessages), "getReplyTimes");
-    console.log(getDates(analyzedMessages), "getDates");
-    console.log(mostChattedTime);
+    // console.log(getKeywordCounts(analyzedMessages), "getKeywordCounts");
+    // console.log(getReplyTimes(analyzedMessages), "getReplyTimes");
+    // console.log(getDates(analyzedMessages), "getDates");
+    console.log(mostChattedTimes, "mostChattedTime");
   }, [analyzedMessages]);
 
   const handleClickChatRoom = (index: number) => {
@@ -69,24 +69,38 @@ const PieChartExample = () => {
   }
 
   const getMostChattedTimes = (chatTimes: any[]) => {
-    const mostChattedTime: any = [];
+    const mostChattedTimeArray: any = [];
+    let chatroomIndex = 0;
 
     for (const chatroom of chatTimes) {
+      mostChattedTimeArray.push({});
       const chatTimes = chatroom.flat();
-      chatTimes.map((chatTime: any) => {
-        for (var key in chatTime) {
-          mostChattedTime[`${key.slice(0, 2)}`] ? (mostChattedTime[`${key.slice(0, 2)}`] += chatTime[key]) : (mostChattedTime[`${key.slice(0, 2)}`] = chatTime[key]);
+
+      chatTimes.forEach((chatTime: any) => {
+        chatTime = Object.entries(chatTime);
+        for (let i = 0; i < chatTime.length; i++) {
+          const hour = chatTime[i][0].slice(0, 2);
+          const value = chatTime[i][1];
+          mostChattedTimeArray[chatroomIndex][hour] ? (mostChattedTimeArray[chatroomIndex][hour] += value) : (mostChattedTimeArray[chatroomIndex][hour] = value);
         }
       });
-      console.log(chatTimes);
+      chatroomIndex++;
     }
-    console.log(Object.entries(mostChattedTime), "ssssssss");
-    return mostChattedTime;
+
+    const mostChattedTimes = mostChattedTimeArray.map((chatTimes: Record<string, number>) => {
+      return Object.entries(chatTimes).sort((a: any, b: any) => b[1] - a[1])[0];
+    });
+    return mostChattedTimes;
   };
-  const mostChattedTime = getMostChattedTimes(chatTimes);
+  const mostChattedTimes = getMostChattedTimes(chatTimes);
 
   useEffect(() => {
-    setSelectedChatRoomData({ totalChatCount: totalChatCounts[selectedChatRoomIndex], speakerCount: speakers[selectedChatRoomIndex].length, speakers: speakers[selectedChatRoomIndex] });
+    setSelectedChatRoomData({
+      totalChatCount: totalChatCounts[selectedChatRoomIndex],
+      speakerCount: speakers[selectedChatRoomIndex].length,
+      speakers: speakers[selectedChatRoomIndex],
+      mostChattedTimes: mostChattedTimes[selectedChatRoomIndex],
+    });
   }, [selectedChatRoomIndex]);
 
   return (
@@ -105,6 +119,9 @@ const PieChartExample = () => {
           <div>대화 수: {selectedChatRoomData.totalChatCount}</div>
           <div>대화자: {selectedChatRoomData.speakers}</div>
           <div>대화자 수: {selectedChatRoomData.speakerCount}</div>
+          <div>
+            가장 많은 대화 시간대: {selectedChatRoomData.mostChattedTimes[0]} (대화수: {selectedChatRoomData.mostChattedTimes[1]})
+          </div>
         </div>
       )}
     </>
