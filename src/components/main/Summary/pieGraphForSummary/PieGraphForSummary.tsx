@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
 import { AnalyzedMessage } from "../../Main";
 import { getChatTimes, getDates, getKeywordCounts, getSpeakers, getReplyTimes } from "../../../../module/common/getProperties";
+import { setSelectedChatRoomIndex } from "../../../../store/reducer/selectedRoomIndexSlice";
 
 let data = [
   { name: "A", value: 400 },
@@ -14,7 +15,9 @@ let data = [
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const PieChartExample = () => {
+  const dispatch = useDispatch();
   const analyzedMessages = useSelector((state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice);
+  const selectedChatRoomIndex = useSelector((state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice);
 
   const getTwoLettersFromSpeakers = (speakers: string[][]) => {
     let chatRoomNames = [];
@@ -38,7 +41,7 @@ const PieChartExample = () => {
   const chatTimes = getChatTimes(analyzedMessages);
   const totalChatCounts = getTotalChatCounts(chatTimes);
 
-  let data = chatRoomNames.map((name, index) => {
+  data = chatRoomNames.map((name, index) => {
     return {
       name: name,
       value: totalChatCounts[index],
@@ -52,18 +55,59 @@ const PieChartExample = () => {
     console.log(getKeywordCounts(analyzedMessages), "getKeywordCounts");
     console.log(getReplyTimes(analyzedMessages), "getReplyTimes");
     console.log(getDates(analyzedMessages), "getDates");
+    console.log(mostChattedTime);
   }, [analyzedMessages]);
 
+  const handleClickChatRoom = (index: number) => {
+    dispatch(setSelectedChatRoomIndex(index));
+  };
+
+  const [selectedChatRoomData, setSelectedChatRoomData] = useState<any>(null);
+
+  interface MostChattedTime {
+    [key: string]: number;
+  }
+
+  const getMostChattedTimes = (chatTimes: any[]) => {
+    const mostChattedTime: any = [];
+
+    for (const chatroom of chatTimes) {
+      const chatTimes = chatroom.flat();
+      chatTimes.map((chatTime: any) => {
+        for (var key in chatTime) {
+          mostChattedTime[`${key.slice(0, 2)}`] ? (mostChattedTime[`${key.slice(0, 2)}`] += chatTime[key]) : (mostChattedTime[`${key.slice(0, 2)}`] = chatTime[key]);
+        }
+      });
+      console.log(chatTimes);
+    }
+    console.log(Object.entries(mostChattedTime), "ssssssss");
+    return mostChattedTime;
+  };
+  const mostChattedTime = getMostChattedTimes(chatTimes);
+
+  useEffect(() => {
+    setSelectedChatRoomData({ totalChatCount: totalChatCounts[selectedChatRoomIndex], speakerCount: speakers[selectedChatRoomIndex].length, speakers: speakers[selectedChatRoomIndex] });
+  }, [selectedChatRoomIndex]);
+
   return (
-    <PieChart width={400} height={400}>
-      <Pie data={data} cx={200} cy={200} innerRadius={0} outerRadius={100} dataKey="value" labelLine label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend layout="horizontal" />
-    </PieChart>
+    <>
+      <PieChart width={400} height={400}>
+        <Pie data={data} cx={200} cy={200} innerRadius={0} outerRadius={100} dataKey="value" labelLine label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} onClick={() => handleClickChatRoom(index)} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend layout="horizontal" />
+      </PieChart>
+      {selectedChatRoomData && (
+        <div>
+          <div>대화 수: {selectedChatRoomData.totalChatCount}</div>
+          <div>대화자: {selectedChatRoomData.speakers}</div>
+          <div>대화자 수: {selectedChatRoomData.speakerCount}</div>
+        </div>
+      )}
+    </>
   );
 };
 
