@@ -5,6 +5,7 @@ import Attachment from "./attachment/Attachment";
 import Summary from "./Summary/Summary";
 import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
+import { LimitTimeData } from "../datePicker/dateForm";
 
 const Container = styled.div`
   width: 600px;
@@ -51,7 +52,10 @@ const Main = () => {
   const results = useSelector((state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice);
 
   useEffect(() => {}, [results]);
-
+  // const LimitTimeData = useSelector(
+  //   (state: { limitTimeSlice: LimitTimeData }) => state.limitTimeSlice
+  // );
+  // console.log(LimitTimeData);
   return (
     <div>
       <Container>
