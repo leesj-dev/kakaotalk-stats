@@ -1,25 +1,4 @@
-type OriginMessageData = {
-  day: string;
-  hour: string;
-  minute: string;
-  month: string;
-  speaker: string;
-  year: string;
-  keywords: string[];
-};
-
-type MessageInfo = {
-  date: string;
-  data: {
-    chatTimes: Record<string, number>; // Record :string type의 키, number type의 value
-    keywordCounts: Record<string, number>;
-    replyTime: {
-      previous: number;
-      difference: number;
-      count: number;
-    };
-  };
-};
+import { MessageInfo, OriginMessageData } from "../../@types/index.d";
 
 export const getMessageData = (results: OriginMessageData[]) => {
   const messageData = [];

@@ -4,6 +4,7 @@ import "../../style/reset.css";
 import Attachment from "./attachment/Attachment";
 import Summary from "./Summary/Summary";
 import { useSelector } from "react-redux";
+import { AnalyzedMessage } from "../../@types/index.d";
 
 const Container = styled.div`
   width: 600px;
@@ -45,21 +46,6 @@ const Option = styled.div`
     border-right: 2px solid var(--border);
   }
 `;
-
-export type ChatTimes = { [time: string]: number };
-export type KeywordCounts = { [keyword: string]: number };
-export type ReplyTime = {
-  previous: number;
-  difference: number;
-  count: number;
-};
-export type AnalyzedMessage = {
-  speaker: string;
-  date: string;
-  chatTimes: ChatTimes;
-  keywordCounts: KeywordCounts;
-  replyTime: ReplyTime;
-};
 
 const Main = () => {
   const results = useSelector((state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice);

@@ -5,6 +5,7 @@ import { breakdownTxtFile } from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
 import DateForm from "../../datePicker/dateForm";
+import { FileObject } from "../../../@types/index.d";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -61,15 +62,6 @@ const DeleteButton = styled.div`
 
 const AnalyzeButton = styled.button``;
 
-interface FileObject {
-  lastModified: number;
-  lastModifiedDate: Date;
-  name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-}
-
 const Attachment = () => {
   const dispatch = useDispatch();
 
@@ -82,15 +74,15 @@ const Attachment = () => {
     setAttachedFiles([[...files]]);
   };
 
+  const deleteAttachedFileArray = (fileArrayIndex: number) => {
+    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
+    setAttachedFiles(filteredFileList);
+  };
+
   const handleChangeFile = (event: any) => {
     if (event.target.files.length) {
       pushNewlyAttachedFiles([...event.target.files]);
     }
-  };
-
-  const deleteAttachedFileArray = (fileArrayIndex: number) => {
-    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
-    setAttachedFiles(filteredFileList);
   };
 
   const analyzedMessages: any[] = [];
@@ -109,8 +101,7 @@ const Attachment = () => {
 
     const result = analyzedMessages.map((chatRooms: any) => {
       return chatRooms.map((chatRoom: any) => {
-        const speaker = chatRoom.speaker;
-        const dates = chatRoom.dates;
+        const { speaker, dates } = chatRoom;
         return dates.map((date: any) => {
           return {
             speaker: speaker,

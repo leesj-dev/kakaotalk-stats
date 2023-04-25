@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
-import { AnalyzedMessage } from "../../Main";
 import { getChatTimes, getDates, getKeywordCounts, getSpeakers, getReplyTimes } from "../../../../module/common/getProperties";
 import { setSelectedChatRoomIndex } from "../../../../store/reducer/selectedRoomIndexSlice";
+import { AnalyzedMessage } from "../../../../@types/index.d";
 
 let data = [
   { name: "A", value: 400 },

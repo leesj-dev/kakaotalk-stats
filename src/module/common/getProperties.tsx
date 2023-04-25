@@ -1,4 +1,4 @@
-import { AnalyzedMessage } from "../../components/main/Main";
+import { AnalyzedMessage } from "../../@types/index.d";
 
 const extractProperty = (property: string) => {
   return (results: AnalyzedMessage[]) => {
