@@ -23,3 +23,12 @@ export const getDates = extractProperty("date");
 export const getChatTimes = extractProperty("chatTimes");
 export const getKeywordCounts = extractProperty("keywordCounts");
 export const getReplyTimes = extractProperty("replyTime");
+
+// chatTime 수
+// export const getChatTimes = (results: AnalyzedMessage[]) => {
+//   return results.map((chatroom: any) => {
+//     return chatroom.map((messages: any) => {
+//       return messages[0].chatTimes;
+//     });
+//   });
+// };
