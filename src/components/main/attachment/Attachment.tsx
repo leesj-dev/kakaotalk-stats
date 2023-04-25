@@ -5,7 +5,7 @@ import { breakdownTxtFile } from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
 import DateForm from "../../datePicker/dateForm";
-import { FileObject } from "../../../@types/index.d";
+import { ChatDataArray, Chatroom, FileObject, MessageInfo } from "../../../@types/index.d";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -87,7 +87,7 @@ const Attachment = () => {
    * 파일 첨부
    * @param event
    */
-  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeFile = (event: any) => {
     const files = event.target.files;
     if (files && files.length) {
       pushNewlyAttachedFiles([...files]);
@@ -107,10 +107,11 @@ const Attachment = () => {
       analyzedMessages.push([...messageData]);
     }
 
-    const analyzedMessageData = analyzedMessages.map((chatRooms: any) => {
-      return chatRooms.map((chatRoom: any) => {
+    const analyzedMessageData = analyzedMessages.map((chatRooms: ChatDataArray[]) => {
+      return chatRooms.map((chatRoom: Chatroom) => {
         const { speaker, dates } = chatRoom;
-        return dates.map((date: any) => {
+        return dates.map((date: MessageInfo) => {
+          console.log(date);
           return {
             speaker: speaker,
             date: date.date,

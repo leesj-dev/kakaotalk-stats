@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
-import { getChatTimes, getDates, getKeywordCounts, getSpeakers, getReplyTimes } from "../../../../module/common/getProperties";
+import { getChatTimes, getSpeakers } from "../../../../module/common/getProperties";
 import { setSelectedChatRoomIndex } from "../../../../store/reducer/selectedRoomIndexSlice";
 import { AnalyzedMessage } from "../../../../@types/index.d";
 
@@ -55,7 +55,6 @@ const PieChartExample = () => {
     // console.log(getKeywordCounts(analyzedMessages), "getKeywordCounts");
     // console.log(getReplyTimes(analyzedMessages), "getReplyTimes");
     // console.log(getDates(analyzedMessages), "getDates");
-    console.log(mostChattedTimes, "mostChattedTime");
   }, [analyzedMessages]);
 
   const handleClickChatRoom = (index: number) => {
@@ -64,9 +63,16 @@ const PieChartExample = () => {
 
   const [selectedChatRoomData, setSelectedChatRoomData] = useState<any>(null);
 
-  interface MostChattedTime {
-    [key: string]: number;
-  }
+  const calculateMostChattedTime = (chatTimes: any, mostChattedTimeArray: any, chatroomIndex: number) => {
+    chatTimes.forEach((chatTime: any) => {
+      chatTime = Object.entries(chatTime);
+      for (let i = 0; i < chatTime.length; i++) {
+        const [hour, value] = [chatTime[i][0].slice(0, 2), chatTime[i][1]];
+        const currentChatroom = mostChattedTimeArray[chatroomIndex];
+        currentChatroom[hour] ? (currentChatroom[hour] += value) : (currentChatroom[hour] = value);
+      }
+    });
+  };
 
   const getMostChattedTimes = (chatTimes: any[]) => {
     const mostChattedTimeArray: any = [];
@@ -75,15 +81,7 @@ const PieChartExample = () => {
     for (const chatroom of chatTimes) {
       mostChattedTimeArray.push({});
       const chatTimes = chatroom.flat();
-
-      chatTimes.forEach((chatTime: any) => {
-        chatTime = Object.entries(chatTime);
-        for (let i = 0; i < chatTime.length; i++) {
-          const hour = chatTime[i][0].slice(0, 2);
-          const value = chatTime[i][1];
-          mostChattedTimeArray[chatroomIndex][hour] ? (mostChattedTimeArray[chatroomIndex][hour] += value) : (mostChattedTimeArray[chatroomIndex][hour] = value);
-        }
-      });
+      calculateMostChattedTime(chatTimes, mostChattedTimeArray, chatroomIndex);
       chatroomIndex++;
     }
 

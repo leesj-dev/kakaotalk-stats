@@ -47,6 +47,28 @@ export type MessageInfo = {
   };
 };
 
+export interface Chatroom {
+  speaker: string;
+  dates: DateData[];
+}
+
+interface DateData {
+  date: string;
+  data: ChatDataDetail;
+}
+
+interface ChatDataDetail {
+  chatTimes: Record<string, number>;
+  keywordCounts: Record<string, number>;
+  replyTime: {
+    previous: number;
+    difference: number;
+    count: number;
+  };
+}
+
+export type ChatDataArray = Chatroom;
+
 export type WrapperProps = {
   children: ReactNode;
 };
