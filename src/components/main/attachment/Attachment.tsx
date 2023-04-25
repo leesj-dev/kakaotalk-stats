@@ -85,21 +85,20 @@ const Attachment = () => {
     }
   };
 
-  const analyzedMessages: any[] = [];
-
   const analyzeMessage = async () => {
-    for (let i = 0; i < attachedFiles.length; i++) {
-      const filteredMessages: any[] = [];
-
-      for (let j = 0; j < attachedFiles[i].length; j++) {
-        const base64 = await readAsDataURL(attachedFiles[i][j]);
-        base64 && filteredMessages.push(breakdownTxtFile(base64));
-      }
+    const analyzedMessages: any[] = [];
+    for (const fileGroup of attachedFiles) {
+      const filteredMessages = await Promise.all(
+        fileGroup.map(async (file: any) => {
+          const base64 = await readAsDataURL(file);
+          return base64 && breakdownTxtFile(base64);
+        })
+      );
       const messageData = getMessageData(filteredMessages.flat());
       analyzedMessages.push([...messageData]);
     }
 
-    const result = analyzedMessages.map((chatRooms: any) => {
+    const analyzedMessageData = analyzedMessages.map((chatRooms: any) => {
       return chatRooms.map((chatRoom: any) => {
         const { speaker, dates } = chatRoom;
         return dates.map((date: any) => {
@@ -114,7 +113,7 @@ const Attachment = () => {
       });
     });
 
-    dispatch(setAnalyzedMessages(result));
+    dispatch(setAnalyzedMessages(analyzedMessageData));
   };
 
   useEffect(() => {}, [attachedFiles]);
