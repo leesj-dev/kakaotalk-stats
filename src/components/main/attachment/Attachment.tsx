@@ -74,14 +74,23 @@ const Attachment = () => {
     setAttachedFiles([[...files]]);
   };
 
+  /**
+   * 첨부파일 묶음 삭제
+   * @param fileArrayIndex
+   */
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
     const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
     setAttachedFiles(filteredFileList);
   };
 
-  const handleChangeFile = (event: any) => {
-    if (event.target.files.length) {
-      pushNewlyAttachedFiles([...event.target.files]);
+  /**
+   * 파일 첨부
+   * @param event
+   */
+  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length) {
+      pushNewlyAttachedFiles([...files]);
     }
   };
 
