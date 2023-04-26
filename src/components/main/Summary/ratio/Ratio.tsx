@@ -27,7 +27,6 @@ const Ratio = () => {
     return sum;
   };
   const totalSum = totalConversation(chatTimes);
-  console.log(totalSum);
   // useEffect(() => {
   //   console.log(chatTimes, "speakersspeakersspeakers");
   // }, [results]);

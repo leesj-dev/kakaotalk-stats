@@ -111,7 +111,6 @@ const Attachment = () => {
       return chatRooms.map((chatRoom: Chatroom) => {
         const { speaker, dates } = chatRoom;
         return dates.map((date: MessageInfo) => {
-          console.log(date);
           return {
             speaker: speaker,
             date: date.date,
