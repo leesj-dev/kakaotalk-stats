@@ -6,6 +6,7 @@ import Summary from "./Summary/Summary";
 import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
 import { LimitTimeData } from "../datePicker/dateForm";
+import SimpleCloud from "./tagCloud/tagCloud";
 
 const Container = styled.div`
   width: 600px;
@@ -82,6 +83,7 @@ const Main = () => {
       </Container>
       <Attachment />
       {Array.isArray(results) && results.length !== 0 && <Summary />}
+      <SimpleCloud />
     </div>
   );
 };
