@@ -91,11 +91,11 @@ const PieChartExample = () => {
   };
   const mostChattedTimes = getMostChattedTimes(chatTimes);
 
-  const getAverageReplyTime = (replyTimes: any) => {
-    const averageReplyTimeArray = [];
+  const getAverageReplyTime = (replyTimes: ReplyTime[][][]) => {
+    const averageReplyTimeArray: number[][] = [];
     for (const chatroom of replyTimes) {
       const averageReplyTime: number[] = chatroom.map((times: ReplyTime[]) => {
-        const averageReplyTime = times.reduce((acc: number, cur: ReplyTime) => acc + (cur.difference / cur.count || 0), times[0].difference / times[0].count || 0);
+        const averageReplyTime: number = times.reduce((acc: number, cur: ReplyTime) => acc + (cur.difference / cur.count || 0), times[0].difference / times[0].count || 0);
         return Math.floor(averageReplyTime / times.length);
       });
       averageReplyTimeArray.push(averageReplyTime);
@@ -113,10 +113,11 @@ const PieChartExample = () => {
       mostChattedTimes: mostChattedTimes[selectedChatRoomIndex],
       averageReplyTime: averageReplyTime[selectedChatRoomIndex],
     });
-    console.log(analyzedMessages[selectedChatRoomIndex], "currentChatroom");
-    console.log(selectedChatRoomData, "selectedChatRoomData");
-    console.log(averageReplyTime[selectedChatRoomIndex], "averageReplyTime[selectedChatRoomIndex]");
   }, [selectedChatRoomIndex]);
+
+  useEffect(() => {
+    selectedChatRoomData && console.log(selectedChatRoomData, "selectedChatRoomData");
+  }, [selectedChatRoomData]);
 
   return (
     <>
@@ -142,7 +143,7 @@ const PieChartExample = () => {
             <div>
               {selectedChatRoomData.speakers.map((speaker: any, index: number) => {
                 return (
-                  <div>
+                  <div key={index}>
                     {speaker}: {selectedChatRoomData.averageReplyTime[index]}초
                   </div>
                 );
