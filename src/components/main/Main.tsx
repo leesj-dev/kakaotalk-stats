@@ -50,8 +50,13 @@ const Option = styled.div`
 `;
 
 const Main = () => {
-  const results = useSelector((state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice);
-  const LimitTimeData = useSelector((state: { limitTimeSlice: LimitTimeData }) => state.limitTimeSlice);
+  const results = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage }) =>
+      state.analyzedMessagesSlice
+  );
+  const LimitTimeData = useSelector(
+    (state: { limitTimeSlice: LimitTimeData }) => state.limitTimeSlice
+  );
   // useEffect(() => {
   //   console.log(LimitTimeData, "LimitTimeData");
   // }, [results]);
@@ -65,7 +70,8 @@ const Main = () => {
             Kakao Analytics를 사용하기 위해서는
             {`\n`} 먼저 웹사이트를 등록해야 합니다.
             {`\n`} 웹사이트를 등록하려면,
-            {`\n`} Kakao Analytics 콘솔에 로그인한 후{`\n`} "웹사이트 추가" 버튼을 클릭합니다.
+            {`\n`} Kakao Analytics 콘솔에 로그인한 후{`\n`} "웹사이트 추가"
+            버튼을 클릭합니다.
             {`\n`} 그런 다음, 웹사이트의 이름,
             {`\n`} URL, 카테고리 등을 입력하고 등록합니다.
             {`\n`}
@@ -83,7 +89,7 @@ const Main = () => {
       </Container>
       <Attachment />
       {Array.isArray(results) && results.length !== 0 && <Summary />}
-      <SimpleCloud />
+      {Array.isArray(results) && results.length !== 0 && <SimpleCloud />}
     </div>
   );
 };

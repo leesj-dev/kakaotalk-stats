@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { TagCloud } from "react-tagcloud";
 import { AnalyzedMessage } from "../../../@types/index.d";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   getKeywordCounts,
   getSpeakers,
@@ -33,6 +33,9 @@ const SimpleCloud = () => {
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
+  const [numberInput, setNumberInput] = useState<number>(50);
+  const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(50);
+
   const keywordCounts = getKeywordCounts(analyzedMessages);
   const currentKeywordCounts = keywordCounts[selectedChatRoomIndex];
 
@@ -45,7 +48,7 @@ const SimpleCloud = () => {
         return b.count - a.count;
       }
     );
-    const topNKeywords = sortedTransformedKeywordsArray.slice(0, n);
+    const topNKeywords = sortedTransformedKeywordsArray.slice(0, n + 1);
     return topNKeywords;
   };
 
@@ -58,7 +61,7 @@ const SimpleCloud = () => {
           : (allKeywords[key] = keywords[key]);
       }
     });
-    const topNKeywords = getTopNKeywords(allKeywords, 100);
+    const topNKeywords = getTopNKeywords(allKeywords, displayKeywordCount);
     return topNKeywords;
   };
 
@@ -74,18 +77,38 @@ const SimpleCloud = () => {
 
   const speaker = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
 
+  const handleChangeNumberInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setNumberInput(Number(e.target.value));
+  };
+
+  const handleSubmitNumber = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setDisplayKeywordCount(numberInput);
+  };
+
   useEffect(() => {
     console.log(currentKeywordCounts);
   }, [selectedChatRoomIndex]);
 
   return (
     <ul>
+      <form action="" onSubmit={handleSubmitNumber}>
+        <label>내 카톡 습관, 몇 개나 모아서 볼래?</label>
+        <input
+          name=""
+          type="number"
+          id=""
+          value={numberInput}
+          onChange={handleChangeNumberInput}
+        />
+        <button>확인</button>
+      </form>
       {keywordData.length &&
         keywordData.map((data, index) => {
           return (
             <KeywordList>
               {speaker[index]}
-              <TagCloud minSize={12} maxSize={50} tags={data} />
+              <TagCloud minSize={12} maxSize={100} tags={data} />
             </KeywordList>
           );
         })}
