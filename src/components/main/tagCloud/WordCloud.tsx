@@ -1,18 +1,13 @@
 import { useSelector } from "react-redux";
 import { TagCloud } from "react-tagcloud";
-import { AnalyzedMessage } from "../../../@types/index.d";
-import { ChangeEvent, useEffect, useState } from "react";
+import { AnalyzedMessage, ValueCountPair } from "../../../@types/index.d";
+import { ChangeEvent, useState } from "react";
 import {
   getKeywordCounts,
   getSpeakers,
 } from "../../../module/common/getProperties";
 import { KeywordCounts } from "../../../@types/index.d";
 import styled from "styled-components";
-
-type keywordValueCount = {
-  value: string;
-  count: number;
-};
 
 const KeywordList = styled.li`
   display: flex;
@@ -29,26 +24,28 @@ const WordCloud = () => {
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
       state.analyzedMessagesSlice
   );
-  const selectedChatRoomIndex = useSelector(
+  const selectedRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
   const [numberInput, setNumberInput] = useState<number>(50);
   const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(50);
 
-  const keywordCounts = getKeywordCounts(analyzedMessages);
-  const currentKeywordCounts = keywordCounts[selectedChatRoomIndex];
+  const keywordCounts: KeywordCounts[][][] = getKeywordCounts(analyzedMessages);
+  const currentKeywordCounts: KeywordCounts[][] =
+    keywordCounts[selectedRoomIndex];
 
   const getTopNKeywords = (allKeywords: KeywordCounts, n: number) => {
-    const transformedKeywordsArray: keywordValueCount[] = Object.entries(
-      allKeywords
-    ).map(([value, count]) => ({ value, count }));
-    const sortedTransformedKeywordsArray = transformedKeywordsArray.sort(
-      (a: any, b: any) => {
-        return b.count - a.count;
-      }
+    const keywordsEntries: ValueCountPair[] = Object.entries(allKeywords).map(
+      ([value, count]) => ({ value, count })
     );
-    const topNKeywords = sortedTransformedKeywordsArray.slice(0, n + 1);
+    const sortedKeywordsEntries: ValueCountPair[] = keywordsEntries.sort(
+      (a: ValueCountPair, b: ValueCountPair) => b.count - a.count
+    );
+    const topNKeywords: ValueCountPair[] = sortedKeywordsEntries.slice(
+      0,
+      n + 1
+    );
     return topNKeywords;
   };
 
@@ -61,21 +58,23 @@ const WordCloud = () => {
           : (allKeywords[key] = keywords[key]);
       }
     });
-    const topNKeywords = getTopNKeywords(allKeywords, displayKeywordCount);
+    const topNKeywords: ValueCountPair[] = getTopNKeywords(
+      allKeywords,
+      displayKeywordCount
+    );
     return topNKeywords;
   };
 
   const getHighKeywords = (currentKeywordCounts: KeywordCounts[][]) => {
-    const highKeywords = [];
+    const highKeywords: ValueCountPair[][] = [];
     for (const keywordsArray of currentKeywordCounts) {
       highKeywords.push(getTopNKeywordsFromSpeaker(keywordsArray));
     }
     return highKeywords;
   };
-  const keywordData = getHighKeywords(currentKeywordCounts);
-  console.log("keywordData:", keywordData);
+  const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts);
 
-  const speaker = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
+  const speaker: string[] = getSpeakers(analyzedMessages)[selectedRoomIndex];
 
   const handleChangeNumberInput = (e: ChangeEvent<HTMLInputElement>) => {
     setNumberInput(Number(e.target.value));
@@ -85,10 +84,6 @@ const WordCloud = () => {
     e.preventDefault();
     setDisplayKeywordCount(numberInput);
   };
-
-  useEffect(() => {
-    console.log(currentKeywordCounts);
-  }, [selectedChatRoomIndex]);
 
   return (
     <ul>
@@ -104,7 +99,7 @@ const WordCloud = () => {
         <button>확인</button>
       </form>
       {keywordData.length &&
-        keywordData.map((data, index) => {
+        keywordData.map((data: ValueCountPair[], index: number) => {
           return (
             <KeywordList>
               {speaker[index]}

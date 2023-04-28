@@ -1,4 +1,3 @@
-import { type } from "os";
 import React, { ReactNode } from "react";
 
 export type ChatTimes = { [time: string]: number };
@@ -73,6 +72,11 @@ export type ChatDataArray = Chatroom;
 export type PieChartData = {
   name: string;
   value: number;
+};
+
+export type ValueCountPair = {
+  value: string;
+  count: number;
 };
 
 export type WrapperProps = {
