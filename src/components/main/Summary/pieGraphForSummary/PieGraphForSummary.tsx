@@ -53,22 +53,12 @@ const PieChartExample = () => {
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
   const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
 
-  const pitChartData: PieChartData[] = chatRoomNames.map((name, index) => {
+  const pieChartData: PieChartData[] = chatRoomNames.map((name, index) => {
     return {
       name: name,
       value: totalChatCounts[index],
     };
   });
-
-  useEffect(() => {
-    console.log(pitChartData, "pitChartData");
-    // console.log(analyzedMessages, "analyzedMessages");
-    // console.log(getSpeakers(analyzedMessages), "getSpeakers");
-    // console.log(getChatTimes(analyzedMessages), "getChatTimes");
-    // console.log(getKeywordCounts(analyzedMessages), "getKeywordCounts");
-    // console.log(getReplyTimes(analyzedMessages), "getReplyTimes");
-    // console.log(getDates(analyzedMessages), "getDates");
-  }, [analyzedMessages]);
 
   const handleClickChatRoom = (index: number) => {
     dispatch(setSelectedChatRoomIndex(index));
@@ -146,7 +136,7 @@ const PieChartExample = () => {
     <>
       <PieChart width={400} height={400}>
         <Pie
-          data={pitChartData}
+          data={pieChartData}
           cx={200}
           cy={200}
           innerRadius={0}
@@ -157,7 +147,7 @@ const PieChartExample = () => {
             `${name} ${(percent * 100).toFixed(0)}%`
           }
         >
-          {pitChartData.map((entry, index) => (
+          {pieChartData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
               onClick={() => handleClickChatRoom(index)}
@@ -181,7 +171,7 @@ const PieChartExample = () => {
             일 평균 답장 시간
             <div>
               {selectedChatRoomData.speakers.map(
-                (speaker: any, index: number) => {
+                (speaker: string, index: number) => {
                   return (
                     <div key={index}>
                       {speaker}: {selectedChatRoomData.averageReplyTime[index]}
