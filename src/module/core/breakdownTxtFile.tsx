@@ -1,7 +1,9 @@
+import { OriginMessageData } from "../../@types/index.d";
+
 /**
- * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환
- * @param {string} line
- * @returns {array[]}
+ * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환합니다.
+ * @param {string} line - 추출한 문자열
+ * @return {string|boolean} - 라인을 담은 배열 또는 false (라인이 유효하지 않은 경우)
  */
 const filterMessageLine = (line: string) => {
   line = line.trim();
@@ -12,30 +14,34 @@ const filterMessageLine = (line: string) => {
 };
 
 /**
- * 라인을 데이터로 반환
- * @param {string[]} filteredMessageLineArray
- * @returns {object[]}
+ * 라인 배열에서 데이터를 추출합니다.
+ * @param {string[]} filteredMessageLineArray - 필터링된 라인 배열입니다.
+ * @returns {Array<object>} - 라인 배열에서 추출된 데이터 객체의 배열입니다.
  */
 const getDataArrayFromLineArray = (filteredMessageLineArray: string[]) => {
-  const result = filteredMessageLineArray.map((line: String) => {
+  const result: OriginMessageData[] = [];
+  for (const line of filteredMessageLineArray) {
     const [dateTime, content] = line.split(", ", 2);
     const [year, month, day, time] = dateTime.split(". ");
-    let [fullHour, minute] = time.split(":");
-    let [meridiem, hour] = fullHour.split(" ");
-    if (hour === "12") hour = "0";
+    const [fullHour, minuteStr] = time.split(":");
+    const [meridiem, hour] = fullHour.split(" ");
+    const hour12 = hour === "12" ? "0" : hour;
+    const minute = Number(minuteStr);
     const [speaker, message] = content.split(" : ");
     const keywords = message.split(" ").map((word) => word.trim());
-
-    return {
+    result.push({
       year: formatValue(year),
       month: formatValue(month),
       day: formatValue(day),
-      hour: meridiem === "오전" ? formatValue(parseInt(hour)) : (parseInt(hour) + 12).toString(),
-      minute: formatValue(parseInt(minute)),
+      hour:
+        meridiem === "오전"
+          ? formatValue(parseInt(hour12))
+          : (parseInt(hour12) + 12).toString(),
+      minute: formatValue(minute),
       speaker,
       keywords,
-    };
-  });
+    });
+  }
   return result;
 };
 
@@ -44,9 +50,9 @@ const formatValue = (value: String | Number) => {
 };
 
 /**
- * 텍스트파일 utf8로 decode
- * @param {string} base64String
- * @returns
+ * base64 인코딩 스트링을 UTF-8로 디코딩합니다.
+ * @param {string} base64String base64로 인코딩된 string
+ * @returns {string} UTF-8로 디코딩된 string.
  */
 export const utf8Decode = (base64String: string) => {
   const bytes = atob(base64String.replace(/^data:.*?;base64,/, ""));
@@ -54,9 +60,9 @@ export const utf8Decode = (base64String: string) => {
 };
 
 /**
- * txtFile을 넣으면 [{},{},{},{}] 형태의 데이터 반환
- * @param {"txtFile"[]} base64
- * @returns {object[]}
+ * 텍스트 파일을 받아 파싱하여 메시지 데이터를 반환합니다.
+ * @param {string} base64 - base64 인코딩된 텍스트 파일
+ * @returns {Array} 메시지 데이터 배열
  */
 export const breakdownTxtFile = (base64: string) => {
   const decodedTextFile = utf8Decode(base64.toString());

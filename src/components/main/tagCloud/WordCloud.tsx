@@ -101,9 +101,9 @@ const WordCloud = () => {
       {keywordData.length &&
         keywordData.map((data: ValueCountPair[], index: number) => {
           return (
-            <KeywordList>
+            <KeywordList key={index}>
               {speaker[index]}
-              <TagCloud minSize={12} maxSize={100} tags={data} />
+              <TagCloud minSize={12} maxSize={50} tags={data} />
             </KeywordList>
           );
         })}
