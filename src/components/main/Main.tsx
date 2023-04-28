@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import "../../style/reset.css";
 import Attachment from "./attachment/Attachment";
@@ -6,7 +6,7 @@ import Summary from "./Summary/Summary";
 import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
 import { LimitTimeData } from "../datePicker/dateForm";
-import SimpleCloud from "./tagCloud/tagCloud";
+import WordCloud from "./tagCloud/WordCloud";
 
 const Container = styled.div`
   width: 600px;
@@ -57,9 +57,6 @@ const Main = () => {
   const LimitTimeData = useSelector(
     (state: { limitTimeSlice: LimitTimeData }) => state.limitTimeSlice
   );
-  // useEffect(() => {
-  //   console.log(LimitTimeData, "LimitTimeData");
-  // }, [results]);
 
   return (
     <div>
@@ -89,7 +86,7 @@ const Main = () => {
       </Container>
       <Attachment />
       {Array.isArray(results) && results.length !== 0 && <Summary />}
-      {Array.isArray(results) && results.length !== 0 && <SimpleCloud />}
+      {Array.isArray(results) && results.length !== 0 && <WordCloud />}
     </div>
   );
 };

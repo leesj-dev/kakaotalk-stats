@@ -24,7 +24,7 @@ const KeywordList = styled.li`
   background: #f3f0ff;
 `;
 
-const SimpleCloud = () => {
+const WordCloud = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
       state.analyzedMessagesSlice
@@ -116,4 +116,4 @@ const SimpleCloud = () => {
   );
 };
 
-export default SimpleCloud;
+export default WordCloud;
