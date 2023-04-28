@@ -12,6 +12,7 @@ import {
   ChatTimes,
   PieChartData,
   ReplyTime,
+  selectedChatRoomData,
 } from "../../../../@types/index.d";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -19,10 +20,10 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   let totalChatCounts: number[] = [];
   for (const chatroom of chatTimes) {
-    const times = chatroom.flat();
-    const timeSum = times.map((time: ChatTimes) => {
-      return Object.values(time).reduce((a: number, b: number) => a + b);
-    });
+    const times: ChatTimes[] = chatroom.flat();
+    const timeSum: number[] = times.map((time: ChatTimes) =>
+      Object.values(time).reduce((a: number, b: number) => a + b)
+    );
     totalChatCounts.push(timeSum.reduce((a: number, b: number) => a + b));
   }
   return totalChatCounts;
@@ -64,7 +65,8 @@ const PieChartExample = () => {
     dispatch(setSelectedChatRoomIndex(index));
   };
 
-  const [selectedChatRoomData, setSelectedChatRoomData] = useState<any>(null);
+  const [selectedChatRoomData, setSelectedChatRoomData] =
+    useState<selectedChatRoomData | null>(null);
 
   const calculateMostChattedTime = (
     chatTimes: ChatTimes[],

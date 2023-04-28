@@ -1,3 +1,4 @@
+import { type } from "os";
 import React, { ReactNode } from "react";
 
 export type ChatTimes = { [time: string]: number };
@@ -76,4 +77,12 @@ export type PieChartData = {
 
 export type WrapperProps = {
   children: ReactNode;
+};
+
+export type selectedChatRoomData = {
+  averageReplyTime: number[];
+  mostChattedTimes: [string, number];
+  speakerCount: number;
+  speakers: string[];
+  totalChatCount: number;
 };
