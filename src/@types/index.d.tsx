@@ -37,8 +37,8 @@ export type OriginMessageData = {
 export type MessageInfo = {
   date: string;
   data: {
-    chatTimes: Record<string, number>; // Record :string type의 키, number type의 value
-    keywordCounts: Record<string, number>;
+    chatTimes: ChatTimes; // Record :string type의 키, number type의 value
+    keywordCounts: KeywordCounts;
     replyTime: {
       previous: number;
       difference: number;
@@ -58,8 +58,8 @@ interface DateData {
 }
 
 interface ChatDataDetail {
-  chatTimes: Record<string, number>;
-  keywordCounts: Record<string, number>;
+  chatTimes: ChatTimes;
+  keywordCounts: KeywordCounts;
   replyTime: {
     previous: number;
     difference: number;
