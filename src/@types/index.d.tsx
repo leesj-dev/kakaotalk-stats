@@ -69,6 +69,11 @@ interface ChatDataDetail {
 
 export type ChatDataArray = Chatroom;
 
+export type PieChartData = {
+  name: string;
+  value: number;
+};
+
 export type WrapperProps = {
   children: ReactNode;
 };

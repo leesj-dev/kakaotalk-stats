@@ -10,15 +10,9 @@ import { setSelectedChatRoomIndex } from "../../../../store/reducer/selectedRoom
 import {
   AnalyzedMessage,
   ChatTimes,
+  PieChartData,
   ReplyTime,
 } from "../../../../@types/index.d";
-
-let data = [
-  { name: "A", value: 400 },
-  { name: "B", value: 300 },
-  { name: "C", value: 300 },
-  { name: "D", value: 200 },
-];
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -45,7 +39,7 @@ const PieChartExample = () => {
   );
 
   const getTwoLettersFromSpeakers = (speakers: string[][]) => {
-    let chatRoomNames = [];
+    let chatRoomNames: string[] = [];
     for (const chatroom of speakers) {
       chatRoomNames.push(
         chatroom.map((speakerName: string) => speakerName.slice(0, 2)).join()
@@ -53,13 +47,13 @@ const PieChartExample = () => {
     }
     return chatRoomNames;
   };
-  const speakers = getSpeakers(analyzedMessages);
-  const chatRoomNames = getTwoLettersFromSpeakers(speakers);
+  const speakers: string[][] = getSpeakers(analyzedMessages);
+  const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
 
-  const chatTimes = getChatTimes(analyzedMessages);
-  const totalChatCounts = getTotalChatCounts(chatTimes);
+  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
+  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
 
-  data = chatRoomNames.map((name, index) => {
+  const pitChartData: PieChartData[] = chatRoomNames.map((name, index) => {
     return {
       name: name,
       value: totalChatCounts[index],
@@ -67,6 +61,7 @@ const PieChartExample = () => {
   });
 
   useEffect(() => {
+    console.log(pitChartData, "pitChartData");
     // console.log(analyzedMessages, "analyzedMessages");
     // console.log(getSpeakers(analyzedMessages), "getSpeakers");
     // console.log(getChatTimes(analyzedMessages), "getChatTimes");
@@ -155,7 +150,7 @@ const PieChartExample = () => {
     <>
       <PieChart width={400} height={400}>
         <Pie
-          data={data}
+          data={pitChartData}
           cx={200}
           cy={200}
           innerRadius={0}
@@ -166,7 +161,7 @@ const PieChartExample = () => {
             `${name} ${(percent * 100).toFixed(0)}%`
           }
         >
-          {data.map((entry, index) => (
+          {pitChartData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
               onClick={() => handleClickChatRoom(index)}
