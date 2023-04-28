@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getMessageData, readAsDataURL } from "../../../module/core/getMessageData";
+import {
+  getMessageData,
+  readAsDataURL,
+} from "../../../module/core/getMessageData";
 import { breakdownTxtFile } from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
 import DateForm from "../../datePicker/dateForm";
-import { ChatDataArray, Chatroom, FileObject, MessageInfo } from "../../../@types/index.d";
+import {
+  ChatDataArray,
+  Chatroom,
+  FileObject,
+  MessageInfo,
+} from "../../../@types/index.d";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -79,7 +87,9 @@ const Attachment = () => {
    * @param fileArrayIndex
    */
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
-    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
+    const filteredFileList = [...attachedFiles].filter(
+      (_, index) => index !== fileArrayIndex
+    );
     setAttachedFiles(filteredFileList);
   };
 
@@ -87,10 +97,10 @@ const Attachment = () => {
    * 파일 첨부
    * @param event
    */
-  const handleChangeFile = (event: any) => {
+  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length) {
-      pushNewlyAttachedFiles([...files]);
+      pushNewlyAttachedFiles(Array.prototype.slice.call(files));
     }
   };
 
@@ -107,20 +117,22 @@ const Attachment = () => {
       analyzedMessages.push([...messageData]);
     }
 
-    const analyzedMessageData = analyzedMessages.map((chatRooms: ChatDataArray[]) => {
-      return chatRooms.map((chatRoom: Chatroom) => {
-        const { speaker, dates } = chatRoom;
-        return dates.map((date: MessageInfo) => {
-          return {
-            speaker: speaker,
-            date: date.date,
-            chatTimes: date.data.chatTimes,
-            keywordCounts: date.data.keywordCounts,
-            replyTime: date.data.replyTime,
-          };
+    const analyzedMessageData = analyzedMessages.map(
+      (chatRooms: ChatDataArray[]) => {
+        return chatRooms.map((chatRoom: Chatroom) => {
+          const { speaker, dates } = chatRoom;
+          return dates.map((date: MessageInfo) => {
+            return {
+              speaker: speaker,
+              date: date.date,
+              chatTimes: date.data.chatTimes,
+              keywordCounts: date.data.keywordCounts,
+              replyTime: date.data.replyTime,
+            };
+          });
         });
-      });
-    });
+      }
+    );
 
     dispatch(setAnalyzedMessages(analyzedMessageData));
   };
@@ -142,7 +154,11 @@ const Attachment = () => {
                   </EachFile>
                 );
               })}
-              <DeleteButton onClick={() => deleteAttachedFileArray(fileArrayIndex)}>X</DeleteButton>
+              <DeleteButton
+                onClick={() => deleteAttachedFileArray(fileArrayIndex)}
+              >
+                X
+              </DeleteButton>
             </FileArray>
           );
         })}
