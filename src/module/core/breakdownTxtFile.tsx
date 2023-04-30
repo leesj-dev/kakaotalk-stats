@@ -30,13 +30,8 @@ const getDataArrayFromLineArray = (filteredMessageLineArray: string[]) => {
     const [speaker, message] = content.split(" : ");
     const keywords = message.split(" ").map((word) => word.trim());
     result.push({
-      year: formatValue(year),
-      month: formatValue(month),
-      day: formatValue(day),
-      hour:
-        meridiem === "오전"
-          ? formatValue(parseInt(hour12))
-          : (parseInt(hour12) + 12).toString(),
+      date: `${year}${month}${day}`,
+      hour: meridiem === "오전" ? formatValue(parseInt(hour12)) : (parseInt(hour12) + 12).toString(),
       minute: formatValue(minute),
       speaker,
       keywords,
