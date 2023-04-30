@@ -7,7 +7,9 @@ import { OriginMessageData } from "../../@types/index.d";
  */
 const filterMessageLine = (line: string) => {
   line = line.trim();
-  if (!(parseInt(line.slice(0, 2)) < 100 && line.slice(2, 4) === ". ")) {
+  const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
+  if (!regex.test(line)) {
+    console.log(line);
     return false;
   }
   return line;
@@ -18,7 +20,7 @@ const filterMessageLine = (line: string) => {
  * @param {string[]} filteredMessageLineArray - 필터링된 라인 배열입니다.
  * @returns {Array<object>} - 라인 배열에서 추출된 데이터 객체의 배열입니다.
  */
-const getDataArrayFromLineArray = (filteredMessageLineArray: string[]) => {
+const getDataObjectFromLines = (filteredMessageLineArray: string[]) => {
   const result: OriginMessageData[] = [];
   for (const line of filteredMessageLineArray) {
     const [dateTime, content] = line.split(", ", 2);
@@ -69,7 +71,7 @@ export const breakdownTxtFile = (base64: string) => {
       return filterMessageLine(line);
     });
 
-    allMessageData.push(getDataArrayFromLineArray(filteredMessageLineArray));
+    allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
   } catch (error) {
     console.error(error);
   }
