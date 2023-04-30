@@ -1,25 +1,35 @@
 import {
   ChatDataDetail,
+  Chatroom,
   KeywordCounts,
   MessageInfo,
   OriginMessageData,
   ReplyTime,
 } from "../../@types/index.d";
 
+const pushMessageInfo = (dates: MessageInfo[], todayDate: string) => {
+  dates.push({
+    date: todayDate,
+    data: {
+      chatTimes: {},
+      keywordCounts: {},
+      replyTime: { previous: 0, difference: 0, count: 0 },
+    },
+  });
+};
+
 export const getMessageData = (results: OriginMessageData[]) => {
   const messageData = [];
-  let rightBeforeSpeaker: undefined | string;
-  let rightBeforeMessageTime: undefined | number;
+  let rightBeforeSpeaker: string | undefined;
+  let rightBeforeMessageTime: number | undefined;
 
   for (const result of results) {
     const { year, month, day, hour, minute, speaker, keywords } = result;
-    const todayDate = `${year}${month}${day}`;
-    const currentTime = `${hour}:${minute}`;
+    const todayDate: string = `${year}${month}${day}`;
+    const currentTime: string = `${hour}:${minute}`;
 
-    // speaker 찾기. 없다면? speaker와 date배열 추가하기
-    let speakerIndex: number = messageData.findIndex(
-      (item) => item.speaker === speaker
-    );
+    // 존재하는 speaker인지 찾기, 없다면? speaker, dates 정보 추가하기
+    let speakerIndex: number = messageData.findIndex((item) => item.speaker === speaker);
     if (speakerIndex === -1) {
       messageData.push({ speaker, dates: [] });
       speakerIndex = messageData.length - 1;
@@ -27,23 +37,14 @@ export const getMessageData = (results: OriginMessageData[]) => {
 
     // date에 current message date 있는지 찾기. 없다면? current message date, chatTimes: {} ,keywordCounts:{},replyTime:{} 추가하기
     let dates: MessageInfo[] = messageData[speakerIndex].dates;
-    const lastMessageDate =
-      dates.length && Object.values(dates[dates.length - 1])[0];
+    const lastMessageDate = dates.length && Object.values(dates[dates.length - 1])[0];
     if (lastMessageDate !== todayDate) {
-      dates.push({
-        date: todayDate,
-        data: {
-          chatTimes: {},
-          keywordCounts: {},
-          replyTime: { previous: 0, difference: 0, count: 0 },
-        },
-      });
+      pushMessageInfo(dates, todayDate);
     }
 
     // date정보의 마지막 요소에 current chat time있는지 찾기. 없다면? chatTimes object 추가하기, 있다면? chatTimes count++
     const todayDateValue: ChatDataDetail = dates[dates.length - 1].data;
-    const lastChatTime: undefined | number =
-      todayDateValue.chatTimes[currentTime];
+    const lastChatTime: undefined | number = todayDateValue.chatTimes[currentTime];
     lastChatTime
       ? todayDateValue.chatTimes[currentTime]++
       : (todayDateValue.chatTimes[currentTime] = 1);
