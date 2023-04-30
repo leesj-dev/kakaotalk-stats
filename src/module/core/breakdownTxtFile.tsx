@@ -21,17 +21,16 @@ const filterMessageLine = (line: string) => {
  * @returns {Array<object>} - 라인 배열에서 추출된 데이터 객체의 배열입니다.
  */
 const getDataObjectFromLines = (filteredMessageLineArray: string[]) => {
-  const result: OriginMessageData[] = [];
+  const originMessageData: OriginMessageData[] = [];
   for (const line of filteredMessageLineArray) {
     const [dateTime, content] = line.split(", ", 2);
     const [year, month, day, time] = dateTime.split(". ");
-    const [fullHour, minuteStr] = time.split(":");
+    const [fullHour, minute] = time.split(":");
     const [meridiem, hour] = fullHour.split(" ");
     const hour12 = hour === "12" ? "0" : hour;
-    const minute = Number(minuteStr);
     const [speaker, message] = content.split(" : ");
     const keywords = message.split(" ").map((word) => word.trim());
-    result.push({
+    originMessageData.push({
       date: `${year.slice(-2)}${formatValue(month)}${formatValue(day)}`,
       hour: meridiem === "오전" ? formatValue(parseInt(hour12)) : (parseInt(hour12) + 12).toString(),
       minute: formatValue(minute),
@@ -39,8 +38,7 @@ const getDataObjectFromLines = (filteredMessageLineArray: string[]) => {
       keywords,
     });
   }
-  console.log(result);
-  return result;
+  return originMessageData;
 };
 
 const formatValue = (value: String | Number) => {
@@ -63,9 +61,8 @@ export const utf8Decode = (base64String: string) => {
  * @returns {Array} 메시지 데이터 배열
  */
 export const breakdownTxtFile = (base64: string) => {
-  const decodedTextFile = utf8Decode(base64.toString());
-
   const allMessageData = [];
+  const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n20");
     const filteredMessageLineArray = allLineArray.filter((line) => {
