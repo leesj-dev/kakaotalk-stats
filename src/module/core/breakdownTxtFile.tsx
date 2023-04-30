@@ -1,5 +1,7 @@
 import { OriginMessageData } from "../../@types/index.d";
 
+const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
+
 /**
  * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환합니다.
  * @param {string} line - 추출한 문자열
@@ -7,9 +9,7 @@ import { OriginMessageData } from "../../@types/index.d";
  */
 const filterMessageLine = (line: string) => {
   line = line.trim();
-  const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
   if (!regex.test(line)) {
-    console.log(line);
     return false;
   }
   return line;
@@ -32,13 +32,14 @@ const getDataObjectFromLines = (filteredMessageLineArray: string[]) => {
     const [speaker, message] = content.split(" : ");
     const keywords = message.split(" ").map((word) => word.trim());
     result.push({
-      date: `${year}${month}${day}`,
+      date: `${year.slice(-2)}${formatValue(month)}${formatValue(day)}`,
       hour: meridiem === "오전" ? formatValue(parseInt(hour12)) : (parseInt(hour12) + 12).toString(),
       minute: formatValue(minute),
       speaker,
       keywords,
     });
   }
+  console.log(result);
   return result;
 };
 
