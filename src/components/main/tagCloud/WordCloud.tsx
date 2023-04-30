@@ -103,7 +103,7 @@ const WordCloud = () => {
           return (
             <KeywordList key={index}>
               {speaker[index]}
-              <TagCloud minSize={12} maxSize={50} tags={data} />
+              <TagCloud minSize={14} maxSize={50} tags={data} />
             </KeywordList>
           );
         })}

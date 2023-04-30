@@ -57,14 +57,10 @@ interface DateData {
   data: ChatDataDetail;
 }
 
-interface ChatDataDetail {
+export interface ChatDataDetail {
   chatTimes: ChatTimes;
   keywordCounts: KeywordCounts;
-  replyTime: {
-    previous: number;
-    difference: number;
-    count: number;
-  };
+  replyTime: ReplyTime;
 }
 
 export type ChatDataArray = Chatroom;

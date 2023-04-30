@@ -80,3 +80,11 @@ export const breakdownTxtFile = (base64: string) => {
   }
   return allMessageData.flat();
 };
+
+export const readAsDataURL = (file: File) => {
+  return new Promise<string | null>((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => resolve(reader.result as string | null);
+  });
+};

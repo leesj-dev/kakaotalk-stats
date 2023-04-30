@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getMessageData } from "../../../module/core/getMessageData";
 import {
-  getMessageData,
+  breakdownTxtFile,
   readAsDataURL,
-} from "../../../module/core/getMessageData";
-import { breakdownTxtFile } from "../../../module/core/breakdownTxtFile";
+} from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
 import DateForm from "../../datePicker/dateForm";
