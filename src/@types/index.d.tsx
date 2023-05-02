@@ -72,3 +72,14 @@ export type ChatDataArray = Chatroom;
 export type WrapperProps = {
   children: ReactNode;
 };
+
+type TimeCount = {
+  hour: string;
+  value: number;
+  index: number;
+};
+
+export type WeekData = {
+  day: string;
+  values: TimeCount[];
+};
