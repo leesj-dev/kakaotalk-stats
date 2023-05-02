@@ -10,6 +10,8 @@ import {
   ReplyTime,
   selectedChatRoomData,
 } from "../../../../@types/index.d";
+import GraphInformation from "../../../molecules/GraphInformation";
+import styled from "styled-components";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -24,6 +26,10 @@ export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   }
   return totalChatCounts;
 };
+
+const TestDiv = styled.div`
+  display: flex;
+`;
 
 const PieChartExample = () => {
   const dispatch = useDispatch();
@@ -122,7 +128,7 @@ const PieChartExample = () => {
   }, [selectedChatRoomIndex]);
 
   return (
-    <>
+    <TestDiv>
       <PieChart width={400} height={400}>
         <Pie
           data={NameValuePair}
@@ -147,28 +153,26 @@ const PieChartExample = () => {
       </PieChart>
       {selectedChatRoomData && (
         <div>
-          <div>대화 수: {selectedChatRoomData.totalChatCount}</div>
-          <div>대화자: {selectedChatRoomData.speakers.join(",")}</div>
-          <div>대화자 수: {selectedChatRoomData.speakerCount}</div>
-          <div>
-            가장 많은 대화 시간대: {selectedChatRoomData.mostChattedTimes[0]}시 (대화수:{" "}
-            {selectedChatRoomData.mostChattedTimes[1]})
-          </div>
-          <div>
-            일 평균 답장 시간
-            <div>
-              {selectedChatRoomData.speakers.map((speaker: string, index: number) => {
-                return (
-                  <div key={index}>
-                    {speaker}: {selectedChatRoomData.averageReplyTime[index]}초
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <GraphInformation unit={"총 대화 수"} value={selectedChatRoomData.totalChatCount.toString()} />
+          <GraphInformation unit={"대화자"} value={selectedChatRoomData.speakers.join(",")} />
+          <GraphInformation unit={"대화자 수"} value={selectedChatRoomData.speakerCount.toString()} />
+          <GraphInformation
+            unit={"가장 많은 대화 시간대"}
+            value={`${selectedChatRoomData.mostChattedTimes[0]}시 대화수: 
+            ${selectedChatRoomData.mostChattedTimes[1]}개`}
+          />
+          {selectedChatRoomData.speakers.map((speaker: string, index: number) => {
+            return (
+              <GraphInformation
+                key={index}
+                unit={speaker}
+                value={`${selectedChatRoomData.averageReplyTime[index]}초`}
+              />
+            );
+          })}
         </div>
       )}
-    </>
+    </TestDiv>
   );
 };
 

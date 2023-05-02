@@ -2,10 +2,7 @@ import { useSelector } from "react-redux";
 import { TagCloud } from "react-tagcloud";
 import { AnalyzedMessage, ValueCountPair } from "../../../@types/index.d";
 import { ChangeEvent, useState } from "react";
-import {
-  getKeywordCounts,
-  getSpeakers,
-} from "../../../module/common/getProperties";
+import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { KeywordCounts } from "../../../@types/index.d";
 import styled from "styled-components";
 
@@ -21,8 +18,7 @@ const KeywordList = styled.li`
 
 const WordCloud = () => {
   const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
-      state.analyzedMessagesSlice
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
   const selectedRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
@@ -32,20 +28,17 @@ const WordCloud = () => {
   const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(50);
 
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(analyzedMessages);
-  const currentKeywordCounts: KeywordCounts[][] =
-    keywordCounts[selectedRoomIndex];
+  const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedRoomIndex];
 
   const getTopNKeywords = (allKeywords: KeywordCounts, n: number) => {
-    const keywordsEntries: ValueCountPair[] = Object.entries(allKeywords).map(
-      ([value, count]) => ({ value, count })
-    );
+    const keywordsEntries: ValueCountPair[] = Object.entries(allKeywords).map(([value, count]) => ({
+      value,
+      count,
+    }));
     const sortedKeywordsEntries: ValueCountPair[] = keywordsEntries.sort(
       (a: ValueCountPair, b: ValueCountPair) => b.count - a.count
     );
-    const topNKeywords: ValueCountPair[] = sortedKeywordsEntries.slice(
-      0,
-      n + 1
-    );
+    const topNKeywords: ValueCountPair[] = sortedKeywordsEntries.slice(0, n + 1);
     return topNKeywords;
   };
 
@@ -53,15 +46,10 @@ const WordCloud = () => {
     const allKeywords: KeywordCounts = {};
     keywordsArray.forEach((keywords: KeywordCounts) => {
       for (const key in keywords) {
-        allKeywords[key]
-          ? (allKeywords[key] += keywords[key])
-          : (allKeywords[key] = keywords[key]);
+        allKeywords[key] ? (allKeywords[key] += keywords[key]) : (allKeywords[key] = keywords[key]);
       }
     });
-    const topNKeywords: ValueCountPair[] = getTopNKeywords(
-      allKeywords,
-      displayKeywordCount
-    );
+    const topNKeywords: ValueCountPair[] = getTopNKeywords(allKeywords, displayKeywordCount);
     return topNKeywords;
   };
 
@@ -85,28 +73,43 @@ const WordCloud = () => {
     setDisplayKeywordCount(numberInput);
   };
 
+  // 키워드 중에서 겹치는 말버릇 모아보기
+  const getOverlappedKeyword = (keywordData: any[]) => {
+    const overlappedKeyword: any = {};
+    keywordData.forEach((keywords) => {
+      keywords.forEach((keyword: any) => {
+        console.log(keyword.value, "overlappedKeyword[keyword.value]");
+        overlappedKeyword[keyword.value] = Number(overlappedKeyword[keyword.value] || 0) + 1;
+      });
+    });
+    const filteredKeyword = [];
+    for (const keyword in overlappedKeyword) {
+      overlappedKeyword[keyword] === 2 && filteredKeyword.push(keyword);
+    }
+    filteredKeyword.shift();
+    return filteredKeyword;
+  };
+  const overlappedKeyword = getOverlappedKeyword(keywordData);
+  console.log(overlappedKeyword);
+
   return (
     <ul>
       <form action="" onSubmit={handleSubmitNumber}>
         <label>내 카톡 습관, 몇 개나 모아서 볼래?</label>
-        <input
-          name=""
-          type="number"
-          id=""
-          value={numberInput}
-          onChange={handleChangeNumberInput}
-        />
+        <input name="" type="number" id="" value={numberInput} onChange={handleChangeNumberInput} />
         <button>확인</button>
       </form>
       {keywordData.length &&
         keywordData.map((data: ValueCountPair[], index: number) => {
+          console.log(keywordData);
           return (
             <KeywordList key={index}>
               {speaker[index]}
-              <TagCloud minSize={14} maxSize={50} tags={data} />
+              <TagCloud minSize={14} maxSize={100} tags={data} />
             </KeywordList>
           );
         })}
+      <div>키워드 중에서 겹치는 말버릇 모아보기 {overlappedKeyword && overlappedKeyword.join(", ")}</div>
     </ul>
   );
 };
