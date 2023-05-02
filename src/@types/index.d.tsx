@@ -90,3 +90,14 @@ export type selectedChatRoomData = {
   speakers: string[];
   totalChatCount: number;
 };
+
+type TimeCount = {
+  hour: string;
+  value: number;
+  index: number;
+};
+
+export type WeekData = {
+  day: string;
+  values: TimeCount[];
+};

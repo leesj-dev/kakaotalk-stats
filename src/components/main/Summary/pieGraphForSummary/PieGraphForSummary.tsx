@@ -95,6 +95,7 @@ const PieChartExample = () => {
       calculateMostChattedTime(chatTimes, mostChattedTimeArray, chatroomIndex);
       chatroomIndex++;
     }
+
     const mostChattedTimes: [string, number][] = mostChattedTimeArray.map(
       (chatTimes: ChatTimes) => {
         return Object.entries(chatTimes).sort(
