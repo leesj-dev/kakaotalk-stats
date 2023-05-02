@@ -67,11 +67,11 @@ const PieChartExample = () => {
   });
 
   useEffect(() => {
-    console.log(analyzedMessages, "analyzedMessages");
+    //console.log(analyzedMessages, "analyzedMessages");
     // console.log(getSpeakers(analyzedMessages), "getSpeakers");
     // console.log(getChatTimes(analyzedMessages), "getChatTimes");
     // console.log(getKeywordCounts(analyzedMessages), "getKeywordCounts");
-    console.log(getReplyTimes(analyzedMessages), "getReplyTimes");
+    //console.log(getReplyTimes(analyzedMessages), "getReplyTimes");
     // console.log(getDates(analyzedMessages), "getDates");
   }, [analyzedMessages]);
 
@@ -144,12 +144,12 @@ const PieChartExample = () => {
       mostChattedTimes: mostChattedTimes[selectedChatRoomIndex],
       averageReplyTime: averageReplyTime[selectedChatRoomIndex],
     });
-    console.log(analyzedMessages[selectedChatRoomIndex], "currentChatroom");
-    console.log(selectedChatRoomData, "selectedChatRoomData");
-    console.log(
-      averageReplyTime[selectedChatRoomIndex],
-      "averageReplyTime[selectedChatRoomIndex]"
-    );
+    // console.log(analyzedMessages[selectedChatRoomIndex], "currentChatroom");
+    //console.log(selectedChatRoomData, "selectedChatRoomData");
+    // console.log(
+    //   averageReplyTime[selectedChatRoomIndex],
+    //   "averageReplyTime[selectedChatRoomIndex]"
+    // );
   }, [selectedChatRoomIndex]);
 
   return (

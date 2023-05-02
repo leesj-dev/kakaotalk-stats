@@ -10,7 +10,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { AnalyzedMessage } from "../../../../@types/index.d";
 
 const PeriodRatio = () => {
   const results = useSelector(
@@ -70,22 +69,18 @@ const PeriodRatio = () => {
   // date,speaker:count 구조
   const messageCounts = results.reduce((acc, chatList) => {
     chatList.forEach((chat: { date: string; speaker: string }) => {
-      console.log(chat, "aaaaaaaaaa");
-
       const { date, speaker } = chat;
       const existingData: any = acc.find((data: any) => data.date === date);
 
       if (existingData) {
         existingData[speaker] = (existingData[speaker] || 0) + 1;
-        console.log(existingData, "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
       } else {
         const newData = { date, speaker: { [speaker]: 1 } };
-        console.log(newData);
       }
     });
     return acc;
   }, []);
-  console.log(messageCounts);
+
   return (
     <div>
       <ResponsiveContainer width="100%" height="100%">
