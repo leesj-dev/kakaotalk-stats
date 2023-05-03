@@ -10,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { AnalyzedMessage } from "../../../../@types/index.d";
 
 const PeriodRatio = () => {
   const results = useSelector(
@@ -61,25 +62,27 @@ const PeriodRatio = () => {
     },
   ];
 
-  type AnalyzedMessage = Array<{
-    speaker: string;
-    date: string;
-    chatTimes: Record<string, number>;
-  }>;
-  // date,speaker:count 구조
-  const messageCounts = results.reduce((acc, chatList) => {
-    chatList.forEach((chat: { date: string; speaker: string }) => {
-      const { date, speaker } = chat;
-      const existingData: any = acc.find((data: any) => data.date === date);
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
 
-      if (existingData) {
-        existingData[speaker] = (existingData[speaker] || 0) + 1;
-      } else {
-        const newData = { date, speaker: { [speaker]: 1 } };
+  const selectedChatRoomData = results[selectedChatRoomIndex];
+  const speakerTotalChatCounts: Record<string, number> = {};
+  Object.values(selectedChatRoomData).forEach((chatroom) => {
+    Object.values(chatroom).forEach(
+      (chat: { chatTimes: any; speaker: string; date: string }) => {
+        const speaker = chat.speaker;
+        const chatDays = chat.date;
+
+        console.log("콘솔로 확인을 해봅시다 :", chat);
+        console.log("콘솔로 chatDays확인을 해봅시다 :", chatDays);
+
+        if (!speakerTotalChatCounts[speaker]) {
+          speakerTotalChatCounts[speaker] = 0;
+        }
       }
-    });
-    return acc;
-  }, []);
+    );
+  });
 
   return (
     <div>
