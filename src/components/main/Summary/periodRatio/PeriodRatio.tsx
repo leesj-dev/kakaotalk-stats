@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   BarChart,
@@ -10,80 +10,110 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { AnalyzedMessage, ChatTimes } from "../../../../@types/index.d";
+import {
+  getChatTimes,
+  getDates,
+  getSpeakers,
+} from "../../../../module/common/getProperties";
+
+type StackBarData = {
+  name: string;
+  [key: string]: number | string | undefined;
+};
 
 const PeriodRatio = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
       state.analyzedMessagesSlice
   );
-  const data = [
-    {
-      date: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      date: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      date: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      date: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      date: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      date: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      date: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
 
-  type AnalyzedMessage = Array<{
-    speaker: string;
-    date: string;
-    chatTimes: Record<string, number>;
-  }>;
-  // date,speaker:count 구조
-  const messageCounts = results.reduce((acc, chatList) => {
-    chatList.forEach((chat: { date: string; speaker: string }) => {
-      const { date, speaker } = chat;
-      const existingData: any = acc.find((data: any) => data.date === date);
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
 
-      if (existingData) {
-        existingData[speaker] = (existingData[speaker] || 0) + 1;
-      } else {
-        const newData = { date, speaker: { [speaker]: 1 } };
+  const selectedChatRoomData = results[selectedChatRoomIndex];
+  const speakerTotalChatCounts: Record<string, number> = {};
+  Object.values(selectedChatRoomData).forEach((chatroom) => {
+    Object.values(chatroom).forEach(
+      (chat: { chatTimes: any; speaker: string; date: string }) => {
+        const speaker = chat.speaker;
+        const chatDays = chat.date;
+        if (!speakerTotalChatCounts[speaker]) {
+          speakerTotalChatCounts[speaker] = 0;
+        }
       }
-    });
-    return acc;
-  }, []);
+    );
+  });
+
+  const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
+    let chatCounts = 0;
+    for (const key in chatCountsDay) {
+      chatCounts += chatCountsDay[key];
+    }
+    return chatCounts;
+  };
+
+  //   {
+  //     name: "230412",
+  //     uv: 3490,
+  //     rv: 1000,
+  //     pv: 4300,
+  //     amt: 2100,
+  //   },
+
+  const createStackBarData = (
+    chatSpeakers: string[],
+    chatDates: string[],
+    chatTimes: ChatTimes[][]
+  ) => {
+    const chatDatesSet = new Set(chatDates.flat());
+    const NotDuplicatedChatDates = Array.from(chatDatesSet);
+
+    const stackBarData: StackBarData[] = [];
+
+    // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
+    for (let i = 0; i < NotDuplicatedChatDates.length; i++) {
+      const date: any = { name: NotDuplicatedChatDates[i] };
+
+      chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
+        const dateIndex: number = chatDates[speakerIndex].indexOf(
+          NotDuplicatedChatDates[i]
+        );
+        if (dateIndex !== -1) {
+          date[speaker[0]] = sumChatCountsDay(
+            chatTimes[speakerIndex][dateIndex]
+          );
+        }
+      });
+      stackBarData.push(date);
+    }
+    return stackBarData;
+  };
+
+  const [data, setData] = useState<StackBarData[]>([]);
+  let chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
+  const chatDates = getDates(results)[selectedChatRoomIndex];
+  const chatTimes = getChatTimes(results)[selectedChatRoomIndex];
+  const colors = ["#6767fe", "#b3ff00"];
+  const chatSpeakersColorPair = chatSpeakers.map(
+    (speaker: string, index: number) => {
+      return [speaker, colors[index % colors.length]];
+    }
+  );
+
+  useEffect(() => {
+    setData(createStackBarData(chatSpeakersColorPair, chatDates, chatTimes));
+  }, [selectedChatRoomIndex]);
+
+  // +누르면 보여주는 기준점의 수를 줄이고
+  // -누르면 보여주는 기준점의 수를 늘린다
+
+  // 날짜제한
 
   return (
     <div>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={500}>
         <BarChart
           width={500}
           height={300}
@@ -96,12 +126,14 @@ const PeriodRatio = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
+          <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="pv" stackId="a" fill="#8884d8" />
-          <Bar dataKey="uv" stackId="a" fill="#82ca9d" />
+          {chatSpeakersColorPair.map((speaker: string) => {
+            console.log(speaker);
+            return <Bar dataKey={speaker[0]} stackId="a" fill={speaker[1]} />;
+          })}
         </BarChart>
       </ResponsiveContainer>
       <div>
