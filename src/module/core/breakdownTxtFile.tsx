@@ -1,5 +1,7 @@
 import { OriginMessageData } from "../../@types/index.d";
 
+const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
+
 /**
  * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환합니다.
  * @param {string} line - 추출한 문자열
@@ -7,7 +9,7 @@ import { OriginMessageData } from "../../@types/index.d";
  */
 const filterMessageLine = (line: string) => {
   line = line.trim();
-  if (!(parseInt(line.slice(0, 2)) < 100 && line.slice(2, 4) === ". ")) {
+  if (!regex.test(line)) {
     return false;
   }
   return line;
@@ -18,31 +20,25 @@ const filterMessageLine = (line: string) => {
  * @param {string[]} filteredMessageLineArray - 필터링된 라인 배열입니다.
  * @returns {Array<object>} - 라인 배열에서 추출된 데이터 객체의 배열입니다.
  */
-const getDataArrayFromLineArray = (filteredMessageLineArray: string[]) => {
-  const result: OriginMessageData[] = [];
+const getDataObjectFromLines = (filteredMessageLineArray: string[]) => {
+  const originMessageData: OriginMessageData[] = [];
   for (const line of filteredMessageLineArray) {
     const [dateTime, content] = line.split(", ", 2);
     const [year, month, day, time] = dateTime.split(". ");
-    const [fullHour, minuteStr] = time.split(":");
+    const [fullHour, minute] = time.split(":");
     const [meridiem, hour] = fullHour.split(" ");
     const hour12 = hour === "12" ? "0" : hour;
-    const minute = Number(minuteStr);
     const [speaker, message] = content.split(" : ");
     const keywords = message.split(" ").map((word) => word.trim());
-    result.push({
-      year: formatValue(year),
-      month: formatValue(month),
-      day: formatValue(day),
-      hour:
-        meridiem === "오전"
-          ? formatValue(parseInt(hour12))
-          : (parseInt(hour12) + 12).toString(),
+    originMessageData.push({
+      date: `${year.slice(-2)}${formatValue(month)}${formatValue(day)}`,
+      hour: meridiem === "오전" ? formatValue(parseInt(hour12)) : (parseInt(hour12) + 12).toString(),
       minute: formatValue(minute),
       speaker,
       keywords,
     });
   }
-  return result;
+  return originMessageData;
 };
 
 const formatValue = (value: String | Number) => {
@@ -65,18 +61,25 @@ export const utf8Decode = (base64String: string) => {
  * @returns {Array} 메시지 데이터 배열
  */
 export const breakdownTxtFile = (base64: string) => {
-  const decodedTextFile = utf8Decode(base64.toString());
-
   const allMessageData = [];
+  const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n20");
     const filteredMessageLineArray = allLineArray.filter((line) => {
       return filterMessageLine(line);
     });
 
-    allMessageData.push(getDataArrayFromLineArray(filteredMessageLineArray));
+    allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
   } catch (error) {
     console.error(error);
   }
   return allMessageData.flat();
+};
+
+export const readAsDataURL = (file: File) => {
+  return new Promise<string | null>((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => resolve(reader.result as string | null);
+  });
 };

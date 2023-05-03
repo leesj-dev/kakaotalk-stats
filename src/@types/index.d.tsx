@@ -7,6 +7,12 @@ export type ReplyTime = {
   difference: number;
   count: number;
 };
+export interface ChatDataDetail {
+  chatTimes: ChatTimes;
+  keywordCounts: KeywordCounts;
+  replyTime: ReplyTime;
+}
+
 export type AnalyzedMessage = {
   speaker: string;
   date: string;
@@ -25,51 +31,24 @@ export interface FileObject {
 }
 
 export type OriginMessageData = {
-  day: string;
+  date: string;
   hour: string;
   minute: string;
-  month: string;
   speaker: string;
-  year: string;
   keywords: string[];
 };
 
 export type MessageInfo = {
   date: string;
-  data: {
-    chatTimes: ChatTimes; // Record :string type의 키, number type의 value
-    keywordCounts: KeywordCounts;
-    replyTime: {
-      previous: number;
-      difference: number;
-      count: number;
-    };
-  };
+  data: ChatDataDetail;
 };
 
 export interface Chatroom {
   speaker: string;
-  dates: DateData[];
+  dates: MessageInfo[];
 }
 
-interface DateData {
-  date: string;
-  data: ChatDataDetail;
-}
-
-interface ChatDataDetail {
-  chatTimes: ChatTimes;
-  keywordCounts: KeywordCounts;
-  replyTime: {
-    previous: number;
-    difference: number;
-    count: number;
-  };
-}
-
-export type ChatDataArray = Chatroom;
-
-export type PieChartData = {
+export type NameValuePair = {
   name: string;
   value: number;
 };
@@ -79,10 +58,6 @@ export type ValueCountPair = {
   count: number;
 };
 
-export type WrapperProps = {
-  children: ReactNode;
-};
-
 export type selectedChatRoomData = {
   averageReplyTime: number[];
   mostChattedTimes: [string, number];
@@ -90,6 +65,10 @@ export type selectedChatRoomData = {
   speakers: string[];
   totalChatCount: number;
 };
+
+export type WrapperProps = {
+  children: ReactNode;
+}
 
 type TimeCount = {
   hour: string;
