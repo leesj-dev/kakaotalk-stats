@@ -12,6 +12,7 @@ import {
 } from "../../../../@types/index.d";
 import GraphInformation from "../../../molecules/GraphInformation";
 import styled from "styled-components";
+import { setAverageReplyTime } from "../../../../store/reducer/averageReplyTimeSlice";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -121,6 +122,7 @@ const PieChartExample = () => {
       mostChattedTimes: mostChattedTimes[selectedChatRoomIndex],
       averageReplyTime: averageReplyTime[selectedChatRoomIndex],
     });
+    dispatch(setAverageReplyTime(averageReplyTime[selectedChatRoomIndex]));
   }, [selectedChatRoomIndex]);
 
   return (
