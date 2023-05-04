@@ -141,7 +141,6 @@ const Attachment = () => {
 
   return (
     <AttachmentBox>
-      <DateForm />
       <List>
         {attachedFiles.map((files: File[], fileArrayIndex) => {
           return (

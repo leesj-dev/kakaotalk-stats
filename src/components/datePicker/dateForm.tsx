@@ -4,10 +4,12 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css"; // react-datepicker의 CSS 파일을 import
 import { setLimitTime } from "../../store/reducer/limitTimeSlice";
+import { AnalyzedMessage, selectedChatRoomData } from "../../@types/index.d";
 
 const DatePickerInputContainer = styled.div`
   color: #fff;
 `;
+
 const CustomInput = styled.input`
   border: 1px solid #ddd;
   padding: 10px;
@@ -20,7 +22,19 @@ export type LimitTimeData = {
   startDateSpeaker: never[];
   endDateSpeaker: never[];
 };
+
 const DateForm = () => {
+  // redux에서 분석된 메시지 데이터 가져오기
+  const results = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
+      state.analyzedMessagesSlice
+  );
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
+
+  const selectedChatRoomData: any = results[selectedChatRoomIndex];
+
   const dispatch = useDispatch();
 
   // dateRange는 [startDate, endDate] 형태의 배열을 값 가짐
@@ -29,42 +43,15 @@ const DateForm = () => {
   const [startDate, endDate] = dateRange;
   const [startDateSpeaker, setStartDateSpeaker] = useState([]);
   const [endDateSpeaker, setEndDateSpeaker] = useState([]);
-  // redux에서 분석된 메시지 데이터 가져오기
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessages }) =>
-      state.analyzedMessagesSlice
-  );
-  // const limitTimeData = useSelector(
-  //   (state: { limitTimeSlice: LimitTimeData }) => state.limitTimeSlice
-  // );
-  // console.log("redux", limitTimeData);
-  // results 변수의 타입을 AnalyzedMessages 타입으로 정의
-  type AnalyzedMessages = Array<{
-    speaker: string;
-    dates: Array<DateData>;
-  }>;
 
-  // 분석된 메시지 데이터 사용하기
-  // 예시: 시작 날짜와 종료 날짜 출력
-
-  interface DateData {
-    date: string;
-    data: {
-      chatTimes: any; // chatTimes 필드의 타입은 필요에 따라 수정하세요
-      keywordCounts: any; // keywordCounts 필드의 타입은 필요에 따라 수정하세요
-      replyTime: any; // replyTime 필드의 타입은 필요에 따라 수정하세요
-    };
-  }
   // results 배열에서 date.date 값을 추출하여 새로운 배열인 dateAll을 생성
-  let dateAll = results
-    .flatMap((result: any) =>
-      result.flatMap((data: any) => data.map((date: any) => date.date))
-    )
-    .sort((a, b) => a - b);
-
+  let dateAll = selectedChatRoomData
+    .flatMap((data: any) => data.map((date: any) => date.date))
+    .sort((a: number, b: number) => a - b);
+  const start = dateAll[0];
+  const end = dateAll.at(-1);
+  console.log(dateAll, start, end, "선택한 채팅방 대화");
   useEffect(() => {
-    const start = dateAll[0];
-    const end = dateAll.at(-1);
     if (start && end !== undefined) {
       setStartDateSpeaker(start.match(/.{1,2}/g));
       setEndDateSpeaker(end.match(/.{1,2}/g));
@@ -73,7 +60,7 @@ const DateForm = () => {
     // 컴포넌트 렌더링을 시키기 위해서 dateAll을 의존성배열에 추가
     // dateAll은 useSelector로 불러온 result값이 갱신되면 업데이트 되고
     // 업데이트 되면서 useEffect가 실행이 된다.
-  }, [setLimitTime]); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정
+  }, [start]); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정
 
   // ************
   // dispatch(
