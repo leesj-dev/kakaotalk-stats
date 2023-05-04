@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
 import { LimitTimeData } from "../datePicker/dateForm";
 import WordCloud from "./tagCloud/WordCloud";
+import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
 
 const Container = styled.div`
   width: 600px;
@@ -82,6 +83,7 @@ const Main = () => {
       <Attachment />
       {Array.isArray(results) && results.length !== 0 && <Summary />}
       {Array.isArray(results) && results.length !== 0 && <WordCloud />}
+      {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
     </div>
   );
 };

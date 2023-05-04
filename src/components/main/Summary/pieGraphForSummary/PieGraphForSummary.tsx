@@ -130,7 +130,7 @@ const PieChartExample = () => {
           data={pieGraphData}
           cx={200}
           cy={200}
-          innerRadius={0}
+          innerRadius={70}
           outerRadius={100}
           dataKey="value"
           labelLine

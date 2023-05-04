@@ -67,7 +67,6 @@ const getHighKeywords = (
     highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
   }
   const filteredKeyword = filterSpecificKeywords(highKeywords, keywordsToFilter);
-  console.log(filteredKeyword, "filteredKeyword");
   const laughterFilteredKeyword = filterLaughterKeywords(filteredKeyword);
   return isLaughterFiltered ? laughterFilteredKeyword : filteredKeyword;
 };
@@ -79,7 +78,6 @@ const getHighKeywords = (
  * @returns {ValueCountPair[][]} 필터링된 상위 키워드 배열입니다.
  */
 const filterSpecificKeywords = (highKeywords: ValueCountPair[][], keywordsToFilter: string[]) => {
-  console.log(highKeywords);
   const filteredKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
     keywordArray.filter((keyword: ValueCountPair) => !keywordsToFilter.includes(keyword.value))
   );
@@ -92,7 +90,6 @@ const filterSpecificKeywords = (highKeywords: ValueCountPair[][], keywordsToFilt
  * @returns {ValueCountPair[][]} 필터링된 상위 키워드 배열입니다.
  */
 const filterLaughterKeywords = (highKeywords: ValueCountPair[][]) => {
-  console.log(highKeywords);
   const filteredKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
     keywordArray.filter((keyword: ValueCountPair) => !keyword.value.includes("ㅋ" || "ㅎ"))
   );
