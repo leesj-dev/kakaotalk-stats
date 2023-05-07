@@ -14,6 +14,7 @@ import {
 import { AnalyzedMessage } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { ReplyTime } from "../../../@types/index.d";
+import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
 type LineGraphData = {
   name: string;
@@ -105,6 +106,16 @@ const createLineGraphDataWeekly = (
   return replyLineGraphData;
 };
 
+const getAverageReplyTime = (displayData: Record<string, number>[]) => {
+  const averageDaily = displayData.map((data: Record<string, number>) => {
+    const values = Object.values(data);
+    const averageDaily = reduceAPlusB(values.slice(1)) / (values.length - 1);
+    return averageDaily;
+  });
+  const averageReplyTime = reduceAPlusB(averageDaily) / displayData.length;
+  return averageReplyTime;
+};
+
 const ReplyLineGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -113,7 +124,7 @@ const ReplyLineGraph = () => {
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
   // const [replyLineGraphData, setReplyLineGraphData] = useState<LineGraphData[]>([]);
-  const [displayData, setDisplayData] = useState<any>();
+  const [displayData, setDisplayData] = useState<any[]>([]);
 
   const replyTimes = getReplyTimes(analyzedMessages)[selectedChatRoomIndex];
   const chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
@@ -125,6 +136,7 @@ const ReplyLineGraph = () => {
 
   useEffect(() => {
     setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes));
+    // 모든 사람들의 평균 답장 속도
   }, [selectedChatRoomIndex]);
 
   return (
@@ -154,7 +166,7 @@ const ReplyLineGraph = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <ReferenceLine y={0} label="평균답장속도" stroke="yellow" />
+          <ReferenceLine y={getAverageReplyTime(displayData)} label="평균답장속도" stroke="yellow" />
           {chatSpeakersColorPair.map((speaker: string, index: number) => {
             return <Line key={index} type="monotone" dataKey={speaker[0]} stroke={speaker[1]} />;
           })}

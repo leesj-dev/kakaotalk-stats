@@ -13,6 +13,7 @@ import {
 import GraphInformation from "../../../molecules/GraphInformation";
 import styled from "styled-components";
 import { setAverageReplyTime } from "../../../../store/reducer/averageReplyTimeSlice";
+import { reduceAPlusB } from "../../../../module/common/reduceAPlusB";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -20,10 +21,8 @@ export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   let totalChatCounts: number[] = [];
   for (const chatroom of chatTimes) {
     const times: ChatTimes[] = chatroom.flat();
-    const timeSum: number[] = times.map((time: ChatTimes) =>
-      Object.values(time).reduce((a: number, b: number) => a + b)
-    );
-    totalChatCounts.push(timeSum.reduce((a: number, b: number) => a + b));
+    const timeSum: number[] = times.map((time: ChatTimes) => reduceAPlusB(Object.values(time)));
+    totalChatCounts.push(reduceAPlusB(timeSum));
   }
   return totalChatCounts;
 };
