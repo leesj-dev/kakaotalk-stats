@@ -34,11 +34,13 @@ const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyT
       const dateIndex: number = chatDates[speakerIndex].indexOf(NotDuplicatedChatDates[i]);
       const replyTimeDayData = replyTimes[speakerIndex][dateIndex];
       if (dateIndex !== -1) {
-        const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count);
+        const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count || 0);
         date[speaker] = replyTime;
       }
     });
-    replyLineGraphData.push(date);
+    if (!Object.values(date).includes(0)) {
+      replyLineGraphData.push(date);
+    }
   }
   return replyLineGraphData;
 };
