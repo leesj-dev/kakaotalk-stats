@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { TagCloud } from "react-tagcloud";
 import { AnalyzedMessage, ValueCountPair } from "../../../@types/index.d";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { KeywordCounts } from "../../../@types/index.d";
 import styled from "styled-components";
@@ -49,26 +49,6 @@ const getSpeakersTopNKeywords = (keywordsArray: KeywordCounts[], displayKeywordC
 
   const topNKeywords: ValueCountPair[] = getAllTopNKeywords(allKeywords, displayKeywordCount);
   return topNKeywords;
-};
-
-/**
- * 현재 키워드 카운트 배열에서 speaker별로 상위 키워드를 가져옵니다.
- * @param {KeywordCounts[][]} currentKeywordCounts - 현재 키워드 카운트 배열입니다.
- * @returns {ValueCountPair[][]} speaker별로 상위 키워드입니다.
- */
-const getHighKeywords = (
-  currentKeywordCounts: KeywordCounts[][],
-  displayKeywordCount: number,
-  keywordsToFilter: string[],
-  isLaughterFiltered: boolean
-) => {
-  const highKeywords: ValueCountPair[][] = [];
-  for (const keywordsArray of currentKeywordCounts) {
-    highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
-  }
-  const filteredKeyword = filterSpecificKeywords(highKeywords, keywordsToFilter);
-  const laughterFilteredKeyword = filterLaughterKeywords(filteredKeyword);
-  return isLaughterFiltered ? laughterFilteredKeyword : filteredKeyword;
 };
 
 /**
@@ -125,19 +105,33 @@ const WordCloud = () => {
   );
   const [numberInput, setNumberInput] = useState<number>(50);
   const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(50);
-  const [keywordsToFilter, setKeywordsToFilter] = useState<string[]>([]);
-  const [isLaughterFiltered, setIsLaughterFiltered] = useState<boolean>(false);
+  const [keywordToFilter, setKeywordToFilter] = useState<string[]>([]);
+
+  /**
+   * 현재 키워드 카운트 배열에서 speaker별로 상위 키워드를 가져옵니다.
+   * @param {KeywordCounts[][]} currentKeywordCounts - 현재 키워드 카운트 배열입니다.
+   * @returns {ValueCountPair[][]} speaker별로 상위 키워드입니다.
+   */
+  const getHighKeywords = (currentKeywordCounts: KeywordCounts[][], displayKeywordCount: number) => {
+    const highKeywords: ValueCountPair[][] = [];
+    for (const keywordsArray of currentKeywordCounts) {
+      highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
+    }
+
+    const filteredHighKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
+      keywordArray.filter(
+        (keyword: ValueCountPair) => !keywordToFilter.some((el: any) => keyword.value.includes(el))
+      )
+    );
+
+    return filteredHighKeyword;
+  };
 
   const speaker: string[] = getSpeakers(analyzedMessages)[selectedRoomIndex];
 
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(analyzedMessages);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedRoomIndex];
-  const keywordData: ValueCountPair[][] = getHighKeywords(
-    currentKeywordCounts,
-    displayKeywordCount,
-    keywordsToFilter,
-    isLaughterFiltered
-  );
+  const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, displayKeywordCount);
 
   const overlappedKeyword = getOverlappedKeyword(keywordData);
 
@@ -151,16 +145,59 @@ const WordCloud = () => {
   };
 
   const handClickExceptEmoticon = () => {
-    setKeywordsToFilter([...keywordsToFilter, "이모티콘", "사진", "동영상"]);
+    const keywordsToCheck = ["이모티콘", "사진", "동영상"];
+    if (!keywordsToCheck.some((keyword) => keywordToFilter.includes(keyword))) {
+      setKeywordToFilter([...keywordToFilter, ...keywordsToCheck]);
+    }
   };
   const handClickExceptLaughter = () => {
-    setIsLaughterFiltered(!isLaughterFiltered);
+    const keywordsToCheck = ["ㅋ", "ㅎ"];
+    if (!keywordsToCheck.some((keyword) => keywordToFilter.includes(keyword))) {
+      setKeywordToFilter([...keywordToFilter, ...keywordsToCheck]);
+    }
+  };
+
+  const handleClickDeleteKeyword = (index: number) => {
+    const copiedFilterKeyword = [...keywordToFilter];
+    copiedFilterKeyword.splice(index, 1);
+    setKeywordToFilter(copiedFilterKeyword);
+  };
+
+  const [filterKeywordInput, setFilterKeywordInput] = useState<string>("");
+
+  const handleFilterKeywordInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilterKeywordInput(e.target.value);
+  };
+
+  const handleFilterKeywordForm = (e: FormEvent, keywordToFilter: string[]) => {
+    e.preventDefault();
+
+    if (!keywordToFilter.includes(filterKeywordInput)) {
+      setFilterKeywordInput("");
+      setKeywordToFilter([...keywordToFilter, filterKeywordInput]);
+    } else {
+      window.alert("이미 포함되어있는 문구입니다.");
+    }
   };
 
   return (
     <ul>
-      <div onClick={handClickExceptEmoticon}>이모티콘,사진,동영상 제외하기</div>
-      <div onClick={handClickExceptLaughter}>ㅋ,ㅎ 제외하기</div>
+      <form action="" onSubmit={(e) => handleFilterKeywordForm(e, keywordToFilter)}>
+        <div onClick={handClickExceptEmoticon}>이모티콘,사진,동영상 제외하기</div>
+        <div onClick={handClickExceptLaughter}>ㅋ,ㅎ 제외하기</div>
+        <label htmlFor="">특정 문자를 포함한 키워드 제외하기</label>
+        <input type="text" onChange={(e) => handleFilterKeywordInput(e)} value={filterKeywordInput} />
+        <button>제외하기</button>
+      </form>
+      <div>
+        <span>제외된 키워드:</span>
+        {keywordToFilter.map((keyword: string, index: number) => (
+          <div key={index}>
+            {keyword}
+            <span onClick={() => handleClickDeleteKeyword(index)}>X</span>
+          </div>
+        ))}
+      </div>
       <form action="" onSubmit={handleSubmitNumber}>
         <label>내 카톡 습관, 몇 개나 모아서 볼래?</label>
         <input name="" type="number" id="" value={numberInput} onChange={handleChangeNumberInput} />
