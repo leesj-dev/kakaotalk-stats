@@ -136,18 +136,17 @@ const ReplyLineGraph = () => {
 
   useEffect(() => {
     setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes));
-    // 모든 사람들의 평균 답장 속도
   }, [selectedChatRoomIndex]);
 
   return (
     <>
       <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
-        일간 평균 답장 속도
+        일간 답장 속도
       </div>
       <div
         onClick={() => setDisplayData(createLineGraphDataWeekly(chatSpeakers, chatDates, replyTimes))}
       >
-        주간 평균 답장 속도
+        주간 답장 속도
       </div>
       <ResponsiveContainer width="100%" height={500}>
         <LineChart
@@ -166,7 +165,7 @@ const ReplyLineGraph = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <ReferenceLine y={getAverageReplyTime(displayData)} label="평균답장속도" stroke="yellow" />
+          <ReferenceLine y={getAverageReplyTime(displayData)} label="평균답장속도" stroke="orange" />
           {chatSpeakersColorPair.map((speaker: string, index: number) => {
             return <Line key={index} type="monotone" dataKey={speaker[0]} stroke={speaker[1]} />;
           })}
