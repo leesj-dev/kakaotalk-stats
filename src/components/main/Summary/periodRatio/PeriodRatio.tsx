@@ -27,17 +27,17 @@ const PeriodRatio = () => {
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
-  const selectedChatRoomData = results[selectedChatRoomIndex];
-  const speakerTotalChatCounts: Record<string, number> = {};
-  Object.values(selectedChatRoomData).forEach((chatroom) => {
-    Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string; date: string }) => {
-      const speaker = chat.speaker;
-      const chatDays = chat.date;
-      if (!speakerTotalChatCounts[speaker]) {
-        speakerTotalChatCounts[speaker] = 0;
-      }
-    });
-  });
+  // const selectedChatRoomData = results[selectedChatRoomIndex];
+  // const speakerTotalChatCounts: Record<string, number> = {};
+  // Object.values(selectedChatRoomData).forEach((chatroom) => {
+  //   Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string; date: string }) => {
+  //     const speaker = chat.speaker;
+  //     const chatDays = chat.date;
+  //     if (!speakerTotalChatCounts[speaker]) {
+  //       speakerTotalChatCounts[speaker] = 0;
+  //     }
+  //   });
+  // });
 
   const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
     let chatCounts = 0;
@@ -57,7 +57,9 @@ const PeriodRatio = () => {
 
   const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTimes: ChatTimes[][]) => {
     const chatDatesSet = new Set(chatDates.flat());
-    const NotDuplicatedChatDates = Array.from(chatDatesSet);
+    const NotDuplicatedChatDates = Array.from(chatDatesSet).sort(
+      (a: string, b: string) => Number(a) - Number(b)
+    );
 
     const stackBarData: StackBarData[] = [];
 
