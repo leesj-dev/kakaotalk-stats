@@ -20,6 +20,34 @@ type LineGraphData = {
   [key: string]: number | string | undefined;
 };
 
+const assignScore = (value: number) => {
+  if (value >= 0 && value <= 10) {
+    return 5;
+  } else if (value > 10 && value <= 30) {
+    return 4;
+  } else if (value > 30 && value <= 60) {
+    return 3;
+  } else if (value > 60 && value <= 180) {
+    return 2;
+  } else if (value > 180 && value <= 600) {
+    return 1;
+  } else if (value > 600 && value <= 1200) {
+    return 0;
+  } else if (value > 1200 && value <= 3000) {
+    return -1;
+  } else if (value > 3000 && value <= 6000) {
+    return -2;
+  } else if (value > 6000 && value <= 12000) {
+    return -3;
+  } else if (value > 12000 && value <= 30000) {
+    return -4;
+  } else if (value > 30000) {
+    return -5;
+  } else {
+    return null; // 범위에 속하지 않는 경우, 예외 처리를 위해 null을 반환할 수도 있습니다.
+  }
+};
+
 const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyTimes: ReplyTime[][]) => {
   const chatDatesSet = new Set(chatDates.flat());
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
@@ -35,12 +63,13 @@ const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyT
       const replyTimeDayData = replyTimes[speakerIndex][dateIndex];
       if (dateIndex !== -1) {
         const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count || 0);
-        date[speaker] = replyTime;
+        date[speaker] = assignScore(replyTime);
       }
     });
-    if (!Object.values(date).includes(0)) {
-      replyLineGraphData.push(date);
+    if (Object.values(date).includes(0)) {
+      continue;
     }
+    replyLineGraphData.push(date);
   }
   return replyLineGraphData;
 };
@@ -125,7 +154,7 @@ const ReplyLineGraph = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <ReferenceLine y={3000} label="평균답장속도" stroke="yellow" />
+          <ReferenceLine y={0} label="평균답장속도" stroke="yellow" />
           {chatSpeakersColorPair.map((speaker: string, index: number) => {
             return <Line key={index} type="monotone" dataKey={speaker[0]} stroke={speaker[1]} />;
           })}
