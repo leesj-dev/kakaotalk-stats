@@ -75,11 +75,11 @@ const decodeTxtFileIntoMessageData = async (attachedFiles: any[]) => {
     const filteredMessages: OriginMessageData[][] = await Promise.all(
       fileGroup.map(async (file: File) => {
         const base64 = await readAsDataURL(file);
+        base64 && console.log(breakdownTxtFile(base64));
         return base64 && breakdownTxtFile(base64);
       })
     );
     const messageData = getMessageData(filteredMessages.flat());
-    console.log(messageData);
     analyzedMessages.push([...messageData]);
   }
   return analyzedMessages;
