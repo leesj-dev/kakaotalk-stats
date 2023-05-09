@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getMessageData } from "../../../module/core/getMessageData";
-import { breakdownTxtFile, readAsDataURL } from "../../../module/core/breakdownTxtFile";
+import {
+  breakdownTxtFile,
+  breakdownTxtFileWindow,
+  readAsDataURL,
+} from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
 import DateForm from "../../datePicker/dateForm";
@@ -75,7 +79,7 @@ const decodeTxtFileIntoMessageData = async (attachedFiles: any[]) => {
     const filteredMessages: OriginMessageData[][] = await Promise.all(
       fileGroup.map(async (file: File) => {
         const base64 = await readAsDataURL(file);
-        base64 && console.log(breakdownTxtFile(base64));
+        // 여기서 분기점
         return base64 && breakdownTxtFile(base64);
       })
     );

@@ -55,7 +55,7 @@ const Option = styled.div`
   }
 
   &:hover {
-    background: #ffdd00e7;
+    background: var(--yellow-hover);
   }
 `;
 
