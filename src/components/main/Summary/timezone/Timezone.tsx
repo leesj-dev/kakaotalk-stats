@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  ScatterChart,
-  Scatter,
-  XAxis,
-  YAxis,
-  ZAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  AnalyzedMessage,
-  ChatTimes,
-  WeekData,
-} from "../../../../@types/index.d";
+import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { AnalyzedMessage, ChatTimes, WeekData } from "../../../../@types/index.d";
 import { getSpeakers } from "../../../../module/common/getProperties";
 
 const getDayIndex = (date: string) => {
@@ -59,8 +47,7 @@ const range = [16, 225];
 
 const Timezone = () => {
   const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
-      state.analyzedMessagesSlice
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
@@ -72,10 +59,7 @@ const Timezone = () => {
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerNames = getSpeakers(results)[selectedChatRoomIndex];
 
-  const speakerTotalChatTimes: Record<
-    string,
-    Record<string, Record<string, number>>
-  > = {};
+  const speakerTotalChatTimes: Record<string, Record<string, Record<string, number>>> = {};
 
   Object.values(selectedChatRoomData).forEach((chatroom) => {
     Object.values(chatroom).forEach((chat) => {
@@ -100,15 +84,7 @@ const Timezone = () => {
     });
   });
 
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "WednesDay",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "WednesDay", "Thursday", "Friday", "Saturday"];
 
   const handleClickSpeaker = (index: number) => {
     setSelectedSpeakerIndex(index);
@@ -121,7 +97,6 @@ const Timezone = () => {
 
       const timeDataOfWeek: ChatTimes = speaker[1];
       const timeTable: any[] = Object.values(timeDataOfWeek);
-      console.log(timeTable);
 
       daysOfWeek.forEach((day: string, index: number) => {
         weekData.push({
@@ -140,7 +115,6 @@ const Timezone = () => {
       graph.push(weekData);
     });
     setScatter(graph);
-    console.log(scatter);
   }, [selectedChatRoomData]);
 
   return (

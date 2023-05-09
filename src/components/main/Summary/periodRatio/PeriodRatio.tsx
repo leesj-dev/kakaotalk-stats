@@ -11,11 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnalyzedMessage, ChatTimes } from "../../../../@types/index.d";
-import {
-  getChatTimes,
-  getDates,
-  getSpeakers,
-} from "../../../../module/common/getProperties";
+import { getChatTimes, getDates, getSpeakers } from "../../../../module/common/getProperties";
 
 type StackBarData = {
   name: string;
@@ -24,27 +20,24 @@ type StackBarData = {
 
 const PeriodRatio = () => {
   const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
-      state.analyzedMessagesSlice
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
 
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
-  const selectedChatRoomData = results[selectedChatRoomIndex];
-  const speakerTotalChatCounts: Record<string, number> = {};
-  Object.values(selectedChatRoomData).forEach((chatroom) => {
-    Object.values(chatroom).forEach(
-      (chat: { chatTimes: any; speaker: string; date: string }) => {
-        const speaker = chat.speaker;
-        const chatDays = chat.date;
-        if (!speakerTotalChatCounts[speaker]) {
-          speakerTotalChatCounts[speaker] = 0;
-        }
-      }
-    );
-  });
+  // const selectedChatRoomData = results[selectedChatRoomIndex];
+  // const speakerTotalChatCounts: Record<string, number> = {};
+  // Object.values(selectedChatRoomData).forEach((chatroom) => {
+  //   Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string; date: string }) => {
+  //     const speaker = chat.speaker;
+  //     const chatDays = chat.date;
+  //     if (!speakerTotalChatCounts[speaker]) {
+  //       speakerTotalChatCounts[speaker] = 0;
+  //     }
+  //   });
+  // });
 
   const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
     let chatCounts = 0;
@@ -62,13 +55,11 @@ const PeriodRatio = () => {
   //     amt: 2100,
   //   },
 
-  const createStackBarData = (
-    chatSpeakers: string[],
-    chatDates: string[],
-    chatTimes: ChatTimes[][]
-  ) => {
+  const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTimes: ChatTimes[][]) => {
     const chatDatesSet = new Set(chatDates.flat());
-    const NotDuplicatedChatDates = Array.from(chatDatesSet);
+    const NotDuplicatedChatDates = Array.from(chatDatesSet).sort(
+      (a: string, b: string) => Number(a) - Number(b)
+    );
 
     const stackBarData: StackBarData[] = [];
 
@@ -77,13 +68,9 @@ const PeriodRatio = () => {
       const date: any = { name: NotDuplicatedChatDates[i] };
 
       chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
-        const dateIndex: number = chatDates[speakerIndex].indexOf(
-          NotDuplicatedChatDates[i]
-        );
+        const dateIndex: number = chatDates[speakerIndex].indexOf(NotDuplicatedChatDates[i]);
         if (dateIndex !== -1) {
-          date[speaker[0]] = sumChatCountsDay(
-            chatTimes[speakerIndex][dateIndex]
-          );
+          date[speaker[0]] = sumChatCountsDay(chatTimes[speakerIndex][dateIndex]);
         }
       });
       stackBarData.push(date);
@@ -96,11 +83,9 @@ const PeriodRatio = () => {
   const chatDates = getDates(results)[selectedChatRoomIndex];
   const chatTimes = getChatTimes(results)[selectedChatRoomIndex];
   const colors = ["#6767fe", "#b3ff00"];
-  const chatSpeakersColorPair = chatSpeakers.map(
-    (speaker: string, index: number) => {
-      return [speaker, colors[index % colors.length]];
-    }
-  );
+  const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
+    return [speaker, colors[index % colors.length]];
+  });
 
   useEffect(() => {
     setData(createStackBarData(chatSpeakersColorPair, chatDates, chatTimes));
@@ -130,9 +115,8 @@ const PeriodRatio = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          {chatSpeakersColorPair.map((speaker: string) => {
-            console.log(speaker);
-            return <Bar dataKey={speaker[0]} stackId="a" fill={speaker[1]} />;
+          {chatSpeakersColorPair.map((speaker: string, index: number) => {
+            return <Bar key={index} dataKey={speaker[0]} stackId="a" fill={speaker[1]} />;
           })}
         </BarChart>
       </ResponsiveContainer>

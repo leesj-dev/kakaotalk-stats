@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getMessageData } from "../../../module/core/getMessageData";
-import { breakdownTxtFile, readAsDataURL } from "../../../module/core/breakdownTxtFile";
+import {
+  breakdownTxtFile,
+  breakdownTxtFileWindow,
+  readAsDataURL,
+} from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
 import DateForm from "../../datePicker/dateForm";
-import { Chatroom, FileObject, MessageInfo } from "../../../@types/index.d";
+import { Chatroom, FileObject, MessageInfo, OriginMessageData } from "../../../@types/index.d";
+import { AnalyzedMessage } from "../../../@types/index.d";
+import DropZone from "./dropZone/DropZone";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -62,67 +68,92 @@ const DeleteButton = styled.div`
 
 const AnalyzeButton = styled.button``;
 
+/**
+ * 텍스트 파일을 메시지 데이터로 디코딩합니다.
+ * @param {any[]} attachedFiles - 첨부된 파일 배열
+ * @returns {Promise<any[]>} - 디코딩된 메시지 데이터 배열을 포함하는 프로미스 객체
+ */
+const decodeTxtFileIntoMessageData = async (attachedFiles: any[]) => {
+  const analyzedMessages: MessageInfo[][] = [];
+  for (const fileGroup of attachedFiles) {
+    const filteredMessages: OriginMessageData[][] = await Promise.all(
+      fileGroup.map(async (file: File) => {
+        const base64 = await readAsDataURL(file);
+        // 여기서 분기점
+        return base64 && breakdownTxtFile(base64);
+      })
+    );
+    const messageData = getMessageData(filteredMessages.flat());
+    analyzedMessages.push([...messageData]);
+  }
+  return analyzedMessages;
+};
+
+/**
+ * 메시지 데이터를 테이블 형태로 변환합니다.
+ * @param {any[]} analyzedMessages - 분석된 메시지 데이터 배열
+ * @returns {AnalyzedMessage[][][]} - 테이블 형태로 변환된 분석된 메시지 데이터
+ */
+const transformIntoTableForm = (analyzedMessages: any[]) => {
+  const analyzedMessageData: AnalyzedMessage[][][] = analyzedMessages.map((chatRooms: Chatroom[]) => {
+    return chatRooms.map((chatRoom: Chatroom) => {
+      const { speaker, dates } = chatRoom;
+      return dates.map((date: MessageInfo) => {
+        return {
+          speaker: speaker,
+          date: date.date,
+          chatTimes: date.data.chatTimes,
+          keywordCounts: date.data.keywordCounts,
+          replyTime: date.data.replyTime,
+        };
+      });
+    });
+  });
+  return analyzedMessageData;
+};
+
+/**
+ * 메시지를 분석합니다.
+ * @param {any[]} attachedFiles - 첨부된 파일 배열
+ * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
+ */
+const analyzeMessage = async (attachedFiles: FileObject[][]) => {
+  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(attachedFiles);
+  const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
+  return analyzedMessageData;
+};
+
 const Attachment = () => {
   const dispatch = useDispatch();
 
-  const [attachedFiles, setAttachedFiles] = useState<any[]>([]);
+  const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
 
-  const pushNewlyAttachedFiles = (files: FileObject[]) => {
+  const pushNewlyAttachedFiles = (files: any[]) => {
     if (attachedFiles.length) {
       return setAttachedFiles([...attachedFiles, [...files]]);
     }
     setAttachedFiles([[...files]]);
   };
 
-  /**
-   * 첨부파일 묶음 삭제
-   * @param fileArrayIndex
-   */
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
     const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
     setAttachedFiles(filteredFileList);
   };
 
-  /**
-   * 파일 첨부
-   * @param event
-   */
   const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+    const files: FileList | null = event.target.files;
     if (files && files.length) {
       pushNewlyAttachedFiles(Array.prototype.slice.call(files));
     }
   };
 
-  const analyzeMessage = async () => {
-    const analyzedMessages: any[] = [];
-    for (const fileGroup of attachedFiles) {
-      const filteredMessages = await Promise.all(
-        fileGroup.map(async (file: any) => {
-          const base64 = await readAsDataURL(file);
-          return base64 && breakdownTxtFile(base64);
-        })
-      );
-      const messageData = getMessageData(filteredMessages.flat());
-      analyzedMessages.push([...messageData]);
+  const dispatchAnalyzedMessages = async (attachedFiles: FileObject[][]) => {
+    try {
+      const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(attachedFiles);
+      dispatch(setAnalyzedMessages(analyzedMessage));
+    } catch (error) {
+      console.error(error);
     }
-
-    const analyzedMessageData = analyzedMessages.map((chatRooms: Chatroom[]) => {
-      return chatRooms.map((chatRoom: Chatroom) => {
-        const { speaker, dates } = chatRoom;
-        return dates.map((date: MessageInfo) => {
-          return {
-            speaker: speaker,
-            date: date.date,
-            chatTimes: date.data.chatTimes,
-            keywordCounts: date.data.keywordCounts,
-            replyTime: date.data.replyTime,
-          };
-        });
-      });
-    });
-
-    dispatch(setAnalyzedMessages(analyzedMessageData));
   };
 
   useEffect(() => {}, [attachedFiles]);
@@ -130,7 +161,7 @@ const Attachment = () => {
   return (
     <AttachmentBox>
       <List>
-        {attachedFiles.map((files: File[], fileArrayIndex) => {
+        {attachedFiles.map((files: FileObject[], fileArrayIndex) => {
           return (
             <FileArray key={fileArrayIndex}>
               {files.map((file, fileIndex) => {
@@ -152,7 +183,11 @@ const Attachment = () => {
           <PlusIcon>대화 추가하기</PlusIcon>
         </AttachmentButton>
       </Label>
-      <AnalyzeButton onClick={analyzeMessage} disabled={!attachedFiles.length}>
+      <DropZone pushNewlyAttachedFiles={pushNewlyAttachedFiles} />
+      <AnalyzeButton
+        onClick={() => dispatchAnalyzedMessages(attachedFiles)}
+        disabled={!attachedFiles.length}
+      >
         분석하기
       </AnalyzeButton>
     </AttachmentBox>

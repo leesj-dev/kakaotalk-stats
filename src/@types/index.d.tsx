@@ -68,7 +68,7 @@ export type selectedChatRoomData = {
 
 export type WrapperProps = {
   children: ReactNode;
-}
+};
 
 type TimeCount = {
   hour: string;

@@ -75,6 +75,29 @@ export const breakdownTxtFile = (base64: string) => {
   }
   return allMessageData.flat();
 };
+export const breakdownTxtFileWindow = (base64: string) => {
+  const allMessageData = [];
+  const decodedTextFile = utf8Decode(base64.toString());
+  try {
+    const allLineArray = decodedTextFile.split("\n--------------- 20");
+    // 여기서 라인확인
+    const filteredMessageLineArray = allLineArray.filter((line) => {
+      return line.includes("---------------\r\n");
+    });
+    const dateMessagePair = filteredMessageLineArray.map((item: string) => {
+      return item.split("요일 ---------------\r\n");
+    });
+    const dateMessageObject = dateMessagePair.map((pair: string[]) => {
+      return { date: pair[0], message: pair[1].split("\r\n[") };
+    });
+    console.log(dateMessageObject);
+
+    allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
+  } catch (error) {
+    console.error(error);
+  }
+  return allMessageData.flat();
+};
 
 export const readAsDataURL = (file: File) => {
   return new Promise<string | null>((resolve) => {
