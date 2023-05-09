@@ -1,9 +1,5 @@
-import React, { ReactNode } from "react";
 import styled from "styled-components";
-
-type WrapperProps = {
-  children: ReactNode;
-};
+import { WrapperProps } from "../../@types/index.d";
 
 const Wrap = styled.div`
   margin-top: 100px;

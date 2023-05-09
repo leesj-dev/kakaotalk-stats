@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import "../../style/reset.css";
 import Attachment from "./attachment/Attachment";
+import Summary from "./Summary/Summary";
+import { useSelector } from "react-redux";
+import { AnalyzedMessage } from "../../@types/index.d";
+import WordCloud from "./tagCloud/WordCloud";
+import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
 
 const Container = styled.div`
   width: 600px;
@@ -30,7 +35,6 @@ const Body = styled.p`
 
 const OptionBox = styled.div`
   display: flex;
-  background: var(--yellow);
 `;
 
 const Option = styled.div`
@@ -38,13 +42,30 @@ const Option = styled.div`
   display: flex;
   flex: 1;
   justify-content: center;
+  background: var(--yellow);
+  transition: 0.3s;
+  cursor: pointer;
 
   &:first-child {
     border-right: 2px solid var(--border);
   }
+
+  &.on {
+    background: #ffffff;
+  }
+
+  &:hover {
+    background: var(--yellow-hover);
+  }
 `;
 
 const Main = () => {
+  const results = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
+  );
+
+  const [isWindow, setIsWindow] = useState<boolean>(true);
+
   return (
     <div>
       <Container>
@@ -61,17 +82,23 @@ const Main = () => {
             {`\n`} 등록한 웹사이트에 추적 코드를 설치해야 합니다.
             {`\n`} 추적 코드는 Kakao Analytics 콘솔에서 생성할 수 있습니다.
             {`\n`} 생성한 추적 코드를 웹사이트의 모든 페이지에설치합니다.
-            {`\n`}{" "}
           </Body>
         </Section>
         <Section>
           <OptionBox>
-            <Option>Window</Option>
-            <Option>Mac O/S</Option>
+            <Option className={`${isWindow && "on"}`} onClick={() => setIsWindow(false)}>
+              Window
+            </Option>
+            <Option className={`${!isWindow && "on"}`} onClick={() => setIsWindow(true)}>
+              Mac O/S
+            </Option>
           </OptionBox>
         </Section>
       </Container>
-      <Attachment></Attachment>
+      <Attachment />
+      {Array.isArray(results) && results.length !== 0 && <Summary />}
+      {Array.isArray(results) && results.length !== 0 && <WordCloud />}
+      {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
     </div>
   );
 };

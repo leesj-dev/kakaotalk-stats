@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getMessageData } from "../../../module/core/getMessageData";
-import { breakdownTxtFile, utf8Decode } from "../../../module/core/breakdownTxtFile";
+import {
+  breakdownTxtFile,
+  breakdownTxtFileWindow,
+  readAsDataURL,
+} from "../../../module/core/breakdownTxtFile";
+import { useDispatch } from "react-redux";
+import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
+import DateForm from "../../datePicker/dateForm";
+import { Chatroom, FileObject, MessageInfo, OriginMessageData } from "../../../@types/index.d";
+import { AnalyzedMessage } from "../../../@types/index.d";
+import DropZone from "./dropZone/DropZone";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -24,9 +34,11 @@ const EachFile = styled.span`
 `;
 
 const Label = styled.label``;
+
 const FileInput = styled.input`
   display: none;
 `;
+
 const AttachmentButton = styled.div`
   margin: 0 auto;
   margin-bottom: 5px;
@@ -54,52 +66,73 @@ const DeleteButton = styled.div`
   }
 `;
 
-interface FileObject {
-  lastModified: number;
-  lastModifiedDate: Date;
-  name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-}
+const AnalyzeButton = styled.button``;
+
+/**
+ * 텍스트 파일을 메시지 데이터로 디코딩합니다.
+ * @param {any[]} attachedFiles - 첨부된 파일 배열
+ * @returns {Promise<any[]>} - 디코딩된 메시지 데이터 배열을 포함하는 프로미스 객체
+ */
+const decodeTxtFileIntoMessageData = async (attachedFiles: any[]) => {
+  const analyzedMessages: MessageInfo[][] = [];
+  for (const fileGroup of attachedFiles) {
+    const filteredMessages: OriginMessageData[][] = await Promise.all(
+      fileGroup.map(async (file: File) => {
+        const base64 = await readAsDataURL(file);
+        // 여기서 분기점
+        return base64 && breakdownTxtFile(base64);
+      })
+    );
+    const messageData = getMessageData(filteredMessages.flat());
+    analyzedMessages.push([...messageData]);
+  }
+  return analyzedMessages;
+};
+
+/**
+ * 메시지 데이터를 테이블 형태로 변환합니다.
+ * @param {any[]} analyzedMessages - 분석된 메시지 데이터 배열
+ * @returns {AnalyzedMessage[][][]} - 테이블 형태로 변환된 분석된 메시지 데이터
+ */
+const transformIntoTableForm = (analyzedMessages: any[]) => {
+  const analyzedMessageData: AnalyzedMessage[][][] = analyzedMessages.map((chatRooms: Chatroom[]) => {
+    return chatRooms.map((chatRoom: Chatroom) => {
+      const { speaker, dates } = chatRoom;
+      return dates.map((date: MessageInfo) => {
+        return {
+          speaker: speaker,
+          date: date.date,
+          chatTimes: date.data.chatTimes,
+          keywordCounts: date.data.keywordCounts,
+          replyTime: date.data.replyTime,
+        };
+      });
+    });
+  });
+  return analyzedMessageData;
+};
+
+/**
+ * 메시지를 분석합니다.
+ * @param {any[]} attachedFiles - 첨부된 파일 배열
+ * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
+ */
+const analyzeMessage = async (attachedFiles: FileObject[][]) => {
+  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(attachedFiles);
+  const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
+  return analyzedMessageData;
+};
 
 const Attachment = () => {
-  const [messages, setMessages] = useState<any[]>([]);
-  const [attachedFiles, setAttachedFiles] = useState<any[]>([]);
+  const dispatch = useDispatch();
 
-  const addAttachedFiles = (files: FileObject[]) => {
+  const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
+
+  const pushNewlyAttachedFiles = (files: any[]) => {
     if (attachedFiles.length) {
       return setAttachedFiles([...attachedFiles, [...files]]);
     }
     setAttachedFiles([[...files]]);
-  };
-
-  const handleChangeFile = (event: any) => {
-    // 채팅방 별로 첨부된 파일들을 array에 담기
-    if (event.target.files.length) {
-      addAttachedFiles([...event.target.files]);
-    }
-  };
-
-  const final: any[] = [];
-
-  const analyzeMessage = async () => {
-    for (let i = 0; i < attachedFiles.length; i++) {
-      const filteredMessages: any[] = [];
-
-      for (let j = 0; j < attachedFiles[i].length; j++) {
-        const base64 = await readAsDataURL(attachedFiles[i][j]);
-        if (base64) {
-          const decodedTextFile = utf8Decode(base64.toString());
-          console.log(filteredMessages);
-          filteredMessages.push(breakdownTxtFile(decodedTextFile));
-        }
-      }
-
-      const messageData = getMessageData(filteredMessages.flat());
-      final.push([...messageData]);
-    }
-    setMessages(final);
   };
 
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
@@ -107,39 +140,28 @@ const Attachment = () => {
     setAttachedFiles(filteredFileList);
   };
 
-  const readAsDataURL = (file: File) => {
-    return new Promise<string | null>((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => resolve(reader.result as string | null);
-    });
+  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files: FileList | null = event.target.files;
+    if (files && files.length) {
+      pushNewlyAttachedFiles(Array.prototype.slice.call(files));
+    }
   };
 
-  useEffect(() => {
-    console.log(messages, "messages");
-  }, [messages]);
+  const dispatchAnalyzedMessages = async (attachedFiles: FileObject[][]) => {
+    try {
+      const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(attachedFiles);
+      dispatch(setAnalyzedMessages(analyzedMessage));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  useEffect(() => {
-    console.log(attachedFiles, "attachedFiles");
-  }, [attachedFiles]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(process.env.PUBLIC_URL + "/ad.txt");
-  //       const data = await response.text();
-  //       console.log(data); // 파일의 내용 출력
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {}, [attachedFiles]);
 
   return (
     <AttachmentBox>
       <List>
-        {attachedFiles.map((files: File[], fileArrayIndex) => {
+        {attachedFiles.map((files: FileObject[], fileArrayIndex) => {
           return (
             <FileArray key={fileArrayIndex}>
               {files.map((file, fileIndex) => {
@@ -161,9 +183,13 @@ const Attachment = () => {
           <PlusIcon>대화 추가하기</PlusIcon>
         </AttachmentButton>
       </Label>
-      <button onClick={analyzeMessage} disabled={!attachedFiles.length}>
+      <DropZone pushNewlyAttachedFiles={pushNewlyAttachedFiles} />
+      <AnalyzeButton
+        onClick={() => dispatchAnalyzedMessages(attachedFiles)}
+        disabled={!attachedFiles.length}
+      >
         분석하기
-      </button>
+      </AnalyzeButton>
     </AttachmentBox>
   );
 };
