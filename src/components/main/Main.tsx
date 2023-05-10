@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
 import WordCloud from "./tagCloud/WordCloud";
 import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
+import FileAttachment from "../organisms/FileAttachment";
 
 const Container = styled.div`
   width: 600px;
@@ -82,6 +83,7 @@ const Main = () => {
 
   return (
     <div>
+      <FileAttachment />
       <Container>
         <Box1>
           <span>ㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇ</span>
