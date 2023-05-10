@@ -23,7 +23,7 @@ const renderTooltip = (props: any) => {
     return (
       <div
         style={{
-          backgroundColor: "#fff",
+          backgroundColor: "${(props) => props.theme.mainBlue};",
           border: "1px solid #999",
           margin: 0,
           padding: 10,

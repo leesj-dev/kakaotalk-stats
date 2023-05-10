@@ -12,6 +12,8 @@ import DateForm from "../../datePicker/dateForm";
 import { Chatroom, FileObject, MessageInfo, OriginMessageData } from "../../../@types/index.d";
 import { AnalyzedMessage } from "../../../@types/index.d";
 import DropZone from "./dropZone/DropZone";
+import RadiusButton from "../../atoms/Button";
+import AttachmentButton from "../../molecules/AttachmentButton";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -33,29 +35,13 @@ const EachFile = styled.span`
   margin-right: 5px;
 `;
 
-const Label = styled.label``;
+const Label = styled.label`
+  margin: 0 auto;
+  background: #f00;
+`;
 
 const FileInput = styled.input`
   display: none;
-`;
-
-const AttachmentButton = styled.div`
-  margin: 0 auto;
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--yellow);
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background: var(--yellow-hover);
-  }
-`;
-
-const PlusIcon = styled.i`
-  padding: 10px;
-  font-size: 20px;
 `;
 
 const DeleteButton = styled.div`
@@ -177,12 +163,7 @@ const Attachment = () => {
           );
         })}
       </List>
-      <Label>
-        <FileInput type="file" id="file" onChange={handleChangeFile} multiple />
-        <AttachmentButton>
-          <PlusIcon>대화 추가하기</PlusIcon>
-        </AttachmentButton>
-      </Label>
+      <AttachmentButton onChange={handleChangeFile}>대화 추가하기</AttachmentButton>
       <DropZone pushNewlyAttachedFiles={pushNewlyAttachedFiles} />
       <AnalyzeButton
         onClick={() => dispatchAnalyzedMessages(attachedFiles)}

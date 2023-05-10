@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Main from "./components/main/Main";
 import Wrapper from "./components/wrapper/Wrapper";
 import "./style/reset.css";
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./style/Theme";
 
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   return (
-    <div className="App">
-      <Wrapper>
-        <Main></Main>
-      </Wrapper>
-    </div>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <div className="App">
+        <div onClick={() => setIsDarkMode(!isDarkMode)}>다크모드</div>
+        <Wrapper>
+          <Main />
+        </Wrapper>
+      </div>
+    </ThemeProvider>
   );
 }
 

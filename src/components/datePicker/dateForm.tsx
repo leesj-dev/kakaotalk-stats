@@ -7,7 +7,7 @@ import { setLimitTime } from "../../store/reducer/limitTimeSlice";
 import { AnalyzedMessage, selectedChatRoomData } from "../../@types/index.d";
 
 const DatePickerInputContainer = styled.div`
-  color: #fff;
+  color: ${(props) => props.theme.mainBlue};
 `;
 
 const CustomInput = styled.input`
@@ -26,8 +26,7 @@ export type LimitTimeData = {
 const DateForm = () => {
   // redux에서 분석된 메시지 데이터 가져오기
   const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
-      state.analyzedMessagesSlice
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
@@ -70,9 +69,7 @@ const DateForm = () => {
   // 따라서, useEffect로 업데이트 된 값을 할당한 뒤에 => dispatch 하도록 변경함.
 
   useEffect(() => {
-    dispatch(
-      setLimitTime([{ startDate, endDate, startDateSpeaker, endDateSpeaker }])
-    );
+    dispatch(setLimitTime([{ startDate, endDate, startDateSpeaker, endDateSpeaker }]));
   }, [startDate]);
   const excludeDates = [new Date(2023, 2, 10), new Date(2023, 2, 12)];
   return (
@@ -95,15 +92,9 @@ const DateForm = () => {
               setDateRange(update as null[]);
             }}
             minDate={
-              new Date(
-                `20${startDateSpeaker[0]}. ${startDateSpeaker[1]}. ${startDateSpeaker[2]}.`
-              )
+              new Date(`20${startDateSpeaker[0]}. ${startDateSpeaker[1]}. ${startDateSpeaker[2]}.`)
             } // 현재 날짜 이전의 날짜는 선택할 수 없도록 설정
-            maxDate={
-              new Date(
-                `20${endDateSpeaker[0]}. ${endDateSpeaker[1]}. ${endDateSpeaker[2]}.`
-              )
-            } // 현재 날짜 이후의 날짜는 선택할 수 없도록 설정
+            maxDate={new Date(`20${endDateSpeaker[0]}. ${endDateSpeaker[1]}. ${endDateSpeaker[2]}.`)} // 현재 날짜 이후의 날짜는 선택할 수 없도록 설정
             // withPortal 프로퍼티를 true로 설정하면 달력이 렌더링되는 위치를 설정,기본값은 false
             withPortal
             showMonthDropdown

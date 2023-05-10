@@ -42,7 +42,6 @@ const Option = styled.div`
   display: flex;
   flex: 1;
   justify-content: center;
-  background: var(--yellow);
   transition: 0.3s;
   cursor: pointer;
 
@@ -51,11 +50,26 @@ const Option = styled.div`
   }
 
   &.on {
-    background: #ffffff;
+    background: ${(props) => props.theme.mainBlue};
   }
 
   &:hover {
-    background: var(--yellow-hover);
+  }
+`;
+
+const Box1 = styled.div`
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  background: #2da0fa;
+  color: ${(props) => props.theme.mainBlack};
+  transition: 0.3s;
+
+  &:hover {
+    background: #0d6efd;
   }
 `;
 
@@ -69,6 +83,9 @@ const Main = () => {
   return (
     <div>
       <Container>
+        <Box1>
+          <span>ㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇ</span>
+        </Box1>
         <Section>
           <Title>카카오톡 돋보기</Title>
           <Body>
