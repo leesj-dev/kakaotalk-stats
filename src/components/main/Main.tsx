@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
 import WordCloud from "./tagCloud/WordCloud";
 import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
-
+import styled from "styled-components";
 const Container = styled.div`
   width: 600px;
   font-size: 19px;
@@ -61,7 +61,8 @@ const Option = styled.div`
 
 const Main = () => {
   const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
+    (state: { analyzedMessagesSlice: AnalyzedMessage }) =>
+      state.analyzedMessagesSlice
   );
 
   const [isWindow, setIsWindow] = useState<boolean>(true);
@@ -75,7 +76,8 @@ const Main = () => {
             Kakao Analytics를 사용하기 위해서는
             {`\n`} 먼저 웹사이트를 등록해야 합니다.
             {`\n`} 웹사이트를 등록하려면,
-            {`\n`} Kakao Analytics 콘솔에 로그인한 후{`\n`} "웹사이트 추가" 버튼을 클릭합니다.
+            {`\n`} Kakao Analytics 콘솔에 로그인한 후{`\n`} "웹사이트 추가"
+            버튼을 클릭합니다.
             {`\n`} 그런 다음, 웹사이트의 이름,
             {`\n`} URL, 카테고리 등을 입력하고 등록합니다.
             {`\n`}
@@ -86,10 +88,16 @@ const Main = () => {
         </Section>
         <Section>
           <OptionBox>
-            <Option className={`${isWindow && "on"}`} onClick={() => setIsWindow(false)}>
+            <Option
+              className={`${isWindow && "on"}`}
+              onClick={() => setIsWindow(false)}
+            >
               Window
             </Option>
-            <Option className={`${!isWindow && "on"}`} onClick={() => setIsWindow(true)}>
+            <Option
+              className={`${!isWindow && "on"}`}
+              onClick={() => setIsWindow(true)}
+            >
               Mac O/S
             </Option>
           </OptionBox>
