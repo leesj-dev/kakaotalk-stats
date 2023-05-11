@@ -4,7 +4,7 @@ import Icon from "../atoms/Icon";
 import Paragraph from "../atoms/Paragraph";
 
 const FileListBox = styled.div`
-  width: 400px;
+  width: 50%;
 `;
 
 const Li = styled.li`
@@ -12,22 +12,26 @@ const Li = styled.li`
   align-items: center;
   justify-content: space-between;
   padding: 10px;
+
+  > :nth-child(2) {
+    cursor: pointer;
+  }
 `;
 
 const AttachedFileList = () => {
   return (
     <FileListBox>
       <Li>
-        <Paragraph>파일이름</Paragraph>
-        <Icon>X</Icon>
+        <Paragraph>📄 파일이름</Paragraph>
+        <Icon>❌</Icon>
       </Li>
       <Li>
-        <Paragraph>파일이름</Paragraph>
-        <Icon>X</Icon>
+        <Paragraph>📄 파일이름</Paragraph>
+        <Icon>❌</Icon>
       </Li>
       <Li>
-        <Paragraph>파일이름</Paragraph>
-        <Icon>X</Icon>
+        <Paragraph>📄 파일이름</Paragraph>
+        <Icon>❌</Icon>
       </Li>
     </FileListBox>
   );

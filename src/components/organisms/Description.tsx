@@ -16,6 +16,10 @@ const DescriptionBox = styled.div`
     margin-bottom: 30px;
   }
 
+  > :nth-child(2) {
+    margin-bottom: 60px;
+  }
+
   > :last-child {
     margin-bottom: 0;
   }

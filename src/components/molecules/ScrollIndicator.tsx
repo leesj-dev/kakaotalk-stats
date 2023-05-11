@@ -32,7 +32,7 @@ const AnimatedIcon = styled.i`
 const ScrollIndicator = () => {
   return (
     <IndicatorBox>
-      <Paragraph>카카오톡 메시지 내보내기 방법은?</Paragraph>
+      <Paragraph color="mainGray">카카오톡 메시지 내보내기 방법은?</Paragraph>
       <MotionBox>
         <AnimatedIcon>V</AnimatedIcon>
       </MotionBox>

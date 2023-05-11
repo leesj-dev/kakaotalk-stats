@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import RadiusButton from "../atoms/Button";
 
-const AttachmentButtonBox = styled.div``;
+const AttachmentButtonBox = styled.div`
+  display: inline-block;
+`;
 
 const Label = styled.label`
   border-radius: 30px;
@@ -10,6 +11,14 @@ const Label = styled.label`
 
 const FileInput = styled.input`
   display: none;
+`;
+
+const UnderlineP = styled.p`
+  font-size: 18px;
+  font-weight: 500;
+  color: ${(props) => props.theme.mainBlue};
+  text-decoration: underline;
+  cursor: pointer;
 `;
 
 interface AttachmentButtonProps {
@@ -22,7 +31,7 @@ const AttachmentButton: React.FC<AttachmentButtonProps> = ({ children, onChange 
     <AttachmentButtonBox>
       <Label>
         <FileInput type="file" id="file" onChange={onChange} multiple />
-        <RadiusButton>{children}</RadiusButton>
+        <UnderlineP>{children}</UnderlineP>
       </Label>
     </AttachmentButtonBox>
   );
