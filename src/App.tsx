@@ -11,7 +11,7 @@ function App() {
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <div className="App">
-        <div onClick={() => setIsDarkMode(!isDarkMode)}>다크모드</div>
+        {/* <div onClick={() => setIsDarkMode(!isDarkMode)}>다크모드</div> */}
         <Wrapper>
           <Main />
         </Wrapper>
