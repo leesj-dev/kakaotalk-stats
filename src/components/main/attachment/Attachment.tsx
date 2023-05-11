@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getMessageData } from "../../../module/core/getMessageData";
-import {
-  breakdownTxtFile,
-  breakdownTxtFileWindow,
-  readAsDataURL,
-} from "../../../module/core/breakdownTxtFile";
+import { breakdownTxtFile, readAsDataURL } from "../../../module/core/breakdownTxtFile";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/messageSlice";
-import DateForm from "../../datePicker/dateForm";
 import { Chatroom, FileObject, MessageInfo, OriginMessageData } from "../../../@types/index.d";
 import { AnalyzedMessage } from "../../../@types/index.d";
 import DropZone from "./dropZone/DropZone";
-import RadiusButton from "../../atoms/Button";
-import AttachmentButton from "../../molecules/AttachmentButton";
+import AttachmentButton from "../../atoms/AttachmentButton";
 
 const AttachmentBox = styled.div`
   display: flex;
@@ -142,7 +136,9 @@ const Attachment = () => {
     }
   };
 
-  useEffect(() => {}, [attachedFiles]);
+  useEffect(() => {
+    console.log(attachedFiles);
+  }, [attachedFiles]);
 
   return (
     <AttachmentBox>
