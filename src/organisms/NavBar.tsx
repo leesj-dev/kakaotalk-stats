@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import NavBarSpan from "../components/atoms/NavBarSpan";
-
+const Wrap = styled.div`
+  border-bottom: 1px solid ${(props) => props.theme.mainGrey};
+`;
 const Container = styled.div`
-  padding: 80px 0;
   width: 1200px;
   display: flex;
   justify-content: space-between;
@@ -12,11 +13,13 @@ const Container = styled.div`
 `;
 const NavBar = () => {
   return (
-    <Container>
-      <NavBarSpan li="카카오돋보기" />
-      <NavBarSpan li="분석하기" />
-      <NavBarSpan li="다크모드" />
-    </Container>
+    <Wrap>
+      <Container>
+        <NavBarSpan li="카카오돋보기" />
+        <NavBarSpan li="분석하기" />
+        <NavBarSpan li="다크모드" />
+      </Container>
+    </Wrap>
   );
 };
 
