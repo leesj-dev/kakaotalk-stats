@@ -10,7 +10,8 @@ declare module "styled-components" {
     backgroundGrey: string;
     mainWhite: string;
     mainBlack: string;
-    mainGrey: string;
+    mainGray: string;
+    mainText: string;
 
     mainBlueHover: string;
     border: string;
@@ -27,7 +28,8 @@ declare module "styled-components" {
     backgroundGrey: string;
     mainWhite: string;
     mainBlack: string;
-    mainGrey: string;
+    mainGray: string;
+    mainText: string;
 
     mainBlueHover: string;
     border: string;

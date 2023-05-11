@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-const SpanComponent = styled.p<{ fontSize?: string }>`
+const SpanComponent = styled.span<{ fontSize?: string }>`
   font-size: ${(props) => props.fontSize || "16px"};
-  color: ${(props) => props.color || "#000"};
+  color: ${(props) => props.color || props.theme.mainText};
 `;
 
 interface SpanProps {

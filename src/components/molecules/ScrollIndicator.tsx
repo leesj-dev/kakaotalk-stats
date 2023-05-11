@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import Paragraph from "../atoms/Paragraph";
 
 const IndicatorBox = styled.div`
-  color: ${(props) => props.theme.mainGrey};
+  color: ${(props) => props.theme.mainGray};
   cursor: pointer;
 
   > :first-child {

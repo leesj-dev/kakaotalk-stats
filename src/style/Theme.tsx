@@ -9,7 +9,8 @@ export const lightTheme: LightTheme = {
   backgroundGrey: "#f2f2f2",
   mainWhite: "#ffffff",
   mainBlack: "#191F28",
-  mainGrey: "#B0B8C1",
+  mainGray: "#B0B8C1",
+  mainText: "#191F28",
 
   mainBlueHover: "#0d6efd",
   border: "#e1e1e1",
@@ -23,7 +24,8 @@ export const darkTheme: DarkTheme = {
   backgroundGrey: "#000000",
   mainWhite: "#000000",
   mainBlack: "#000000",
-  mainGrey: "#000000",
+  mainGray: "#000000",
+  mainText: "#ffffff",
 
   mainBlueHover: "#000000",
   border: "#000000",

@@ -42,10 +42,12 @@ const ThreeImagesBox = styled.div`
 const Description = () => {
   return (
     <DescriptionBox>
-      <Paragraph fontSize="24px">현재 실행하고 있는 기기에서 카카오톡 메시지 내보내기 방법</Paragraph>
+      <Paragraph fontSize="24px">
+        현재 실행하고 있는 기기에서 카카오톡 메시지를 내보내는 방법 알아보기
+      </Paragraph>
       <ButtonBox>
-        <RadiusButton>모바일</RadiusButton>
         <RadiusButton>PC</RadiusButton>
+        <RadiusButton>모바일</RadiusButton>
       </ButtonBox>
 
       <ThreeImagesBox>

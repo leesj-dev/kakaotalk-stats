@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const ParagraphComponent = styled.p<{ fontSize?: string }>`
   font-size: ${(props) => props.fontSize || "16px"};
-  color: ${(props) => props.color || "#000"};
+  color: ${(props) => props.color || props.theme.mainText};
 `;
 
 interface ParagraphProps {
