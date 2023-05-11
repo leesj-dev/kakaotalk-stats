@@ -5,10 +5,10 @@ const Wrap = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.mainGrey};
 `;
 const Container = styled.div`
+  margin: 0 auto;
   width: 1200px;
   display: flex;
   justify-content: space-between;
-  display: flex;
   font-weight: 500;
 `;
 const NavBar = () => {
