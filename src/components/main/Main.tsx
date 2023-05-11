@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
 import WordCloud from "./tagCloud/WordCloud";
 import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
-import styled from "styled-components";
+
 const Container = styled.div`
   width: 600px;
   font-size: 19px;
