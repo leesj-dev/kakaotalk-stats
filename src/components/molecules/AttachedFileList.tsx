@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Icon from "../atoms/Icon";
-import Span from "../atoms/Span";
+import Span from "../atoms/Paragraph";
 
 const FileListBox = styled.div`
   width: 400px;
