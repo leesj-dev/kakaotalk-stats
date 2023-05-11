@@ -5,9 +5,10 @@ import NavBarSpan from "../components/atoms/NavBarSpan";
 const Container = styled.div`
   padding: 80px 0;
   width: 1200px;
-  display:flex
-  justify-contnet: center;
   display: flex;
+  justify-content: space-between;
+  display: flex;
+  font-weight: 500;
 `;
 const NavBar = () => {
   return (
