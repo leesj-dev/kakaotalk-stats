@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import AttachmentButton from "../molecules/AttachmentButton";
 import AttachedFileList from "../molecules/AttachedFileList";
 import FileDrop from "../molecules/FileDrop";
 import ScrollIndicator from "../molecules/ScrollIndicator";
 import RadiusButton from "../atoms/Button";
 
 const Container = styled.div`
-  margin-bottom: 80px;
   padding: 80px 0;
   display: flex;
   flex-direction: column;

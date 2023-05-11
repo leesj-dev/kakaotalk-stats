@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Icon from "../atoms/Icon";
-import Span from "../atoms/Paragraph";
+import Paragraph from "../atoms/Paragraph";
 
 const FileListBox = styled.div`
   width: 400px;
@@ -18,15 +18,15 @@ const AttachedFileList = () => {
   return (
     <FileListBox>
       <Li>
-        <Span>파일이름</Span>
+        <Paragraph>파일이름</Paragraph>
         <Icon>X</Icon>
       </Li>
       <Li>
-        <Span>파일이름</Span>
+        <Paragraph>파일이름</Paragraph>
         <Icon>X</Icon>
       </Li>
       <Li>
-        <Span>파일이름</Span>
+        <Paragraph>파일이름</Paragraph>
         <Icon>X</Icon>
       </Li>
     </FileListBox>

@@ -8,6 +8,8 @@ import { AnalyzedMessage } from "../../@types/index.d";
 import WordCloud from "./tagCloud/WordCloud";
 import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
 import FileAttachment from "../organisms/FileAttachment";
+import Description from "../organisms/Description";
+import InstructionsWithAttachment from "../templates/InstructionsWithAttachment";
 
 const Container = styled.div`
   width: 600px;
@@ -83,7 +85,7 @@ const Main = () => {
 
   return (
     <div>
-      <FileAttachment />
+      <InstructionsWithAttachment />
       <Container>
         <Box1>
           <span>ㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇ</span>
