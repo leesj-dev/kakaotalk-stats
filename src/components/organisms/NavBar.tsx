@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import NavBarSpan from "../components/atoms/NavBarSpan";
+import NavBarSpan from "../atoms/NavBarSpan";
 const Wrap = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.mainGrey};
 `;

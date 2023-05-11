@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-//import Main from "./components/main/Main";
-import Main from "./pages/Main";
+import Main from "./components/main/Main";
+// import Main from "./pages/Main";
 import Wrapper from "./components/wrapper/Wrapper";
 import "./style/reset.css";
 import { ThemeProvider } from "styled-components";

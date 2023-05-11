@@ -1,7 +1,7 @@
 import React from "react";
-import FunctionCard from "../organisms/FunctionCard";
-import MainVisual from "../organisms/MainVisual";
-import NavBar from "../organisms/NavBar";
+import FunctionCard from "../components/organisms/FunctionCard";
+import MainVisual from "../components/organisms/MainVisual";
+import NavBar from "../components/organisms/NavBar";
 
 const Main = () => {
   return (

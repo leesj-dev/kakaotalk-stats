@@ -1,8 +1,8 @@
 import React from "react";
-import Logo from "../components/atoms/Logo";
-import Definition from "../components/atoms/Definition";
+import Logo from "../atoms/Logo";
+import Definition from "../atoms/Definition";
 import styled from "styled-components";
-import MainVisualButton from "../components/molecules/MainVisualButton";
+import MainVisualButton from "../molecules/MainVisualButton";
 
 const Container = styled.div`
   width: 1200px;
