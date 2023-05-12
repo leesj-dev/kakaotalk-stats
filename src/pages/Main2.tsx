@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import FunctionCard from "../components/organisms/FunctionCard";
 import MainVisual from "../components/organisms/MainVisual";
-import NavBar from "../components/organisms/NavBar";
 import styled from "styled-components";
 
 const Main2Container = styled.div`
@@ -16,11 +15,19 @@ const Main2Wrapper = styled.div`
 `;
 
 const Main2 = () => {
+  // const moveTarget = useRef();
+  // const onMoveToFunctionCard = () => {
+  //   moveTarget.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  // };
   return (
     <Main2Container>
       <Main2Wrapper>
-        <MainVisual />
-        <FunctionCard />
+        <MainVisual
+        //onMoveToFunctionCard={onMoveToFunctionCard}
+        />
+        <FunctionCard
+        // ref={moveTarget}
+        />
       </Main2Wrapper>
     </Main2Container>
   );
