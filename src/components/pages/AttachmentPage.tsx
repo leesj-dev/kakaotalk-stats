@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import "../../style/reset.css";
-import Attachment from "./attachment/Attachment";
-import Summary from "./Summary/Summary";
+// import Attachment from "./attachment/Attachment";
+// import Summary from "./Summary/Summary";
 import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
-import WordCloud from "./tagCloud/WordCloud";
-import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
+// import WordCloud from "./tagCloud/WordCloud";
+// import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
 import InstructionsWithAttachment from "../templates/InstructionsWithAttachment";
+import Attachment from "../main/attachment/Attachment";
+import Summary from "../main/Summary/Summary";
+import WordCloud from "../main/tagCloud/WordCloud";
+import ReplyLineGraph from "../main/replyLineGraph/ReplyLineGraph";
 
 const Container = styled.div`
   width: 600px;
@@ -74,7 +78,7 @@ const Box1 = styled.div`
   }
 `;
 
-const Main = () => {
+const AttachmentPage = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
   );
@@ -84,36 +88,6 @@ const Main = () => {
   return (
     <div>
       <InstructionsWithAttachment />
-      <Container>
-        <Box1>
-          <span>ㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇㅇㅅㅇㅅㅇㅅㅇ</span>
-        </Box1>
-        <Section>
-          <Title>카카오톡 돋보기</Title>
-          <Body>
-            Kakao Analytics를 사용하기 위해서는
-            {`\n`} 먼저 웹사이트를 등록해야 합니다.
-            {`\n`} 웹사이트를 등록하려면,
-            {`\n`} Kakao Analytics 콘솔에 로그인한 후{`\n`} "웹사이트 추가" 버튼을 클릭합니다.
-            {`\n`} 그런 다음, 웹사이트의 이름,
-            {`\n`} URL, 카테고리 등을 입력하고 등록합니다.
-            {`\n`}
-            {`\n`} 등록한 웹사이트에 추적 코드를 설치해야 합니다.
-            {`\n`} 추적 코드는 Kakao Analytics 콘솔에서 생성할 수 있습니다.
-            {`\n`} 생성한 추적 코드를 웹사이트의 모든 페이지에설치합니다.
-          </Body>
-        </Section>
-        <Section>
-          <OptionBox>
-            <Option className={`${isWindow && "on"}`} onClick={() => setIsWindow(false)}>
-              Window
-            </Option>
-            <Option className={`${!isWindow && "on"}`} onClick={() => setIsWindow(true)}>
-              Mac O/S
-            </Option>
-          </OptionBox>
-        </Section>
-      </Container>
       <Attachment />
       {Array.isArray(results) && results.length !== 0 && <Summary />}
       {Array.isArray(results) && results.length !== 0 && <WordCloud />}
@@ -122,4 +96,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default AttachmentPage;

@@ -28,7 +28,9 @@ const FileAttachment = () => {
       <FileDrop></FileDrop>
       <AttachedFileList></AttachedFileList>
       <RadiusButton>분석하기</RadiusButton>
-      <ScrollIndicator></ScrollIndicator>
+      <ScrollIndicator onClick={() => console.log("스크롤다운된다아ㅏㅏㅏ")}>
+        카카오톡 메시지 내보내기 방법은?
+      </ScrollIndicator>
     </Container>
   );
 };

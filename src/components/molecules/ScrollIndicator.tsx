@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled, { keyframes } from "styled-components";
 import Paragraph from "../atoms/Paragraph";
 
@@ -29,15 +29,19 @@ const AnimatedIcon = styled.i`
   animation: ${scrollAnimation} 1s linear infinite;
 `;
 
-const ScrollIndicator = () => {
+interface ScrollIndicatorProps {
+  children: ReactNode;
+  onClick: () => void; // 클릭 이벤트 핸들러 타입 정의
+}
+
+const ScrollIndicator = ({ children, onClick }: ScrollIndicatorProps) => {
   return (
-    <IndicatorBox>
-      <Paragraph color="mainGray">카카오톡 메시지 내보내기 방법은?</Paragraph>
+    <IndicatorBox onClick={onClick}>
+      <Paragraph color="mainGray">{children}</Paragraph>
       <MotionBox>
         <AnimatedIcon>V</AnimatedIcon>
       </MotionBox>
     </IndicatorBox>
   );
 };
-
 export default ScrollIndicator;
