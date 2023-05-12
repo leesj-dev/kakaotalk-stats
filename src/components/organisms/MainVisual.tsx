@@ -10,7 +10,7 @@ import ScrollIndicator from "../molecules/ScrollIndicator";
 const Container = styled.div`
   position: relative;
   width: 1200px;
-  padding: 80px 0;
+  padding: 160px 0 80px 0;
 
   > :nth-child(2) {
     margin-bottom: 50px;

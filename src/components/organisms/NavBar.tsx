@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
 
 const Wrap = styled.div`
+  width: 100%;
+  position: fixed;
+  z-index: 999;
+  background-color: ${(props) => props.theme.mainWhite};
   border-bottom: 1px solid ${(props) => props.theme.backgroundGrey};
 `;
 const Container = styled.div`
