@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const ParagraphComponent = styled.p<{ fontSize?: string }>`
+  display: flex;
+  flex-direction: column;
   font-size: ${(props) => props.fontSize || "16px"};
   color: ${(props) => props.color || props.theme.mainText};
 `;
