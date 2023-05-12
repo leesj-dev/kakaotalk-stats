@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
 
 const Wrap = styled.div`
-  border-bottom: 1px solid ${(props) => props.theme.mainGrey};
+  border-bottom: 1px solid ${(props) => props.theme.backgroundGrey};
 `;
 const Container = styled.div`
   margin: 0 auto;
@@ -12,22 +12,32 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   font-weight: 500;
+  line-height: 80px;
 `;
 
-const H1 = styled.h1``;
+const H1 = styled.h1`
+  height: 40px;
+`;
+const Menu = styled.div`
+  font-size: 22px;
+  > * {
+    margin-left: 100px;
+  }
+`;
 
 const NavBar = () => {
   return (
     <Wrap>
       <Container>
         <H1>
-          <Img src="" />
+          <Link to="/">
+            <Img src={`${process.env.PUBLIC_URL}/images/logoBlack.png`} />
+          </Link>
         </H1>
-        <Link to="/">카카오돋보기</Link>
-        <Link to="/2">분석하기</Link>
-        {/* <NavBarSpan li="카카오돋보기" />
-        <NavBarSpan li="분석하기" />
-        <NavBarSpan li="다크모드" /> */}
+        <Menu>
+          <Link to="/2">분석하기</Link>
+          <Link to="/">다크모드</Link>
+        </Menu>
       </Container>
     </Wrap>
   );
