@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import FunctionCard from "../components/organisms/FunctionCard";
 import MainVisual from "../components/organisms/MainVisual";
 import styled from "styled-components";
+import Footer from "../components/organisms/Footer";
 
 const Main2Container = styled.div`
   width: 100%;
@@ -28,6 +29,7 @@ const Main2 = () => {
         <FunctionCard
         // ref={moveTarget}
         />
+        <Footer />
       </Main2Wrapper>
     </Main2Container>
   );
