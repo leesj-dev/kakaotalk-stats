@@ -4,13 +4,9 @@ import Img from "../atoms/Img";
 import AttachmentButton from "../atoms/AttachmentButton";
 import Paragraph from "../atoms/Paragraph";
 import Span from "../atoms/Span";
+import FlexCenterDiv from "../atoms/FlexCenterDiv";
 
-const DropBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: c;
+const DropBox = styled(FlexCenterDiv)`
   padding: 80px 200px 80px 200px;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;

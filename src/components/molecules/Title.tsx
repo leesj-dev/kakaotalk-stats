@@ -1,6 +1,6 @@
 import React from "react";
-import MainTitle from "../atoms/MainTitle";
-import SubTitle from "../atoms/SubTitle";
+import MainTitle from "../atoms/H2";
+import SubTitle from "../atoms/H3";
 
 const Title = () => {
   return (

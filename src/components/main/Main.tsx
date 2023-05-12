@@ -86,7 +86,6 @@ const Main = () => {
 
   return (
     <div>
-      <NavBar />
       <InstructionsWithAttachment />
       <Container>
         <Box1>

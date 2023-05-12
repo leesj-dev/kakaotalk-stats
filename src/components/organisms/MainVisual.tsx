@@ -1,10 +1,9 @@
 import React from "react";
-import Logo from "../atoms/Logo";
-import Definition from "../atoms/Definition";
 import styled from "styled-components";
 import MainVisualButton from "../molecules/MainVisualButton";
 import Paragraph from "../atoms/Paragraph";
 import Span from "../atoms/Span";
+import Img from "../atoms/Img";
 
 const Container = styled.div`
   width: 1200px;
@@ -16,11 +15,19 @@ const Container = styled.div`
     }
   }
 `;
+
+const LogoBox = styled.div`
+  width: 300px;
+  height: 100px;
+`;
+
 const MainVisual = () => {
   return (
     <div>
       <Container>
-        <Logo />
+        <LogoBox>
+          <Img src={`${process.env.PUBLIC_URL}/images/logo.png`} />
+        </LogoBox>
         <Paragraph>
           <Span fontSize="22px">사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,</Span>
           <Span fontSize="22px">주요단어 및 키워드를 추출해 보여주는 웹 어플리케이션입니다.</Span>

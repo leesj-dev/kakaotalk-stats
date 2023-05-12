@@ -7,14 +7,16 @@ import { darkTheme, lightTheme } from "./style/Theme";
 import Main2 from "./pages/Main2";
 import { Routes, Route } from "react-router-dom";
 import Main from "./components/main/Main";
+import NavBar from "./components/organisms/NavBar";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <NavBar />
       <Wrapper>
         <Routes>
-          <Route path={"/1"} element={<Main2 />} />
+          <Route path={"/"} element={<Main2 />} />
           <Route path={"/2"} element={<Main />} />
         </Routes>
       </Wrapper>

@@ -18,7 +18,6 @@ const Main2Wrapper = styled.div`
 const Main2 = () => {
   return (
     <Main2Container>
-      <NavBar />
       <Main2Wrapper>
         <MainVisual />
         <FunctionCard />
