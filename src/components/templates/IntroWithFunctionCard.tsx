@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
-import FunctionCard from "../components/organisms/FunctionCard";
-import MainVisual from "../components/organisms/MainVisual";
+import FunctionCard from "../organisms/FunctionCard";
+import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
-import Footer from "../components/organisms/Footer";
+import Footer from "../organisms/Footer";
+import Ftn from "../atoms/Ftn";
 
 const Main2Container = styled.div`
   width: 100%;
@@ -15,7 +16,7 @@ const Main2Wrapper = styled.div`
   justify-content: center;
 `;
 
-const Main2 = () => {
+const IntroWithFunctionCard = () => {
   // const moveTarget = useRef();
   // const onMoveToFunctionCard = () => {
   //   moveTarget.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -23,6 +24,7 @@ const Main2 = () => {
   return (
     <Main2Container>
       <Main2Wrapper>
+        <Ftn />
         <MainVisual
         //onMoveToFunctionCard={onMoveToFunctionCard}
         />
@@ -35,4 +37,4 @@ const Main2 = () => {
   );
 };
 
-export default Main2;
+export default IntroWithFunctionCard;

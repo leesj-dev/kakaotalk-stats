@@ -1,14 +1,10 @@
 import React from "react";
-import NavBar from "../organisms/NavBar";
-import MainVisual from "../organisms/MainVisual";
-import FunctionCard from "../organisms/FunctionCard";
+import IntroWithFunctionCard from "../templates/IntroWithFunctionCard";
 
 const Main = () => {
   return (
     <div>
-      <NavBar />
-      <MainVisual />
-      <FunctionCard />
+      <IntroWithFunctionCard />
     </div>
   );
 };
