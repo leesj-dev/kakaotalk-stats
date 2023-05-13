@@ -8,6 +8,7 @@ import Main2 from "./components/pages/Main2";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/organisms/NavBar";
 import AttachmentPage from "./components/pages/AttachmentPage";
+import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path={"/"} element={<Main2 />} />
           <Route path={"/2"} element={<AttachmentPage />} />
+          <Route path={"/dashboard"} element={<AnalysisPage />} />
         </Routes>
       </Wrapper>
       <Footer />

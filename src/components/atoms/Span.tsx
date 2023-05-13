@@ -9,11 +9,12 @@ const SpanComponent = styled.span<{ fontSize?: string; fontWeight?: string }>`
 interface SpanProps {
   children: React.ReactNode;
   fontWeight?: string;
-  fontSize?: string; // fontSize 속성을 선택적으로 설정
-  color?: string; // color 속성을 설정
+  fontSize?: string;
+  color?: string;
 }
 
 const Span: React.FC<SpanProps> = ({ children, fontSize, fontWeight, color }) => {
+  console.log(children, fontSize, fontWeight, color);
   return (
     <SpanComponent fontSize={fontSize} fontWeight={fontWeight} color={color}>
       {children}
