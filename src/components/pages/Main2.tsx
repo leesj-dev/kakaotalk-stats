@@ -16,20 +16,21 @@ const Main2Wrapper = styled.div`
 `;
 
 const Main2 = () => {
-  // const moveTarget = useRef();
-  // const onMoveToFunctionCard = () => {
-  //   moveTarget.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  // };
+  const moveScrollPosition = useRef<HTMLDivElement | null>(null);
+  const onMoveToFunctionCard = () => {
+    if (moveScrollPosition.current) {
+      moveScrollPosition.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
   return (
     <Main2Container>
       <Main2Wrapper>
         <Ftn />
-        <MainVisual
-        //onMoveToFunctionCard={onMoveToFunctionCard}
-        />
-        <FunctionCard
-        // ref={moveTarget}
-        />
+        <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
+        <FunctionCard moveScrollPosition={moveScrollPosition} />
       </Main2Wrapper>
     </Main2Container>
   );

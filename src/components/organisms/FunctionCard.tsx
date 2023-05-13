@@ -30,10 +30,13 @@ const ImgArea = styled.div`
   border-radius: 0 10px 10px 0;
   background: ${(props) => props.theme.mainBlue};
 `;
-const FunctionCard = () => {
+interface Props {
+  moveScrollPosition: React.MutableRefObject<HTMLDivElement | null>;
+}
+const FunctionCard = ({ moveScrollPosition }: Props) => {
   return (
     <Container>
-      <Card>
+      <Card ref={moveScrollPosition}>
         <TextArea>
           <Title />
           <CardContent />

@@ -38,8 +38,11 @@ const LogoBox = styled.div`
   height: 100px;
   margin-bottom: 30px;
 `;
+interface MainVisualProps {
+  onMoveToFunctionCard: () => void;
+}
 
-const MainVisual = () => {
+const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
   return (
     <div>
       <Container>
@@ -64,7 +67,7 @@ const MainVisual = () => {
           {" "}
           <Link to="/2">GET STARTED</Link>
         </Button>
-        <ScrollIndicator onClick={() => console.log("스크롤다운된다아ㅏㅏㅏ")}>
+        <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
           카카오 돋보기의 분석 기능
         </ScrollIndicator>
       </Container>
