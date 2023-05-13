@@ -31,7 +31,6 @@ const IntroWithFunctionCard = () => {
         <FunctionCard
         // ref={moveTarget}
         />
-        <Footer />
       </Main2Wrapper>
     </Main2Container>
   );

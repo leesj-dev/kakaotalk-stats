@@ -8,6 +8,7 @@ import Main2 from "./components/pages/Main2";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/organisms/NavBar";
 import AttachmentPage from "./components/pages/AttachmentPage";
+import Footer from "./components/organisms/Footer";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -20,6 +21,7 @@ function App() {
           <Route path={"/2"} element={<AttachmentPage />} />
         </Routes>
       </Wrapper>
+      <Footer />
       {/* <div onClick={() => setIsDarkMode(!isDarkMode)}>다크모드</div> */}
     </ThemeProvider>
   );
