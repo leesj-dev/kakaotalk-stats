@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import AttachedFileList from "../molecules/AttachedFileList";
 import RadiusButton from "../atoms/Button";
@@ -27,10 +27,6 @@ const AttachmentSectionBox = styled.div`
 
   > * + * {
     margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
-  }
-
-  > :last-child {
-    margin-bottom: 50px; /* 마지막 자식 컴포넌트에만 적용될 간격 */
   }
 `;
 
@@ -91,6 +87,7 @@ const analyzeMessage = async (attachedFiles: FileObject[][]) => {
 
 const AttachmentSection = () => {
   const dispatch = useDispatch();
+  const attachmentSectionRef = useRef<HTMLDivElement | null>(null);
 
   const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
 
@@ -122,12 +119,21 @@ const AttachmentSection = () => {
     }
   };
 
+  const handleScrollDown = () => {
+    if (attachmentSectionRef.current) {
+      window.scrollTo({
+        top: attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
   useEffect(() => {
     console.log(attachedFiles);
   }, [attachedFiles]);
 
   return (
-    <AttachmentSectionBox>
+    <AttachmentSectionBox ref={attachmentSectionRef}>
       <FileDrop
         pushNewlyAttachedFiles={pushNewlyAttachedFiles}
         handleChangeFile={handleChangeFile}
@@ -142,9 +148,7 @@ const AttachmentSection = () => {
       >
         분석하기
       </RadiusButton>
-      <ScrollIndicator onClick={() => console.log("스크롤다운된다아ㅏㅏㅏ")}>
-        카카오톡 메시지 내보내기 방법은?
-      </ScrollIndicator>
+      <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
     </AttachmentSectionBox>
   );
 };
