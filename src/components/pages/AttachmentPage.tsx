@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import "../../style/reset.css";
-import { useSelector } from "react-redux";
-import { AnalyzedMessage } from "../../@types/index.d";
-import Summary from "../main/Summary/Summary";
-import WordCloud from "../main/tagCloud/WordCloud";
-import ReplyLineGraph from "../main/replyLineGraph/ReplyLineGraph";
+
 import AttachmentSection from "../section/AttachmentSection";
 import AttachmentDescriptionSection from "../section/AttachDescriptionSection";
 
@@ -16,17 +12,10 @@ const AttachmentPageBox = styled.div`
 `;
 
 const AttachmentPage = () => {
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
-  );
-
   return (
     <AttachmentPageBox>
       <AttachmentSection />
       <AttachmentDescriptionSection />
-      {Array.isArray(results) && results.length !== 0 && <Summary />}
-      {Array.isArray(results) && results.length !== 0 && <WordCloud />}
-      {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
     </AttachmentPageBox>
   );
 };

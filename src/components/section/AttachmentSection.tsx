@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../store/reducer/messageSlice";
 import Span from "../atoms/Span";
 import { lightTheme } from "../../style/Theme";
+import { useNavigate } from "react-router";
 
 const AttachmentSectionBox = styled.div`
   padding: 80px 0;
@@ -94,6 +95,7 @@ const analyzeMessage = async (attachedFiles: FileObject[][]) => {
 };
 
 const AttachmentSection = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const attachmentSectionRef = useRef<HTMLDivElement | null>(null);
 
@@ -127,6 +129,12 @@ const AttachmentSection = () => {
     }
   };
 
+  const handleClickAnalyzeButton = () => {
+    dispatchAnalyzedMessages(attachedFiles);
+    navigate("/dashboard");
+    console.log("??");
+  };
+
   const handleScrollDown = () => {
     if (attachmentSectionRef.current) {
       window.scrollTo({
@@ -151,10 +159,7 @@ const AttachmentSection = () => {
         deleteAttachedFileArray={deleteAttachedFileArray}
       ></AttachedFileList>
       <ButtonBox>
-        <RadiusButton
-          onClick={() => dispatchAnalyzedMessages(attachedFiles)}
-          disabled={!attachedFiles.length}
-        >
+        <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
           분석하기
         </RadiusButton>
         {!attachedFiles.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
