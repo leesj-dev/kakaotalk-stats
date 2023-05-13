@@ -4,7 +4,7 @@ import Wrapper from "./components/wrapper/Wrapper";
 import "./style/reset.css";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./style/Theme";
-import Main2 from "./components/pages/Main2";
+import MainPage from "./components/pages/MainPage";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./components/organisms/NavBar";
 import AttachmentPage from "./components/pages/AttachmentPage";
@@ -18,7 +18,7 @@ function App() {
       <NavBar />
       <Wrapper>
         <Routes>
-          <Route path={"/"} element={<Main2 />} />
+          <Route path={"/"} element={<MainPage />} />
           <Route path={"/2"} element={<AttachmentPage />} />
           <Route path={"/dashboard"} element={<AnalysisPage />} />
         </Routes>

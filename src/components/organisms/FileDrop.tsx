@@ -4,7 +4,6 @@ import Img from "../atoms/Img";
 import AttachmentButton from "../atoms/AttachmentButton";
 import Paragraph from "../atoms/Paragraph";
 import Span from "../atoms/Span";
-import FlexCenterDiv from "../atoms/FlexCenterDiv";
 
 const DropBox = styled.div`
   display: flex;

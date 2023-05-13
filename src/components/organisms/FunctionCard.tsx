@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CardContent from "../molecules/CardContent";
-import Title from "../molecules/Title";
+
 const Container = styled.div`
   width: 1200px;
   padding: 80px 0;
@@ -9,11 +9,11 @@ const Container = styled.div`
   flex-direction: column;
   gap: 50px;
 `;
+
 const Card = styled.div`
   position: sticky;
   top: 200px;
   display: flex;
-
   border-radius: 10px;
   margin: 0 auto;
   width: 1000px;
@@ -21,41 +21,48 @@ const Card = styled.div`
   box-shadow: 2px 0px 10px 0px #ddd;
   background-color: ${(props) => props.theme.mainWhite};
 `;
+
 const TextBox = styled.div`
   width: 50%;
   padding: 70px 60px;
 `;
+
 const ImgArea = styled.div`
   width: 50%;
   border-radius: 0 10px 10px 0;
   background: ${(props) => props.theme.mainBlue};
 `;
+
 interface Props {
   moveScrollPosition: React.MutableRefObject<HTMLDivElement | null>;
 }
+
+const functionCardData = [
+  { h2: "dd", h3: "aa", src: "gg", p: "asf" },
+  { h2: "dd", h3: "aa", src: "gg", p: "asf" },
+  { h2: "dd", h3: "aa", src: "gg", p: "asf" },
+];
+
 const FunctionCard = ({ moveScrollPosition }: Props) => {
   return (
-    <Container>
-      <Card ref={moveScrollPosition}>
+    <Container ref={moveScrollPosition}>
+      <Card>
         <TextBox>
-          <Title />
           <CardContent />
         </TextBox>
-        <ImgArea></ImgArea>
+        <ImgArea />
       </Card>
       <Card>
-        <TextArea>
-          <Title />
+        <TextBox>
           <CardContent />
-        </TextArea>
-        <ImgArea></ImgArea>
+        </TextBox>
+        <ImgArea />
       </Card>
       <Card>
-        <TextArea>
-          <Title />
+        <TextBox>
           <CardContent />
-        </TextArea>
-        <ImgArea></ImgArea>
+        </TextBox>
+        <ImgArea />
       </Card>
     </Container>
   );

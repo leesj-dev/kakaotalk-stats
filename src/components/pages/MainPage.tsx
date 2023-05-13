@@ -3,6 +3,7 @@ import FunctionCard from "../organisms/FunctionCard";
 import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
 import FloatingBtn from "../molecules/FloatingBtn";
+import scrollToEvent from "../../module/common/scrollEvent";
 
 const Main2Container = styled.div`
   width: 100%;
@@ -15,20 +16,19 @@ const Main2Wrapper = styled.div`
   justify-content: center;
 `;
 
-const Main2 = () => {
+const MainPage = () => {
   const moveScrollPosition = useRef<HTMLDivElement | null>(null);
+
   const onMoveToFunctionCard = () => {
     if (moveScrollPosition.current) {
-      moveScrollPosition.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      scrollToEvent(moveScrollPosition.current.offsetTop);
     }
   };
+
   return (
     <Main2Container>
       <Main2Wrapper>
-        <Ftn />
+        <FloatingBtn />
         <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
         <FunctionCard moveScrollPosition={moveScrollPosition} />
       </Main2Wrapper>
@@ -36,4 +36,4 @@ const Main2 = () => {
   );
 };
 
-export default Main2;
+export default MainPage;

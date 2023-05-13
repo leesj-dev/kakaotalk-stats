@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ImageCard from "../molecules/ImgaeCard";
+import ImageCard from "../molecules/ImageCard";
 import Icon from "../atoms/Icon";
 
 const ThreeImagesBox = styled.div`

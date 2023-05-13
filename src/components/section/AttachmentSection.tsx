@@ -16,8 +16,8 @@ import { getMessageData } from "../../module/core/getMessageData";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../store/reducer/messageSlice";
 import Span from "../atoms/Span";
-import { lightTheme } from "../../style/Theme";
 import { useNavigate } from "react-router";
+import scrollToEvent from "../../module/common/scrollEvent";
 
 const AttachmentSectionBox = styled.div`
   padding: 80px 0;
@@ -137,10 +137,7 @@ const AttachmentSection = () => {
 
   const handleScrollDown = () => {
     if (attachmentSectionRef.current) {
-      window.scrollTo({
-        top: attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight,
-        behavior: "smooth",
-      });
+      scrollToEvent(attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight);
     }
   };
 
