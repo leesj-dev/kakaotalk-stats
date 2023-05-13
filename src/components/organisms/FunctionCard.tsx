@@ -44,17 +44,17 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
         <ImgArea></ImgArea>
       </Card>
       <Card>
-        <TextArea>
+        <TextBox>
           <Title />
           <CardContent />
-        </TextArea>
+        </TextBox>
         <ImgArea></ImgArea>
       </Card>
       <Card>
-        <TextArea>
+        <TextBox>
           <Title />
           <CardContent />
-        </TextArea>
+        </TextBox>
         <ImgArea></ImgArea>
       </Card>
     </Container>

@@ -28,7 +28,7 @@ const Main2 = () => {
   return (
     <Main2Container>
       <Main2Wrapper>
-        <Ftn />
+        <FloatingBtn />
         <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
         <FunctionCard moveScrollPosition={moveScrollPosition} />
       </Main2Wrapper>

@@ -47,7 +47,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
     <div>
       <Container>
         <LogoBox>
-          <Img src={`${process.env.PUBLIC_URL}/images/logo.png`} />
+          <Img src={`${process.env.PUBLIC_URL}/images/logoBlack.png`} />
         </LogoBox>
         <Paragraph>
           <Span fontSize="22px">
