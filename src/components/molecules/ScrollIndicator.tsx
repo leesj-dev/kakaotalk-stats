@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import styled, { keyframes } from "styled-components";
 import Paragraph from "../atoms/Paragraph";
+import { lightTheme } from "../../style/Theme";
 
 const IndicatorBox = styled.div`
   text-align: center;
@@ -40,7 +41,7 @@ interface ScrollIndicatorProps {
 const ScrollIndicator = ({ children, onClick }: ScrollIndicatorProps) => {
   return (
     <IndicatorBox onClick={onClick}>
-      <Paragraph color="mainGray">{children}</Paragraph>
+      <Paragraph color={lightTheme.mainGray}>{children}</Paragraph>
       <MotionBox>
         <AnimatedIcon>V</AnimatedIcon>
       </MotionBox>

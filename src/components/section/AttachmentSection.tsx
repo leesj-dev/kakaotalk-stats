@@ -15,6 +15,8 @@ import { breakdownTxtFile, readAsDataURL } from "../../module/core/breakdownTxtF
 import { getMessageData } from "../../module/core/getMessageData";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../store/reducer/messageSlice";
+import Span from "../atoms/Span";
+import { lightTheme } from "../../style/Theme";
 
 const AttachmentSectionBox = styled.div`
   padding: 80px 0;
@@ -27,6 +29,12 @@ const AttachmentSectionBox = styled.div`
 
   > * + * {
     margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
+  }
+`;
+
+const ButtonBox = styled.div`
+  > :first-child {
+    margin-bottom: 10px;
   }
 `;
 
@@ -142,12 +150,15 @@ const AttachmentSection = () => {
         attachedFiles={attachedFiles}
         deleteAttachedFileArray={deleteAttachedFileArray}
       ></AttachedFileList>
-      <RadiusButton
-        onClick={() => dispatchAnalyzedMessages(attachedFiles)}
-        disabled={!attachedFiles.length}
-      >
-        분석하기
-      </RadiusButton>
+      <ButtonBox>
+        <RadiusButton
+          onClick={() => dispatchAnalyzedMessages(attachedFiles)}
+          disabled={!attachedFiles.length}
+        >
+          분석하기
+        </RadiusButton>
+        {!attachedFiles.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
+      </ButtonBox>
       <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
     </AttachmentSectionBox>
   );

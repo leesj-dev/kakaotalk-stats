@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import RadiusButton from "../atoms/Button";
 import Paragraph from "../atoms/Paragraph";
 import ImageCard from "../molecules/ImgaeCard";
 import Icon from "../atoms/Icon";
+import ThreeImages, { CardData } from "../organisms/ThreeImages";
 
 const AttachDescriptionBox = styled.div`
   display: flex;
@@ -30,35 +31,40 @@ const ButtonBox = styled.div`
   gap: 10px;
 `;
 
-const ThreeImagesBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 1200px;
-  gap: 30px;
-`;
+const pcCardData = [
+  { src: "", text: "PC설명1" },
+  { src: "", text: "PC설명2" },
+  { src: "", text: "PC설명3" },
+];
 
-const AttachDescriptionSection = () => {
+const mobileCardData = [
+  { src: "", text: "모바일설명1" },
+  { src: "", text: "모바일설명2" },
+  { src: "", text: "모바일설명3" },
+];
+
+const AttachmentDescriptionSection = () => {
+  const handleScrollEvent = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const [cardData, setCardData] = useState<CardData[]>(pcCardData);
   return (
     <AttachDescriptionBox>
       <Paragraph fontSize="24px">
         현재 실행하고 있는 기기에서 카카오톡 메시지를 내보내는 방법 알아보기
       </Paragraph>
       <ButtonBox>
-        <RadiusButton>PC</RadiusButton>
-        <RadiusButton>모바일</RadiusButton>
+        <RadiusButton onClick={() => setCardData(pcCardData)}>PC</RadiusButton>
+        <RadiusButton onClick={() => setCardData(mobileCardData)}>모바일</RadiusButton>
       </ButtonBox>
-      <ThreeImagesBox>
-        <ImageCard></ImageCard>
-        <Icon>{">"}</Icon>
-        <ImageCard></ImageCard>
-        <Icon>{">"}</Icon>
-        <ImageCard></ImageCard>
-      </ThreeImagesBox>
-      <RadiusButton>분석하러 가기</RadiusButton>
+      <ThreeImages srcAndText={cardData} />
+      <RadiusButton onClick={handleScrollEvent}>분석하러 가기</RadiusButton>
     </AttachDescriptionBox>
   );
 };
 
-export default AttachDescriptionSection;
+export default AttachmentDescriptionSection;

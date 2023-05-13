@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
 import Img from "../atoms/Img";
 import Paragraph from "../atoms/Paragraph";
@@ -18,11 +18,16 @@ const ImageCardBox = styled.div`
   }
 `;
 
-const ImageCard = () => {
+interface ImageCardProps {
+  src: string;
+  children: ReactNode;
+}
+
+const ImageCard = ({ children, src }: ImageCardProps) => {
   return (
     <ImageCardBox>
-      <Img />
-      <Paragraph>이렇게 합니다</Paragraph>
+      <Img src={src} />
+      <Paragraph>{children}</Paragraph>
     </ImageCardBox>
   );
 };

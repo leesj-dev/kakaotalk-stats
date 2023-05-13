@@ -7,7 +7,7 @@ import Summary from "../main/Summary/Summary";
 import WordCloud from "../main/tagCloud/WordCloud";
 import ReplyLineGraph from "../main/replyLineGraph/ReplyLineGraph";
 import AttachmentSection from "../section/AttachmentSection";
-import AttachDescriptionSection from "../section/AttachDescriptionSection";
+import AttachmentDescriptionSection from "../section/AttachDescriptionSection";
 
 const AttachmentPageBox = styled.div`
   > :nth-child(2) {
@@ -23,7 +23,7 @@ const AttachmentPage = () => {
   return (
     <AttachmentPageBox>
       <AttachmentSection />
-      <AttachDescriptionSection />
+      <AttachmentDescriptionSection />
       {Array.isArray(results) && results.length !== 0 && <Summary />}
       {Array.isArray(results) && results.length !== 0 && <WordCloud />}
       {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
