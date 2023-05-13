@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Paragraph from "../atoms/Paragraph";
 import RadiusButton from "../atoms/Button";
+import Paragraph from "../atoms/Paragraph";
 import ImageCard from "../molecules/ImgaeCard";
 import Icon from "../atoms/Icon";
 
-const DescriptionBox = styled.div`
+const AttachDescriptionBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,9 +39,9 @@ const ThreeImagesBox = styled.div`
   gap: 30px;
 `;
 
-const Description = () => {
+const AttachDescriptionSection = () => {
   return (
-    <DescriptionBox>
+    <AttachDescriptionBox>
       <Paragraph fontSize="24px">
         현재 실행하고 있는 기기에서 카카오톡 메시지를 내보내는 방법 알아보기
       </Paragraph>
@@ -49,7 +49,6 @@ const Description = () => {
         <RadiusButton>PC</RadiusButton>
         <RadiusButton>모바일</RadiusButton>
       </ButtonBox>
-
       <ThreeImagesBox>
         <ImageCard></ImageCard>
         <Icon>{">"}</Icon>
@@ -58,8 +57,8 @@ const Description = () => {
         <ImageCard></ImageCard>
       </ThreeImagesBox>
       <RadiusButton>분석하러 가기</RadiusButton>
-    </DescriptionBox>
+    </AttachDescriptionBox>
   );
 };
 
-export default Description;
+export default AttachDescriptionSection;

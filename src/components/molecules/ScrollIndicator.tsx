@@ -3,6 +3,9 @@ import styled, { keyframes } from "styled-components";
 import Paragraph from "../atoms/Paragraph";
 
 const IndicatorBox = styled.div`
+  text-align: center;
+  margin: 0 auto;
+  width: 300px;
   color: ${(props) => props.theme.mainGray};
   cursor: pointer;
 
