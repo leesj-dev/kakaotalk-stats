@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import RadiusButton from "../atoms/Button";
 import Paragraph from "../atoms/Paragraph";
-import ImageCard from "../molecules/ImgaeCard";
-import Icon from "../atoms/Icon";
 import ThreeImages, { CardData } from "../organisms/ThreeImages";
+import scrollToEvent from "../../module/common/scrollEvent";
 
 const AttachDescriptionBox = styled.div`
   display: flex;
@@ -44,13 +43,6 @@ const mobileCardData = [
 ];
 
 const AttachmentDescriptionSection = () => {
-  const handleScrollEvent = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   const [cardData, setCardData] = useState<CardData[]>(pcCardData);
   return (
     <AttachDescriptionBox>
@@ -62,7 +54,7 @@ const AttachmentDescriptionSection = () => {
         <RadiusButton onClick={() => setCardData(mobileCardData)}>모바일</RadiusButton>
       </ButtonBox>
       <ThreeImages srcAndText={cardData} />
-      <RadiusButton onClick={handleScrollEvent}>분석하러 가기</RadiusButton>
+      <RadiusButton onClick={() => scrollToEvent(0)}>분석하러 가기</RadiusButton>
     </AttachDescriptionBox>
   );
 };

@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { FiArrowUp } from "react-icons/fi";
 import styled from "styled-components";
+import Icon from "../atoms/Icon";
+import scrollToEvent from "../../module/common/scrollEvent";
 
 interface IconProps {
   className?: string;
   size?: number;
 }
 
-const Container = styled.div`
-  position: relative;
-  width: 1200px;
-`;
-
-const I = styled.i`
+const FloatingButtonBox = styled.div`
   position: fixed;
   bottom: 30px;
   right: 30px;
-  font-size: 20px;
   padding: 10px;
-  border-radius: 20%;
-  background-color: ${(props) => props.theme.mainBlack};
+  font-size: 20px;
   color: ${(props) => props.theme.mainWhite};
+  background-color: ${(props) => props.theme.mainBlack};
+  border-radius: 20%;
+  cursor: pointer;
 `;
 
 const Ftn: React.FC<IconProps> = () => {
@@ -42,15 +40,15 @@ const Ftn: React.FC<IconProps> = () => {
   }, []);
 
   return (
-    <Container>
-      {showFloatingButton ? (
-        <I onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-          <FiArrowUp />
-        </I>
-      ) : (
-        ""
+    <>
+      {showFloatingButton && (
+        <FloatingButtonBox onClick={() => scrollToEvent(0)}>
+          <Icon>
+            <FiArrowUp />
+          </Icon>
+        </FloatingButtonBox>
       )}
-    </Container>
+    </>
   );
 };
 
