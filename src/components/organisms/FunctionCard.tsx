@@ -21,7 +21,7 @@ const Card = styled.div`
   box-shadow: 2px 0px 10px 0px #ddd;
   background-color: ${(props) => props.theme.mainWhite};
 `;
-const TextArea = styled.div`
+const TextBox = styled.div`
   width: 50%;
   padding: 70px 60px;
 `;
@@ -37,10 +37,10 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
   return (
     <Container>
       <Card ref={moveScrollPosition}>
-        <TextArea>
+        <TextBox>
           <Title />
           <CardContent />
-        </TextArea>
+        </TextBox>
         <ImgArea></ImgArea>
       </Card>
       <Card>
