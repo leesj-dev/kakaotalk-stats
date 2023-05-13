@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import FunctionCard from "../organisms/FunctionCard";
 import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
-import Ftn from "../atoms/Ftn";
+import FloatingBtn from "../molecules/FloatingBtn";
 
 const Main2Container = styled.div`
   width: 100%;
