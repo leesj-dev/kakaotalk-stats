@@ -49,7 +49,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
     <div>
       <Container>
         <LogoBox>
-          <Img src={`${process.env.PUBLIC_URL}/images/logo.png`} />
+          <Img src={`${process.env.PUBLIC_URL}/images/logoBlack.png`} />
         </LogoBox>
         <Paragraph>
           <Span fontSize="22px">사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,</Span>
