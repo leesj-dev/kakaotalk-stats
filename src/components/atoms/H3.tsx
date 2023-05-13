@@ -5,8 +5,12 @@ const TitleText = styled.h3<{ fontSize?: string }>`
   color: ${(props) => props.theme.mainGrey};
   margin-bottom: 50px;
 `;
-const SubTitle = ({ title }: { title: string }) => {
-  return <TitleText fontSize="24px">{title}</TitleText>;
-};
+interface H3Props {
+  children: React.ReactNode;
+  fontSize?: string; // fontSize 속성을 선택적으로 설정
+}
 
-export default SubTitle;
+const H3: React.FC<H3Props> = ({ children, fontSize }) => {
+  return <TitleText fontSize="24px">{children}</TitleText>;
+};
+export default H3;
