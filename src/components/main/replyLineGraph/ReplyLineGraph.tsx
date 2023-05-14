@@ -140,6 +140,7 @@ const ReplyLineGraph = () => {
 
   return (
     <>
+      답장속도
       <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
         일간 답장 속도
       </div>

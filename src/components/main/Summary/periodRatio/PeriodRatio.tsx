@@ -98,6 +98,7 @@ const PeriodRatio = () => {
 
   return (
     <div>
+      기간 대화량
       <ResponsiveContainer width="100%" height={500}>
         <BarChart
           width={500}

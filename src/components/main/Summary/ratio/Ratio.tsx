@@ -7,8 +7,7 @@ const COLORS = ["#FF414D", "#FF8991", "#F7ABB1"];
 
 const Ratio = () => {
   const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
-      state.analyzedMessagesSlice
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
@@ -18,50 +17,46 @@ const Ratio = () => {
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerTotalChatCounts: Record<string, number> = {};
   Object.values(selectedChatRoomData).forEach((chatroom) => {
-    Object.values(chatroom).forEach(
-      (chat: { chatTimes: any; speaker: string }) => {
-        const speaker = chat.speaker;
-        if (!speakerTotalChatCounts[speaker]) {
-          speakerTotalChatCounts[speaker] = 0;
-        }
-        const chatTimes = chat.chatTimes;
-        const chatCounts = chatTimes ? Object.values(chatTimes) : [];
-        const totalChatCount = chatCounts.reduce(
-          (acc, count) => Number(acc) + Number(count),
-          0
-        );
-        speakerTotalChatCounts[speaker] += Number(totalChatCount);
+    Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
+      const speaker = chat.speaker;
+      if (!speakerTotalChatCounts[speaker]) {
+        speakerTotalChatCounts[speaker] = 0;
       }
-    );
+      const chatTimes = chat.chatTimes;
+      const chatCounts = chatTimes ? Object.values(chatTimes) : [];
+      const totalChatCount = chatCounts.reduce((acc, count) => Number(acc) + Number(count), 0);
+      speakerTotalChatCounts[speaker] += Number(totalChatCount);
+    });
   });
 
-  const totalChatCount = Object.values(speakerTotalChatCounts).reduce(
-    (a: number, b: number) => a + b
-  );
+  const totalChatCount = Object.values(speakerTotalChatCounts).reduce((a: number, b: number) => a + b);
   const data = Object.entries(speakerTotalChatCounts).map(([name, value]) => ({
     name,
     value: Number(((value / totalChatCount) * 100).toFixed(0)),
   }));
 
   return (
-    <PieChart width={400} height={400}>
-      <Pie
-        data={data}
-        cx={200}
-        cy={200}
-        innerRadius={0}
-        outerRadius={100}
-        dataKey="value"
-        labelLine
-        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-      >
-        {data.map((entry: any, index: number) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend layout="horizontal" />
-    </PieChart>
+    <div>
+      대화비율
+      <PieChart width={400} height={400}>
+        <Pie
+          data={data}
+          cx={200}
+          cy={200}
+          innerRadius={0}
+          outerRadius={100}
+          dataKey="value"
+          labelLine
+          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+        >
+          {data.map((entry: any, index: number) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend layout="horizontal" />
+      </PieChart>
+    </div>
   );
 };
 

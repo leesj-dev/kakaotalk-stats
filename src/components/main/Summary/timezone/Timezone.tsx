@@ -119,6 +119,7 @@ const Timezone = () => {
 
   return (
     <>
+      시간대별 대화량
       <div style={{ width: "100%" }}>
         {speakerNames.map((_: any, index: number) => {
           return (
