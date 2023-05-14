@@ -14,7 +14,6 @@ interface SpanProps {
 }
 
 const Span: React.FC<SpanProps> = ({ children, fontSize, fontWeight, color }) => {
-  console.log(children, fontSize, fontWeight, color);
   return (
     <SpanComponent fontSize={fontSize} fontWeight={fontWeight} color={color}>
       {children}

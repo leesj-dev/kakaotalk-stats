@@ -60,7 +60,7 @@ export type ValueCountPair = {
 
 export type selectedChatRoomData = {
   averageReplyTime: number[];
-  mostChattedTimes: [string, number];
+  mostChattedTimes: [string, number][];
   speakerCount: number;
   speakers: string[];
   totalChatCount: number;

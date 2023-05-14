@@ -55,7 +55,7 @@ const calculateMostChattedTime = (
   });
 };
 
-const getMostChattedTimes = (chatTimes: ChatTimes[][][]) => {
+export const getMostChattedTimes = (chatTimes: ChatTimes[][][]) => {
   const mostChattedTimeArray: ChatTimes[] = [];
   let chatroomIndex: number = 0;
   for (const chatroom of chatTimes) {
@@ -64,8 +64,8 @@ const getMostChattedTimes = (chatTimes: ChatTimes[][][]) => {
     calculateMostChattedTime(chatTimes, mostChattedTimeArray, chatroomIndex);
     chatroomIndex++;
   }
-  const mostChattedTimes: [string, number][] = mostChattedTimeArray.map((chatTimes: ChatTimes) => {
-    return Object.entries(chatTimes).sort((a: [string, number], b: [string, number]) => b[1] - a[1])[0];
+  const mostChattedTimes: [string, number][][] = mostChattedTimeArray.map((chatTimes: ChatTimes) => {
+    return Object.entries(chatTimes).sort((a: [string, number], b: [string, number]) => b[1] - a[1]);
   });
   return mostChattedTimes;
 };
@@ -105,14 +105,14 @@ const PieChartExample = () => {
       value: totalChatCounts[index],
     };
   });
-  const mostChattedTimes: [string, number][] = getMostChattedTimes(chatTimes);
+  const mostChattedTimes: [string, number][][] = getMostChattedTimes(chatTimes);
   const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
   const averageReplyTime: number[][] = getAverageReplyTime(replyTimes);
 
   const handleClickChatRoom = (index: number) => {
     dispatch(setSelectedChatRoomIndex(index));
   };
-
+  console.log(mostChattedTimes, "mostChattedTimesmostChattedTimes");
   useEffect(() => {
     setSelectedChatRoomData({
       totalChatCount: totalChatCounts[selectedChatRoomIndex],
@@ -122,6 +122,7 @@ const PieChartExample = () => {
       averageReplyTime: averageReplyTime[selectedChatRoomIndex],
     });
     dispatch(setAverageReplyTime(averageReplyTime[selectedChatRoomIndex]));
+    console.log(selectedChatRoomData, "selectedChatRoomData");
   }, [selectedChatRoomIndex]);
 
   return (
@@ -152,11 +153,12 @@ const PieChartExample = () => {
         <div>
           <GraphInformation unit={"총 대화 수"} value={selectedChatRoomData.totalChatCount.toString()} />
           <GraphInformation unit={"대화자"} value={selectedChatRoomData.speakers.join(",")} />
+
           <GraphInformation unit={"대화자 수"} value={selectedChatRoomData.speakerCount.toString()} />
           <GraphInformation
             unit={"가장 많은 대화 시간대"}
-            value={`${selectedChatRoomData.mostChattedTimes[0]}시 대화수: 
-            ${selectedChatRoomData.mostChattedTimes[1]}개`}
+            value={`${selectedChatRoomData.mostChattedTimes[0][0]}시 대화수: 
+            ${selectedChatRoomData.mostChattedTimes[0][1]}개`}
           />
           {selectedChatRoomData.speakers.map((speaker: string, index: number) => {
             return (
