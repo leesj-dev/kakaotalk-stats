@@ -8,9 +8,9 @@ import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
 import scrollToEvent from "../../module/common/scrollEvent";
 import ChatRatioGraph from "../organisms/graphs/ChatRatioGraph";
 import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
-import DateForm from "../datePicker/dateForm";
 import PeriodRatioGraph from "../organisms/graphs/PeriodRatioGraph";
 import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
+import DatePickerCalendar from "../organisms/DatePickerCalendar";
 
 const AnalysisPageBox = styled.div`
   margin-top: 100px;
@@ -27,7 +27,7 @@ const AnalysisPage = () => {
 
   return (
     <AnalysisPageBox>
-      {Array.isArray(results) && results.length !== 0 && <DateForm />}
+      {Array.isArray(results) && results.length !== 0 && <DatePickerCalendar />}
       {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
       {Array.isArray(results) && results.length !== 0 && <PeriodRatioGraph />}
       {Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}
