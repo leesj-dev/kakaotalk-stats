@@ -25,7 +25,6 @@ const MostChatTimesGraph = () => {
 
   return (
     <div>
-      ddddddddddddddd
       <ResponsiveContainer width="100%" height={500}>
         <AreaChart
           width={500}
