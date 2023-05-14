@@ -10,11 +10,14 @@ import NavBar from "./components/organisms/NavBar";
 import AttachmentPage from "./components/pages/AttachmentPage";
 import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
+import ScrollTopTopFloatingButton from "./components/molecules/ScrollTopTopFloatingButton";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <ScrollTopTopFloatingButton />
+
       <NavBar />
       <Wrapper>
         <Routes>
