@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import FunctionCard from "../organisms/FunctionCard";
 import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
-import FloatingBtn from "../molecules/FloatingBtn";
 import scrollToEvent from "../../module/common/scrollEvent";
 
 const Main2Container = styled.div`
@@ -32,7 +31,6 @@ const MainPage = () => {
   return (
     <Main2Container>
       <Main2Wrapper>
-        <FloatingBtn />
         <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
         <FunctionCard moveScrollPosition={moveScrollPosition} />
       </Main2Wrapper>
