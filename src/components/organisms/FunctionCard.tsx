@@ -95,7 +95,7 @@ interface Props {
 }
 
 const functionCardData = [
-  { h2: "dd", h3: "aa", src: "gg", p: "asf" },
+  { h2: "dd", h3: "aaa", src: "gg", p: "asf" },
   { h2: "dd", h3: "aa", src: "gg", p: "asf" },
   { h2: "dd", h3: "aa", src: "gg", p: "asf" },
 ];
