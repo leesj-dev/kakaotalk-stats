@@ -1,3 +1,4 @@
+import { type } from "os";
 import React, { ReactNode } from "react";
 
 export type ChatTimes = { [time: string]: number };
@@ -60,7 +61,7 @@ export type ValueCountPair = {
 
 export type selectedChatRoomData = {
   averageReplyTime: number[];
-  mostChattedTimes: [string, number][];
+  mostChattedTimes: StringNumberTuple[];
   speakerCount: number;
   speakers: string[];
   totalChatCount: number;
@@ -80,3 +81,5 @@ export type WeekData = {
   day: string;
   values: TimeCount[];
 };
+
+export type StringNumberTuple = [string, number];

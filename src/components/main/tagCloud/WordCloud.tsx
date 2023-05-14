@@ -182,6 +182,7 @@ const WordCloud = () => {
 
   return (
     <ul>
+      키워드
       <form action="" onSubmit={(e) => handleFilterKeywordForm(e, keywordToFilter)}>
         <div onClick={handClickExceptEmoticon}>이모티콘,사진,동영상 제외하기</div>
         <div onClick={handClickExceptLaughter}>ㅋ,ㅎ 제외하기</div>

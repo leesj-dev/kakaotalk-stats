@@ -8,6 +8,7 @@ import {
   ChatTimes,
   NameValuePair,
   ReplyTime,
+  StringNumberTuple,
   selectedChatRoomData,
 } from "../../../../@types/index.d";
 import GraphInformation from "../../../molecules/GraphInformation";
@@ -64,8 +65,8 @@ export const getMostChattedTimes = (chatTimes: ChatTimes[][][]) => {
     calculateMostChattedTime(chatTimes, mostChattedTimeArray, chatroomIndex);
     chatroomIndex++;
   }
-  const mostChattedTimes: [string, number][][] = mostChattedTimeArray.map((chatTimes: ChatTimes) => {
-    return Object.entries(chatTimes).sort((a: [string, number], b: [string, number]) => b[1] - a[1]);
+  const mostChattedTimes: StringNumberTuple[][] = mostChattedTimeArray.map((chatTimes: ChatTimes) => {
+    return Object.entries(chatTimes).sort((a: StringNumberTuple, b: StringNumberTuple) => b[1] - a[1]);
   });
   return mostChattedTimes;
 };
@@ -85,7 +86,7 @@ const getAverageReplyTime = (replyTimes: ReplyTime[][][]) => {
   return averageReplyTimeArray;
 };
 
-const PieChartExample = () => {
+const PieSummary = () => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -105,7 +106,7 @@ const PieChartExample = () => {
       value: totalChatCounts[index],
     };
   });
-  const mostChattedTimes: [string, number][][] = getMostChattedTimes(chatTimes);
+  const mostChattedTimes: StringNumberTuple[][] = getMostChattedTimes(chatTimes);
   const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
   const averageReplyTime: number[][] = getAverageReplyTime(replyTimes);
 
@@ -175,4 +176,4 @@ const PieChartExample = () => {
   );
 };
 
-export default PieChartExample;
+export default PieSummary;

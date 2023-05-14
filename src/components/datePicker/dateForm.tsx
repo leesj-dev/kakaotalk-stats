@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css"; // react-datepicker의 CSS 파일을 import
 import { setLimitTime } from "../../store/reducer/limitTimeSlice";
-import { AnalyzedMessage, selectedChatRoomData } from "../../@types/index.d";
+import { AnalyzedMessage } from "../../@types/index.d";
 
 const DatePickerInputContainer = styled.div`
   color: ${(props) => props.theme.mainBlue};
@@ -73,6 +73,7 @@ const DateForm = () => {
   const excludeDates = [new Date(2023, 2, 10), new Date(2023, 2, 12)];
   return (
     <div>
+      데이트 피커
       <DatePickerInputContainer>
         {/* *************** */}
         {/* 초기에 배열이 아닌 것에 [0]으로 접근을 하려했기 때문에 에러가 발생했으니 */}
