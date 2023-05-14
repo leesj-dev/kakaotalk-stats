@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
+import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../../@types/index.d";
 import { getChatTimes } from "../../../module/common/getProperties";
-import { getMostChattedTimes } from "../Summary/pieGraphForSummary/PieGraphForSummary";
+import { getMostChattedTimes } from "./SummaryPieGraph";
 
 const MostChatTimesGraph = () => {
   const analyzedMessages = useSelector(
@@ -14,10 +14,12 @@ const MostChatTimesGraph = () => {
   );
 
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const mostChattedTimes: [string, number][] = getMostChattedTimes(chatTimes)[selectedChatRoomIndex];
-  const sortedTimes = mostChattedTimes.sort((a: any, b: any) => a[0] - b[0]);
+  const mostChattedTimes: StringNumberTuple[] = getMostChattedTimes(chatTimes)[selectedChatRoomIndex];
+  const sortedTimes: StringNumberTuple[] = mostChattedTimes.sort(
+    (a: StringNumberTuple, b: StringNumberTuple) => Number(a[0]) - Number(b[0])
+  );
 
-  const data = sortedTimes.map((item: [string, number]) => {
+  const data = sortedTimes.map((item: StringNumberTuple) => {
     return { name: item[0], value: item[1] };
   });
 
@@ -25,7 +27,7 @@ const MostChatTimesGraph = () => {
 
   return (
     <div>
-      ddddddddddddddd
+      채팅많은 시간
       <ResponsiveContainer width="100%" height={500}>
         <AreaChart
           width={500}

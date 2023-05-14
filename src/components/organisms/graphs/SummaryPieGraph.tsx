@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
-import { getChatTimes, getReplyTimes, getSpeakers } from "../../../../module/common/getProperties";
-import { setSelectedChatRoomIndex } from "../../../../store/reducer/selectedRoomIndexSlice";
+import { getChatTimes, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
+import { setSelectedChatRoomIndex } from "../../../store/reducer/selectedRoomIndexSlice";
 import {
   AnalyzedMessage,
   ChatTimes,
   NameValuePair,
   ReplyTime,
+  StringNumberTuple,
   selectedChatRoomData,
-} from "../../../../@types/index.d";
-import GraphInformation from "../../../molecules/GraphInformation";
+} from "../../../@types/index.d";
+import GraphInformation from "../../molecules/GraphInformation";
 import styled from "styled-components";
-import { setAverageReplyTime } from "../../../../store/reducer/averageReplyTimeSlice";
-import { reduceAPlusB } from "../../../../module/common/reduceAPlusB";
+import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlice";
+import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -64,8 +65,8 @@ export const getMostChattedTimes = (chatTimes: ChatTimes[][][]) => {
     calculateMostChattedTime(chatTimes, mostChattedTimeArray, chatroomIndex);
     chatroomIndex++;
   }
-  const mostChattedTimes: [string, number][][] = mostChattedTimeArray.map((chatTimes: ChatTimes) => {
-    return Object.entries(chatTimes).sort((a: [string, number], b: [string, number]) => b[1] - a[1]);
+  const mostChattedTimes: StringNumberTuple[][] = mostChattedTimeArray.map((chatTimes: ChatTimes) => {
+    return Object.entries(chatTimes).sort((a: StringNumberTuple, b: StringNumberTuple) => b[1] - a[1]);
   });
   return mostChattedTimes;
 };
@@ -85,7 +86,7 @@ const getAverageReplyTime = (replyTimes: ReplyTime[][][]) => {
   return averageReplyTimeArray;
 };
 
-const PieChartExample = () => {
+const SummaryPieGraph = () => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -105,7 +106,7 @@ const PieChartExample = () => {
       value: totalChatCounts[index],
     };
   });
-  const mostChattedTimes: [string, number][][] = getMostChattedTimes(chatTimes);
+  const mostChattedTimes: StringNumberTuple[][] = getMostChattedTimes(chatTimes);
   const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
   const averageReplyTime: number[][] = getAverageReplyTime(replyTimes);
 
@@ -175,4 +176,4 @@ const PieChartExample = () => {
   );
 };
 
-export default PieChartExample;
+export default SummaryPieGraph;

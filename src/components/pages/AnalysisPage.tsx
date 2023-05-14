@@ -1,23 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { AnalyzedMessage } from "../../@types/index.d";
-import Summary from "../main/Summary/Summary";
-import WordCloud from "../main/tagCloud/WordCloud";
-import ReplyLineGraph from "../main/replyLineGraph/ReplyLineGraph";
-import MostChatTimesGraph from "../main/mostChatTimesGraph/MostChatTimesGraph";
+import KeywordCloud from "../organisms/graphs/KeywordCloud";
+import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
+import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
+import scrollToEvent from "../../module/common/scrollEvent";
+import ChatRatioGraph from "../organisms/graphs/ChatRatioGraph";
+import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
+import PeriodRatioGraph from "../organisms/graphs/PeriodRatioGraph";
+import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
+import DatePickerCalendar from "../organisms/DatePickerCalendar";
 
-const AnalysisPageBox = styled.div``;
+const AnalysisPageBox = styled.div`
+  margin-top: 100px;
+`;
 
 const AnalysisPage = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
   );
 
+  useEffect(() => {
+    scrollToEvent(0, "auto");
+  }, []);
+
   return (
     <AnalysisPageBox>
-      {Array.isArray(results) && results.length !== 0 && <Summary />}
-      {Array.isArray(results) && results.length !== 0 && <WordCloud />}
+      {Array.isArray(results) && results.length !== 0 && <DatePickerCalendar />}
+      {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
+      {Array.isArray(results) && results.length !== 0 && <PeriodRatioGraph />}
+      {Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}
+      {Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}
+      {Array.isArray(results) && results.length !== 0 && <KeywordCloud />}
       {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
       {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
     </AnalysisPageBox>

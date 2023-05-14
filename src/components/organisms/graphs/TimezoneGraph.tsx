@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { AnalyzedMessage, ChatTimes, WeekData } from "../../../../@types/index.d";
-import { getSpeakers } from "../../../../module/common/getProperties";
+import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
+import { getSpeakers } from "../../../module/common/getProperties";
 
 const getDayIndex = (date: string) => {
   const parsedDate = parseInt(date);
@@ -45,7 +45,7 @@ const renderTooltip = (props: any) => {
 };
 const range = [16, 225];
 
-const Timezone = () => {
+const TimezoneGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -119,6 +119,7 @@ const Timezone = () => {
 
   return (
     <>
+      시간대별 대화량
       <div style={{ width: "100%" }}>
         {speakerNames.map((_: any, index: number) => {
           return (
@@ -175,4 +176,4 @@ const Timezone = () => {
   );
 };
 
-export default Timezone;
+export default TimezoneGraph;
