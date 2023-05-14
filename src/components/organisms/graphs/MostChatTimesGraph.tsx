@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../../@types/index.d";
 import { getChatTimes } from "../../../module/common/getProperties";
-import { getMostChattedTimes } from "../Summary/pieGraphForSummary/PieSummary";
+import { getMostChattedTimes } from "./SummaryPieGraph";
 
 const MostChatTimesGraph = () => {
   const analyzedMessages = useSelector(

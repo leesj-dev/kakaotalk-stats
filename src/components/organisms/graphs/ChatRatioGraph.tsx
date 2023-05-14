@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
-import { AnalyzedMessage } from "../../../../@types/index.d";
+import { AnalyzedMessage } from "../../../@types/index.d";
 
 const COLORS = ["#FF414D", "#FF8991", "#F7ABB1"];
 
-const Ratio = () => {
+const ChatRatioGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -60,4 +60,4 @@ const Ratio = () => {
   );
 };
 
-export default Ratio;
+export default ChatRatioGraph;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
-import { getChatTimes, getReplyTimes, getSpeakers } from "../../../../module/common/getProperties";
-import { setSelectedChatRoomIndex } from "../../../../store/reducer/selectedRoomIndexSlice";
+import { getChatTimes, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
+import { setSelectedChatRoomIndex } from "../../../store/reducer/selectedRoomIndexSlice";
 import {
   AnalyzedMessage,
   ChatTimes,
@@ -10,11 +10,11 @@ import {
   ReplyTime,
   StringNumberTuple,
   selectedChatRoomData,
-} from "../../../../@types/index.d";
-import GraphInformation from "../../../molecules/GraphInformation";
+} from "../../../@types/index.d";
+import GraphInformation from "../../molecules/GraphInformation";
 import styled from "styled-components";
-import { setAverageReplyTime } from "../../../../store/reducer/averageReplyTimeSlice";
-import { reduceAPlusB } from "../../../../module/common/reduceAPlusB";
+import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlice";
+import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -86,7 +86,7 @@ const getAverageReplyTime = (replyTimes: ReplyTime[][][]) => {
   return averageReplyTimeArray;
 };
 
-const PieSummary = () => {
+const SummaryPieGraph = () => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -176,4 +176,4 @@ const PieSummary = () => {
   );
 };
 
-export default PieSummary;
+export default SummaryPieGraph;

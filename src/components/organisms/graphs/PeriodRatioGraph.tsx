@@ -10,15 +10,15 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { AnalyzedMessage, ChatTimes } from "../../../../@types/index.d";
-import { getChatTimes, getDates, getSpeakers } from "../../../../module/common/getProperties";
+import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
+import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 
 type StackBarData = {
   name: string;
   [key: string]: number | string | undefined;
 };
 
-const PeriodRatio = () => {
+const PeriodRatioGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -132,4 +132,4 @@ const PeriodRatio = () => {
   );
 };
 
-export default PeriodRatio;
+export default PeriodRatioGraph;
