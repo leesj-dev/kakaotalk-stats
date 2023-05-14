@@ -8,6 +8,7 @@ import { AnalyzedMessage } from "../../@types/index.d";
 import WordCloud from "./tagCloud/WordCloud";
 import ReplyLineGraph from "./replyLineGraph/ReplyLineGraph";
 import InstructionsWithAttachment from "../templates/InstructionsWithAttachment";
+import MostChatTimesGraph from "./mostChatTimesGraph/MostChatTimesGraph";
 
 const Container = styled.div`
   width: 600px;
@@ -118,6 +119,7 @@ const Main = () => {
       {Array.isArray(results) && results.length !== 0 && <Summary />}
       {Array.isArray(results) && results.length !== 0 && <WordCloud />}
       {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
+      {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
     </div>
   );
 };
