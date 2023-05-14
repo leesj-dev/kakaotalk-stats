@@ -42,7 +42,7 @@ const Ftn: React.FC<IconProps> = () => {
   return (
     <>
       {showFloatingButton && (
-        <FloatingButtonBox onClick={() => scrollToEvent(0)}>
+        <FloatingButtonBox onClick={() => scrollToEvent(0, "smooth")}>
           <Icon>
             <FiArrowUp />
           </Icon>

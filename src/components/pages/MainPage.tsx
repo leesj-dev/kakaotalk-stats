@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import FunctionCard from "../organisms/FunctionCard";
 import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
@@ -21,9 +21,13 @@ const MainPage = () => {
 
   const onMoveToFunctionCard = () => {
     if (moveScrollPosition.current) {
-      scrollToEvent(moveScrollPosition.current.offsetTop);
+      scrollToEvent(moveScrollPosition.current.offsetTop, "smooth");
     }
   };
+
+  useEffect(() => {
+    scrollToEvent(0, "auto");
+  }, []);
 
   return (
     <Main2Container>

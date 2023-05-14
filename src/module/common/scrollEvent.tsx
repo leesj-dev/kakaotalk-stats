@@ -1,7 +1,7 @@
-const scrollToEvent = (top: number) => {
+const scrollToEvent = (top: number, behavior: ScrollBehavior) => {
   window.scrollTo({
-    top: top,
-    behavior: "smooth",
+    top,
+    behavior,
   });
 };
 

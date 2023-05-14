@@ -137,7 +137,10 @@ const AttachmentSection = () => {
 
   const handleScrollDown = () => {
     if (attachmentSectionRef.current) {
-      scrollToEvent(attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight);
+      scrollToEvent(
+        attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight,
+        "smooth"
+      );
     }
   };
 

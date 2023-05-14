@@ -54,7 +54,7 @@ const AttachmentDescriptionSection = () => {
         <RadiusButton onClick={() => setCardData(mobileCardData)}>모바일</RadiusButton>
       </ButtonBox>
       <ThreeImages srcAndText={cardData} />
-      <RadiusButton onClick={() => scrollToEvent(0)}>분석하러 가기</RadiusButton>
+      <RadiusButton onClick={() => scrollToEvent(0, "smooth")}>분석하러 가기</RadiusButton>
     </AttachDescriptionBox>
   );
 };
