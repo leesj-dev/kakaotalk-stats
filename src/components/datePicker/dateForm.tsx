@@ -49,7 +49,6 @@ const DateForm = () => {
     .sort((a: number, b: number) => a - b);
   const start = dateAll[0];
   const end = dateAll.at(-1);
-  console.log(dateAll, start, end, "선택한 채팅방 대화");
   useEffect(() => {
     if (start && end !== undefined) {
       setStartDateSpeaker(start.match(/.{1,2}/g));

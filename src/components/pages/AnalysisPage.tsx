@@ -5,6 +5,7 @@ import { AnalyzedMessage } from "../../@types/index.d";
 import Summary from "../main/Summary/Summary";
 import WordCloud from "../main/tagCloud/WordCloud";
 import ReplyLineGraph from "../main/replyLineGraph/ReplyLineGraph";
+import MostChatTimesGraph from "../main/mostChatTimesGraph/MostChatTimesGraph";
 
 const AnalysisPageBox = styled.div``;
 
@@ -18,6 +19,7 @@ const AnalysisPage = () => {
       {Array.isArray(results) && results.length !== 0 && <Summary />}
       {Array.isArray(results) && results.length !== 0 && <WordCloud />}
       {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
+      {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
     </AnalysisPageBox>
   );
 };
