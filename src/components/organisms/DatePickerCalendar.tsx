@@ -23,7 +23,7 @@ export type LimitTimeData = {
   endDateSpeaker: never[];
 };
 
-const DateForm = () => {
+const DatePickerCalendar = () => {
   // redux에서 분석된 메시지 데이터 가져오기
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -107,4 +107,4 @@ const DateForm = () => {
   );
 };
 
-export default DateForm;
+export default DatePickerCalendar;
