@@ -96,7 +96,7 @@ const getOverlappedKeyword = (keywordData: any[]) => {
   return filteredKeyword;
 };
 
-const WordCloud = () => {
+const KeywordCloud = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -218,4 +218,4 @@ const WordCloud = () => {
   );
 };
 
-export default WordCloud;
+export default KeywordCloud;
