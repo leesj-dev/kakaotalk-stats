@@ -58,7 +58,7 @@ const Card = styled.div`
 const SideSlide = styled.div`
   height: 100%;
   width: 50%;
-
+  border-right: 1px solid ${(props) => props.theme.mainGray};
   position: absolute;
   top: 0;
   left: 0;
