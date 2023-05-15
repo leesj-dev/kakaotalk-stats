@@ -23,9 +23,12 @@ function App() {
         <Routes>
           <Route path={"/"} element={<MainPage />} />
           <Route path={"/2"} element={<AttachmentPage />} />
-          <Route path={"/dashboard"} element={<AnalysisPage />} />
         </Routes>
       </Wrapper>
+      <Routes>
+        <Route path={"/dashboard"} element={<AnalysisPage />} />
+      </Routes>
+
       <Footer />
       {/* <div onClick={() => setIsDarkMode(!isDarkMode)}>다크모드</div> */}
     </ThemeProvider>

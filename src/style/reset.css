@@ -34,9 +34,12 @@ html {
 *:after {
   box-sizing: inherit;
 <<<<<<< HEAD
+<<<<<<< HEAD
   //outline: 1px solid #f00;
 =======
 >>>>>>> fcb2a5c (feat: 운영체제 선택 과정 추가)
+=======
+>>>>>>> 4917a05 (feat: create a dashboard template)
 }
 
 body {
