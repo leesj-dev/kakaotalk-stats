@@ -40,6 +40,10 @@ const ButtonBox = styled.div`
   }
 `;
 
+const OsListBox = styled.div`
+  margin-top: 100px;
+`;
+
 /**
  * 텍스트 파일을 메시지 데이터로 디코딩합니다.
  * @param {any[]} attachedFiles - 첨부된 파일 배열
@@ -153,14 +157,14 @@ const AttachmentSection = () => {
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
       {!selectedOsIndex ? (
-        <>
+        <OsListBox>
           <OsList
             size="100px"
             selectedOsIndex={selectedOsIndex}
             setSelectedOsIndex={setSelectedOsIndex}
           />
           <Span fontSize="24px">운영체제를 선택해 주세요.</Span>
-        </>
+        </OsListBox>
       ) : (
         <>
           <FileDrop
