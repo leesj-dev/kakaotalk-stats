@@ -18,6 +18,7 @@ import { setAnalyzedMessages } from "../../store/reducer/messageSlice";
 import Span from "../atoms/Span";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../module/common/scrollEvent";
+import OsList from "../organisms/OsList";
 
 const AttachmentSectionBox = styled.div`
   padding: 80px 0;
@@ -100,6 +101,7 @@ const AttachmentSection = () => {
   const attachmentSectionRef = useRef<HTMLDivElement | null>(null);
 
   const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
+  const [selectedOsIndex, setSelectedOsIndex] = useState<number | null>(null);
 
   const pushNewlyAttachedFiles = (files: any[]) => {
     if (attachedFiles.length) {
@@ -150,21 +152,36 @@ const AttachmentSection = () => {
 
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
-      <FileDrop
-        pushNewlyAttachedFiles={pushNewlyAttachedFiles}
-        handleChangeFile={handleChangeFile}
-      ></FileDrop>
-      <AttachedFileList
-        attachedFiles={attachedFiles}
-        deleteAttachedFileArray={deleteAttachedFileArray}
-      ></AttachedFileList>
-      <ButtonBox>
-        <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
-          분석하기
-        </RadiusButton>
-        {!attachedFiles.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
-      </ButtonBox>
-      <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
+      {!selectedOsIndex ? (
+        <>
+          <OsList
+            size="100px"
+            selectedOsIndex={selectedOsIndex}
+            setSelectedOsIndex={setSelectedOsIndex}
+          />
+          <Span fontSize="24px">운영체제를 선택해 주세요.</Span>
+        </>
+      ) : (
+        <>
+          <FileDrop
+            pushNewlyAttachedFiles={pushNewlyAttachedFiles}
+            handleChangeFile={handleChangeFile}
+            selectedOsIndex={selectedOsIndex}
+            setSelectedOsIndex={setSelectedOsIndex}
+          ></FileDrop>
+          <AttachedFileList
+            attachedFiles={attachedFiles}
+            deleteAttachedFileArray={deleteAttachedFileArray}
+          ></AttachedFileList>
+          <ButtonBox>
+            <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
+              분석하기
+            </RadiusButton>
+            {!attachedFiles.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
+          </ButtonBox>
+          <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
+        </>
+      )}
     </AttachmentSectionBox>
   );
 };
