@@ -13,8 +13,12 @@ const OsIconBox = styled.ul`
 `;
 
 const OsListBox = styled.li<{ size?: string }>`
+  padding: 10px;
   display: flex;
+  align-items: center;
   flex-direction: column;
+  border-radius: 5px;
+  transition: 0.2s;
   cursor: pointer;
 
   > :first-child {
@@ -24,11 +28,11 @@ const OsListBox = styled.li<{ size?: string }>`
   }
 
   &:hover {
-    background: #f00;
+    box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
   }
 
   &.active {
-    border: 3px solid #f00;
+    box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
   }
 `;
 
