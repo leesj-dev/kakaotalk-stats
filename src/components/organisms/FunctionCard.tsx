@@ -63,7 +63,6 @@ const SideSlide = styled.div`
   top: 0;
   left: 0;
   transition: transform 0.5s ease-in-out;
-  border-right: 1px solid ${(props) => props.theme.mainGray};
   > * {
     height: 100%;
     width: 100%;
