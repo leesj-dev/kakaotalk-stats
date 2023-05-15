@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Img from "../atoms/Img";
 import AttachmentButton from "../atoms/AttachmentButton";
 import Paragraph from "../atoms/Paragraph";
 import Span from "../atoms/Span";
+import OsList from "./OsList";
 
 const DropBox = styled.div`
   display: flex;
@@ -30,59 +30,19 @@ const AttachmentBox = styled.div`
   gap: 5px;
 `;
 
-const OsIconBox = styled.ul`
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 80%;
-  gap: 10px;
-`;
-
-const OsListBox = styled.li`
-  > :first-child {
-    margin-bottom: 5px;
-    width: 50px;
-    height: 50px;
-  }
-`;
-
-interface OsData {
-  id: number;
-  src: string;
-  os: string;
-}
-
-const osData = [
-  {
-    id: 0,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/window.png"}`,
-    os: "Window",
-  },
-  {
-    id: 1,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/mac.png"}`,
-    os: "MacOS",
-  },
-  {
-    id: 2,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/android.png"}`,
-    os: "Android",
-  },
-  {
-    id: 3,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/ios.png"}`,
-    os: "IOS",
-  },
-];
-
 type DropZoneProps = {
   pushNewlyAttachedFiles: (files: any) => void;
   handleChangeFile: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  setSelectedOsIndex: (index: number) => void;
+  selectedOsIndex: number | null;
 };
 
-const FileDrop = ({ pushNewlyAttachedFiles, handleChangeFile }: DropZoneProps) => {
+const FileDrop = ({
+  pushNewlyAttachedFiles,
+  handleChangeFile,
+  selectedOsIndex,
+  setSelectedOsIndex,
+}: DropZoneProps) => {
   const [dragging, setDragging] = useState(false);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -119,16 +79,8 @@ const FileDrop = ({ pushNewlyAttachedFiles, handleChangeFile }: DropZoneProps) =
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <OsIconBox>
-        {osData.map((data: OsData) => {
-          return (
-            <OsListBox key={data.id}>
-              <Img src={data.src} />
-              <Span>{data.os}</Span>
-            </OsListBox>
-          );
-        })}
-      </OsIconBox>
+      <OsList selectedOsIndex={selectedOsIndex} setSelectedOsIndex={setSelectedOsIndex} />
+
       <Span fontSize="18px">내보내기한 카카오톡 텍스트 파일을 드래그하여 여기에 끌어다 놓거나</Span>
       <AttachmentBox>
         <AttachmentButton onChange={handleChangeFile}>첨부하기</AttachmentButton>

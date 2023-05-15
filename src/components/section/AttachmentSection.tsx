@@ -11,13 +11,17 @@ import {
   MessageInfo,
   OriginMessageData,
 } from "../../@types/index.d";
-import { breakdownTxtFile, readAsDataURL } from "../../module/core/breakdownTxtFile";
+import {
+  breakdownTxtFile,
+  readAsDataURL,
+} from "../../module/core/breakdownTxtFile";
 import { getMessageData } from "../../module/core/getMessageData";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../store/reducer/messageSlice";
 import Span from "../atoms/Span";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../module/common/scrollEvent";
+import OsList from "../organisms/OsList";
 
 const AttachmentSectionBox = styled.div`
   padding: 80px 0;
@@ -37,6 +41,10 @@ const ButtonBox = styled.div`
   > :first-child {
     margin-bottom: 10px;
   }
+`;
+
+const OsListBox = styled.div`
+  margin-top: 100px;
 `;
 
 /**
@@ -66,20 +74,22 @@ const decodeTxtFileIntoMessageData = async (attachedFiles: any[]) => {
  * @returns {AnalyzedMessage[][][]} - 테이블 형태로 변환된 분석된 메시지 데이터
  */
 const transformIntoTableForm = (analyzedMessages: any[]) => {
-  const analyzedMessageData: AnalyzedMessage[][][] = analyzedMessages.map((chatRooms: Chatroom[]) => {
-    return chatRooms.map((chatRoom: Chatroom) => {
-      const { speaker, dates } = chatRoom;
-      return dates.map((date: MessageInfo) => {
-        return {
-          speaker: speaker,
-          date: date.date,
-          chatTimes: date.data.chatTimes,
-          keywordCounts: date.data.keywordCounts,
-          replyTime: date.data.replyTime,
-        };
+  const analyzedMessageData: AnalyzedMessage[][][] = analyzedMessages.map(
+    (chatRooms: Chatroom[]) => {
+      return chatRooms.map((chatRoom: Chatroom) => {
+        const { speaker, dates } = chatRoom;
+        return dates.map((date: MessageInfo) => {
+          return {
+            speaker: speaker,
+            date: date.date,
+            chatTimes: date.data.chatTimes,
+            keywordCounts: date.data.keywordCounts,
+            replyTime: date.data.replyTime,
+          };
+        });
       });
-    });
-  });
+    }
+  );
   return analyzedMessageData;
 };
 
@@ -89,8 +99,11 @@ const transformIntoTableForm = (analyzedMessages: any[]) => {
  * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
 const analyzeMessage = async (attachedFiles: FileObject[][]) => {
-  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(attachedFiles);
-  const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
+  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(
+    attachedFiles
+  );
+  const analyzedMessageData: AnalyzedMessage[][][] =
+    transformIntoTableForm(analyzedMessages);
   return analyzedMessageData;
 };
 
@@ -100,16 +113,28 @@ const AttachmentSection = () => {
   const attachmentSectionRef = useRef<HTMLDivElement | null>(null);
 
   const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
-
-  const pushNewlyAttachedFiles = (files: any[]) => {
-    if (attachedFiles.length) {
-      return setAttachedFiles([...attachedFiles, [...files]]);
-    }
-    setAttachedFiles([[...files]]);
+  const [selectedOsIndex, setSelectedOsIndex] = useState<number | null>(null);
+  // 파일 확장자 허용 타입
+  const isAllowedFileType = (file: File): boolean => {
+    const allowedExtensions = [".txt", ".csv"];
+    const fileType = file.name.substring(file.name.lastIndexOf("."));
+    return allowedExtensions.includes(fileType);
   };
-
+  const pushNewlyAttachedFiles = (files: any[]) => {
+    const allowedFiles = files.filter((file) => isAllowedFileType(file));
+    if (allowedFiles.length === 0) {
+      alert("파일은 오직 .txt 그리고 .csv만 첨부가 가능합니다");
+      return;
+    }
+    if (attachedFiles.length) {
+      return setAttachedFiles([...attachedFiles, [...allowedFiles]]);
+    }
+    setAttachedFiles([[...allowedFiles]]);
+  };
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
-    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
+    const filteredFileList = [...attachedFiles].filter(
+      (_, index) => index !== fileArrayIndex
+    );
     setAttachedFiles(filteredFileList);
   };
 
@@ -122,7 +147,9 @@ const AttachmentSection = () => {
 
   const dispatchAnalyzedMessages = async (attachedFiles: FileObject[][]) => {
     try {
-      const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(attachedFiles);
+      const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(
+        attachedFiles
+      );
       dispatch(setAnalyzedMessages(analyzedMessage));
     } catch (error) {
       console.error(error);
@@ -131,6 +158,7 @@ const AttachmentSection = () => {
 
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFiles);
+
     navigate("/dashboard");
     console.log("??");
   };
@@ -138,7 +166,8 @@ const AttachmentSection = () => {
   const handleScrollDown = () => {
     if (attachmentSectionRef.current) {
       scrollToEvent(
-        attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight,
+        attachmentSectionRef.current.offsetTop +
+          attachmentSectionRef.current.offsetHeight,
         "smooth"
       );
     }
@@ -150,21 +179,43 @@ const AttachmentSection = () => {
 
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
-      <FileDrop
-        pushNewlyAttachedFiles={pushNewlyAttachedFiles}
-        handleChangeFile={handleChangeFile}
-      ></FileDrop>
-      <AttachedFileList
-        attachedFiles={attachedFiles}
-        deleteAttachedFileArray={deleteAttachedFileArray}
-      ></AttachedFileList>
-      <ButtonBox>
-        <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
-          분석하기
-        </RadiusButton>
-        {!attachedFiles.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
-      </ButtonBox>
-      <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
+      {!selectedOsIndex ? (
+        <OsListBox>
+          <OsList
+            size="100px"
+            selectedOsIndex={selectedOsIndex}
+            setSelectedOsIndex={setSelectedOsIndex}
+          />
+          <Span fontSize="24px">운영체제를 선택해 주세요.</Span>
+        </OsListBox>
+      ) : (
+        <>
+          <FileDrop
+            pushNewlyAttachedFiles={pushNewlyAttachedFiles}
+            handleChangeFile={handleChangeFile}
+            selectedOsIndex={selectedOsIndex}
+            setSelectedOsIndex={setSelectedOsIndex}
+          ></FileDrop>
+          <AttachedFileList
+            attachedFiles={attachedFiles}
+            deleteAttachedFileArray={deleteAttachedFileArray}
+          ></AttachedFileList>
+          <ButtonBox>
+            <RadiusButton
+              onClick={handleClickAnalyzeButton}
+              disabled={!attachedFiles.length}
+            >
+              분석하기
+            </RadiusButton>
+            {!attachedFiles.length && (
+              <Span fontSize="14px">* 파일을 첨부해 주세요</Span>
+            )}
+          </ButtonBox>
+          <ScrollIndicator onClick={handleScrollDown}>
+            카카오톡 메시지 내보내기 방법은?
+          </ScrollIndicator>
+        </>
+      )}
     </AttachmentSectionBox>
   );
 };
