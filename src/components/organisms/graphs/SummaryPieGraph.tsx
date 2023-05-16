@@ -90,6 +90,9 @@ const SummaryPieGraph = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const nfKeywordCounts = useSelector(
+    (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
+  );
   const [selectedChatRoomData, setSelectedChatRoomData] = useState<selectedChatRoomData | null>(null);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
@@ -109,7 +112,7 @@ const SummaryPieGraph = () => {
   const handleClickChatRoom = (index: number) => {
     dispatch(setSelectedChatRoomIndex(index));
   };
-  console.log(mostChattedTimes, "mostChattedTimesmostChattedTimes");
+
   useEffect(() => {
     setSelectedChatRoomData({
       totalChatCount: totalChatCounts[selectedChatRoomIndex],
@@ -119,8 +122,12 @@ const SummaryPieGraph = () => {
       averageReplyTime: averageReplyTime[selectedChatRoomIndex],
     });
     dispatch(setAverageReplyTime(averageReplyTime[selectedChatRoomIndex]));
-    console.log(selectedChatRoomData, "selectedChatRoomData");
   }, [selectedChatRoomIndex]);
+
+  const nfKeywordCountArray = nfKeywordCounts.map((nfCountArray: number[]) => {
+    return nfCountArray.reduce((a: number, b: number) => a + b, 0);
+  });
+  console.log(nfKeywordCountArray);
 
   return (
     <>
@@ -136,7 +143,7 @@ const SummaryPieGraph = () => {
             labelLine
             label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
           >
-            {pieGraphData.map((entry, index) => (
+            {pieGraphData.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
                 onClick={() => handleClickChatRoom(index)}
@@ -149,7 +156,7 @@ const SummaryPieGraph = () => {
         </PieChart>
       </ResponsiveContainer>
 
-      {/* {selectedChatRoomData && (
+      {selectedChatRoomData && (
         <div>
           <GraphInformation unit={"총 대화 수"} value={selectedChatRoomData.totalChatCount.toString()} />
           <GraphInformation unit={"대화자"} value={selectedChatRoomData.speakers.join(",")} />
@@ -170,7 +177,7 @@ const SummaryPieGraph = () => {
             );
           })}
         </div>
-      )} */}
+      )}
     </>
   );
 };

@@ -9,6 +9,7 @@ import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
 import PeriodRatioGraph from "../organisms/graphs/ChatVolumeGraph";
 import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
+import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
 
 const DashboardTemplateContainer = styled.div`
   padding: 50px;
@@ -111,7 +112,10 @@ const DashboardSection = () => {
           <DashboardContainer>바디2</DashboardContainer>
         </VerticalBox>
       </BodyBox>
-      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}</TempGraphBox>
+      <TempGraphBox>
+        {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
+      </TempGraphBox>
+      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <KeywordCloud />}</TempGraphBox>
     </DashboardTemplateContainer>
   );
 };

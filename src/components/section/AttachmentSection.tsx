@@ -14,7 +14,7 @@ import {
 import { breakdownTxtFile, readAsDataURL } from "../../module/core/breakdownTxtFile";
 import { getMessageData } from "../../module/core/getMessageData";
 import { useDispatch } from "react-redux";
-import { setAnalyzedMessages } from "../../store/reducer/messageSlice";
+import { setAnalyzedMessages } from "../../store/reducer/analyzedMessagesSlice";
 import Span from "../atoms/Span";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../module/common/scrollEvent";
@@ -138,7 +138,6 @@ const AttachmentSection = () => {
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFiles);
     navigate("/dashboard");
-    console.log("??");
   };
 
   const handleScrollDown = () => {
@@ -150,9 +149,7 @@ const AttachmentSection = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(attachedFiles);
-  }, [attachedFiles]);
+  useEffect(() => {}, [attachedFiles]);
 
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
