@@ -11,7 +11,6 @@ export const lightTheme: LightTheme = {
   mainBlack: "#191F28",
   mainGray: "#B0B8C1",
   mainText: "#191F28",
-
   mainBlueHover: "#0d6efd",
   border: "#e1e1e1",
 };
