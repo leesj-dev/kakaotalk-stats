@@ -18,7 +18,7 @@ type StackBarData = {
   [key: string]: number | string | undefined;
 };
 
-const PeriodRatioGraph = () => {
+const ChatVolumeGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -97,9 +97,9 @@ const PeriodRatioGraph = () => {
   // 날짜제한
 
   return (
-    <div>
+    <>
       기간 대화량
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={"80%"}>
         <BarChart
           width={500}
           height={300}
@@ -128,8 +128,8 @@ const PeriodRatioGraph = () => {
           <li>일간</li>
         </ul>
       </div>
-    </div>
+    </>
   );
 };
 
-export default PeriodRatioGraph;
+export default ChatVolumeGraph;

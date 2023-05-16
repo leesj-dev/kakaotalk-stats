@@ -149,7 +149,7 @@ const ReplyLineGraph = () => {
       >
         주간 답장 속도
       </div>
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={"80%"}>
         <LineChart
           width={500}
           height={300}

@@ -120,58 +120,56 @@ const TimezoneGraph = () => {
   return (
     <>
       시간대별 대화량
-      <div style={{ width: "100%" }}>
-        {speakerNames.map((_: any, index: number) => {
+      {speakerNames.map((_: any, index: number) => {
+        return (
+          <div key={index} onClick={() => handleClickSpeaker(index)}>
+            {speakerNames[index]}
+          </div>
+        );
+      })}
+      {scatter.length &&
+        scatter[selectedSpeakerIndex].map((item: any, index: number) => {
           return (
-            <div key={index} onClick={() => handleClickSpeaker(index)}>
-              {speakerNames[index]}
-            </div>
+            <ResponsiveContainer key={index} width="100%" height={60}>
+              <ScatterChart
+                margin={{
+                  top: 10,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                }}
+              >
+                <XAxis
+                  type="category"
+                  dataKey="hour"
+                  name="hour"
+                  interval={0}
+                  tick={{ fontSize: 15 }}
+                  tickLine={{ transform: "translate(0, -6)" }}
+                />
+                <YAxis
+                  type="number"
+                  dataKey="index"
+                  height={10}
+                  width={80}
+                  tick={false}
+                  axisLine={false}
+                  label={{
+                    value: `${item.day}`,
+                    position: "insideRight",
+                  }}
+                />
+                <ZAxis type="number" dataKey="value" range={range} />
+                <Tooltip
+                  cursor={{ strokeDasharray: "3 3" }}
+                  wrapperStyle={{ zIndex: 100 }}
+                  content={renderTooltip}
+                />
+                <Scatter data={item.values} fill="#8884d8" />
+              </ScatterChart>
+            </ResponsiveContainer>
           );
         })}
-        {scatter.length &&
-          scatter[selectedSpeakerIndex].map((item: any, index: number) => {
-            return (
-              <ResponsiveContainer key={index} width="100%" height={60}>
-                <ScatterChart
-                  margin={{
-                    top: 10,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                  }}
-                >
-                  <XAxis
-                    type="category"
-                    dataKey="hour"
-                    name="hour"
-                    interval={0}
-                    tick={{ fontSize: 15 }}
-                    tickLine={{ transform: "translate(0, -6)" }}
-                  />
-                  <YAxis
-                    type="number"
-                    dataKey="index"
-                    height={10}
-                    width={80}
-                    tick={false}
-                    axisLine={false}
-                    label={{
-                      value: `${item.day}`,
-                      position: "insideRight",
-                    }}
-                  />
-                  <ZAxis type="number" dataKey="value" range={range} />
-                  <Tooltip
-                    cursor={{ strokeDasharray: "3 3" }}
-                    wrapperStyle={{ zIndex: 100 }}
-                    content={renderTooltip}
-                  />
-                  <Scatter data={item.values} fill="#8884d8" />
-                </ScatterChart>
-              </ResponsiveContainer>
-            );
-          })}
-      </div>
     </>
   );
 };

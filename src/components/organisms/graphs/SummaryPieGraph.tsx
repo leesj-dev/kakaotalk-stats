@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { getChatTimes, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { setSelectedChatRoomIndex } from "../../../store/reducer/selectedRoomIndexSlice";
 import {
@@ -27,10 +27,6 @@ export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   }
   return totalChatCounts;
 };
-
-const TestDiv = styled.div`
-  display: flex;
-`;
 
 const getTwoLettersFromSpeakers = (speakers: string[][]) => {
   let chatRoomNames: string[] = [];
@@ -127,30 +123,33 @@ const SummaryPieGraph = () => {
   }, [selectedChatRoomIndex]);
 
   return (
-    <TestDiv>
-      <PieChart width={400} height={400}>
-        <Pie
-          data={pieGraphData}
-          cx={200}
-          cy={200}
-          innerRadius={70}
-          outerRadius={100}
-          dataKey="value"
-          labelLine
-          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-        >
-          {pieGraphData.map((entry, index) => (
-            <Cell
-              key={`cell-${index}`}
-              onClick={() => handleClickChatRoom(index)}
-              fill={COLORS[index % COLORS.length]}
-            />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend layout="horizontal" />
-      </PieChart>
-      {selectedChatRoomData && (
+    <>
+      <ResponsiveContainer width="100%" height={"80%"}>
+        <PieChart width={400} height={400}>
+          <Pie
+            data={pieGraphData}
+            cx={200}
+            cy={200}
+            innerRadius={70}
+            outerRadius={100}
+            dataKey="value"
+            labelLine
+            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+          >
+            {pieGraphData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                onClick={() => handleClickChatRoom(index)}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend layout="horizontal" />
+        </PieChart>
+      </ResponsiveContainer>
+
+      {/* {selectedChatRoomData && (
         <div>
           <GraphInformation unit={"총 대화 수"} value={selectedChatRoomData.totalChatCount.toString()} />
           <GraphInformation unit={"대화자"} value={selectedChatRoomData.speakers.join(",")} />
@@ -171,8 +170,8 @@ const SummaryPieGraph = () => {
             );
           })}
         </div>
-      )}
-    </TestDiv>
+      )} */}
+    </>
   );
 };
 

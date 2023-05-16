@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
 
 const COLORS = ["#FF414D", "#FF8991", "#F7ABB1"];
@@ -36,27 +36,29 @@ const ChatRatioGraph = () => {
   }));
 
   return (
-    <div>
+    <>
       대화비율
-      <PieChart width={400} height={400}>
-        <Pie
-          data={data}
-          cx={200}
-          cy={200}
-          innerRadius={0}
-          outerRadius={100}
-          dataKey="value"
-          labelLine
-          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-        >
-          {data.map((entry: any, index: number) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend layout="horizontal" />
-      </PieChart>
-    </div>
+      <ResponsiveContainer width="100%" height={"80%"}>
+        <PieChart width={400} height={400}>
+          <Pie
+            data={data}
+            cx={200}
+            cy={200}
+            innerRadius={0}
+            outerRadius={100}
+            dataKey="value"
+            labelLine
+            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+          >
+            {data.map((entry: any, index: number) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend layout="horizontal" />
+        </PieChart>
+      </ResponsiveContainer>
+    </>
   );
 };
 
