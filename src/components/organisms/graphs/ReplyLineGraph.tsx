@@ -12,11 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
-import {
-  getDates,
-  getReplyTimes,
-  getSpeakers,
-} from "../../../module/common/getProperties";
+import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
@@ -53,11 +49,8 @@ const assignScore = (value: number) => {
   }
 };
 
-const createLineGraphData = (
-  chatSpeakers: string[],
-  chatDates: string[],
-  replyTimes: ReplyTime[][]
-) => {
+
+const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyTimes: ReplyTime[][]) => {
   const chatDatesSet = new Set(chatDates.flat());
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
 
@@ -103,14 +96,10 @@ const createLineGraphDataWeekly = (
     // 1개씩 출력한 결과 너무 튀는 경우가 있으므로, 이를 개선하기 위해 7개 메시지 단위로 합산한 결과를 반영한다.
     for (let j = i; j < i + 7 && j < NotDuplicatedChatDates.length; j++) {
       chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
-        const dateIndex: number = chatDates[speakerIndex].indexOf(
-          NotDuplicatedChatDates[j]
-        );
+        const dateIndex: number = chatDates[speakerIndex].indexOf(NotDuplicatedChatDates[j]);
         const replyTimeDayData = replyTimes[speakerIndex][dateIndex];
         if (dateIndex !== -1) {
-          const replyTime =
-            Math.floor(replyTimeDayData.difference / replyTimeDayData.count) ||
-            0;
+          const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count) || 0;
           date[speaker] = (date[speaker] || 0) + replyTime;
         }
       });
@@ -168,6 +157,7 @@ const ReplyLineGraph = () => {
   const [countKeysLessThanData, setCountKeysLessThanData] = useState<
     Record<string, number>
   >({});
+
   const replyTimes = getReplyTimes(analyzedMessages)[selectedChatRoomIndex];
   const chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
   const chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
@@ -215,6 +205,7 @@ const ReplyLineGraph = () => {
           )
         )}
       </div>
+
       <ResponsiveContainer width="100%" height={500}>
         <LineChart
           width={500}

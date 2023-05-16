@@ -114,6 +114,7 @@ const AttachmentSection = () => {
 
   const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
   const [selectedOsIndex, setSelectedOsIndex] = useState<number | null>(null);
+
   // 파일 확장자 허용 타입
   const isAllowedFileType = (file: File): boolean => {
     const allowedExtensions = [".txt", ".csv"];
@@ -167,8 +168,7 @@ const AttachmentSection = () => {
   const handleScrollDown = () => {
     if (attachmentSectionRef.current) {
       scrollToEvent(
-        attachmentSectionRef.current.offsetTop +
-          attachmentSectionRef.current.offsetHeight,
+        attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight,
         "smooth"
       );
     }
@@ -202,19 +202,13 @@ const AttachmentSection = () => {
             deleteAttachedFileArray={deleteAttachedFileArray}
           ></AttachedFileList>
           <ButtonBox>
-            <RadiusButton
-              onClick={handleClickAnalyzeButton}
-              disabled={!attachedFiles.length}
-            >
+
+            <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
               분석하기
             </RadiusButton>
-            {!attachedFiles.length && (
-              <Span fontSize="14px">* 파일을 첨부해 주세요</Span>
-            )}
+            {!attachedFiles.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
           </ButtonBox>
-          <ScrollIndicator onClick={handleScrollDown}>
-            카카오톡 메시지 내보내기 방법은?
-          </ScrollIndicator>
+          <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
         </>
       )}
     </AttachmentSectionBox>

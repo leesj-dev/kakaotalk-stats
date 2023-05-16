@@ -112,8 +112,7 @@ const MainColumnBottom = styled.div`
 
 const DashboardTemplate = () => {
   const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage }) =>
-      state.analyzedMessagesSlice
+    (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
   );
 
   useEffect(() => {
@@ -136,26 +135,18 @@ const DashboardTemplate = () => {
         <MainBox>
           <MainColumnTop>
             <DashboardContainer>
-              {Array.isArray(results) && results.length !== 0 && (
-                <PeriodRatioGraph />
-              )}
+              {Array.isArray(results) && results.length !== 0 && <PeriodRatioGraph />}
             </DashboardContainer>
             <DashboardContainer>
-              {Array.isArray(results) && results.length !== 0 && (
-                <TimezoneGraph />
-              )}
+              {Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}
             </DashboardContainer>
           </MainColumnTop>
           <MainColumnBottom>
             <DashboardContainer>
-              {Array.isArray(results) && results.length !== 0 && (
-                <KeywordCloud />
-              )}
+              {Array.isArray(results) && results.length !== 0 && <KeywordCloud />}
             </DashboardContainer>
             <DashboardContainer>
-              {Array.isArray(results) && results.length !== 0 && (
-                <ReplyLineGraph />
-              )}
+              {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
             </DashboardContainer>
           </MainColumnBottom>
         </MainBox>
