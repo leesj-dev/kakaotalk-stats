@@ -131,6 +131,7 @@ const AttachmentSection = () => {
     }
     setAttachedFiles([[...allowedFiles]]);
   };
+
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
     const filteredFileList = [...attachedFiles].filter(
       (_, index) => index !== fileArrayIndex
