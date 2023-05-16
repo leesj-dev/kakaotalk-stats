@@ -78,6 +78,10 @@ const VerticalBox = styled.div`
   }
 `;
 
+const TempGraphBox = styled.div`
+  height: 500px;
+`;
+
 const DashboardSection = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
@@ -107,6 +111,7 @@ const DashboardSection = () => {
           <DashboardContainer>바디2</DashboardContainer>
         </VerticalBox>
       </BodyBox>
+      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}</TempGraphBox>
     </DashboardTemplateContainer>
   );
 };

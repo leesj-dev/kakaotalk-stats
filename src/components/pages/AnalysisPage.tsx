@@ -56,10 +56,9 @@ const AnalysisPage = () => {
       <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}</TempGraphBox>
       <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}</TempGraphBox>
       <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <KeywordCloud />}</TempGraphBox>
-      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}</TempGraphBox>
       <TempGraphBox>
-        {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
-      </TempGraphBox> */}
+      {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
+    </TempGraphBox> */}
     </AnalysisPageBox>
   );
 };
