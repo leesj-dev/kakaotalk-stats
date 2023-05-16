@@ -175,7 +175,10 @@ const ReplyLineGraph = () => {
     );
   }, [selectedChatRoomIndex]);
 
-  console.log(countKeysLessThanData);
+  console.log(
+    countKeysLessThanData,
+    "countKeysLessThanDatacountKeysLessThanData"
+  );
   return (
     <>
       답장속도
@@ -198,12 +201,11 @@ const ReplyLineGraph = () => {
         주간 답장 속도
       </div>
       <div>
-        {" "}
-        {Object.entries(countKeysLessThanValue(displayData, 4.5)).map(
-          ([key, value]) => (
-            <div key={key}>{`${key}: ${value}회`}</div>
-          )
-        )}
+        {Object.entries(
+          countKeysLessThanValue(displayData, getAverageReplyTime(displayData))
+        ).map(([key, value]) => (
+          <div key={key}>{`${key}: ${value}회`}</div>
+        ))}
       </div>
 
       <ResponsiveContainer width="100%" height={500}>
