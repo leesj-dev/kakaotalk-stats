@@ -51,7 +51,6 @@ const assignScore = (value: number) => {
   }
 };
 
-
 const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyTimes: ReplyTime[][]) => {
   const chatDatesSet = new Set(chatDates.flat());
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
@@ -63,12 +62,9 @@ const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyT
     const date: any = { name: NotDuplicatedChatDates[i] };
 
     chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
-      const dateIndex: number = chatDates[speakerIndex].indexOf(
-        NotDuplicatedChatDates[i]
-      );
+      const dateIndex: number = chatDates[speakerIndex].indexOf(NotDuplicatedChatDates[i]);
       const replyTimeDayData = replyTimes[speakerIndex][dateIndex];
       if (dateIndex !== -1) {
-
         const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count || 0);
         // date[speaker] = replyTime;
         date[speaker] = assignScore(replyTime);
@@ -125,22 +121,14 @@ const getAverageReplyTime = (displayData: Record<string, number>[]) => {
   return averageReplyTime;
 };
 
-const countKeysLessThanValue = (
-  displayData: Record<string, number>[],
-  value: number
-) => {
+const countKeysLessThanAverage = (displayData: Record<string, number>[], averageReplyTime: number) => {
   const keyCounts: Record<string, number> = {};
-
   for (let i = 0; i < displayData.length; i++) {
     const keys = Object.keys(displayData[i]);
 
     for (let j = 0; j < keys.length; j++) {
-      if (displayData[i][keys[j]] < value) {
-        if (keyCounts[keys[j]] === undefined) {
-          keyCounts[keys[j]] = 1;
-        } else {
-          keyCounts[keys[j]]++;
-        }
+      if (keys[j] !== "답장횟수" && keys[j] !== "name" && displayData[i][keys[j]] > averageReplyTime) {
+        keyCounts[keys[j]] = keyCounts[keys[j]] + 1 || 1;
       }
     }
   }
@@ -149,8 +137,7 @@ const countKeysLessThanValue = (
 
 const ReplyLineGraph = () => {
   const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) =>
-      state.analyzedMessagesSlice
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
 
   const selectedChatRoomIndex = useSelector(
@@ -158,9 +145,7 @@ const ReplyLineGraph = () => {
   );
 
   const [displayData, setDisplayData] = useState<any[]>([]);
-  const [countKeysLessThanData, setCountKeysLessThanData] = useState<
-    Record<string, number>
-  >({});
+  const [countKeysLessThanData, setCountKeysLessThanData] = useState<Record<string, number>>({});
 
   const replyTimes = getReplyTimes(analyzedMessages)[selectedChatRoomIndex];
   const chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
@@ -169,48 +154,34 @@ const ReplyLineGraph = () => {
   const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
     return [speaker, colors[index % colors.length]];
   });
+  const averageReplyTime = getAverageReplyTime(displayData);
 
   useEffect(() => {
     setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes));
-    setCountKeysLessThanData(
-      countKeysLessThanValue(displayData, getAverageReplyTime(displayData))
-    );
+    setCountKeysLessThanData(countKeysLessThanAverage(displayData, averageReplyTime));
   }, [selectedChatRoomIndex]);
 
-  console.log(
-    countKeysLessThanData,
-    "countKeysLessThanDatacountKeysLessThanData"
-  );
+  console.log(countKeysLessThanData, "countKeysLessThanDatacountKeysLessThanData");
   return (
     <>
       답장속도
-      <div
-        onClick={() =>
-          setDisplayData(
-            createLineGraphData(chatSpeakers, chatDates, replyTimes)
-          )
-        }
-      >
+      <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
         일간 답장 속도
       </div>
       <div
-        onClick={() =>
-          setDisplayData(
-            createLineGraphDataWeekly(chatSpeakers, chatDates, replyTimes)
-          )
-        }
+        onClick={() => setDisplayData(createLineGraphDataWeekly(chatSpeakers, chatDates, replyTimes))}
       >
         주간 답장 속도
       </div>
+      <div>
+        {Object.entries(countKeysLessThanAverage(displayData, getAverageReplyTime(displayData))).map(
+          ([key, value]) => (
+            <div key={key}>{`평균보다 더 답장을 빨리한 횟수 ${key}: ${value}회`}</div>
+          )
+        )}
+      </div>
       <ResponsiveContainer width="100%" height={"80%"}>
         <ComposedChart
-          <div>
-            {Object.entries(
-              countKeysLessThanValue(displayData, getAverageReplyTime(displayData))
-            ).map(([key, value]) => (
-              <div key={key}>{`${key}: ${value}회`}</div>
-            ))}
-          </div>
           width={500}
           height={300}
           data={displayData}
@@ -231,7 +202,6 @@ const ReplyLineGraph = () => {
           <ReferenceLine
             y={getAverageReplyTime(displayData)}
             yAxisId="left"
-
             label="평균답장속도"
             stroke="orange"
           />

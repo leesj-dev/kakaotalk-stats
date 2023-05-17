@@ -33,6 +33,7 @@ import styled from "styled-components";
 import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
+import ReplyLineGraph from "./ReplyLineGraph";
 
 const colors = [
   "#36A2EB", // 파랑
@@ -317,8 +318,11 @@ const SummaryPieGraph = () => {
             );
           })}
           <Legend />
+          <Tooltip />
         </RadarChart>
       </ResponsiveContainer>
+
+      {Array.isArray(analyzedMessages) && analyzedMessages.length !== 0 && <ReplyLineGraph />}
     </>
   );
 };
