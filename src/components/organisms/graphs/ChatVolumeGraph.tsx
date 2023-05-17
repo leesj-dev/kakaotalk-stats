@@ -18,6 +18,14 @@ type StackBarData = {
   [key: string]: number | string | undefined;
 };
 
+export const getNotDuplicatedChatDates = (chatDates: string[]) => {
+  const chatDatesSet = new Set(chatDates.flat());
+  const notDuplicatedChatDates = Array.from(chatDatesSet).sort(
+    (a: string, b: string) => Number(a) - Number(b)
+  );
+  return notDuplicatedChatDates;
+};
+
 const ChatVolumeGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -56,19 +64,16 @@ const ChatVolumeGraph = () => {
   //   },
 
   const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTimes: ChatTimes[][]) => {
-    const chatDatesSet = new Set(chatDates.flat());
-    const NotDuplicatedChatDates = Array.from(chatDatesSet).sort(
-      (a: string, b: string) => Number(a) - Number(b)
-    );
+    const notDuplicatedChatDates = getNotDuplicatedChatDates(chatDates);
 
     const stackBarData: StackBarData[] = [];
 
     // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
-    for (let i = 0; i < NotDuplicatedChatDates.length; i++) {
-      const date: any = { name: NotDuplicatedChatDates[i] };
+    for (let i = 0; i < notDuplicatedChatDates.length; i++) {
+      const date: any = { name: notDuplicatedChatDates[i] };
 
       chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
-        const dateIndex: number = chatDates[speakerIndex].indexOf(NotDuplicatedChatDates[i]);
+        const dateIndex: number = chatDates[speakerIndex].indexOf(notDuplicatedChatDates[i]);
         if (dateIndex !== -1) {
           date[speaker[0]] = sumChatCountsDay(chatTimes[speakerIndex][dateIndex]);
         }
