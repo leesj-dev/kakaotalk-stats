@@ -10,6 +10,8 @@ import {
   Legend,
   ReferenceLine,
   ResponsiveContainer,
+  ComposedChart,
+  Bar,
 } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
@@ -66,10 +68,11 @@ const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyT
       );
       const replyTimeDayData = replyTimes[speakerIndex][dateIndex];
       if (dateIndex !== -1) {
-        const replyTime = Math.floor(
-          replyTimeDayData.difference / replyTimeDayData.count || 0
-        );
+
+        const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count || 0);
+        // date[speaker] = replyTime;
         date[speaker] = assignScore(replyTime);
+        date["답장횟수"] = replyTimeDayData.count;
       }
     });
     if (Object.values(date).includes(0)) {
@@ -101,6 +104,7 @@ const createLineGraphDataWeekly = (
         if (dateIndex !== -1) {
           const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count) || 0;
           date[speaker] = (date[speaker] || 0) + replyTime;
+          date["답장횟수"] = (date["답장횟수"] || 0) + replyTimeDayData.count;
         }
       });
     }
@@ -112,7 +116,8 @@ const createLineGraphDataWeekly = (
 
 const getAverageReplyTime = (displayData: Record<string, number>[]) => {
   const averageDaily = displayData.map((data: Record<string, number>) => {
-    const values = Object.values(data);
+    const { 답장횟수, ...newData } = data;
+    const values = Object.values(newData);
     const averageDaily = reduceAPlusB(values.slice(1)) / (values.length - 1);
     return averageDaily;
   });
@@ -152,7 +157,6 @@ const ReplyLineGraph = () => {
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
-  // const [replyLineGraphData, setReplyLineGraphData] = useState<LineGraphData[]>([]);
   const [displayData, setDisplayData] = useState<any[]>([]);
   const [countKeysLessThanData, setCountKeysLessThanData] = useState<
     Record<string, number>
@@ -162,11 +166,9 @@ const ReplyLineGraph = () => {
   const chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
   const chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
   const colors = ["#8884d8", "#82ca9d"];
-  const chatSpeakersColorPair = chatSpeakers.map(
-    (speaker: string, index: number) => {
-      return [speaker, colors[index % colors.length]];
-    }
-  );
+  const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
+    return [speaker, colors[index % colors.length]];
+  });
 
   useEffect(() => {
     setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes));
@@ -200,16 +202,15 @@ const ReplyLineGraph = () => {
       >
         주간 답장 속도
       </div>
-      <div>
-        {Object.entries(
-          countKeysLessThanValue(displayData, getAverageReplyTime(displayData))
-        ).map(([key, value]) => (
-          <div key={key}>{`${key}: ${value}회`}</div>
-        ))}
-      </div>
-
-      <ResponsiveContainer width="100%" height={500}>
-        <LineChart
+      <ResponsiveContainer width="100%" height={"80%"}>
+        <ComposedChart
+          <div>
+            {Object.entries(
+              countKeysLessThanValue(displayData, getAverageReplyTime(displayData))
+            ).map(([key, value]) => (
+              <div key={key}>{`${key}: ${value}회`}</div>
+            ))}
+          </div>
           width={500}
           height={300}
           data={displayData}
@@ -222,11 +223,15 @@ const ReplyLineGraph = () => {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis yAxisId="left" />
+          <YAxis yAxisId="right" orientation="right" />
           <Tooltip />
           <Legend />
+          <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#413ea0" />
           <ReferenceLine
             y={getAverageReplyTime(displayData)}
+            yAxisId="left"
+
             label="평균답장속도"
             stroke="orange"
           />
@@ -234,13 +239,14 @@ const ReplyLineGraph = () => {
             return (
               <Line
                 key={index}
+                yAxisId="left"
                 type="monotone"
                 dataKey={speaker[0]}
                 stroke={speaker[1]}
               />
             );
           })}
-        </LineChart>
+        </ComposedChart>
       </ResponsiveContainer>
     </>
   );

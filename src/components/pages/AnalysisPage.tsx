@@ -6,16 +6,29 @@ import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
 import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
 import scrollToEvent from "../../module/common/scrollEvent";
-import ChatRatioGraph from "../organisms/graphs/ChatRatioGraph";
+import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
 import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
-import PeriodRatioGraph from "../organisms/graphs/PeriodRatioGraph";
+import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
 import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
 import DatePickerCalendar from "../organisms/DatePickerCalendar";
-import Dashboard from "../templates/DashboardTemplate";
-import DashboardTemplate from "../templates/DashboardTemplate";
+import DashboardSection from "../section/DashboardSection";
+import DashboardSideMenu from "../section/DashboardSideMenu";
 
 const AnalysisPageBox = styled.div`
-  margin-top: 100px;
+  margin-top: 80px;
+  display: flex;
+  width: 100%;
+
+  > :nth-child(1) {
+    width: 15%;
+  }
+  > :nth-child(2) {
+    width: 85%;
+  }
+`;
+
+const TempGraphBox = styled.div`
+  height: 500px;
 `;
 
 const AnalysisPage = () => {
@@ -29,15 +42,23 @@ const AnalysisPage = () => {
 
   return (
     <AnalysisPageBox>
-      <DashboardTemplate />
-      {Array.isArray(results) && results.length !== 0 && <DatePickerCalendar />}
-      {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
-      {Array.isArray(results) && results.length !== 0 && <PeriodRatioGraph />}
-      {Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}
-      {Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}
-      {Array.isArray(results) && results.length !== 0 && <KeywordCloud />}
-      {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
+      <DashboardSideMenu />
+      <DashboardSection />
+      {/* <TempGraphBox>
+        {Array.isArray(results) && results.length !== 0 && <DatePickerCalendar />}
+      </TempGraphBox>
+      <TempGraphBox>
+        {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
+      </TempGraphBox>
+      <TempGraphBox>
+        {Array.isArray(results) && results.length !== 0 && <ChatVolumeGraph />}
+      </TempGraphBox>
+      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}</TempGraphBox>
+      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}</TempGraphBox>
+      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <KeywordCloud />}</TempGraphBox>
+      <TempGraphBox>
       {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
+    </TempGraphBox> */}
     </AnalysisPageBox>
   );
 };

@@ -26,12 +26,12 @@ const MostChatTimesGraph = () => {
   useEffect(() => {}, [selectedChatRoomIndex]);
 
   return (
-    <div>
-      채팅많은 시간
-      <ResponsiveContainer width="100%" height={500}>
+    <>
+      시간대별 답장 횟수
+      <ResponsiveContainer width="100%" height="80%">
         <AreaChart
           width={500}
-          height={400}
+          height={300}
           data={data}
           margin={{
             top: 10,
@@ -47,7 +47,7 @@ const MostChatTimesGraph = () => {
           <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
         </AreaChart>
       </ResponsiveContainer>
-    </div>
+    </>
   );
 };
 

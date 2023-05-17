@@ -1,10 +1,12 @@
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TagCloud } from "react-tagcloud";
 import { AnalyzedMessage, ValueCountPair } from "../../../@types/index.d";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { KeywordCounts } from "../../../@types/index.d";
 import styled from "styled-components";
+import { setNfKeywordCount } from "../../../store/reducer/nfKeywordCountSlice";
 
 const KeywordList = styled.li`
   display: flex;
@@ -52,31 +54,6 @@ const getSpeakersTopNKeywords = (keywordsArray: KeywordCounts[], displayKeywordC
 };
 
 /**
- * 상위 키워드에서 특정 키워드를 필터링합니다.
- * @param {ValueCountPair[][]} highKeywords - 상위 키워드 배열입니다.
- * @param {string[]} keywordsToFilter - 필터링할 키워드 배열입니다.
- * @returns {ValueCountPair[][]} 필터링된 상위 키워드 배열입니다.
- */
-const filterSpecificKeywords = (highKeywords: ValueCountPair[][], keywordsToFilter: string[]) => {
-  const filteredKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
-    keywordArray.filter((keyword: ValueCountPair) => !keywordsToFilter.includes(keyword.value))
-  );
-  return filteredKeyword;
-};
-
-/**
- * 상위 키워드에서 "ㅋ" 또는 "ㅎ"를 포함하는 키워드를 필터링합니다.
- * @param {ValueCountPair[][]} highKeywords - 상위 키워드 배열입니다.
- * @returns {ValueCountPair[][]} 필터링된 상위 키워드 배열입니다.
- */
-const filterLaughterKeywords = (highKeywords: ValueCountPair[][]) => {
-  const filteredKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
-    keywordArray.filter((keyword: ValueCountPair) => !keyword.value.includes("ㅋ" || "ㅎ"))
-  );
-  return filteredKeyword;
-};
-
-/**
  * 키워드 데이터에서 중복되는 키워드를 가져옵니다.
  * @param {any[]} keywordData - 키워드 데이터 배열입니다.
  * @returns {string[]} 중복되는 키워드 배열입니다.
@@ -96,7 +73,58 @@ const getOverlappedKeyword = (keywordData: any[]) => {
   return filteredKeyword;
 };
 
+/**
+ * 현재 키워드 카운트 배열에서 speaker별로 상위 키워드를 가져옵니다.
+ * @param {KeywordCounts[][]} currentKeywordCounts - 현재 키워드 카운트 배열입니다.
+ * @returns {ValueCountPair[][]} speaker별로 상위 키워드입니다.
+ */
+const getHighKeywords = (
+  currentKeywordCounts: KeywordCounts[][],
+  displayKeywordCount: number,
+  keywordToFilter: string[] = []
+) => {
+  const highKeywords: ValueCountPair[][] = [];
+  for (const keywordsArray of currentKeywordCounts) {
+    highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
+  }
+
+  const filteredHighKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
+    keywordArray.filter(
+      (keyword: ValueCountPair) => !keywordToFilter.some((el: any) => keyword.value.includes(el))
+    )
+  );
+
+  return filteredHighKeyword;
+};
+
+/**
+ * 키워드 수를 기반으로 채팅방별 "사진,이모티콘,동영상" 키워드 수를 가져옵니다.
+ * @param {KeywordCounts[][][]} keywordCounts - 키워드 수 배열
+ * @returns {number[]} chatRoomsNFKeywordCounts - 채팅방별 "사진,이모티콘,동영상" 키워드 수 배열
+ */
+const getChatRoomsNFKeywordCounts = (keywordCounts: KeywordCounts[][][]) => {
+  const keywordsToCheck = ["이모티콘", "사진", "동영상"];
+
+  const chatRoomsNFKeywordCounts = [];
+  for (let i = 0; i < keywordCounts.length; i++) {
+    const keywordCount = keywordCounts[i];
+    const keywordData = getHighKeywords(keywordCount, Infinity);
+    const nFFilteredData = keywordData.map((keywordArray: ValueCountPair[]) => {
+      return keywordArray.filter((keyword: ValueCountPair) => {
+        return keywordsToCheck.some((checker: string) => checker === keyword.value);
+      });
+    });
+    const nFKeywordCount = nFFilteredData.map((nfArray: ValueCountPair[]) => {
+      return nfArray.reduce((a: number, b: ValueCountPair) => a + b.count, 0);
+    });
+    chatRoomsNFKeywordCounts.push(nFKeywordCount);
+  }
+  return chatRoomsNFKeywordCounts;
+};
+
 const KeywordCloud = () => {
+  const dispatch = useDispatch();
+
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -107,33 +135,13 @@ const KeywordCloud = () => {
   const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(50);
   const [keywordToFilter, setKeywordToFilter] = useState<string[]>([]);
 
-  /**
-   * 현재 키워드 카운트 배열에서 speaker별로 상위 키워드를 가져옵니다.
-   * @param {KeywordCounts[][]} currentKeywordCounts - 현재 키워드 카운트 배열입니다.
-   * @returns {ValueCountPair[][]} speaker별로 상위 키워드입니다.
-   */
-  const getHighKeywords = (currentKeywordCounts: KeywordCounts[][], displayKeywordCount: number) => {
-    const highKeywords: ValueCountPair[][] = [];
-    for (const keywordsArray of currentKeywordCounts) {
-      highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
-    }
-
-    const filteredHighKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
-      keywordArray.filter(
-        (keyword: ValueCountPair) => !keywordToFilter.some((el: any) => keyword.value.includes(el))
-      )
-    );
-
-    return filteredHighKeyword;
-  };
-
   const speaker: string[] = getSpeakers(analyzedMessages)[selectedRoomIndex];
 
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(analyzedMessages);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedRoomIndex];
   const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, displayKeywordCount);
-
   const overlappedKeyword = getOverlappedKeyword(keywordData);
+  const chatRoomsNFKeywordCounts = getChatRoomsNFKeywordCounts(keywordCounts);
 
   const handleChangeNumberInput = (e: ChangeEvent<HTMLInputElement>) => {
     setNumberInput(Number(e.target.value));
@@ -179,6 +187,8 @@ const KeywordCloud = () => {
       window.alert("이미 포함되어있는 문구입니다.");
     }
   };
+
+  dispatch(setNfKeywordCount(chatRoomsNFKeywordCounts));
 
   return (
     <ul>
