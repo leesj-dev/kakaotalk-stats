@@ -11,7 +11,10 @@ import {
   MessageInfo,
   OriginMessageData,
 } from "../../@types/index.d";
-import { breakdownTxtFile, readAsDataURL } from "../../module/core/breakdownTxtFile";
+import {
+  breakdownTxtFile,
+  readAsDataURL,
+} from "../../module/core/breakdownTxtFile";
 import { getMessageData } from "../../module/core/getMessageData";
 import { useDispatch } from "react-redux";
 import { setAnalyzedMessages } from "../../store/reducer/analyzedMessagesSlice";
@@ -71,20 +74,22 @@ const decodeTxtFileIntoMessageData = async (attachedFiles: any[]) => {
  * @returns {AnalyzedMessage[][][]} - 테이블 형태로 변환된 분석된 메시지 데이터
  */
 const transformIntoTableForm = (analyzedMessages: any[]) => {
-  const analyzedMessageData: AnalyzedMessage[][][] = analyzedMessages.map((chatRooms: Chatroom[]) => {
-    return chatRooms.map((chatRoom: Chatroom) => {
-      const { speaker, dates } = chatRoom;
-      return dates.map((date: MessageInfo) => {
-        return {
-          speaker: speaker,
-          date: date.date,
-          chatTimes: date.data.chatTimes,
-          keywordCounts: date.data.keywordCounts,
-          replyTime: date.data.replyTime,
-        };
+  const analyzedMessageData: AnalyzedMessage[][][] = analyzedMessages.map(
+    (chatRooms: Chatroom[]) => {
+      return chatRooms.map((chatRoom: Chatroom) => {
+        const { speaker, dates } = chatRoom;
+        return dates.map((date: MessageInfo) => {
+          return {
+            speaker: speaker,
+            date: date.date,
+            chatTimes: date.data.chatTimes,
+            keywordCounts: date.data.keywordCounts,
+            replyTime: date.data.replyTime,
+          };
+        });
       });
-    });
-  });
+    }
+  );
   return analyzedMessageData;
 };
 
@@ -94,8 +99,11 @@ const transformIntoTableForm = (analyzedMessages: any[]) => {
  * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
 const analyzeMessage = async (attachedFiles: FileObject[][]) => {
-  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(attachedFiles);
-  const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
+  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(
+    attachedFiles
+  );
+  const analyzedMessageData: AnalyzedMessage[][][] =
+    transformIntoTableForm(analyzedMessages);
   return analyzedMessageData;
 };
 
@@ -107,15 +115,28 @@ const AttachmentSection = () => {
   const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
   const [selectedOsIndex, setSelectedOsIndex] = useState<number | null>(null);
 
+  // 파일 확장자 허용 타입
+  const isAllowedFileType = (file: File): boolean => {
+    const allowedExtensions = [".txt", ".csv"];
+    const fileType = file.name.substring(file.name.lastIndexOf("."));
+    return allowedExtensions.includes(fileType);
+  };
   const pushNewlyAttachedFiles = (files: any[]) => {
-    if (attachedFiles.length) {
-      return setAttachedFiles([...attachedFiles, [...files]]);
+    const allowedFiles = files.filter((file) => isAllowedFileType(file));
+    if (allowedFiles.length === 0) {
+      alert("파일은 오직 .txt 그리고 .csv만 첨부가 가능합니다");
+      return;
     }
-    setAttachedFiles([[...files]]);
+    if (attachedFiles.length) {
+      return setAttachedFiles([...attachedFiles, [...allowedFiles]]);
+    }
+    setAttachedFiles([[...allowedFiles]]);
   };
 
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
-    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
+    const filteredFileList = [...attachedFiles].filter(
+      (_, index) => index !== fileArrayIndex
+    );
     setAttachedFiles(filteredFileList);
   };
 
@@ -128,7 +149,9 @@ const AttachmentSection = () => {
 
   const dispatchAnalyzedMessages = async (attachedFiles: FileObject[][]) => {
     try {
-      const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(attachedFiles);
+      const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(
+        attachedFiles
+      );
       dispatch(setAnalyzedMessages(analyzedMessage));
     } catch (error) {
       console.error(error);
@@ -137,6 +160,7 @@ const AttachmentSection = () => {
 
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFiles);
+
     navigate("/dashboard");
   };
 
@@ -175,6 +199,7 @@ const AttachmentSection = () => {
             deleteAttachedFileArray={deleteAttachedFileArray}
           ></AttachedFileList>
           <ButtonBox>
+
             <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
               분석하기
             </RadiusButton>
