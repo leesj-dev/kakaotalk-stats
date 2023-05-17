@@ -115,7 +115,6 @@ const DashboardSection = () => {
       <TempGraphBox>
         {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
       </TempGraphBox>
-      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <KeywordCloud />}</TempGraphBox>
     </DashboardTemplateContainer>
   );
 };

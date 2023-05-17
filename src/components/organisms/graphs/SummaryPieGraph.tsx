@@ -34,7 +34,26 @@ import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlic
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const colors = [
+  "#36A2EB", // 파랑
+  "#4BC0C0", // 청록
+  "#00CED1", // 옥색
+  "#FFD700", // 금색
+  "#FF9F40", // 오렌지
+  "#FF6384", // 핑크
+  "#BA55D3", // 보라핑크
+  "#FFCE56", // 노랑
+  "#8A2BE2", // 보라
+  "#3CB371", // 민트
+];
+
+const radarSubjects = [
+  "totalMessageCount",
+  "averageReplySpeed",
+  "peopleCount",
+  "chatPeriod",
+  "nfKeywordCountArray",
+];
 
 export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   let totalChatCounts: number[] = [];
@@ -197,14 +216,14 @@ const SummaryPieGraph = () => {
     const ranksData = [];
     for (let i = 0; i < subject.length; i++) {
       const sortedNumbers = subject[i]
-        .map((value, index) => ({ value, index })) // 원래 숫자와 인덱스를 포함한 객체로 변환
-        .sort((a, b) => b.value - a.value); // 숫자를 기준으로 내림차순 정렬
+        .map((value, index) => ({ value, index }))
+        .sort((a, b) => b.value - a.value);
 
       let currentRank = subject[0].length + 1;
       let previousValue: number | null = null;
       const ranks: any[] = [];
 
-      sortedNumbers.forEach((item, index) => {
+      sortedNumbers.forEach((item) => {
         if (item.value !== previousValue) {
           currentRank -= 1;
         }
@@ -213,13 +232,6 @@ const SummaryPieGraph = () => {
       });
       ranksData.push(ranks);
     }
-    const radarSubjects = [
-      "totalMessageCount",
-      "averageReplySpeed",
-      "peopleCount",
-      "chatPeriod",
-      "nfKeywordCountArray",
-    ];
 
     const resultData = ranksData.map((ranks, index) => {
       const rankObject = ranks.reduce((obj, rank, chatRoomIndex) => {
@@ -239,19 +251,6 @@ const SummaryPieGraph = () => {
 
   const radarRankData = getRadarRankData(getRadarData());
 
-  const colors = [
-    "#FF6384", // 핑크
-    "#36A2EB", // 파랑
-    "#FFCE56", // 노랑
-    "#4BC0C0", // 청록
-    "#FF9F40", // 오렌지
-    "#8A2BE2", // 보라
-    "#3CB371", // 민트
-    "#FFD700", // 금색
-    "#BA55D3", // 보라핑크
-    "#00CED1", // 옥색
-  ];
-
   return (
     <>
       <ResponsiveContainer width="100%" height={"80%"}>
@@ -270,7 +269,7 @@ const SummaryPieGraph = () => {
               <Cell
                 key={`cell-${index}`}
                 onClick={() => handleClickChatRoom(index)}
-                fill={COLORS[index % COLORS.length]}
+                fill={colors[index % colors.length]}
               />
             ))}
           </Pie>
@@ -313,7 +312,7 @@ const SummaryPieGraph = () => {
                 dataKey={index.toString()}
                 stroke={colors[index]}
                 fill={colors[index]}
-                fillOpacity={0.6}
+                fillOpacity={0.4}
               />
             );
           })}
