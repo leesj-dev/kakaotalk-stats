@@ -11,10 +11,14 @@ import PeriodRatioGraph from "../organisms/graphs/ChatVolumeGraph";
 import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
 import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Span from "../atoms/Span";
 =======
 import RadarGraph from "../organisms/graphs/RadarGraph";
 >>>>>>> 5114231 (feat(RadarGraph): 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
+=======
+import RadarGraph from "../organisms/graphs/RadarGraph";
+>>>>>>> 0bd944f (feat: 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
 
 const DashboardTemplateContainer = styled.div`
   padding: 50px;
@@ -197,7 +201,10 @@ const DashboardSection = () => {
         </VerticalBox>
       </BodyBox>
       <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <RadarGraph />}</TempGraphBox>
+<<<<<<< HEAD
 >>>>>>> 5114231 (feat(RadarGraph): 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
+=======
+>>>>>>> 0bd944f (feat: 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
     </DashboardTemplateContainer>
   );
 };
