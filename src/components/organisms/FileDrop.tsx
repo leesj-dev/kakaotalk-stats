@@ -67,8 +67,8 @@ const FileDrop = ({
     if (files && files.length) {
       pushNewlyAttachedFiles(files);
     }
-    const fileArray: any = Array.prototype.slice.call(files);
-    pushNewlyAttachedFiles(fileArray);
+    // const fileArray: any = Array.prototype.slice.call(files);
+    // pushNewlyAttachedFiles(fileArray);
     // 파일 처리 로직을 수행합니다.
   };
   return (
