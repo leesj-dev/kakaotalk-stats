@@ -24,28 +24,48 @@ type LineGraphData = {
 };
 
 const assignScore = (value: number) => {
-  if (value >= 0 && value <= 10) {
-    return 5;
+  if (value >= 0 && value <= 5) {
+    return 10;
+  } else if (value > 5 && value <= 10) {
+    return 9;
   } else if (value > 10 && value <= 30) {
-    return 4;
+    return 8;
   } else if (value > 30 && value <= 60) {
-    return 3;
-  } else if (value > 60 && value <= 180) {
-    return 2;
-  } else if (value > 180 && value <= 600) {
-    return 1;
+    return 7;
+  } else if (value > 60 && value <= 300) {
+    return 6;
+  } else if (value > 300 && value <= 420) {
+    return 5;
+  } else if (value > 420 && value <= 600) {
+    return 4;
   } else if (value > 600 && value <= 1200) {
+    return 3;
+  } else if (value > 1200 && value <= 2400) {
+    return 2;
+  } else if (value > 2400 && value <= 3600) {
+    return 1;
+  } else if (value > 2400 && value <= 3600) {
     return 0;
-  } else if (value > 1200 && value <= 3000) {
+  } else if (value > 3600 && value <= 7200) {
     return -1;
-  } else if (value > 3000 && value <= 6000) {
+  } else if (value > 7200 && value <= 10800) {
     return -2;
-  } else if (value > 6000 && value <= 12000) {
+  } else if (value > 10800 && value <= 14400) {
     return -3;
-  } else if (value > 12000 && value <= 30000) {
+  } else if (value > 14400 && value <= 18000) {
     return -4;
-  } else if (value > 30000) {
+  } else if (value > 18000 && value <= 21600) {
     return -5;
+  } else if (value > 21600 && value <= 25200) {
+    return -6;
+  } else if (value > 25200 && value <= 28800) {
+    return -7;
+  } else if (value > 28800 && value <= 43200) {
+    return -8;
+  } else if (value > 43200 && value <= 64800) {
+    return -9;
+  } else if (value > 64800) {
+    return -10;
   } else {
     return null; // 범위에 속하지 않는 경우, 예외 처리를 위해 null을 반환할 수도 있습니다.
   }
@@ -54,7 +74,6 @@ const assignScore = (value: number) => {
 const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyTimes: ReplyTime[][]) => {
   const chatDatesSet = new Set(chatDates.flat());
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
-
   const replyLineGraphData: LineGraphData[] = [];
 
   // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
@@ -76,7 +95,8 @@ const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyT
     }
     replyLineGraphData.push(date);
   }
-  return replyLineGraphData;
+  const sortedReplyLineGraphData = replyLineGraphData.sort((a, b) => Number(a.name) - Number(b.name));
+  return sortedReplyLineGraphData;
 };
 
 const createLineGraphDataWeekly = (
@@ -99,15 +119,15 @@ const createLineGraphDataWeekly = (
         const replyTimeDayData = replyTimes[speakerIndex][dateIndex];
         if (dateIndex !== -1) {
           const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count) || 0;
-          date[speaker] = (date[speaker] || 0) + replyTime;
+          date[speaker] = (date[speaker] || 0) + assignScore(replyTime);
           date["답장횟수"] = (date["답장횟수"] || 0) + replyTimeDayData.count;
         }
       });
     }
     replyLineGraphData.push(date);
   }
-
-  return replyLineGraphData;
+  const sortedReplyLineGraphData = replyLineGraphData.sort((a, b) => Number(a.name) - Number(b.name));
+  return sortedReplyLineGraphData;
 };
 
 const getAverageReplyTime = (displayData: Record<string, number>[]) => {
@@ -161,7 +181,6 @@ const ReplyLineGraph = () => {
     setCountKeysLessThanData(countKeysLessThanAverage(displayData, averageReplyTime));
   }, [selectedChatRoomIndex]);
 
-  console.log(countKeysLessThanData, "countKeysLessThanDatacountKeysLessThanData");
   return (
     <>
       답장속도
