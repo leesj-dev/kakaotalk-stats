@@ -20,6 +20,7 @@ import { AnalyzedMessage, ChatTimes, ReplyTime } from "../../../@types/index.d";
 import { getAverageReplyTime, getTotalChatCounts, getTwoLettersFromSpeakers } from "./SummaryPieGraph";
 import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { lightTheme } from "../../../style/Theme";
 
 const radarSubjects = [
   "totalMessageCount",
@@ -95,6 +96,9 @@ const RadarGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
   const nfKeywordCounts = useSelector(
     (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
   );
@@ -142,9 +146,14 @@ const RadarGraph = () => {
         {chatRoomNames.map((el: any, index: number) => {
           return (
             <Radar
-              name={el}
+              name={el.length > 20 ? `${el.slice(0, 22)}...` : el}
               dataKey={index.toString()}
-              stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+              stroke={
+                selectedChatRoomIndex === index
+                  ? lightTheme.mainBlack
+                  : colorsForGraphArray[index % colorsForGraphArray.length]
+              }
+              strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
               fill={colorsForGraphArray[index % colorsForGraphArray.length]}
               fillOpacity={0.4}
             />
