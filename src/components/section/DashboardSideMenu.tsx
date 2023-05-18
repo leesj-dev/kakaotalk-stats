@@ -1,47 +1,59 @@
 import React from "react";
 import styled from "styled-components";
+import SummaryPieGraph, {
+  getTotalChatCounts,
+  getTwoLettersFromSpeakers,
+} from "../organisms/graphs/SummaryPieGraph";
+import { useDispatch, useSelector } from "react-redux";
+import { AnalyzedMessage, ChatTimes } from "../../@types/index.d";
+import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
+import Span from "../atoms/Span";
+import Paragraph from "../atoms/Paragraph";
+import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
+import RadiusButton from "../atoms/Button";
+import { Link } from "react-router-dom";
 
 const DashboardSideMenuBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - 80px);
-  background: #f0f;
+  border-bottom: 1px solid #000;
 `;
 
 const DashboardLayoutBox = styled.div`
-  padding: 15px;
   display: flex;
   flex-direction: column;
-  background: #ff000d;
+  background: #0004ff18;
 `;
 
 const CalendarBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
-  background: #5100ff;
+  border-bottom: 1px solid #000;
 `;
 
 const ChatroomGraphBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
-  background: #00ff37;
+  border-bottom: 1px solid #000;
 `;
 
 const GraphSelectionBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
-  background: #ccff00;
+  border-bottom: 1px solid #000;
 `;
 
 const ChatroomListBox = styled.div`
   padding: 15px;
   display: flex;
+  gap: 10px;
   flex-direction: column;
-  background: #ffbf00;
+  border-bottom: 1px solid #000;
 `;
 
 const AdditionalFunctionBox = styled.div`
@@ -51,14 +63,91 @@ const AdditionalFunctionBox = styled.div`
   background: #00bbff;
 `;
 
+const ChatRoomBox = styled.div`
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
+  }
+
+  &.active {
+    box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
+  }
+
+  > :nth-child(1) {
+    margin-bottom: 5px;
+    display: flex;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  > :nth-child(2) {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+const ChatRoomHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  > :nth-child(2) {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
 const DashboardSideMenu = () => {
+  const dispatch = useDispatch();
+  const analyzedMessages = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  );
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
+
+  const speakers: string[][] = getSpeakers(analyzedMessages);
+  const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
+  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
+  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
+
+  const handleClickChatRoom = (index: number) => {
+    dispatch(setSelectedChatRoomIndex(index));
+  };
+
   return (
     <DashboardSideMenuBox>
       <DashboardLayoutBox>
         <CalendarBox>캘린더</CalendarBox>
-        <ChatroomGraphBox>챗룸그래프</ChatroomGraphBox>
+        <ChatroomGraphBox style={{ height: "200px" }}>
+          <SummaryPieGraph />
+        </ChatroomGraphBox>
         <GraphSelectionBox>상세선택</GraphSelectionBox>
-        <ChatroomListBox>채팅방리스트</ChatroomListBox>
+        <ChatroomListBox>
+          {chatRoomNames.map((name, index) => {
+            return (
+              <ChatRoomBox
+                className={`${selectedChatRoomIndex === index && "active"}`}
+                onClick={() => handleClickChatRoom(index)}
+              >
+                <ChatRoomHead>
+                  <Paragraph>
+                    채팅방{index + 1} ({totalChatCounts[index]}){" "}
+                  </Paragraph>
+                  <Link to="">상세보기 {">"}</Link>
+                </ChatRoomHead>
+                <Span>{name}</Span>
+              </ChatRoomBox>
+            );
+          })}
+        </ChatroomListBox>
       </DashboardLayoutBox>
       <AdditionalFunctionBox>부가</AdditionalFunctionBox>
     </DashboardSideMenuBox>
