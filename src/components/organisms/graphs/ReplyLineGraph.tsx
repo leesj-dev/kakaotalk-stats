@@ -74,7 +74,6 @@ const assignScore = (value: number) => {
 const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyTimes: ReplyTime[][]) => {
   const chatDatesSet = new Set(chatDates.flat());
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
-
   const replyLineGraphData: LineGraphData[] = [];
 
   // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
@@ -120,15 +119,15 @@ const createLineGraphDataWeekly = (
         const replyTimeDayData = replyTimes[speakerIndex][dateIndex];
         if (dateIndex !== -1) {
           const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count) || 0;
-          date[speaker] = (date[speaker] || 0) + replyTime;
+          date[speaker] = (date[speaker] || 0) + assignScore(replyTime);
           date["답장횟수"] = (date["답장횟수"] || 0) + replyTimeDayData.count;
         }
       });
     }
     replyLineGraphData.push(date);
   }
-
-  return replyLineGraphData;
+  const sortedReplyLineGraphData = replyLineGraphData.sort((a, b) => Number(a.name) - Number(b.name));
+  return sortedReplyLineGraphData;
 };
 
 const getAverageReplyTime = (displayData: Record<string, number>[]) => {
