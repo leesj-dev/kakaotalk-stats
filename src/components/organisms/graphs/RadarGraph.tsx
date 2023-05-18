@@ -159,7 +159,7 @@ const RadarGraph = () => {
             />
           );
         })}
-        <Legend />
+        <Legend iconType="line" />
         <Tooltip />
       </RadarChart>
     </ResponsiveContainer>

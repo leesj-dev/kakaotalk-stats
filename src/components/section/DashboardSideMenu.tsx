@@ -36,7 +36,6 @@ const CalendarBox = styled.div`
 
 const ChatroomGraphBox = styled.div`
   padding: 15px;
-  height: 100px;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #000;
@@ -80,14 +79,14 @@ const ChatRoomBox = styled.div`
   > :nth-child(1) {
     margin-bottom: 5px;
     display: flex;
-    width: 100%; /* 적절한 너비를 설정해주세요 */
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   > :nth-child(2) {
     display: block;
-    width: 100%; /* 적절한 너비를 설정해주세요 */
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -127,7 +126,7 @@ const DashboardSideMenu = () => {
     <DashboardSideMenuBox>
       <DashboardLayoutBox>
         <CalendarBox>캘린더</CalendarBox>
-        <ChatroomGraphBox style={{ height: 250 }}>
+        <ChatroomGraphBox style={{ height: "200px" }}>
           <SummaryPieGraph />
         </ChatroomGraphBox>
         <GraphSelectionBox>상세선택</GraphSelectionBox>
