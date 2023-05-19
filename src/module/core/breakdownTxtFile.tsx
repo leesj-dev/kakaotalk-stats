@@ -65,9 +65,9 @@ export const breakdownTxtFile = (base64: string) => {
   const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n20");
-    const filteredMessageLineArray = allLineArray.filter((line) => {
-      return filterMessageLine(line);
-    });
+    const filteredMessageLineArray = allLineArray.filter((line) => filterMessageLine(line));
+
+    console.log(filteredMessageLineArray);
 
     allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
   } catch (error) {
@@ -75,27 +75,44 @@ export const breakdownTxtFile = (base64: string) => {
   }
   return allMessageData.flat();
 };
+
 export const breakdownTxtFileWindow = (base64: string) => {
   const allMessageData = [];
   const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n--------------- 20");
     // 여기서 라인확인
-    const filteredMessageLineArray = allLineArray.filter((line) => {
-      return line.includes("---------------\r\n");
-    });
-    const dateMessagePair = filteredMessageLineArray.map((item: string) => {
-      return item.split("요일 ---------------\r\n");
-    });
+    const filteredMessageLineArray = allLineArray.filter((line) => line.includes("---------------\r\n"));
+    const dateMessagePair = filteredMessageLineArray.map((item: string) =>
+      item.split("요일 ---------------\r\n")
+    );
     const dateMessageObject = dateMessagePair.map((pair: string[]) => {
       return { date: pair[0], message: pair[1].split("\r\n[") };
     });
     console.log(dateMessageObject);
+    const transformedMessageLineArray = dateMessageObject.map((Object) => {
+      const [year, month, day, dayofweek] = Object.date.split(" ");
+      const dateString = `${year.replace("년", ".")} ${month.replace("월", ".")} ${day.replace(
+        "일",
+        "."
+      )}`;
+      Object.message[0] = Object.message[0].slice(1);
+      const speakerTimeMessageStringArray = Object.message.map((item) => {
+        const [name, timeMessage] = item.split("] [");
+        const [time, message] = timeMessage.split("] ");
+        return `${dateString} ${time}, ${name} : ${message}`;
+      });
 
-    allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
+      return speakerTimeMessageStringArray;
+    });
+    console.log(transformedMessageLineArray);
+
+    allMessageData.push(getDataObjectFromLines(transformedMessageLineArray.flat()));
   } catch (error) {
     console.error(error);
   }
+  console.log(allMessageData);
+
   return allMessageData.flat();
 };
 

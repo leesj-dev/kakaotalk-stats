@@ -10,7 +10,6 @@ import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import Span from "../atoms/Span";
 import Paragraph from "../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
-import RadiusButton from "../atoms/Button";
 import { Link } from "react-router-dom";
 
 const DashboardSideMenuBox = styled.div`
@@ -134,6 +133,7 @@ const DashboardSideMenu = () => {
           {chatRoomNames.map((name, index) => {
             return (
               <ChatRoomBox
+                key={index}
                 className={`${selectedChatRoomIndex === index && "active"}`}
                 onClick={() => handleClickChatRoom(index)}
               >
