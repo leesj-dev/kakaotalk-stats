@@ -8,24 +8,11 @@ import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
 import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
 import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
-<<<<<<< HEAD
-import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import Span from "../atoms/Span";
-=======
 import RadarGraph from "../organisms/graphs/RadarGraph";
->>>>>>> 5114231 (feat(RadarGraph): 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
-=======
-import RadarGraph from "../organisms/graphs/RadarGraph";
->>>>>>> 0bd944f (feat: 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
-=======
 import Span from "../atoms/Span";
 import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
 import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
-import RadarGraph from "../organisms/graphs/RadarGraph";
 import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
->>>>>>> ae196cc (feat:percentAreaGraph)
 
 const DashboardTemplateContainer = styled.div`
   padding: 50px;
@@ -160,11 +147,6 @@ const DashboardSection = () => {
   }, []);
   return (
     <DashboardTemplateContainer>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      {" "}
-=======
->>>>>>> ae196cc (feat:percentAreaGraph)
       <AsideBox>
         <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <RadarGraph />}</TempGraphBox>
         <TempGraphBox>
@@ -230,38 +212,6 @@ const DashboardSection = () => {
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
-<<<<<<< HEAD
-      {/* 
-      <TempGraphBox>
-        {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
-      </TempGraphBox> */}
-=======
-      <HeadBox>
-        <DashboardContainer>헤드1</DashboardContainer>
-        <DashboardContainer>헤드2</DashboardContainer>
-        <DashboardContainer>헤드3</DashboardContainer>
-        <DashboardContainer>헤드4</DashboardContainer>
-      </HeadBox>
-      <BodyBox>
-        <VerticalBox>
-          <DashboardContainer>바디1</DashboardContainer>
-          <DashboardContainer>바디2</DashboardContainer>
-        </VerticalBox>
-        <VerticalBox>
-          <DashboardContainer>바디1</DashboardContainer>
-        </VerticalBox>
-        <VerticalBox>
-          <DashboardContainer>바디1</DashboardContainer>
-          <DashboardContainer>바디2</DashboardContainer>
-        </VerticalBox>
-      </BodyBox>
-      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <RadarGraph />}</TempGraphBox>
-<<<<<<< HEAD
->>>>>>> 5114231 (feat(RadarGraph): 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
-=======
->>>>>>> 0bd944f (feat: 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
-=======
->>>>>>> ae196cc (feat:percentAreaGraph)
     </DashboardTemplateContainer>
   );
 };
