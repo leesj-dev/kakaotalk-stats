@@ -23,13 +23,29 @@ const H1 = styled.h1`
   height: 40px;
 `;
 const Menu = styled.div`
+  display: flex;
   font-size: 22px;
+
   > * {
     margin-left: 100px;
   }
 `;
 
-const NavBar = () => {
+const DarkModeButton = styled.div`
+  cursor: pointer;
+
+  &.active {
+    color: #fff;
+    background: #000;
+  }
+`;
+
+interface NavBarProps {
+  setIsDarkMode: () => void;
+  isDarkMode: boolean;
+}
+
+const NavBar = ({ setIsDarkMode, isDarkMode }: NavBarProps) => {
   return (
     <Wrap>
       <Container>
@@ -40,7 +56,9 @@ const NavBar = () => {
         </H1>
         <Menu>
           <Link to="/2">분석하기</Link>
-          <Link to="/">다크모드</Link>
+          <DarkModeButton className={`${isDarkMode && "active"}`} onClick={setIsDarkMode}>
+            다크모드
+          </DarkModeButton>
         </Menu>
       </Container>
     </Wrap>

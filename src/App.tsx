@@ -18,7 +18,7 @@ function App() {
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <ScrollTopTopFloatingButton />
 
-      <NavBar />
+      <NavBar setIsDarkMode={() => setIsDarkMode(!isDarkMode)} isDarkMode={isDarkMode} />
       <Wrapper>
         <Routes>
           <Route path={"/"} element={<MainPage />} />

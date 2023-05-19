@@ -212,6 +212,7 @@ const DashboardSection = () => {
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
+
     </DashboardTemplateContainer>
   );
 };

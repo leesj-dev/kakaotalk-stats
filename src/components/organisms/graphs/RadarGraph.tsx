@@ -146,6 +146,8 @@ const RadarGraph = () => {
         {chatRoomNames.map((el: any, index: number) => {
           return (
             <Radar
+              key={index}
+
               name={el.length > 20 ? `${el.slice(0, 22)}...` : el}
               dataKey={index.toString()}
               stroke={
