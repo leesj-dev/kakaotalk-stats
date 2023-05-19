@@ -1,52 +1,49 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Tooltip, ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area } from "recharts";
-import { AnalyzedMessage } from "../../../@types/index.d";
-
+import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area } from "recharts";
+import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
+import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
+import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
+type StackBarData = {
+  name: string;
+  [key: string]: number | string | undefined;
+};
 const PercentAreaChart = () => {
-  const data = [
-    {
-      month: "2015.01",
-      a: 4000,
-      b: 2400,
-      c: 2400,
-    },
-    {
-      month: "2015.02",
-      a: 3000,
-      b: 1398,
-      c: 2210,
-    },
-    {
-      month: "2015.03",
-      a: 2000,
-      b: 9800,
-      c: 2290,
-    },
-    {
-      month: "2015.04",
-      a: 2780,
-      b: 3908,
-      c: 2000,
-    },
-    {
-      month: "2015.05",
-      a: 1890,
-      b: 4800,
-      c: 2181,
-    },
-    {
-      month: "2015.06",
-      a: 2390,
-      b: 3800,
-      c: 2500,
-    },
-    {
-      month: "2015.07",
-      a: 3490,
-      b: 4300,
-      c: 2100,
-    },
-  ];
+  const results = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  );
+
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
+
+  const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
+    let chatCounts = 0;
+    for (const key in chatCountsDay) {
+      chatCounts += chatCountsDay[key];
+    }
+    return chatCounts;
+  };
+
+  const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTimes: ChatTimes[][]) => {
+    const notDuplicatedChatDates = getNotDuplicatedChatDates(chatDates);
+
+    const stackBarData: StackBarData[] = [];
+
+    // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
+    for (let i = 0; i < notDuplicatedChatDates.length; i++) {
+      const date: any = { name: notDuplicatedChatDates[i] };
+
+      chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
+        const dateIndex: number = chatDates[speakerIndex].indexOf(notDuplicatedChatDates[i]);
+        if (dateIndex !== -1) {
+          date[speaker[0]] = sumChatCountsDay(chatTimes[speakerIndex][dateIndex]);
+        }
+      });
+      stackBarData.push(date);
+    }
+    return stackBarData;
+  };
 
   const toPercent = (decimal: number, fixed = 0) => `${(decimal * 100).toFixed(fixed)}%`;
 
@@ -72,6 +69,19 @@ const PercentAreaChart = () => {
       </div>
     );
   };
+
+  const [data, setData] = useState<StackBarData[]>([]);
+  let chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
+  const chatDates = getDates(results)[selectedChatRoomIndex];
+  const chatTimes = getChatTimes(results)[selectedChatRoomIndex];
+  const colors = ["#6767fe", "#b3ff00", "#8884d8", "#82ca9d", "#ffc658"];
+  const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
+    return [speaker, colors[index % colors.length]];
+  });
+  useEffect(() => {
+    setData(createStackBarData(chatSpeakersColorPair, chatDates, chatTimes));
+    console.log(data);
+  }, [selectedChatRoomIndex]);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
@@ -87,12 +97,18 @@ const PercentAreaChart = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="month" />
+        <XAxis dataKey="name" />
         <YAxis tickFormatter={toPercent} />
+
         {/* <Tooltip content={renderTooltipContent} /> */}
-        <Area type="monotone" dataKey="a" stackId="1" stroke="#8884d8" fill="#8884d8" />
+        {chatSpeakersColorPair.map((speaker: string, index: number) => {
+          return (
+            <Area type="monotone" dataKey={speaker[0]} stackId="1" stroke="#dddddd" fill={speaker[1]} />
+          );
+        })}
+        {/* <Area type="monotone" dataKey="a" stackId="1" stroke="#8884d8" fill="#8884d8" />
         <Area type="monotone" dataKey="b" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-        <Area type="monotone" dataKey="c" stackId="1" stroke="#ffc658" fill="#ffc658" />
+        <Area type="monotone" dataKey="c" stackId="1" stroke="#ffc658" fill="#ffc658" /> */}
       </AreaChart>
     </ResponsiveContainer>
   );
