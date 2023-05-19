@@ -122,6 +122,7 @@ const ChatVolumeGraph = () => {
           <Tooltip />
           <Legend />
           {chatSpeakersColorPair.map((speaker: string, index: number) => {
+            console.log(speaker);
             return <Bar key={index} dataKey={speaker[0]} stackId="a" fill={speaker[1]} />;
           })}
         </BarChart>

@@ -1,6 +1,7 @@
 import { OriginMessageData } from "../../@types/index.d";
 
 const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
+const regexForWindow = /(.+?)\] \[(오후|오전) \d{1,2}:\d{1,2}] /;
 
 /**
  * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환합니다.
@@ -60,19 +61,18 @@ export const utf8Decode = (base64String: string) => {
  * @param {string} base64 - base64 인코딩된 텍스트 파일
  * @returns {Array} 메시지 데이터 배열
  */
-export const breakdownTxtFile = (base64: string) => {
+export const breakdownTxtFileIOS = (base64: string) => {
   const allMessageData = [];
   const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n20");
     const filteredMessageLineArray = allLineArray.filter((line) => filterMessageLine(line));
 
-    console.log(filteredMessageLineArray);
-
     allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
   } catch (error) {
     console.error(error);
   }
+
   return allMessageData.flat();
 };
 
@@ -82,31 +82,36 @@ export const breakdownTxtFileWindow = (base64: string) => {
   try {
     const allLineArray = decodedTextFile.split("\n--------------- 20");
     // 여기서 라인확인
-    const filteredMessageLineArray = allLineArray.filter((line) => line.includes("---------------\r\n"));
+    const filteredMessageLineArray = allLineArray.filter((line) => {
+      return line.includes("요일 ---------------\r\n[");
+    });
     const dateMessagePair = filteredMessageLineArray.map((item: string) =>
-      item.split("요일 ---------------\r\n")
+      item.split("요일 ---------------\r\n[")
     );
     const dateMessageObject = dateMessagePair.map((pair: string[]) => {
-      return { date: pair[0], message: pair[1].split("\r\n[") };
+      // 여기서 스플릿할 때 문제가 생김
+      return {
+        date: pair[0],
+        message: pair[1].split("\r\n[").filter((item) => {
+          return regexForWindow.test(item);
+        }),
+      };
     });
-    console.log(dateMessageObject);
+
     const transformedMessageLineArray = dateMessageObject.map((Object) => {
-      const [year, month, day, dayofweek] = Object.date.split(" ");
+      const [year, month, day] = Object.date.split(" ", 3);
       const dateString = `${year.replace("년", ".")} ${month.replace("월", ".")} ${day.replace(
         "일",
         "."
       )}`;
-      Object.message[0] = Object.message[0].slice(1);
       const speakerTimeMessageStringArray = Object.message.map((item) => {
-        const [name, timeMessage] = item.split("] [");
-        const [time, message] = timeMessage.split("] ");
+        const [name, timeMessage] = item.split("] [", 2);
+        const [time, message] = timeMessage.split("] ", 2);
         return `${dateString} ${time}, ${name} : ${message}`;
       });
 
       return speakerTimeMessageStringArray;
     });
-    console.log(transformedMessageLineArray);
-
     allMessageData.push(getDataObjectFromLines(transformedMessageLineArray.flat()));
   } catch (error) {
     console.error(error);
