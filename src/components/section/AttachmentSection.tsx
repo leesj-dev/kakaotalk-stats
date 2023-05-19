@@ -12,7 +12,9 @@ import {
   OriginMessageData,
 } from "../../@types/index.d";
 import {
+  breakdownTxtFileAndroid,
   breakdownTxtFileIOS,
+  breakdownTxtFileMacOS,
   breakdownTxtFileWindow,
   readAsDataURL,
 } from "../../module/core/breakdownTxtFile";
@@ -64,12 +66,12 @@ const decodeTxtFileIntoMessageData = async (attachedFiles: any[], osIndex: numbe
         if (osIndex === 1) {
           return base64 && breakdownTxtFileWindow(base64);
         }
-        // if (osIndex ===2) {
-
-        // }
-        // if (osIndex ===3) {
-
-        // }
+        if (osIndex === 2) {
+          return base64 && breakdownTxtFileMacOS(base64);
+        }
+        if (osIndex === 3) {
+          return base64 && breakdownTxtFileAndroid(base64);
+        }
         if (osIndex === 4) {
           return base64 && breakdownTxtFileIOS(base64);
         }
