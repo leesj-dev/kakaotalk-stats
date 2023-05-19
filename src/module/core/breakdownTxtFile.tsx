@@ -118,7 +118,6 @@ export const breakdownTxtFileWindow = (base64: string) => {
   } catch (error) {
     console.error(error);
   }
-  console.log(allMessageData);
 
   return allMessageData.flat();
 };
@@ -136,7 +135,6 @@ export const breakdownTxtFileMacOS = (base64: string) => {
         filteredMessageLineArray[filteredMessageLineArray.length - 1] += line;
       }
     });
-    console.log(filteredMessageLineArray, "filteredMessageLineArray");
 
     const transformedMessageLineArray = filteredMessageLineArray.map((line) => {
       let [dateTime, speaker, message] = line.split(",", 3);
@@ -153,7 +151,6 @@ export const breakdownTxtFileMacOS = (base64: string) => {
       }
       speaker = speaker.slice(1, speaker.length - 1);
       message = message.slice(1, message.length - 1);
-      console.log(`${year}. ${month}. ${day}. ${hour}:${minute}, ${speaker} : ${message}`);
       return `${year}. ${month}. ${day}. ${hour}:${minute}, ${speaker} : ${message}`;
     });
 
@@ -180,7 +177,6 @@ export const breakdownTxtFileAndroid = (base64: string) => {
   } catch (error) {
     console.error(error);
   }
-  console.log(allMessageData, "allMessageData");
   return allMessageData.flat();
 };
 

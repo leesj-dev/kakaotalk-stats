@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area } from "recharts";
+import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
@@ -29,17 +29,21 @@ const PercentAreaChart = () => {
     const notDuplicatedChatDates = getNotDuplicatedChatDates(chatDates);
 
     const stackBarData: StackBarData[] = [];
-
     // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
     for (let i = 0; i < notDuplicatedChatDates.length; i++) {
       const date: any = { name: notDuplicatedChatDates[i] };
-
       chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
         const dateIndex: number = chatDates[speakerIndex].indexOf(notDuplicatedChatDates[i]);
         if (dateIndex !== -1) {
           date[speaker[0]] = sumChatCountsDay(chatTimes[speakerIndex][dateIndex]);
         }
       });
+      chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
+        if (!date[speaker[0]]) {
+          date[speaker[0]] = 0;
+        }
+      });
+
       stackBarData.push(date);
     }
     return stackBarData;
@@ -78,10 +82,11 @@ const PercentAreaChart = () => {
   const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
     return [speaker, colors[index % colors.length]];
   });
+
   useEffect(() => {
     setData(createStackBarData(chatSpeakersColorPair, chatDates, chatTimes));
-    console.log(data);
   }, [selectedChatRoomIndex]);
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
