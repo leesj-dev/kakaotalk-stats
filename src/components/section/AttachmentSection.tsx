@@ -12,7 +12,8 @@ import {
   OriginMessageData,
 } from "../../@types/index.d";
 import {
-  breakdownTxtFile,
+  breakdownTxtFileIOS,
+  breakdownTxtFileWindow,
   readAsDataURL,
 } from "../../module/core/breakdownTxtFile";
 import { getMessageData } from "../../module/core/getMessageData";
@@ -52,14 +53,26 @@ const OsListBox = styled.div`
  * @param {any[]} attachedFiles - 첨부된 파일 배열
  * @returns {Promise<any[]>} - 디코딩된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
-const decodeTxtFileIntoMessageData = async (attachedFiles: any[]) => {
+const decodeTxtFileIntoMessageData = async (attachedFiles: any[], osIndex: number | null) => {
   const analyzedMessages: MessageInfo[][] = [];
   for (const fileGroup of attachedFiles) {
     const filteredMessages: OriginMessageData[][] = await Promise.all(
       fileGroup.map(async (file: File) => {
         const base64 = await readAsDataURL(file);
         // 여기서 분기점
-        return base64 && breakdownTxtFile(base64);
+        // return base64 && breakdownTxtFile(base64);
+        if (osIndex === 1) {
+          return base64 && breakdownTxtFileWindow(base64);
+        }
+        // if (osIndex ===2) {
+
+        // }
+        // if (osIndex ===3) {
+
+        // }
+        if (osIndex === 4) {
+          return base64 && breakdownTxtFileIOS(base64);
+        }
       })
     );
     const messageData = getMessageData(filteredMessages.flat());
@@ -74,22 +87,20 @@ const decodeTxtFileIntoMessageData = async (attachedFiles: any[]) => {
  * @returns {AnalyzedMessage[][][]} - 테이블 형태로 변환된 분석된 메시지 데이터
  */
 const transformIntoTableForm = (analyzedMessages: any[]) => {
-  const analyzedMessageData: AnalyzedMessage[][][] = analyzedMessages.map(
-    (chatRooms: Chatroom[]) => {
-      return chatRooms.map((chatRoom: Chatroom) => {
-        const { speaker, dates } = chatRoom;
-        return dates.map((date: MessageInfo) => {
-          return {
-            speaker: speaker,
-            date: date.date,
-            chatTimes: date.data.chatTimes,
-            keywordCounts: date.data.keywordCounts,
-            replyTime: date.data.replyTime,
-          };
-        });
+  const analyzedMessageData: AnalyzedMessage[][][] = analyzedMessages.map((chatRooms: Chatroom[]) => {
+    return chatRooms.map((chatRoom: Chatroom) => {
+      const { speaker, dates } = chatRoom;
+      return dates.map((date: MessageInfo) => {
+        return {
+          speaker: speaker,
+          date: date.date,
+          chatTimes: date.data.chatTimes,
+          keywordCounts: date.data.keywordCounts,
+          replyTime: date.data.replyTime,
+        };
       });
-    }
-  );
+    });
+  });
   return analyzedMessageData;
 };
 
@@ -98,12 +109,9 @@ const transformIntoTableForm = (analyzedMessages: any[]) => {
  * @param {any[]} attachedFiles - 첨부된 파일 배열
  * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
-const analyzeMessage = async (attachedFiles: FileObject[][]) => {
-  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(
-    attachedFiles
-  );
-  const analyzedMessageData: AnalyzedMessage[][][] =
-    transformIntoTableForm(analyzedMessages);
+const analyzeMessage = async (attachedFiles: FileObject[][], osIndex: number | null) => {
+  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(attachedFiles, osIndex);
+  const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
   return analyzedMessageData;
 };
 
@@ -134,9 +142,7 @@ const AttachmentSection = () => {
   };
 
   const deleteAttachedFileArray = (fileArrayIndex: number) => {
-    const filteredFileList = [...attachedFiles].filter(
-      (_, index) => index !== fileArrayIndex
-    );
+    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
     setAttachedFiles(filteredFileList);
   };
 
@@ -150,7 +156,8 @@ const AttachmentSection = () => {
   const dispatchAnalyzedMessages = async (attachedFiles: FileObject[][]) => {
     try {
       const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(
-        attachedFiles
+        attachedFiles,
+        selectedOsIndex
       );
       dispatch(setAnalyzedMessages(analyzedMessage));
     } catch (error) {
@@ -160,7 +167,6 @@ const AttachmentSection = () => {
 
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFiles);
-
     navigate("/dashboard");
   };
 
@@ -174,6 +180,8 @@ const AttachmentSection = () => {
   };
 
   useEffect(() => {}, [attachedFiles]);
+
+  useEffect(() => {}, [selectedOsIndex]);
 
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
@@ -199,7 +207,6 @@ const AttachmentSection = () => {
             deleteAttachedFileArray={deleteAttachedFileArray}
           ></AttachedFileList>
           <ButtonBox>
-
             <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
               분석하기
             </RadiusButton>
