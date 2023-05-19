@@ -112,7 +112,6 @@ const transformIntoTableForm = (analyzedMessages: any[]) => {
 const analyzeMessage = async (attachedFiles: FileObject[][], osIndex: number | null) => {
   const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(attachedFiles, osIndex);
   const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
-  console.log(analyzedMessageData, "analyzedMessageData");
   return analyzedMessageData;
 };
 
@@ -182,9 +181,7 @@ const AttachmentSection = () => {
 
   useEffect(() => {}, [attachedFiles]);
 
-  useEffect(() => {
-    console.log(selectedOsIndex);
-  }, [selectedOsIndex]);
+  useEffect(() => {}, [selectedOsIndex]);
 
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>

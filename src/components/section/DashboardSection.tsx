@@ -114,9 +114,6 @@ const DashboardSection = () => {
         </VerticalBox>
       </BodyBox>
       <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <RadarGraph />}</TempGraphBox>
-      <TempGraphBox>
-        {Array.isArray(results) && results.length !== 0 && <PeriodRatioGraph />}
-      </TempGraphBox>
     </DashboardTemplateContainer>
   );
 };
