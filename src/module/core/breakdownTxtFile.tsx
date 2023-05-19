@@ -2,6 +2,7 @@ import { OriginMessageData } from "../../@types/index.d";
 
 const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
 const regexForWindow = /(.+?)\] \[(오후|오전) \d{1,2}:\d{1,2}] /;
+const regexForMacOS = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},"(.+?)",/;
 
 /**
  * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환합니다.
@@ -22,6 +23,7 @@ const filterMessageLine = (line: string) => {
  * @returns {Array<object>} - 라인 배열에서 추출된 데이터 객체의 배열입니다.
  */
 const getDataObjectFromLines = (filteredMessageLineArray: string[]) => {
+  console.log(filteredMessageLineArray, "filteredMessageLineArray");
   const originMessageData: OriginMessageData[] = [];
   for (const line of filteredMessageLineArray) {
     const [dateTime, content] = line.split(", ", 2);
@@ -117,6 +119,63 @@ export const breakdownTxtFileWindow = (base64: string) => {
     console.error(error);
   }
   console.log(allMessageData);
+
+  return allMessageData.flat();
+};
+
+export const breakdownTxtFileMacOS = (base64: string) => {
+  const allMessageData = [];
+  const decodedTextFile = utf8Decode(base64.toString());
+  try {
+    const allLineArray = decodedTextFile.split("\n");
+    const filteredMessageLineArray: string[] = [];
+    allLineArray.forEach((line: string) => {
+      if (regexForMacOS.test(line)) {
+        filteredMessageLineArray.push(line);
+      } else {
+        filteredMessageLineArray[filteredMessageLineArray.length - 1] += line;
+      }
+    });
+    console.log(filteredMessageLineArray, "filteredMessageLineArray");
+
+    const transformedMessageLineArray = filteredMessageLineArray.map((line) => {
+      let [dateTime, speaker, message] = line.split(",", 3);
+      const [date, time] = dateTime.split(" ");
+      let [year, month, day] = date.split("-");
+      year = year.slice(2);
+      let [hour, minute] = time.split(":", 2);
+      if (Number(hour) > 12) {
+        hour = `오후 ${Number(hour) - 12}`;
+      } else if ((hour = "00")) {
+        hour = `오전 12`;
+      } else {
+        hour = `오전 ${hour}`;
+      }
+      speaker = speaker.slice(1, speaker.length - 1);
+      message = message.slice(1, message.length - 1);
+      console.log(`${year}. ${month}. ${day}. ${hour}:${minute}, ${speaker} : ${message}`);
+      return `${year}. ${month}. ${day}. ${hour}:${minute}, ${speaker} : ${message}`;
+    });
+
+    allMessageData.push(getDataObjectFromLines(transformedMessageLineArray));
+  } catch (error) {
+    console.error(error);
+  }
+
+  return allMessageData.flat();
+};
+
+export const breakdownTxtFileAndroid = (base64: string) => {
+  const allMessageData = [];
+  const decodedTextFile = utf8Decode(base64.toString());
+  try {
+    const allLineArray = decodedTextFile.split("\n20");
+    const filteredMessageLineArray = allLineArray.filter((line) => filterMessageLine(line));
+
+    allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
+  } catch (error) {
+    console.error(error);
+  }
 
   return allMessageData.flat();
 };
