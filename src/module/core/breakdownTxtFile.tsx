@@ -3,6 +3,7 @@ import { OriginMessageData } from "../../@types/index.d";
 const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
 const regexForWindow = /(.+?)\] \[(오후|오전) \d{1,2}:\d{1,2}] /;
 const regexForMacOS = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},"(.+?)",/;
+const regexForAndroid = /^\d{2}년 \d{1,2}월 \d{1,2}일 (오후|오전) \d{1,2}:\d{2}, (.+?) : /;
 
 /**
  * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환합니다.
@@ -23,7 +24,6 @@ const filterMessageLine = (line: string) => {
  * @returns {Array<object>} - 라인 배열에서 추출된 데이터 객체의 배열입니다.
  */
 const getDataObjectFromLines = (filteredMessageLineArray: string[]) => {
-  console.log(filteredMessageLineArray, "filteredMessageLineArray");
   const originMessageData: OriginMessageData[] = [];
   for (const line of filteredMessageLineArray) {
     const [dateTime, content] = line.split(", ", 2);
@@ -170,13 +170,17 @@ export const breakdownTxtFileAndroid = (base64: string) => {
   const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n20");
-    const filteredMessageLineArray = allLineArray.filter((line) => filterMessageLine(line));
+    const filteredMessageLineArray = allLineArray.filter((line) => regexForAndroid.test(line));
+    const transformedMessageLineArray = filteredMessageLineArray.map((item) => {
+      const transformedItem = item.replace("년", ".").replace("월", ".").replace("일", ".");
+      return transformedItem;
+    });
 
-    allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
+    allMessageData.push(getDataObjectFromLines(transformedMessageLineArray));
   } catch (error) {
     console.error(error);
   }
-
+  console.log(allMessageData, "allMessageData");
   return allMessageData.flat();
 };
 
