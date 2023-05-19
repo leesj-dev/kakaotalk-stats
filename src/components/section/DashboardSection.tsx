@@ -7,8 +7,8 @@ import { AnalyzedMessage } from "../../@types/index.d";
 import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
 import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
-import PeriodRatioGraph from "../organisms/graphs/ChatVolumeGraph";
 import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
+<<<<<<< HEAD
 import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -19,6 +19,13 @@ import RadarGraph from "../organisms/graphs/RadarGraph";
 =======
 import RadarGraph from "../organisms/graphs/RadarGraph";
 >>>>>>> 0bd944f (feat: 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
+=======
+import Span from "../atoms/Span";
+import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
+import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
+import RadarGraph from "../organisms/graphs/RadarGraph";
+import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
+>>>>>>> ae196cc (feat:percentAreaGraph)
 
 const DashboardTemplateContainer = styled.div`
   padding: 50px;
@@ -28,7 +35,7 @@ const DashboardTemplateContainer = styled.div`
   text-align: center;
   gap: 20px;
   border: 1px solid #000;
-  background: #acffc2;
+  background: #dd9d22;
 
   * {
     border-radius: 19px;
@@ -49,7 +56,7 @@ const AsideBox = styled.div`
     background: ${(props) => props.theme.mainWhite};
   }
   > :nth-child(1) {
-    flex: 1;
+    flex: 1.5;
   }
   > :nth-child(2) {
     flex: 1;
@@ -90,12 +97,15 @@ const HeadBox = styled.div`
   > :nth-child(4) {
     flex: 1;
   }
+  > :nth-child(5) {
+    flex: 1;
+  }
 `;
 
 const BodyBox = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 20px;
-
   > * {
     flex: 1;
   }
@@ -103,9 +113,8 @@ const BodyBox = styled.div`
 
 const VerticalBox = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
-
   > * {
     background: ${(props) => props.theme.mainWhite};
     flex: 2;
@@ -117,9 +126,28 @@ const VerticalBox = styled.div`
     flex: 2;
   }
 `;
+const HorizontalBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > * {
+    background: ${(props) => props.theme.mainWhite};
+    flex: 2;
+  }
+  > :nth-child(1) {
+    flex: 1;
+  }
+  > :nth-child(2) {
+    flex: 1;
+  }
+`;
 
 const TempGraphBox = styled.div`
-  height: 500px;
+  width: 300px;
+  height: 100%;
+  margin: 0 auto;
+  background-color: #ff0;
 `;
 
 const DashboardSection = () => {
@@ -133,14 +161,24 @@ const DashboardSection = () => {
   return (
     <DashboardTemplateContainer>
 <<<<<<< HEAD
+<<<<<<< HEAD
       {" "}
+=======
+>>>>>>> ae196cc (feat:percentAreaGraph)
       <AsideBox>
-        <DashboardContainer>어사이드1</DashboardContainer>
-        <DashboardContainer>어사이드2</DashboardContainer>
-        <DashboardContainer>어사이드3</DashboardContainer>
+        <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <RadarGraph />}</TempGraphBox>
+        <TempGraphBox>
+          {Array.isArray(results) && results.length !== 0 && <ChatVolumeGraph />}
+        </TempGraphBox>
+        <TempGraphBox>
+          {Array.isArray(results) && results.length !== 0 && <PercentAreaChart />}
+        </TempGraphBox>
       </AsideBox>
       <ArticleBox>
         <HeadBox>
+          <DashboardContainer>
+            {Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}
+          </DashboardContainer>
           <DashboardContainer>
             <Span color="#7e848a">총 대화수</Span>
             <Span fontSize="24px" fontWeight="bold" textAlign="right">
@@ -168,14 +206,31 @@ const DashboardSection = () => {
         </HeadBox>
         <BodyBox>
           <VerticalBox>
-            <DashboardContainer>바디1</DashboardContainer>
+            <TempGraphBox>
+              {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
+            </TempGraphBox>
           </VerticalBox>
           <VerticalBox>
-            <DashboardContainer>바디1</DashboardContainer>
-            <DashboardContainer>바디2</DashboardContainer>
+            <HorizontalBox>
+              <TempGraphBox>
+                {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
+              </TempGraphBox>
+              <TempGraphBox>
+                {Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}
+              </TempGraphBox>
+            </HorizontalBox>
+            <HorizontalBox>
+              <TempGraphBox>
+                {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
+              </TempGraphBox>
+              <TempGraphBox>
+                {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
+              </TempGraphBox>
+            </HorizontalBox>
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
+<<<<<<< HEAD
       {/* 
       <TempGraphBox>
         {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
@@ -205,6 +260,8 @@ const DashboardSection = () => {
 >>>>>>> 5114231 (feat(RadarGraph): 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
 =======
 >>>>>>> 0bd944f (feat: 채팅방의 인원이 많을 경우 최대 출력 텍스트 제한)
+=======
+>>>>>>> ae196cc (feat:percentAreaGraph)
     </DashboardTemplateContainer>
   );
 };
