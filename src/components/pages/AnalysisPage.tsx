@@ -13,6 +13,7 @@ import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
 import DatePickerCalendar from "../organisms/DatePickerCalendar";
 import DashboardSection from "../section/DashboardSection";
 import DashboardSideMenu from "../section/DashboardSideMenu";
+import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
 
 const AnalysisPageBox = styled.div`
   margin-top: 80px;
@@ -44,21 +45,6 @@ const AnalysisPage = () => {
     <AnalysisPageBox>
       <DashboardSideMenu />
       <DashboardSection />
-      {/* <TempGraphBox>
-        {Array.isArray(results) && results.length !== 0 && <DatePickerCalendar />}
-      </TempGraphBox>
-      <TempGraphBox>
-        {Array.isArray(results) && results.length !== 0 && <SummaryPieGraph />}
-      </TempGraphBox>
-      <TempGraphBox>
-        {Array.isArray(results) && results.length !== 0 && <ChatVolumeGraph />}
-      </TempGraphBox>
-      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}</TempGraphBox>
-      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}</TempGraphBox>
-      <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <KeywordCloud />}</TempGraphBox>
-      <TempGraphBox>
-      {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
-    </TempGraphBox> */}
     </AnalysisPageBox>
   );
 };

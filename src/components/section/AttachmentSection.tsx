@@ -11,6 +11,7 @@ import {
   MessageInfo,
   OriginMessageData,
 } from "../../@types/index.d";
+
 import {
   breakdownTxtFileAndroid,
   breakdownTxtFileIOS,
@@ -111,6 +112,7 @@ const transformIntoTableForm = (analyzedMessages: any[]) => {
  * @param {any[]} attachedFiles - 첨부된 파일 배열
  * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
+
 const analyzeMessage = async (attachedFiles: FileObject[][], osIndex: number | null) => {
   const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(attachedFiles, osIndex);
   const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
