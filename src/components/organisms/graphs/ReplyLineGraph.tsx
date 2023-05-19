@@ -192,13 +192,13 @@ const ReplyLineGraph = () => {
       >
         주간 답장 속도
       </div>
-      <div>
+      {/* <div>
         {Object.entries(countKeysLessThanAverage(displayData, getAverageReplyTime(displayData))).map(
           ([key, value]) => (
             <div key={key}>{`평균보다 더 답장을 빨리한 횟수 ${key}: ${value}회`}</div>
           )
         )}
-      </div>
+      </div> */}
       <ResponsiveContainer width="100%" height={"80%"}>
         <ComposedChart
           width={500}
