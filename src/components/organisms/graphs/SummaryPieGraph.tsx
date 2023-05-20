@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  XAxis,
-  YAxis,
-  Bar,
-} from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { getChatTimes, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { setSelectedChatRoomIndex } from "../../../store/reducer/selectedRoomIndexSlice";
 import {
@@ -25,6 +14,8 @@ import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlic
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
+import styled from "styled-components";
+import Icon from "../../atoms/Icon";
 
 export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   let totalChatCounts: number[] = [];
@@ -90,6 +81,21 @@ export const getAverageReplyTime = (replyTimes: ReplyTime[][][]) => {
   return averageReplyTimeArray;
 };
 
+const ChatRoomIndexArrowBox = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  z-index: 1;
+
+  > * {
+    cursor: pointer;
+    font-size: 30px;
+  }
+`;
+
 const SummaryPieGraph = () => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
@@ -119,6 +125,17 @@ const SummaryPieGraph = () => {
     dispatch(setSelectedChatRoomIndex(index));
   };
 
+  const handleClickChatRoomIndexArray = (changedIndex: number) => {
+    if (changedIndex === chatRoomNames.length) {
+      changedIndex = 0;
+    }
+    if (changedIndex === -1) {
+      changedIndex = chatRoomNames.length - 1;
+    }
+    console.log(changedIndex, "changedIndex");
+    dispatch(setSelectedChatRoomIndex(changedIndex));
+  };
+
   useEffect(() => {
     // setSelectedChatRoomData({
     //   totalChatCount: totalChatCounts[selectedChatRoomIndex],
@@ -136,9 +153,14 @@ const SummaryPieGraph = () => {
   //   setActiveIndex(index);
   //   handleClickChatRoom(index);
   // };
+  console.log(selectedChatRoomIndex);
 
   return (
     <>
+      <ChatRoomIndexArrowBox>
+        <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}>{"<"}</Icon>
+        <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)}>{">"}</Icon>
+      </ChatRoomIndexArrowBox>
       <ResponsiveContainer width="100%" height={"100%"}>
         <PieChart>
           <Pie

@@ -117,8 +117,6 @@ const TimezoneGraph = () => {
     setScatter(graph);
   }, [selectedChatRoomData]);
 
-  console.log(scatter, "scatter");
-
   return (
     <>
       시간대별 대화량
