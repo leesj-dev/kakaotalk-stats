@@ -151,10 +151,8 @@ export const breakdownTxtFileMacOS = (base64: string) => {
         hour = `오전 ${hour}`;
       }
 
-      while (speaker[0] === '"') {
+      while (speaker[0] === '"' && speaker.length > 2) {
         speaker = speaker.slice(1);
-      }
-      while (speaker[speaker.length - 1] === '"') {
         speaker = speaker.slice(0, speaker.length - 1);
       }
 
