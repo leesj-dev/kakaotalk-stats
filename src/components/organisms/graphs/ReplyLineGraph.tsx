@@ -227,11 +227,13 @@ const ReplyLineGraph = () => {
           {chatSpeakersColorPair.map((speaker: string, index: number) => {
             return (
               <Line
+                dot={false}
                 key={index}
                 yAxisId="left"
                 type="monotone"
                 dataKey={speaker[0]}
                 stroke={speaker[1]}
+                strokeWidth={1.5}
               />
             );
           })}
