@@ -142,14 +142,20 @@ export const breakdownTxtFileMacOS = (base64: string) => {
       let [year, month, day] = date.split("-");
       year = year.slice(2);
       let [hour, minute] = time.split(":", 2);
+
       if (Number(hour) > 12) {
         hour = `오후 ${Number(hour) - 12}`;
-      } else if ((hour = "00")) {
+      } else if (hour === "00") {
         hour = `오전 12`;
       } else {
         hour = `오전 ${hour}`;
       }
-      speaker = speaker.slice(1, speaker.length - 1);
+
+      while (speaker[0] === '"' && speaker.length > 2) {
+        speaker = speaker.slice(1);
+        speaker = speaker.slice(0, speaker.length - 1);
+      }
+
       message = message.slice(1, message.length - 1);
       return `${year}. ${month}. ${day}. ${hour}:${minute}, ${speaker} : ${message}`;
     });

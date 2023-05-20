@@ -22,18 +22,12 @@ import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 
-const radarSubjects = [
-  "totalMessageCount",
-  "averageReplySpeed",
-  "peopleCount",
-  "chatPeriod",
-  "nfKeywordCountArray",
-];
+const radarSubjects = ["카톡 횟수", "평균답장속도", "인원 수", "기간", "이모티콘사진"];
 
 const getDayDifference = (date1: Date, date2: Date) => {
-  const oneDay = 24 * 60 * 60 * 1000; // 1일은 24시간, 60분, 60초, 1000밀리초로 구성됩니다.
-  const diffInMilliseconds = Math.abs(Number(date1) - Number(date2)); // 두 날짜 사이의 밀리초 차이를 계산합니다.
-  const diffInDays = Math.round(diffInMilliseconds / oneDay); // 밀리초를 일수로 변환합니다.
+  const oneDay = 24 * 60 * 60 * 1000;
+  const diffInMilliseconds = Math.abs(Number(date1) - Number(date2));
+  const diffInDays = Math.round(diffInMilliseconds / oneDay);
   return diffInDays;
 };
 
@@ -122,14 +116,12 @@ const RadarGraph = () => {
       const notDuplicatedChatDates: string[] = getNotDuplicatedChatDates(dates[i]);
       const date1 = getDateMilliseconds(notDuplicatedChatDates[notDuplicatedChatDates.length - 1]);
       const date2 = getDateMilliseconds(notDuplicatedChatDates[0]);
-      radarDatum["totalMessageCount"] = totalChatCounts[i];
-      radarDatum["averageReplySpeed"] =
+      radarDatum["카톡 횟수"] = totalChatCounts[i];
+      radarDatum["평균답장속도"] =
         averageReplyTime[i].reduce((a: number, b: number) => a + b, 0) / speakers[i].length;
-      radarDatum["peopleCount"] = speakers[i].length;
-      radarDatum["chatPeriod"] = getDayDifference(date1, date2);
-      radarDatum["nfKeywordCountArray"] = Math.floor(
-        (nfKeywordCountArray[i] / totalChatCounts[i]) * 1000
-      );
+      radarDatum["인원 수"] = speakers[i].length;
+      radarDatum["기간"] = getDayDifference(date1, date2);
+      radarDatum["이모티콘사진"] = Math.floor((nfKeywordCountArray[i] / totalChatCounts[i]) * 1000);
       radarData.push(radarDatum);
     }
     return radarData;
@@ -147,7 +139,6 @@ const RadarGraph = () => {
           return (
             <Radar
               key={index}
-
               name={el.length > 20 ? `${el.slice(0, 22)}...` : el}
               dataKey={index.toString()}
               stroke={
