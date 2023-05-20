@@ -152,8 +152,7 @@ export const breakdownTxtFileMacOS = (base64: string) => {
       }
 
       while (speaker[0] === '"' && speaker.length > 2) {
-        speaker = speaker.slice(1);
-        speaker = speaker.slice(0, speaker.length - 1);
+        speaker = speaker.slice(1, speaker.length - 1);
       }
 
       message = message.slice(1, message.length - 1);

@@ -34,6 +34,7 @@ const CalendarBox = styled.div`
 `;
 
 const ChatroomGraphBox = styled.div`
+  position: relative;
   padding: 15px;
   display: flex;
   flex-direction: column;

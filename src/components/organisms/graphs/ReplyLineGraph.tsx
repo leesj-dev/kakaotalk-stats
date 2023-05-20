@@ -181,7 +181,6 @@ const ReplyLineGraph = () => {
     setCountKeysLessThanData(countKeysLessThanAverage(displayData, averageReplyTime));
   }, [selectedChatRoomIndex]);
 
-  console.log(displayData, "");
   return (
     <>
       답장속도
