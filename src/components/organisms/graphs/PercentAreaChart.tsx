@@ -49,11 +49,10 @@ const PercentAreaChart = () => {
     return stackBarData;
   };
 
-  const toPercent = (decimal: number, fixed = 0) => `${(decimal * 100).toFixed(fixed)}%`;
+  const toPercent = (decimal: number, fixed = 0) => `${decimal * 100}%`;
 
   const getPercent = (value: number, total: number) => {
     const ratio = total > 0 ? value / total : 0;
-
     return toPercent(ratio, 2);
   };
 
@@ -103,7 +102,7 @@ const PercentAreaChart = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
-        <YAxis tickFormatter={toPercent} />
+        <YAxis tickFormatter={toPercent} fontSize={12} />
 
         {/* <Tooltip content={renderTooltipContent} /> */}
         {chatSpeakersColorPair.map((speaker: string, index: number) => {

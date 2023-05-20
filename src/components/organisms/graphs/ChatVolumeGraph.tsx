@@ -104,21 +104,21 @@ const ChatVolumeGraph = () => {
   return (
     <>
       기간 대화량
-      <ResponsiveContainer width="100%" height={"80%"}>
+      <ResponsiveContainer width="100%" height={"90%"}>
         <BarChart
           width={500}
           height={300}
           data={data}
           margin={{
             top: 20,
-            right: 30,
-            left: 20,
+            right: 20,
+            left: -20,
             bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" fontSize={12} />
+          <YAxis fontSize={12} />
           <Tooltip />
           <Legend />
           {chatSpeakersColorPair.map((speaker: string, index: number) => {
@@ -127,11 +127,11 @@ const ChatVolumeGraph = () => {
         </BarChart>
       </ResponsiveContainer>
       <div>
-        <ul>
+        {/* <ul>
           <li>월간</li>
           <li>주간</li>
           <li>일간</li>
-        </ul>
+        </ul> */}
       </div>
     </>
   );

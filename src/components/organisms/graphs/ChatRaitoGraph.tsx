@@ -37,25 +37,24 @@ const ChatRatioGraph = () => {
 
   return (
     <>
-      대화비율
-      <ResponsiveContainer width="100%" height={"80%"}>
-        <PieChart width={400} height={400}>
+      <ResponsiveContainer width="100%" height={"100%"}>
+        <PieChart>
           <Pie
             data={data}
-            cx={200}
-            cy={200}
-            innerRadius={0}
-            outerRadius={100}
+            cx="50%"
+            cy="50%"
+            innerRadius={20}
+            outerRadius={40}
             dataKey="value"
             labelLine
-            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+            // label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
           >
             {data.map((entry: any, index: number) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
           <Tooltip />
-          <Legend layout="horizontal" />
+          {/* <Legend layout="horizontal" /> */}
         </PieChart>
       </ResponsiveContainer>
     </>

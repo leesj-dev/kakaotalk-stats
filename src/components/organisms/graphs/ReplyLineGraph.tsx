@@ -187,11 +187,11 @@ const ReplyLineGraph = () => {
       <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
         일간 답장 속도
       </div>
-      <div
+      {/* <div
         onClick={() => setDisplayData(createLineGraphDataWeekly(chatSpeakers, chatDates, replyTimes))}
       >
         주간 답장 속도
-      </div>
+      </div> */}
       {/* <div>
         {Object.entries(countKeysLessThanAverage(displayData, getAverageReplyTime(displayData))).map(
           ([key, value]) => (

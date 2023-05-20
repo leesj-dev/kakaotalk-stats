@@ -6,7 +6,7 @@ const DashboardContainerBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 15px;
 `;
 
 interface DashboardContainerProps {

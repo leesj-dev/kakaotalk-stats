@@ -22,13 +22,7 @@ import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 
-const radarSubjects = [
-  "totalMessageCount",
-  "averageReplySpeed",
-  "peopleCount",
-  "chatPeriod",
-  "nfKeywordCountArray",
-];
+const radarSubjects = ["양", "속도", "인원", "기간", "nf력"];
 
 const getDayDifference = (date1: Date, date2: Date) => {
   const oneDay = 24 * 60 * 60 * 1000; // 1일은 24시간, 60분, 60초, 1000밀리초로 구성됩니다.
@@ -141,13 +135,16 @@ const RadarGraph = () => {
     <ResponsiveContainer width="100%" height="100%">
       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarRankData}>
         <PolarGrid />
-        <PolarAngleAxis dataKey="subject" />
-        <PolarRadiusAxis angle={45} domain={[0, Object.keys(radarRankData[0]).length - 2]} />
+        <PolarAngleAxis dataKey="subject" fontSize={15} />
+        <PolarRadiusAxis
+          fontSize={10}
+          angle={60}
+          domain={[0, Object.keys(radarRankData[0]).length - 2]}
+        />
         {chatRoomNames.map((el: any, index: number) => {
           return (
             <Radar
               key={index}
-
               name={el.length > 20 ? `${el.slice(0, 22)}...` : el}
               dataKey={index.toString()}
               stroke={
