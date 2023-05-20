@@ -13,17 +13,17 @@ import Span from "../atoms/Span";
 import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
 import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
 import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
+import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
 
 const DashboardTemplateContainer = styled.div`
-  padding: 50px;
+  height: 100vh;
+  padding: 20px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-direction: row;
   text-align: center;
-  gap: 20px;
   border: 1px solid #000;
-  background: #dd9d22;
-
+  background: ${(props) => props.theme.mainBlue};
   * {
     border-radius: 19px;
   }
@@ -43,7 +43,7 @@ const AsideBox = styled.div`
     background: ${(props) => props.theme.mainWhite};
   }
   > :nth-child(1) {
-    flex: 1.5;
+    flex: 1;
   }
   > :nth-child(2) {
     flex: 1;
@@ -58,9 +58,10 @@ const ArticleBox = styled.div`
   gap: 20px;
   > :nth-child(1) {
     flex: 1;
+    /* background-color: #f00; */
   }
   > :nth-child(2) {
-    flex: 4;
+    flex: 6;
   }
 `;
 const HeadBox = styled.div`
@@ -69,11 +70,12 @@ const HeadBox = styled.div`
 
   > * {
     background: ${(props) => props.theme.mainWhite};
-    padding: 20px 30px;
+    padding: 15px 15px;
     text-align: left;
   }
   > :nth-child(1) {
     flex: 1;
+    flex-direction: row;
   }
   > :nth-child(2) {
     flex: 1;
@@ -93,24 +95,27 @@ const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  > * {
-    flex: 1;
-  }
 `;
 
 const VerticalBox = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: row;
   gap: 20px;
   > * {
     background: ${(props) => props.theme.mainWhite};
-    flex: 2;
   }
   > :nth-child(1) {
     flex: 3;
+    > * {
+      width: 100%;
+    }
   }
   > :nth-child(2) {
     flex: 2;
+    > * {
+      width: 100%;
+    }
   }
 `;
 const HorizontalBox = styled.div`
@@ -120,21 +125,15 @@ const HorizontalBox = styled.div`
 
   > * {
     background: ${(props) => props.theme.mainWhite};
-    flex: 2;
-  }
-  > :nth-child(1) {
-    flex: 1;
-  }
-  > :nth-child(2) {
-    flex: 1;
   }
 `;
 
 const TempGraphBox = styled.div`
   width: 300px;
   height: 100%;
+  padding: 10px;
   margin: 0 auto;
-  background-color: #ff0;
+  /* background-color: #ff0; */
 `;
 
 const DashboardSection = () => {
@@ -159,6 +158,7 @@ const DashboardSection = () => {
       <ArticleBox>
         <HeadBox>
           <DashboardContainer>
+            <Span color="#7e848a">대화량</Span>
             {Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}
           </DashboardContainer>
           <DashboardContainer>
@@ -195,9 +195,6 @@ const DashboardSection = () => {
           <VerticalBox>
             <HorizontalBox>
               <TempGraphBox>
-                {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
-              </TempGraphBox>
-              <TempGraphBox>
                 {Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}
               </TempGraphBox>
             </HorizontalBox>
@@ -206,7 +203,7 @@ const DashboardSection = () => {
                 {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
               </TempGraphBox>
               <TempGraphBox>
-                {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
+                {Array.isArray(results) && results.length !== 0 && <KeyWordDashBoard />}
               </TempGraphBox>
             </HorizontalBox>
           </VerticalBox>

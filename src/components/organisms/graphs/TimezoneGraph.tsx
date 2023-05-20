@@ -84,7 +84,7 @@ const TimezoneGraph = () => {
     });
   });
 
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "WednesDay", "Thursday", "Friday", "Saturday"];
+  const daysOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
 
   const handleClickSpeaker = (index: number) => {
     setSelectedSpeakerIndex(index);
@@ -130,13 +130,13 @@ const TimezoneGraph = () => {
       {scatter.length &&
         scatter[selectedSpeakerIndex].map((item: any, index: number) => {
           return (
-            <ResponsiveContainer key={index} width="100%" height={60}>
+            <ResponsiveContainer key={index} width="100%" height={50}>
               <ScatterChart
                 margin={{
                   top: 10,
-                  right: 0,
+                  right: 20,
                   bottom: 0,
-                  left: 0,
+                  left: -20,
                 }}
               >
                 <XAxis
@@ -144,14 +144,14 @@ const TimezoneGraph = () => {
                   dataKey="hour"
                   name="hour"
                   interval={0}
-                  tick={{ fontSize: 15 }}
+                  tick={{ fontSize: 10 }}
                   tickLine={{ transform: "translate(0, -6)" }}
                 />
                 <YAxis
                   type="number"
                   dataKey="index"
                   height={10}
-                  width={80}
+                  width={60}
                   tick={false}
                   axisLine={false}
                   label={{

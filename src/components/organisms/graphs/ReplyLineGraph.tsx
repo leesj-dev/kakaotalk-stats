@@ -187,11 +187,11 @@ const ReplyLineGraph = () => {
       <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
         일간 답장 속도
       </div>
-      <div
+      {/* <div
         onClick={() => setDisplayData(createLineGraphDataWeekly(chatSpeakers, chatDates, replyTimes))}
       >
         주간 답장 속도
-      </div>
+      </div> */}
       {/* <div>
         {Object.entries(countKeysLessThanAverage(displayData, getAverageReplyTime(displayData))).map(
           ([key, value]) => (
@@ -216,7 +216,7 @@ const ReplyLineGraph = () => {
           <YAxis yAxisId="left" />
           <YAxis yAxisId="right" orientation="right" />
           <Tooltip />
-          <Legend />
+          {/* <Legend /> */}
           <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#413ea0" />
           <ReferenceLine
             y={getAverageReplyTime(displayData)}
