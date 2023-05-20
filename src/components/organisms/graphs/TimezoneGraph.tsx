@@ -120,13 +120,13 @@ const TimezoneGraph = () => {
   return (
     <>
       시간대별 대화량
-      {/* {speakerNames.map((_: any, index: number) => {
+      {speakerNames.map((_: any, index: number) => {
         return (
           <div key={index} onClick={() => handleClickSpeaker(index)}>
             {speakerNames[index]}
           </div>
         );
-      })} */}
+      })}
       {scatter.length &&
         scatter[selectedSpeakerIndex].map((item: any, index: number) => {
           return (

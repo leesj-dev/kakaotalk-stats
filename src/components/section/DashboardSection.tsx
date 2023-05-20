@@ -13,6 +13,7 @@ import Span from "../atoms/Span";
 import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
 import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
 import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
+import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
 
 const DashboardTemplateContainer = styled.div`
   height: 100vh;
@@ -22,8 +23,7 @@ const DashboardTemplateContainer = styled.div`
   flex-direction: row;
   text-align: center;
   border: 1px solid #000;
-  background: #dd9d22;
-
+  background: ${(props) => props.theme.mainBlue};
   * {
     border-radius: 19px;
   }
@@ -58,7 +58,7 @@ const ArticleBox = styled.div`
   gap: 20px;
   > :nth-child(1) {
     flex: 1;
-    background-color: #f00;
+    /* background-color: #f00; */
   }
   > :nth-child(2) {
     flex: 6;
@@ -133,7 +133,7 @@ const TempGraphBox = styled.div`
   height: 100%;
   padding: 10px;
   margin: 0 auto;
-  background-color: #ff0;
+  /* background-color: #ff0; */
 `;
 
 const DashboardSection = () => {
@@ -203,7 +203,7 @@ const DashboardSection = () => {
                 {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
               </TempGraphBox>
               <TempGraphBox>
-                {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
+                {Array.isArray(results) && results.length !== 0 && <KeyWordDashBoard />}
               </TempGraphBox>
             </HorizontalBox>
           </VerticalBox>

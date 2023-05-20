@@ -158,7 +158,7 @@ const RadarGraph = () => {
             />
           );
         })}
-        <Legend iconType="line" />
+        {/* <Legend iconType="line" /> */}
         <Tooltip />
       </RadarChart>
     </ResponsiveContainer>

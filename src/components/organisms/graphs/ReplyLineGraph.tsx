@@ -216,7 +216,7 @@ const ReplyLineGraph = () => {
           <YAxis yAxisId="left" />
           <YAxis yAxisId="right" orientation="right" />
           <Tooltip />
-          <Legend />
+          {/* <Legend /> */}
           <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#413ea0" />
           <ReferenceLine
             y={getAverageReplyTime(displayData)}

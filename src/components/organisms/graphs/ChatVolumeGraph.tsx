@@ -120,7 +120,7 @@ const ChatVolumeGraph = () => {
           <XAxis dataKey="name" fontSize={12} />
           <YAxis fontSize={12} />
           <Tooltip />
-          <Legend />
+          {/* <Legend /> */}
           {chatSpeakersColorPair.map((speaker: string, index: number) => {
             return <Bar key={index} dataKey={speaker[0]} stackId="a" fill={speaker[1]} />;
           })}
