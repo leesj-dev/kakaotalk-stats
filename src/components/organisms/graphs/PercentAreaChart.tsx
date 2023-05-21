@@ -107,7 +107,14 @@ const PercentAreaChart = () => {
         <Tooltip content={renderTooltipContent} />
         {chatSpeakersColorPair.map((speaker: string, index: number) => {
           return (
-            <Area type="monotone" dataKey={speaker[0]} stackId="1" stroke="#dddddd" fill={speaker[1]} />
+            <Area
+              key={index}
+              type="monotone"
+              dataKey={speaker[0]}
+              stackId="1"
+              stroke="#dddddd"
+              fill={speaker[1]}
+            />
           );
         })}
         {/* <Area type="monotone" dataKey="a" stackId="1" stroke="#8884d8" fill="#8884d8" />

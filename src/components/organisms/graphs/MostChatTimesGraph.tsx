@@ -92,6 +92,7 @@ const MostChatTimesGraph = () => {
           {speakers.map((speaker: string, index: number) => {
             return (
               <Area
+                key={index}
                 type="monotone"
                 dataKey={speaker}
                 stackId="1"
