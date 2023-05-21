@@ -56,7 +56,7 @@ const PercentAreaChart = () => {
     return toPercent(ratio, 2);
   };
 
-  const renderTooltipContent = (o: { payload: any; label: any }): React.ReactNode => {
+  const renderTooltipContent = (o: any) => {
     const { payload, label } = o;
     const total = payload.reduce((result: any, entry: { value: any }) => result + entry.value, 0);
     return (
@@ -104,7 +104,7 @@ const PercentAreaChart = () => {
         <XAxis dataKey="name" />
         <YAxis tickFormatter={toPercent} fontSize={12} />
 
-        {/* <Tooltip content={renderTooltipContent} /> */}
+        <Tooltip content={renderTooltipContent} />
         {chatSpeakersColorPair.map((speaker: string, index: number) => {
           return (
             <Area type="monotone" dataKey={speaker[0]} stackId="1" stroke="#dddddd" fill={speaker[1]} />
