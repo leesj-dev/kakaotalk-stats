@@ -14,6 +14,7 @@ import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
 import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
 import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
 import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
+import PieChartWithNeedle from "../organisms/graphs/PieChartWithNeedle";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -76,8 +77,9 @@ const HeadBox = styled.div`
     text-align: left;
   }
   > :nth-child(1) {
-    flex: 1;
+    flex: 2;
     flex-direction: row;
+    justify-content: space-between;
   }
   > :nth-child(2) {
     flex: 1;
@@ -136,6 +138,14 @@ const TempGraphBox = styled.div`
   /* background-color: #ff0; */
 `;
 
+const SpeakerSelect = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: flex-end;
+`;
+
 const DashboardSection = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
@@ -158,14 +168,20 @@ const DashboardSection = () => {
       <ArticleBox>
         <HeadBox>
           <DashboardContainer>
-            <Span color="#7e848a">대화량</Span>
-            {Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}
-          </DashboardContainer>
-          <DashboardContainer>
-            <Span color="#7e848a">총 대화수</Span>
-            <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              12341231
-            </Span>
+            <div>
+              <Span color="#7e848a">대화량</Span>
+              {Array.isArray(results) && results.length !== 0 && <PieChartWithNeedle />}
+            </div>
+
+            <SpeakerSelect>
+              <Span color="#7e848a">강조할 대화자</Span>
+              <Span fontSize="19px" fontWeight="bold" color="#000">
+                전체
+              </Span>
+              <Span fontSize="11px" color="#0D6EFD">
+                각 대화자의 분석이 가능합니다
+              </Span>
+            </SpeakerSelect>
           </DashboardContainer>
           <DashboardContainer>
             <Span color="#7e848a">대화자 수</Span>
@@ -174,11 +190,12 @@ const DashboardSection = () => {
             </Span>
           </DashboardContainer>
           <DashboardContainer>
-            <Span color="#7e848a">대화자 [답장속도]</Span>
+            <Span color="#7e848a">총 대화수</Span>
             <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              영한
+              12341231
             </Span>
           </DashboardContainer>
+
           <DashboardContainer>
             <Span color="#7e848a">주로 대화 시간대</Span>
             <Span fontSize="24px" fontWeight="bold" textAlign="right">
