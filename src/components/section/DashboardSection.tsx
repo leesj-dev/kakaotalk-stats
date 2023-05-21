@@ -14,10 +14,11 @@ import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
 import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
 import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
 import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
+import PieChartWithNeedle from "../organisms/graphs/PieChartWithNeedle";
 
 const DashboardTemplateContainer = styled.div`
-  height: 100vh;
-  padding: 20px;
+  padding: 10px;
+  gap: 10px;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -25,57 +26,60 @@ const DashboardTemplateContainer = styled.div`
   border: 1px solid #000;
   background: ${(props) => props.theme.mainBlue};
   * {
-    border-radius: 19px;
+    border-radius: 12px;
   }
   > :nth-child(1) {
-    flex: 1;
+    width: 20%;
   }
   > :nth-child(2) {
-    flex: 2.5;
+    width: 80%;
   }
 `;
 const AsideBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-
+  gap: 10px;
   > * {
     background: ${(props) => props.theme.mainWhite};
   }
   > :nth-child(1) {
-    flex: 1;
+    width: 100%;
+    height: 33%;
   }
   > :nth-child(2) {
-    flex: 1;
+    width: 100%;
+    height: 33%;
   }
   > :nth-child(3) {
-    flex: 1;
+    width: 100%;
+    height: 33%;
   }
 `;
 const ArticleBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   > :nth-child(1) {
-    flex: 1;
+    height: 15%;
     /* background-color: #f00; */
   }
   > :nth-child(2) {
-    flex: 6;
+    height: 85%;
   }
 `;
 const HeadBox = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 10px;
 
   > * {
     background: ${(props) => props.theme.mainWhite};
-    padding: 15px 15px;
+    padding: 10px 20px 0px 15px;
     text-align: left;
   }
   > :nth-child(1) {
-    flex: 1;
+    flex: 2;
     flex-direction: row;
+    justify-content: space-between;
   }
   > :nth-child(2) {
     flex: 1;
@@ -94,45 +98,51 @@ const HeadBox = styled.div`
 const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  > :nth-child(2) {
+    > :nth-child(1) {
+      width: 60%;
+    }
+    > :nth-child(2) {
+      width: 40%;
+    }
+  }
 `;
 
 const VerticalBox = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-  gap: 20px;
+  gap: 10px;
   > * {
-    background: ${(props) => props.theme.mainWhite};
+    width: 100%;
   }
   > :nth-child(1) {
-    flex: 3;
-    > * {
-      width: 100%;
-    }
-  }
-  > :nth-child(2) {
-    flex: 2;
-    > * {
-      width: 100%;
-    }
+    background: ${(props) => props.theme.mainWhite};
   }
 `;
 const HorizontalBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-
+  gap: 10px;
   > * {
+    width: 100%;
     background: ${(props) => props.theme.mainWhite};
   }
 `;
 
 const TempGraphBox = styled.div`
-  width: 300px;
   height: 100%;
   padding: 10px;
   margin: 0 auto;
+`;
+
+const SpeakerSelect = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: flex-end;
 `;
 
 const DashboardSection = () => {
@@ -157,14 +167,20 @@ const DashboardSection = () => {
       <ArticleBox>
         <HeadBox>
           <DashboardContainer>
-            <Span color="#7e848a">대화량</Span>
-            {Array.isArray(results) && results.length !== 0 && <ChatRatioGraph />}
-          </DashboardContainer>
-          <DashboardContainer>
-            <Span color="#7e848a">총 대화수</Span>
-            <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              12341231
-            </Span>
+            <div>
+              <Span color="#7e848a">대화량</Span>
+              {Array.isArray(results) && results.length !== 0 && <PieChartWithNeedle />}
+            </div>
+
+            <SpeakerSelect>
+              <Span color="#7e848a">강조할 대화자</Span>
+              <Span fontSize="19px" fontWeight="bold" color="#000">
+                전체
+              </Span>
+              <Span fontSize="11px" color="#0D6EFD">
+                각 대화자의 분석이 가능합니다
+              </Span>
+            </SpeakerSelect>
           </DashboardContainer>
           <DashboardContainer>
             <Span color="#7e848a">대화자 수</Span>
@@ -173,11 +189,12 @@ const DashboardSection = () => {
             </Span>
           </DashboardContainer>
           <DashboardContainer>
-            <Span color="#7e848a">대화자 [답장속도]</Span>
+            <Span color="#7e848a">총 대화수</Span>
             <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              영한
+              12341231
             </Span>
           </DashboardContainer>
+
           <DashboardContainer>
             <Span color="#7e848a">주로 대화 시간대</Span>
             <Span fontSize="24px" fontWeight="bold" textAlign="right">

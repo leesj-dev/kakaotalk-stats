@@ -119,12 +119,19 @@ const TimezoneGraph = () => {
 
   return (
     <>
-      시간대별 대화량
+      <div> 시간대별 대화량</div>
+
       {speakerNames.map((_: any, index: number) => {
         return (
-          <div key={index} onClick={() => handleClickSpeaker(index)}>
+          <span
+            style={{
+              padding: "0 10px",
+            }}
+            key={index}
+            onClick={() => handleClickSpeaker(index)}
+          >
             {speakerNames[index]}
-          </div>
+          </span>
         );
       })}
       {scatter.length &&

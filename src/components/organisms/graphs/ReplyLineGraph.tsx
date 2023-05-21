@@ -227,6 +227,7 @@ const ReplyLineGraph = () => {
           {chatSpeakersColorPair.map((speaker: string, index: number) => {
             return (
               <Line
+                dot={false}
                 key={index}
                 yAxisId="left"
                 type="monotone"
