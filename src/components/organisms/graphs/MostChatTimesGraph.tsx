@@ -1,9 +1,16 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../../@types/index.d";
-import { getChatTimes } from "../../../module/common/getProperties";
+import {
+  AnalyzedMessage,
+  ChatTimes,
+  ReplyStackedAreaGraph,
+  StringNumberTuple,
+} from "../../../@types/index.d";
+import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { getMostChattedTimes } from "./SummaryPieGraph";
+import { lightTheme } from "../../../style/Theme";
+import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 
 const MostChatTimesGraph = () => {
   const analyzedMessages = useSelector(
@@ -22,6 +29,45 @@ const MostChatTimesGraph = () => {
   const data = sortedTimes.map((item: StringNumberTuple) => {
     return { name: item[0], value: item[1] };
   });
+  const speakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
+
+  const getSumTimeCount = (speaker: ChatTimes[]) => {
+    const sumTimeCount: ChatTimes = {};
+    speaker.forEach((chatTime) => {
+      const timeCountEntry = Object.entries(chatTime);
+      timeCountEntry.forEach((item) => {
+        sumTimeCount[item[0].slice(0, 2)] = (sumTimeCount[item[0].slice(0, 2)] || 0) + item[1];
+      });
+    });
+    const sumTimeCountEntries = Object.entries(sumTimeCount).sort((a, b) => Number(a[0]) - Number(b[0]));
+    return sumTimeCountEntries;
+  };
+
+  const speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => {
+    return getSumTimeCount(speaker);
+  });
+
+  const stackedAreaData: ReplyStackedAreaGraph[] = Array(24)
+    .fill({})
+    .map((_, i) => ({
+      name: i.toString().padStart(2, "0"),
+    }));
+  speakerChatTimes.forEach((speakerChatTime, speakerIndex) => {
+    stackedAreaData.forEach((data, i) => {
+      if (String(speakerChatTime[i]?.[0]) === data.name) {
+        const [time, value]: any = speakerChatTime[i];
+        stackedAreaData[Number(time)][speakers[speakerIndex]] = value;
+      } else {
+        stackedAreaData[i][speakers[speakerIndex]] = 0;
+      }
+    });
+
+    speakerChatTime.forEach(([time, value]: any) => {
+      stackedAreaData[Number(time)][speakers[speakerIndex]] = value;
+    });
+  });
+
+  console.log(stackedAreaData);
 
   useEffect(() => {}, [selectedChatRoomIndex]);
 
@@ -32,7 +78,7 @@ const MostChatTimesGraph = () => {
         <AreaChart
           width={500}
           height={300}
-          data={data}
+          data={stackedAreaData}
           margin={{
             top: 10,
             right: 30,
@@ -44,7 +90,22 @@ const MostChatTimesGraph = () => {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" />
+          {speakers.map((speaker: string, index: number) => {
+            return (
+              <Area
+                type="monotone"
+                dataKey={speaker}
+                stackId="1"
+                stroke={
+                  selectedChatRoomIndex === index
+                    ? lightTheme.mainBlack
+                    : colorsForGraphArray[index % colorsForGraphArray.length]
+                }
+                strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
+                fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+              />
+            );
+          })}
         </AreaChart>
       </ResponsiveContainer>
     </>
