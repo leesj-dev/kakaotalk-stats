@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import DashboardContainer from "../organisms/DashboardContainer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../module/common/scrollEvent";
-import { AnalyzedMessage } from "../../@types/index.d";
+import { AnalyzedMessage, ChatTimes } from "../../@types/index.d";
 import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
 import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
@@ -15,6 +15,9 @@ import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
 import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
 import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
 import PieChartWithNeedle from "../organisms/graphs/PieChartWithNeedle";
+import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
+import { getTotalChatCounts, getTwoLettersFromSpeakers } from "../organisms/graphs/SummaryPieGraph";
+import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -149,9 +152,29 @@ const DashboardSection = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
   );
+  const dispatch = useDispatch();
+  const analyzedMessages = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  );
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
+
+  const speakers: string[][] = getSpeakers(analyzedMessages);
+  const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
+  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
+  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
+
+  // const handleClickChatRoom = (index: number) => {
+  //   dispatch(setSelectedChatRoomIndex(index));
+  // };
+  const handleClickSpeaker = (index: number) => {
+    dispatch(setSelectedChatRoomIndex(index));
+  };
 
   useEffect(() => {
     scrollToEvent(0, "auto");
+    console.log(speakers);
   }, []);
   return (
     <DashboardTemplateContainer>
@@ -174,9 +197,16 @@ const DashboardSection = () => {
 
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
-              <Span fontSize="19px" fontWeight="bold" color="#000">
-                전체
-              </Span>
+              <select>
+                <option value="1" selected={true}>
+                  전체
+                </option>
+                <option value="2">0.2톤</option>
+                <option value="3">0.3톤</option>
+                <option value="4">0.4톤</option>
+
+                <option value="5">0.5톤</option>
+              </select>
               <Span fontSize="11px" color="#0D6EFD">
                 각 대화자의 분석이 가능합니다
               </Span>
