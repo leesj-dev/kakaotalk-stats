@@ -183,6 +183,10 @@ const AttachmentSection = () => {
     }
   };
 
+  const handleDeleteAllButton = () => {
+    setAttachedFiles([]);
+  };
+
   useEffect(() => {}, [attachedFiles]);
 
   useEffect(() => {}, [selectedOsIndex]);
@@ -210,6 +214,10 @@ const AttachmentSection = () => {
             attachedFiles={attachedFiles}
             deleteAttachedFileArray={deleteAttachedFileArray}
           ></AttachedFileList>
+          {attachedFiles.length !== 0 && (
+            <RadiusButton onClick={handleDeleteAllButton}>전체 삭제하기</RadiusButton>
+          )}
+
           <ButtonBox>
             <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
               분석하기
