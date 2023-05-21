@@ -83,3 +83,7 @@ export type WeekData = {
 };
 
 export type StringNumberTuple = [string, number];
+
+export interface ReplyStackedAreaGraph {
+  [speaker: string]: number | string;
+}

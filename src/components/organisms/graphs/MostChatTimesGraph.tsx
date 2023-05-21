@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../../@types/index.d";
+import {
+  AnalyzedMessage,
+  ChatTimes,
+  ReplyStackedAreaGraph,
+  StringNumberTuple,
+} from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { getMostChattedTimes } from "./SummaryPieGraph";
 import { lightTheme } from "../../../style/Theme";
@@ -34,7 +39,6 @@ const MostChatTimesGraph = () => {
         sumTimeCount[item[0].slice(0, 2)] = (sumTimeCount[item[0].slice(0, 2)] || 0) + item[1];
       });
     });
-
     const sumTimeCountEntries = Object.entries(sumTimeCount).sort((a, b) => Number(a[0]) - Number(b[0]));
     return sumTimeCountEntries;
   };
@@ -42,23 +46,23 @@ const MostChatTimesGraph = () => {
   const speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => {
     return getSumTimeCount(speaker);
   });
-  const stackedAreaData: ChatTimes[] = Array.from({ length: 24 }, () => ({}));
 
+  const stackedAreaData: ReplyStackedAreaGraph[] = Array(24)
+    .fill({})
+    .map((_, i) => ({
+      name: i.toString().padStart(2, "0"),
+    }));
   speakerChatTimes.forEach((speakerChatTime, speakerIndex) => {
-    for (let i = 0; i < 24; i++) {
-      const currentObject: any = stackedAreaData[i];
-      currentObject["name"] = i.toString().padStart(2, "0");
-    }
-    for (let i = 0; i < 24; i++) {
-      if (String(speakerChatTime[i]?.[0]) === String(stackedAreaData[i].name)) {
+    stackedAreaData.forEach((data, i) => {
+      if (String(speakerChatTime[i]?.[0]) === data.name) {
         const [time, value]: any = speakerChatTime[i];
         stackedAreaData[Number(time)][speakers[speakerIndex]] = value;
       } else {
         stackedAreaData[i][speakers[speakerIndex]] = 0;
       }
-    }
-    speakerChatTime.forEach((item) => {
-      const [time, value]: any = item;
+    });
+
+    speakerChatTime.forEach(([time, value]: any) => {
       stackedAreaData[Number(time)][speakers[speakerIndex]] = value;
     });
   });
