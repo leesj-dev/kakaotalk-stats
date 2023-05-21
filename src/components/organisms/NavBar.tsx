@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
+import { useSelector } from "react-redux";
+import { AnalyzedMessage } from "../../@types/index.d";
 
 const Wrap = styled.div`
   width: 100%;
@@ -46,6 +48,9 @@ interface NavBarProps {
 }
 
 const NavBar = ({ setIsDarkMode, isDarkMode }: NavBarProps) => {
+  const analyzedMessages = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  );
   return (
     <Wrap>
       <Container>
@@ -56,6 +61,7 @@ const NavBar = ({ setIsDarkMode, isDarkMode }: NavBarProps) => {
         </H1>
         <Menu>
           <Link to="/2">분석하기</Link>
+          {analyzedMessages.length > 0 && <Link to="/dashboard">결과화면</Link>}
           <DarkModeButton className={`${isDarkMode && "active"}`} onClick={setIsDarkMode}>
             다크모드
           </DarkModeButton>
