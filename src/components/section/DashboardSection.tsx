@@ -198,14 +198,10 @@ const DashboardSection = () => {
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
               <select>
-                <option value="1" selected={true}>
-                  전체
-                </option>
-                <option value="2">0.2톤</option>
-                <option value="3">0.3톤</option>
-                <option value="4">0.4톤</option>
-
-                <option value="5">0.5톤</option>
+                <option selected={true}>전체</option>
+                {speakers[selectedChatRoomIndex].map((speaker, index) => {
+                  return <option>{speaker}</option>;
+                })}
               </select>
               <Span fontSize="11px" color="#0D6EFD">
                 각 대화자의 분석이 가능합니다
