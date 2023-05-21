@@ -29,6 +29,7 @@ const MostChatTimesGraph = () => {
   const data = sortedTimes.map((item: StringNumberTuple) => {
     return { name: item[0], value: item[1] };
   });
+
   const speakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
 
   const getSumTimeCount = (speaker: ChatTimes[]) => {
@@ -66,8 +67,6 @@ const MostChatTimesGraph = () => {
       stackedAreaData[Number(time)][speakers[speakerIndex]] = value;
     });
   });
-
-  console.log(stackedAreaData);
 
   useEffect(() => {}, [selectedChatRoomIndex]);
 
