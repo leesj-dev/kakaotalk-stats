@@ -132,7 +132,6 @@ const SummaryPieGraph = () => {
     if (changedIndex === -1) {
       changedIndex = chatRoomNames.length - 1;
     }
-    console.log(changedIndex, "changedIndex");
     dispatch(setSelectedChatRoomIndex(changedIndex));
   };
 
@@ -153,7 +152,6 @@ const SummaryPieGraph = () => {
   //   setActiveIndex(index);
   //   handleClickChatRoom(index);
   // };
-  console.log(selectedChatRoomIndex);
 
   return (
     <>

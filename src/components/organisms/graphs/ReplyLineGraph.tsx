@@ -233,7 +233,8 @@ const ReplyLineGraph = () => {
                 type="monotone"
                 dataKey={speaker[0]}
                 stroke={speaker[1]}
-                strokeWidth={1.5}
+                strokeWidth={3 / 2}
+                dot={false}
               />
             );
           })}

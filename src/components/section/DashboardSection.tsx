@@ -135,7 +135,6 @@ const TempGraphBox = styled.div`
   height: 100%;
   padding: 10px;
   margin: 0 auto;
-  /* background-color: #ff0; */
 `;
 
 const SpeakerSelect = styled.div`

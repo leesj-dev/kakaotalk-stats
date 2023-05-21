@@ -143,7 +143,7 @@ export const breakdownTxtFileMacOS = (base64: string) => {
       year = year.slice(2);
       let [hour, minute] = time.split(":", 2);
 
-      if (Number(hour) > 12) {
+      if (Number(hour) >= 12) {
         hour = `오후 ${Number(hour) - 12}`;
       } else if (hour === "00") {
         hour = `오전 12`;
