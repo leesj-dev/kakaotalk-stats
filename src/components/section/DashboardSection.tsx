@@ -191,7 +191,7 @@ const DashboardSection = () => {
         <HeadBox>
           <DashboardContainer>
             <div>
-              <Span color="#7e848a">대화량</Span>
+              <Span color="#7e848a">대화 비율</Span>
               {Array.isArray(results) && results.length !== 0 && <PieChartWithNeedle />}
             </div>
 
