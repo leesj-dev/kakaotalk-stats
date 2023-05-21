@@ -16,8 +16,8 @@ import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
 import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
 
 const DashboardTemplateContainer = styled.div`
-  height: 100vh;
-  padding: 20px;
+  padding: 10px;
+  gap: 10px;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -25,52 +25,54 @@ const DashboardTemplateContainer = styled.div`
   border: 1px solid #000;
   background: ${(props) => props.theme.mainBlue};
   * {
-    border-radius: 19px;
+    border-radius: 12px;
   }
   > :nth-child(1) {
-    flex: 1;
+    width: 20%;
   }
   > :nth-child(2) {
-    flex: 2.5;
+    width: 80%;
   }
 `;
 const AsideBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-
+  gap: 10px;
   > * {
     background: ${(props) => props.theme.mainWhite};
   }
   > :nth-child(1) {
-    flex: 1;
+    width: 100%;
+    height: 33%;
   }
   > :nth-child(2) {
-    flex: 1;
+    width: 100%;
+    height: 33%;
   }
   > :nth-child(3) {
-    flex: 1;
+    width: 100%;
+    height: 33%;
   }
 `;
 const ArticleBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   > :nth-child(1) {
-    flex: 1;
+    height: 15%;
     /* background-color: #f00; */
   }
   > :nth-child(2) {
-    flex: 6;
+    height: 85%;
   }
 `;
 const HeadBox = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 10px;
 
   > * {
     background: ${(props) => props.theme.mainWhite};
-    padding: 15px 15px;
+    padding: 10px 20px 0px 15px;
     text-align: left;
   }
   > :nth-child(1) {
@@ -94,42 +96,40 @@ const HeadBox = styled.div`
 const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  > :nth-child(2) {
+    > :nth-child(1) {
+      width: 60%;
+    }
+    > :nth-child(2) {
+      width: 40%;
+    }
+  }
 `;
 
 const VerticalBox = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-  gap: 20px;
+  gap: 10px;
   > * {
-    background: ${(props) => props.theme.mainWhite};
+    width: 100%;
   }
   > :nth-child(1) {
-    flex: 3;
-    > * {
-      width: 100%;
-    }
-  }
-  > :nth-child(2) {
-    flex: 2;
-    > * {
-      width: 100%;
-    }
+    background: ${(props) => props.theme.mainWhite};
   }
 `;
 const HorizontalBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-
+  gap: 10px;
   > * {
+    width: 100%;
     background: ${(props) => props.theme.mainWhite};
   }
 `;
 
 const TempGraphBox = styled.div`
-  width: 300px;
   height: 100%;
   padding: 10px;
   margin: 0 auto;
