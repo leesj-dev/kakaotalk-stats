@@ -25,27 +25,27 @@ type LineGraphData = {
 
 const assignScore = (value: number) => {
   if (value >= 0 && value <= 5) {
-    return 10;
+    return (10 + value / 5).toFixed(2);
   } else if (value > 5 && value <= 10) {
-    return 9;
+    return (9 + value / 10).toFixed(2);
   } else if (value > 10 && value <= 30) {
-    return 8;
+    return (8 + value / 30).toFixed(2);
   } else if (value > 30 && value <= 60) {
-    return 7;
+    return (7 + value / 60).toFixed(2);
   } else if (value > 60 && value <= 300) {
-    return 6;
+    return (6 + value / 300).toFixed(2);
   } else if (value > 300 && value <= 420) {
-    return 5;
+    return (5 + value / 420).toFixed(2);
   } else if (value > 420 && value <= 600) {
-    return 4;
+    return (4 + value / 600).toFixed(2);
   } else if (value > 600 && value <= 1200) {
-    return 3;
+    return (3 + value / 1200).toFixed(2);
   } else if (value > 1200 && value <= 2400) {
-    return 2;
+    return (2 + value / 2400).toFixed(2);
   } else if (value > 2400 && value <= 3600) {
-    return 1;
+    return (1 + value / 3600).toFixed(2);
   } else if (value > 2400 && value <= 3600) {
-    return 0;
+    return (0 + value / 7200).toFixed(2);
   } else if (value > 3600 && value <= 7200) {
     return -1;
   } else if (value > 7200 && value <= 10800) {
