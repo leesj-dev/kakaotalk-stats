@@ -28,6 +28,7 @@ import scrollToEvent from "../../module/common/scrollEvent";
 import OsList from "../organisms/OsList";
 
 const AttachmentSectionBox = styled.div`
+  margin-top: 80px;
   padding: 80px 0;
   display: flex;
   flex-direction: column;
@@ -42,6 +43,7 @@ const AttachmentSectionBox = styled.div`
 `;
 
 const ButtonBox = styled.div`
+  margin-bottom: 50px;
   > :first-child {
     margin-bottom: 10px;
   }
@@ -183,6 +185,10 @@ const AttachmentSection = () => {
     }
   };
 
+  // const handleDeleteAllButton = () => {
+  //   setAttachedFiles([]);
+  // };
+
   useEffect(() => {}, [attachedFiles]);
 
   useEffect(() => {}, [selectedOsIndex]);
@@ -210,6 +216,10 @@ const AttachmentSection = () => {
             attachedFiles={attachedFiles}
             deleteAttachedFileArray={deleteAttachedFileArray}
           ></AttachedFileList>
+          {/* {attachedFiles.length !== 0 && (
+            <RadiusButton onClick={handleDeleteAllButton}>전체 삭제하기</RadiusButton>
+          )} */}
+
           <ButtonBox>
             <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
               분석하기

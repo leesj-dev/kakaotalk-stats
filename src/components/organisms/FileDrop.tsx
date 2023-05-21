@@ -18,6 +18,9 @@ const DropBox = styled.div`
   > * {
     margin-bottom: 10px;
   }
+  > :nth-child(1) {
+    margin-bottom: 30px;
+  }
 
   > :last-child {
     color: ${(props) => props.theme.mainGray};
