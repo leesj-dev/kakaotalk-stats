@@ -58,7 +58,7 @@ const TimezoneGraph = () => {
 
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerNames = getSpeakers(results)[selectedChatRoomIndex];
-
+  speakerNames.unshift("전체");
   const speakerTotalChatTimes: Record<string, Record<string, Record<string, number>>> = {};
 
   Object.values(selectedChatRoomData).forEach((chatroom) => {
@@ -114,6 +114,16 @@ const TimezoneGraph = () => {
       });
       graph.push(weekData);
     });
+
+    const totalTimezoneData = JSON.parse(JSON.stringify(graph[0]));
+    for (let i = 1; i < graph.length; i++) {
+      for (let j = 0; j < graph[i].length; j++) {
+        for (let k = 0; k < graph[i][j].values.length; k++) {
+          totalTimezoneData[j].values[k].value += graph[i][j].values[k].value;
+        }
+      }
+    }
+    graph.unshift(totalTimezoneData);
     setScatter(graph);
   }, [selectedChatRoomData]);
 
