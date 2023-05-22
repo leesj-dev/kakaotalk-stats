@@ -229,6 +229,7 @@ const ReplyLineGraph = () => {
                 dataKey={speaker}
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
                 strokeWidth={selectedSpeakerIndex === index ? 2 : 1}
+                style={{ transition: "ease-in-out 0.7s" }}
               />
             );
           })}

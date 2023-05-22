@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
+import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 
 const getDayIndex = (date: string) => {
   const parsedDate = parseInt(date);
@@ -58,7 +59,7 @@ const TimezoneGraph = () => {
 
   const [scatter, setScatter] = useState<any>([]);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
-
+  console.log(currentSpeakerIndex);
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerNames = getSpeakers(results)[selectedChatRoomIndex];
   speakerNames.unshift("전체");
@@ -189,7 +190,14 @@ const TimezoneGraph = () => {
                   wrapperStyle={{ zIndex: 100 }}
                   content={renderTooltip}
                 />
-                <Scatter data={item.values} fill="#8884d8" />
+                <Scatter
+                  data={item.values}
+                  fill={
+                    currentSpeakerIndex === 0
+                      ? "#8884d8"
+                      : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
+                  }
+                />
               </ScatterChart>
             </ResponsiveContainer>
           );

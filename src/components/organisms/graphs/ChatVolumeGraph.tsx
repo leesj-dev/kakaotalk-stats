@@ -118,6 +118,7 @@ const ChatVolumeGraph = () => {
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
                 fill={colorsForGraphArray[index % colorsForGraphArray.length]}
                 fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
+                style={{ transition: "ease-in-out 0.7s" }}
               />
             );
           })}
