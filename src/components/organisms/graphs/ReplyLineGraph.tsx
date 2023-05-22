@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
-  LineChart,
   Line,
   XAxis,
   YAxis,
@@ -67,7 +66,7 @@ const assignScore = (value: number) => {
   } else if (value > 60 * 60 * 12) {
     return -10;
   } else {
-    return null; // 범위에 속하지 않는 경우, 예외 처리를 위해 null을 반환할 수도 있습니다.
+    return null;
   }
 };
 
@@ -76,16 +75,13 @@ const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyT
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
   const replyLineGraphData: LineGraphData[] = [];
 
-  // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
   for (let i = 0; i < NotDuplicatedChatDates.length; i++) {
     const date: any = { name: NotDuplicatedChatDates[i] };
-
     chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
       const dateIndex: number = chatDates[speakerIndex].indexOf(NotDuplicatedChatDates[i]);
       const replyTimeDayData = replyTimes[speakerIndex][dateIndex];
       if (dateIndex !== -1) {
         const replyTime = Math.floor(replyTimeDayData.difference / replyTimeDayData.count || 0);
-        // date[speaker] = replyTime;
         date[speaker] = assignScore(replyTime);
         date["답장횟수"] = replyTimeDayData.count;
       }
@@ -108,7 +104,6 @@ const createLineGraphDataWeekly = (
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
   const replyLineGraphData: LineGraphData[] = [];
 
-  // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
   for (let i = 0; i < NotDuplicatedChatDates.length; i += 7) {
     const date: any = { name: NotDuplicatedChatDates[i] };
 

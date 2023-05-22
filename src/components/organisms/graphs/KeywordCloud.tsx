@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TagCloud } from "react-tagcloud";
 import { AnalyzedMessage, ValueCountPair } from "../../../@types/index.d";
@@ -131,12 +131,12 @@ const KeywordCloud = () => {
   const selectedRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+
   const [numberInput, setNumberInput] = useState<number>(50);
   const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(50);
   const [keywordToFilter, setKeywordToFilter] = useState<string[]>([]);
 
   const speaker: string[] = getSpeakers(analyzedMessages)[selectedRoomIndex];
-
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(analyzedMessages);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedRoomIndex];
   const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, displayKeywordCount);
@@ -179,7 +179,6 @@ const KeywordCloud = () => {
 
   const handleFilterKeywordForm = (e: FormEvent, keywordToFilter: string[]) => {
     e.preventDefault();
-
     if (!keywordToFilter.includes(filterKeywordInput)) {
       setFilterKeywordInput("");
       setKeywordToFilter([...keywordToFilter, filterKeywordInput]);

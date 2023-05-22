@@ -1,16 +1,22 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import {
-  AnalyzedMessage,
-  ChatTimes,
-  ReplyStackedAreaGraph,
-  StringNumberTuple,
-} from "../../../@types/index.d";
+import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
-import { getMostChattedTimes } from "./SummaryPieGraph";
 import { lightTheme } from "../../../style/Theme";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+
+const getSumTimeCount = (speaker: ChatTimes[]) => {
+  const sumTimeCount: ChatTimes = {};
+  speaker.forEach((chatTime) => {
+    const timeCountEntry = Object.entries(chatTime);
+    timeCountEntry.forEach((item) => {
+      sumTimeCount[item[0].slice(0, 2)] = (sumTimeCount[item[0].slice(0, 2)] || 0) + item[1];
+    });
+  });
+  const sumTimeCountEntries = Object.entries(sumTimeCount).sort((a, b) => Number(a[0]) - Number(b[0]));
+  return sumTimeCountEntries;
+};
 
 const MostChatTimesGraph = () => {
   const analyzedMessages = useSelector(
@@ -21,50 +27,19 @@ const MostChatTimesGraph = () => {
   );
 
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const mostChattedTimes: StringNumberTuple[] = getMostChattedTimes(chatTimes)[selectedChatRoomIndex];
-  const sortedTimes: StringNumberTuple[] = mostChattedTimes.sort(
-    (a: StringNumberTuple, b: StringNumberTuple) => Number(a[0]) - Number(b[0])
-  );
-
-  const data = sortedTimes.map((item: StringNumberTuple) => {
-    return { name: item[0], value: item[1] };
-  });
-
-  const speakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
-
-  const getSumTimeCount = (speaker: ChatTimes[]) => {
-    const sumTimeCount: ChatTimes = {};
-    speaker.forEach((chatTime) => {
-      const timeCountEntry = Object.entries(chatTime);
-      timeCountEntry.forEach((item) => {
-        sumTimeCount[item[0].slice(0, 2)] = (sumTimeCount[item[0].slice(0, 2)] || 0) + item[1];
-      });
-    });
-    const sumTimeCountEntries = Object.entries(sumTimeCount).sort((a, b) => Number(a[0]) - Number(b[0]));
-    return sumTimeCountEntries;
-  };
-
-  const speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => {
-    return getSumTimeCount(speaker);
-  });
+  const speakers: string[] = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
+  const speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => getSumTimeCount(speaker));
 
   const stackedAreaData: ReplyStackedAreaGraph[] = Array(24)
     .fill({})
     .map((_, i) => ({
       name: i.toString().padStart(2, "0"),
     }));
-  speakerChatTimes.forEach((speakerChatTime, speakerIndex) => {
-    stackedAreaData.forEach((data, i) => {
-      if (String(speakerChatTime[i]?.[0]) === data.name) {
-        const [time, value]: any = speakerChatTime[i];
-        stackedAreaData[Number(time)][speakers[speakerIndex]] = value;
-      } else {
-        stackedAreaData[i][speakers[speakerIndex]] = 0;
-      }
-    });
 
+  speakerChatTimes.forEach((speakerChatTime, speakerIndex) => {
     speakerChatTime.forEach(([time, value]: any) => {
-      stackedAreaData[Number(time)][speakers[speakerIndex]] = value;
+      const speakerData = stackedAreaData[Number(time)];
+      speakerData[speakers[speakerIndex]] = value || 0;
     });
   });
 

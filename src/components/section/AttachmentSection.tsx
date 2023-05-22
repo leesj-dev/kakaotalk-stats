@@ -135,6 +135,7 @@ const AttachmentSection = () => {
     const fileType = file.name.substring(file.name.lastIndexOf("."));
     return allowedExtensions.includes(fileType);
   };
+
   const pushNewlyAttachedFiles = (files: any[]) => {
     const allowedFiles = files.filter((file) => isAllowedFileType(file));
     if (allowedFiles.length === 0) {

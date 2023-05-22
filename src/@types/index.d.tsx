@@ -1,4 +1,3 @@
-import { type } from "os";
 import React, { ReactNode } from "react";
 
 export type ChatTimes = { [time: string]: number };
@@ -87,3 +86,8 @@ export type StringNumberTuple = [string, number];
 export interface ReplyStackedAreaGraph {
   [speaker: string]: number | string;
 }
+
+export type StackBarData = {
+  name: string;
+  [key: string]: number | string | undefined;
+};

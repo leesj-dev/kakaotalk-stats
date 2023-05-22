@@ -141,38 +141,26 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
     if (direction === "next") {
       setActiveSlideIndex((prevIndex) => (prevIndex + 1) % slideCount);
     } else if (direction === "prev") {
-      setActiveSlideIndex(
-        (prevIndex) => (prevIndex - 1 + slideCount) % slideCount
-      );
+      setActiveSlideIndex((prevIndex) => (prevIndex - 1 + slideCount) % slideCount);
     }
   };
   return (
     <Container ref={moveScrollPosition}>
       <Card>
-        <MainSlide
-          style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}
-        >
+        <MainSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
           {functionCardData.map((data, index) => (
             <CardContent key={index} h2={data.h2} h3={data.h3} p={data.p} />
           ))}
         </MainSlide>
         {/*  style={{ transform: `translateY(${activeSlideIndex * 100}%)` }} */}
-        <SideSlide
-          style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}
-        >
+        <SideSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
           {functionCardData.map((data, index) => (
-            <div>{data.index}</div>
+            <div key={index}>{data.index}</div>
           ))}
         </SideSlide>
         <SlideBox>
-          <SlideBtn
-            onClick={() => handleSlideChange("prev")}
-            direction={"up"}
-          />
-          <SlideBtn
-            onClick={() => handleSlideChange("next")}
-            direction={"up"}
-          />
+          <SlideBtn onClick={() => handleSlideChange("prev")} direction={"up"} />
+          <SlideBtn onClick={() => handleSlideChange("next")} direction={"up"} />
         </SlideBox>
       </Card>
     </Container>
