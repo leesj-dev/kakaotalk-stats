@@ -12,7 +12,6 @@ const ChatRatioGraph = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
-  // 현재 채팅방 대화자 한명 대화수
 
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerTotalChatCounts: Record<string, number> = {};

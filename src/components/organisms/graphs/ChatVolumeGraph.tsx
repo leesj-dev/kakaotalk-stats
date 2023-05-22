@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
+import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 
 type StackBarData = {
   name: string;
@@ -55,23 +56,12 @@ const ChatVolumeGraph = () => {
     return chatCounts;
   };
 
-  //   {
-  //     name: "230412",
-  //     uv: 3490,
-  //     rv: 1000,
-  //     pv: 4300,
-  //     amt: 2100,
-  //   },
-
   const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTimes: ChatTimes[][]) => {
     const notDuplicatedChatDates = getNotDuplicatedChatDates(chatDates);
-
     const stackBarData: StackBarData[] = [];
 
-    // 날짜만큼 객체데이터를 만들 것이니까 날짜에 대해서 for문을 돌린다.
     for (let i = 0; i < notDuplicatedChatDates.length; i++) {
       const date: any = { name: notDuplicatedChatDates[i] };
-
       chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
         const dateIndex: number = chatDates[speakerIndex].indexOf(notDuplicatedChatDates[i]);
         if (dateIndex !== -1) {
@@ -87,9 +77,8 @@ const ChatVolumeGraph = () => {
   let chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
   const chatDates = getDates(results)[selectedChatRoomIndex];
   const chatTimes = getChatTimes(results)[selectedChatRoomIndex];
-  const colors = ["#6767fe", "#b3ff00"];
   const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
-    return [speaker, colors[index % colors.length]];
+    return [speaker, colorsForGraphArray[index % colorsForGraphArray.length]];
   });
 
   useEffect(() => {
