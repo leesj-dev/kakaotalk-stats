@@ -97,7 +97,7 @@ const PercentAreaChart = () => {
               stackId="1"
               stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
               fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fillOpacity={selectedSpeakerIndex === index ? 0.9 : 0.4}
+              fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
             />
           );
         })}

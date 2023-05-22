@@ -31,9 +31,11 @@ const ChatVolumeGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
-
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
   // const selectedChatRoomData = results[selectedChatRoomIndex];
@@ -65,7 +67,7 @@ const ChatVolumeGraph = () => {
       chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
         const dateIndex: number = chatDates[speakerIndex].indexOf(notDuplicatedChatDates[i]);
         if (dateIndex !== -1) {
-          date[speaker[0]] = sumChatCountsDay(chatTimes[speakerIndex][dateIndex]);
+          date[speaker] = sumChatCountsDay(chatTimes[speakerIndex][dateIndex]);
         }
       });
       stackBarData.push(date);
@@ -77,12 +79,9 @@ const ChatVolumeGraph = () => {
   let chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
   const chatDates = getDates(results)[selectedChatRoomIndex];
   const chatTimes = getChatTimes(results)[selectedChatRoomIndex];
-  const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
-    return [speaker, colorsForGraphArray[index % colorsForGraphArray.length]];
-  });
 
   useEffect(() => {
-    setData(createStackBarData(chatSpeakersColorPair, chatDates, chatTimes));
+    setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
   }, [selectedChatRoomIndex]);
 
   // +누르면 보여주는 기준점의 수를 줄이고
@@ -110,8 +109,17 @@ const ChatVolumeGraph = () => {
           <YAxis fontSize={12} />
           <Tooltip />
           {/* <Legend /> */}
-          {chatSpeakersColorPair.map((speaker: string, index: number) => {
-            return <Bar key={index} dataKey={speaker[0]} stackId="a" fill={speaker[1]} />;
+          {chatSpeakers.map((speaker: string, index: number) => {
+            return (
+              <Bar
+                key={index}
+                dataKey={speaker}
+                stackId="a"
+                stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
+              />
+            );
           })}
         </BarChart>
       </ResponsiveContainer>
