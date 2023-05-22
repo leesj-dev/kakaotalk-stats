@@ -16,6 +16,7 @@ import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import styled from "styled-components";
 import Icon from "../../atoms/Icon";
+import { setMostChattedTimes } from "../../../store/reducer/mostChattedTimes";
 
 export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   let totalChatCounts: number[] = [];
@@ -105,7 +106,13 @@ const SummaryPieGraph = () => {
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
-  // const [selectedChatRoomData, setSelectedChatRoomData] = useState<selectedChatRoomData | null>(null);
+  const [selectedChatRoomData, setSelectedChatRoomData] = useState<{
+    totalChatCount: number;
+    speakerCount: number;
+    speakers: string[];
+    mostChattedTimes: [string, number][];
+    averageReplyTime: number[];
+  } | null>(null);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
@@ -117,9 +124,12 @@ const SummaryPieGraph = () => {
       value: totalChatCounts[index],
     };
   });
-  // const mostChattedTimes: StringNumberTuple[][] = getMostChattedTimes(chatTimes);
+
+  const mostChattedTimes: StringNumberTuple[][] = getMostChattedTimes(chatTimes);
   const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
   const averageReplyTime: number[][] = getAverageReplyTime(replyTimes);
+  // const mostChattedTimesNumbers: number[] =
+  //   mostChattedTimes[selectedChatRoomIndex]?.map(([_, number]) => number) || [];
 
   const handleClickChatRoom = (index: number) => {
     dispatch(setSelectedChatRoomIndex(index));
@@ -143,7 +153,9 @@ const SummaryPieGraph = () => {
     //   mostChattedTimes: mostChattedTimes[selectedChatRoomIndex],
     //   averageReplyTime: averageReplyTime[selectedChatRoomIndex],
     // });
+
     dispatch(setAverageReplyTime(averageReplyTime[selectedChatRoomIndex]));
+    dispatch(setMostChattedTimes(mostChattedTimes[selectedChatRoomIndex]));
   }, [selectedChatRoomIndex]);
 
   // const [activeIndex, setActiveIndex] = useState<number>(0);
