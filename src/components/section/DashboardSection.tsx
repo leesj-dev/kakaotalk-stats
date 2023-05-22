@@ -198,10 +198,14 @@ const DashboardSection = () => {
             </div>
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
-              <select>
-                <option selected={true}>전체</option>
+              <select defaultValue="전체">
+                <option value="전체">전체</option>
                 {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
-                  return <option key={index}>{speaker}</option>;
+                  return (
+                    <option value={index} key={index}>
+                      {speaker}
+                    </option>
+                  );
                 })}
               </select>
 
