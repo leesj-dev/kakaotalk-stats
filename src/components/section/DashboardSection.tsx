@@ -163,24 +163,26 @@ const DashboardSection = () => {
   const mostChattedTimes = useSelector(
     (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
   );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
+  );
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
   const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
 
-  // const handleClickChatRoom = (index: number) => {
-  //   dispatch(setSelectedChatRoomIndex(index));
-  // };
-
   const handleChangeSpeaker = (e: ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value !== "전체") {
       dispatch(setSelectedSpeakerIndex(Number(e.target.value)));
+    } else {
+      dispatch(setSelectedSpeakerIndex(-1));
     }
   };
 
   useEffect(() => {
     scrollToEvent(0, "auto");
   }, []);
+
   return (
     <DashboardTemplateContainer>
       <AsideBox>
@@ -201,7 +203,10 @@ const DashboardSection = () => {
             </div>
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
-              <select defaultValue="전체" onChange={(e) => handleChangeSpeaker(e)}>
+              <select
+                value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
+                onChange={handleChangeSpeaker}
+              >
                 <option value="전체">전체</option>
                 {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
                   return (

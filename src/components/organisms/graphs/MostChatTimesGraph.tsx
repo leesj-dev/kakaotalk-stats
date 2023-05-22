@@ -25,6 +25,9 @@ const MostChatTimesGraph = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
+  );
 
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
   const speakers: string[] = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
@@ -71,13 +74,9 @@ const MostChatTimesGraph = () => {
                 type="monotone"
                 dataKey={speaker}
                 stackId="1"
-                stroke={
-                  selectedChatRoomIndex === index
-                    ? lightTheme.mainBlack
-                    : colorsForGraphArray[index % colorsForGraphArray.length]
-                }
-                strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
+                stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
                 fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
               />
             );
           })}

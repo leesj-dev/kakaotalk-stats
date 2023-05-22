@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: number = 0;
+const initialState: number = -1;
 
 export const selectedSpeakerIndexSlice = createSlice({
   name: "selectedRoomIndex",

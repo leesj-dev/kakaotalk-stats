@@ -11,6 +11,7 @@ import Span from "../atoms/Span";
 import Paragraph from "../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
+import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
 const DashboardSideMenuBox = styled.div`
   display: flex;
@@ -120,6 +121,7 @@ const DashboardSideMenu = () => {
 
   const handleClickChatRoom = (index: number) => {
     dispatch(setSelectedChatRoomIndex(index));
+    dispatch(setSelectedSpeakerIndex(-1));
   };
 
   return (
