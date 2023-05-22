@@ -8,7 +8,6 @@ export const selectedSpeakerIndexSlice = createSlice({
   initialState,
   reducers: {
     setSelectedSpeakerIndex: (state, action: PayloadAction<number>) => {
-      console.log(action.payload);
       state = action.payload;
       return state;
     },

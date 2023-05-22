@@ -24,7 +24,7 @@ const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTim
     chatSpeakers.forEach((speaker, speakerIndex) => {
       const dateIndex = chatDates[speakerIndex].indexOf(date);
       const chatCounts = dateIndex !== -1 ? sumChatCountsDay(chatTimes[speakerIndex][dateIndex]) : 0;
-      stackBarData[speaker[0]] = chatCounts;
+      stackBarData[speaker] = chatCounts;
     });
     return stackBarData;
   });
@@ -54,19 +54,20 @@ const PercentAreaChart = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
+  );
 
   const [data, setData] = useState<StackBarData[]>([]);
   const chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
   const chatDates: string[] = getDates(results)[selectedChatRoomIndex];
   const chatTimes: ChatTimes[][] = getChatTimes(results)[selectedChatRoomIndex];
 
-  const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
-    return [speaker, colorsForGraphArray[index % colorsForGraphArray.length]];
-  });
-
   useEffect(() => {
-    setData(createStackBarData(chatSpeakersColorPair, chatDates, chatTimes));
+    setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
   }, [selectedChatRoomIndex]);
+
+  useEffect(() => {}, [selectedSpeakerIndex]);
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -87,21 +88,19 @@ const PercentAreaChart = () => {
         <YAxis tickFormatter={toPercent} fontSize={12} />
 
         <Tooltip content={renderTooltipContent} />
-        {chatSpeakersColorPair.map((speaker: string, index: number) => {
+        {chatSpeakers.map((speaker: string, index: number) => {
           return (
             <Area
               key={index}
               type="monotone"
-              dataKey={speaker[0]}
+              dataKey={speaker}
               stackId="1"
-              stroke="#dddddd"
-              fill={speaker[1]}
+              stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+              fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+              fillOpacity={selectedSpeakerIndex === index ? 0.9 : 0.4}
             />
           );
         })}
-        {/* <Area type="monotone" dataKey="a" stackId="1" stroke="#8884d8" fill="#8884d8" />
-        <Area type="monotone" dataKey="b" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-        <Area type="monotone" dataKey="c" stackId="1" stroke="#ffc658" fill="#ffc658" /> */}
       </AreaChart>
     </ResponsiveContainer>
   );
