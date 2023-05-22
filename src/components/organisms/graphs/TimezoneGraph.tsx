@@ -52,9 +52,12 @@ const TimezoneGraph = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
+  );
 
   const [scatter, setScatter] = useState<any>([]);
-  const [selectedSpeakerIndex, setSelectedSpeakerIndex] = useState<number>(0);
+  const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
 
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerNames = getSpeakers(results)[selectedChatRoomIndex];
@@ -87,7 +90,7 @@ const TimezoneGraph = () => {
   const daysOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
 
   const handleClickSpeaker = (index: number) => {
-    setSelectedSpeakerIndex(index);
+    setCurrentSpeakerIndex(index);
   };
 
   useEffect(() => {
@@ -127,6 +130,10 @@ const TimezoneGraph = () => {
     setScatter(graph);
   }, [selectedChatRoomData]);
 
+  useEffect(() => {
+    setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
+  }, [selectedSpeakerIndex]);
+
   return (
     <>
       <div> 시간대별 대화량</div>
@@ -145,7 +152,7 @@ const TimezoneGraph = () => {
         );
       })}
       {scatter.length &&
-        scatter[selectedSpeakerIndex].map((item: any, index: number) => {
+        scatter[currentSpeakerIndex].map((item: any, index: number) => {
           return (
             <ResponsiveContainer key={index} width="100%" height={50}>
               <ScatterChart

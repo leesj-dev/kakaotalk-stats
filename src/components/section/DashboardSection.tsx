@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
 import DashboardContainer from "../organisms/DashboardContainer";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,8 +16,9 @@ import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
 import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
 import PieChartWithNeedle from "../organisms/graphs/PieChartWithNeedle";
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
-import { getTotalChatCounts, getTwoLettersFromSpeakers } from "../organisms/graphs/SummaryPieGraph";
+import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
+import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -171,8 +172,10 @@ const DashboardSection = () => {
   //   dispatch(setSelectedChatRoomIndex(index));
   // };
 
-  const handleClickSpeaker = (index: number) => {
-    dispatch(setSelectedChatRoomIndex(index));
+  const handleChangeSpeaker = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value !== "전체") {
+      dispatch(setSelectedSpeakerIndex(Number(e.target.value)));
+    }
   };
 
   useEffect(() => {
@@ -198,7 +201,7 @@ const DashboardSection = () => {
             </div>
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
-              <select defaultValue="전체">
+              <select defaultValue="전체" onChange={(e) => handleChangeSpeaker(e)}>
                 <option value="전체">전체</option>
                 {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
                   return (
