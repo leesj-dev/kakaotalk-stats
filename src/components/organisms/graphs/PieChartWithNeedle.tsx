@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { useSelector } from "react-redux";
-import { PieChart, Pie, Cell, Line } from "recharts";
+import { PieChart, Pie, Cell, Line, Tooltip } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
 const PieChartWithNeedle = () => {
   const results = useSelector(
@@ -86,6 +86,7 @@ const PieChartWithNeedle = () => {
           marginLeft: "30px",
         }}
       >
+        <Tooltip />
         <Pie
           dataKey="value"
           startAngle={180}
@@ -102,6 +103,7 @@ const PieChartWithNeedle = () => {
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
         </Pie>
+
         {needle(value, data, cx, cy, iR, oR, "#FF414D")}
       </PieChart>
     </div>

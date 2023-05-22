@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import DashboardContainer from "../organisms/DashboardContainer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../module/common/scrollEvent";
-import { AnalyzedMessage } from "../../@types/index.d";
+import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/index.d";
 import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
 import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
@@ -15,6 +15,9 @@ import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
 import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
 import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
 import PieChartWithNeedle from "../organisms/graphs/PieChartWithNeedle";
+import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
+import { getTotalChatCounts, getTwoLettersFromSpeakers } from "../organisms/graphs/SummaryPieGraph";
+import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -149,6 +152,28 @@ const DashboardSection = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
   );
+  const dispatch = useDispatch();
+  const analyzedMessages = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  );
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
+  const mostChattedTimes = useSelector(
+    (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
+  );
+
+  const speakers: string[][] = getSpeakers(analyzedMessages);
+  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
+  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
+
+  // const handleClickChatRoom = (index: number) => {
+  //   dispatch(setSelectedChatRoomIndex(index));
+  // };
+
+  const handleClickSpeaker = (index: number) => {
+    dispatch(setSelectedChatRoomIndex(index));
+  };
 
   useEffect(() => {
     scrollToEvent(0, "auto");
@@ -168,15 +193,18 @@ const DashboardSection = () => {
         <HeadBox>
           <DashboardContainer>
             <div>
-              <Span color="#7e848a">대화량</Span>
+              <Span color="#7e848a">대화 비율</Span>
               {Array.isArray(results) && results.length !== 0 && <PieChartWithNeedle />}
             </div>
-
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
-              <Span fontSize="19px" fontWeight="bold" color="#000">
-                전체
-              </Span>
+              <select>
+                <option selected={true}>전체</option>
+                {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
+                  return <option key={index}>{speaker}</option>;
+                })}
+              </select>
+
               <Span fontSize="11px" color="#0D6EFD">
                 각 대화자의 분석이 가능합니다
               </Span>
@@ -185,20 +213,20 @@ const DashboardSection = () => {
           <DashboardContainer>
             <Span color="#7e848a">대화자 수</Span>
             <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              3
+              {speakers[selectedChatRoomIndex]?.length || 0}
             </Span>
           </DashboardContainer>
           <DashboardContainer>
             <Span color="#7e848a">총 대화수</Span>
             <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              12341231
+              {totalChatCounts[selectedChatRoomIndex]?.toLocaleString() || 0}
             </Span>
           </DashboardContainer>
 
           <DashboardContainer>
             <Span color="#7e848a">주로 대화 시간대</Span>
             <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              20시
+              {mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}시
             </Span>
           </DashboardContainer>
         </HeadBox>
