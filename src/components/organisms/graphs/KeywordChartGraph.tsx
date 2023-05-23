@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnalyzedMessage, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
+import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { getHighKeywords } from "./KeywordCloud";
 
@@ -22,6 +23,10 @@ const KeywordChartGraph = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
+  );
+
   const speaker: string[] = getSpeakers(results)[selectedChatRoomIndex];
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedChatRoomIndex];
@@ -32,41 +37,27 @@ const KeywordChartGraph = () => {
   //   (state: { speakersTopNKeywordsSlice: ValueCountPair[][] }) => state.speakersTopNKeywordsSlice
   // );
   console.log(keywordData, "currentKeywordCounts");
-
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-    },
-  ];
+  const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
+  useEffect(() => {
+    setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
+  }, [selectedSpeakerIndex]);
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart layout="vertical" data={keywordData[0]}>
+      <BarChart layout="vertical" data={keywordData[selectedSpeakerIndex]}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis type="number" />
         <YAxis type="category" dataKey="value" />
         <Tooltip contentStyle={{ fontSize: "2px" }} />
         <Legend />
-        <Bar dataKey="count" fill="#8884d8" />
+        <Bar
+          dataKey="count"
+          fill={
+            currentSpeakerIndex === 0
+              ? "#8884d8"
+              : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
+          }
+        />
       </BarChart>
     </ResponsiveContainer>
   );
