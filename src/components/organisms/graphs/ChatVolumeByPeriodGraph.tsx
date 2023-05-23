@@ -100,7 +100,7 @@ const ChatVolumeByPeriodGraph = () => {
           margin={{
             top: 20,
             right: 20,
-            left: -20,
+            left: 0,
             bottom: 5,
           }}
         >
