@@ -7,6 +7,7 @@ import { getKeywordCounts, getSpeakers } from "../../../module/common/getPropert
 import { KeywordCounts } from "../../../@types/index.d";
 import styled from "styled-components";
 import { setNfKeywordCount } from "../../../store/reducer/nfKeywordCountSlice";
+import { setSpeakersTopNKeywords } from "../../../store/reducer/speakersTopNKeywordsSlice";
 
 const KeywordList = styled.li`
   display: flex;
@@ -50,6 +51,7 @@ const getSpeakersTopNKeywords = (keywordsArray: KeywordCounts[], displayKeywordC
   });
 
   const topNKeywords: ValueCountPair[] = getAllTopNKeywords(allKeywords, displayKeywordCount);
+
   return topNKeywords;
 };
 
@@ -84,6 +86,8 @@ const getHighKeywords = (
   keywordToFilter: string[] = []
 ) => {
   const highKeywords: ValueCountPair[][] = [];
+  // const keywordCountsArray = Array.from(currentKeywordCounts);
+  // for (const keywordsArray of keywordCountsArray) {
   for (const keywordsArray of currentKeywordCounts) {
     highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
   }
@@ -142,7 +146,7 @@ const KeywordCloud = () => {
   const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, displayKeywordCount);
   const overlappedKeyword = getOverlappedKeyword(keywordData);
   const chatRoomsNFKeywordCounts = getChatRoomsNFKeywordCounts(keywordCounts);
-
+  console.log(keywordData, "keywordDatakeywoㅁㄴㅇㅁㄴㅇㅁㄴㅇrdData");
   const handleChangeNumberInput = (e: ChangeEvent<HTMLInputElement>) => {
     setNumberInput(Number(e.target.value));
   };
@@ -188,6 +192,7 @@ const KeywordCloud = () => {
   };
 
   dispatch(setNfKeywordCount(chatRoomsNFKeywordCounts));
+  dispatch(setSpeakersTopNKeywords(keywordData));
 
   return (
     <ul>

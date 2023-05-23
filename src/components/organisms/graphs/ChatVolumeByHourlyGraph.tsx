@@ -59,7 +59,6 @@ const ChatVolumeByHourlyGraph = () => {
 
   const [scatter, setScatter] = useState<any>([]);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
-  console.log(currentSpeakerIndex);
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerNames = getSpeakers(results)[selectedChatRoomIndex];
   speakerNames.unshift("전체");

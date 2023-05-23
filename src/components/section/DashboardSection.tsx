@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DashboardContainer from "../organisms/DashboardContainer";
 import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../module/common/scrollEvent";
-import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/index.d";
+import { AnalyzedMessage, ChatTimes, StringNumberTuple, ValueCountPair } from "../../@types/index.d";
 import ChatVolumeByHourlyGraph from "../organisms/graphs/ChatVolumeByHourlyGraph";
 import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplySpeedGraph from "../organisms/graphs/ReplySpeedGraph";
@@ -17,7 +17,6 @@ import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph
 
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
-import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
 const DashboardTemplateContainer = styled.div`
@@ -168,6 +167,12 @@ const DashboardSection = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  // 키워드
+  const speakersTopNKeywords = useSelector(
+    (state: { speakersTopNKeywordsSlice: ValueCountPair[][] }) => state.speakersTopNKeywordsSlice
+  );
+
+  console.log(speakersTopNKeywords);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
@@ -209,7 +214,6 @@ const DashboardSection = () => {
               <Span color="#7e848a">강조할 대화자</Span>
 
               <select
-                defaultValue="전체"
                 value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
                 onChange={handleChangeSpeaker}
               >
@@ -269,6 +273,7 @@ const DashboardSection = () => {
               </TempGraphBox>
               <TempGraphBox>
                 {Array.isArray(results) && results.length !== 0 && <KeywordChartGraph />}
+                <KeywordCloud />
               </TempGraphBox>
             </HorizontalBox>
           </VerticalBox>
