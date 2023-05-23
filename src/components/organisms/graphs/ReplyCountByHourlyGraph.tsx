@@ -18,7 +18,7 @@ const getSumTimeCount = (speaker: ChatTimes[]) => {
   return sumTimeCountEntries;
 };
 
-const MostChatTimesGraph = () => {
+const ReplyCountByHourlyGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -87,4 +87,4 @@ const MostChatTimesGraph = () => {
   );
 };
 
-export default MostChatTimesGraph;
+export default ReplyCountByHourlyGraph;

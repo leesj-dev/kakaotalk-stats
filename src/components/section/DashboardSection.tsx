@@ -4,17 +4,17 @@ import DashboardContainer from "../organisms/DashboardContainer";
 import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../module/common/scrollEvent";
 import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/index.d";
-import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
+import ChatVolumeByHourlyGraph from "../organisms/graphs/ChatVolumeByHourlyGraph";
 import KeywordCloud from "../organisms/graphs/KeywordCloud";
-import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
-import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
-import RadarGraph from "../organisms/graphs/RadarGraph";
+import ReplySpeedGraph from "../organisms/graphs/ReplySpeedGraph";
+import ReplyCountByHourlyGraph from "../organisms/graphs/ReplyCountByHourlyGraph";
+import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
 import Span from "../atoms/Span";
-import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
+import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
 import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
-import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
-import KeyWordDashBoard from "../organisms/graphs/KeyWordDashBoard";
-import PieChartWithNeedle from "../organisms/graphs/PieChartWithNeedle";
+import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
+import KeywordChartGraph from "../organisms/graphs/KeywordChartGraph";
+import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph";
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
@@ -186,12 +186,14 @@ const DashboardSection = () => {
   return (
     <DashboardTemplateContainer>
       <AsideBox>
-        <TempGraphBox>{Array.isArray(results) && results.length !== 0 && <RadarGraph />}</TempGraphBox>
         <TempGraphBox>
-          {Array.isArray(results) && results.length !== 0 && <ChatVolumeGraph />}
+          {Array.isArray(results) && results.length !== 0 && <ChatRoomCompareGraph />}
         </TempGraphBox>
         <TempGraphBox>
-          {Array.isArray(results) && results.length !== 0 && <PercentAreaChart />}
+          {Array.isArray(results) && results.length !== 0 && <ChatVolumeByPeriodGraph />}
+        </TempGraphBox>
+        <TempGraphBox>
+          {Array.isArray(results) && results.length !== 0 && <ChatRateGraph />}
         </TempGraphBox>
       </AsideBox>
       <ArticleBox>
@@ -199,7 +201,7 @@ const DashboardSection = () => {
           <DashboardContainer>
             <div>
               <Span color="#7e848a">대화 비율</Span>
-              {Array.isArray(results) && results.length !== 0 && <PieChartWithNeedle />}
+              {Array.isArray(results) && results.length !== 0 && <ChatRatioWithArrowGraph />}
             </div>
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
@@ -245,21 +247,21 @@ const DashboardSection = () => {
         <BodyBox>
           <VerticalBox>
             <TempGraphBox>
-              {Array.isArray(results) && results.length !== 0 && <ReplyLineGraph />}
+              {Array.isArray(results) && results.length !== 0 && <ReplySpeedGraph />}
             </TempGraphBox>
           </VerticalBox>
           <VerticalBox>
             <HorizontalBox>
               <TempGraphBox>
-                {Array.isArray(results) && results.length !== 0 && <TimezoneGraph />}
+                {Array.isArray(results) && results.length !== 0 && <ChatVolumeByHourlyGraph />}
               </TempGraphBox>
             </HorizontalBox>
             <HorizontalBox>
               <TempGraphBox>
-                {Array.isArray(results) && results.length !== 0 && <MostChatTimesGraph />}
+                {Array.isArray(results) && results.length !== 0 && <ReplyCountByHourlyGraph />}
               </TempGraphBox>
               <TempGraphBox>
-                {Array.isArray(results) && results.length !== 0 && <KeyWordDashBoard />}
+                {Array.isArray(results) && results.length !== 0 && <KeywordChartGraph />}
               </TempGraphBox>
             </HorizontalBox>
           </VerticalBox>

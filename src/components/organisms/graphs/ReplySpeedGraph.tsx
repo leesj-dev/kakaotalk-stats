@@ -75,7 +75,7 @@ const assignScore = (value: number) => {
 const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyTimes: ReplyTime[][]) => {
   const chatDatesSet = new Set(chatDates.flat());
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
-  const replyLineGraphData: LineGraphData[] = [];
+  const ReplySpeedGraphData: LineGraphData[] = [];
 
   for (let i = 0; i < NotDuplicatedChatDates.length; i++) {
     const date: any = { name: NotDuplicatedChatDates[i] };
@@ -91,10 +91,10 @@ const createLineGraphData = (chatSpeakers: string[], chatDates: string[], replyT
     if (Object.values(date).includes(0)) {
       continue;
     }
-    replyLineGraphData.push(date);
+    ReplySpeedGraphData.push(date);
   }
-  const sortedReplyLineGraphData = replyLineGraphData.sort((a, b) => Number(a.name) - Number(b.name));
-  return sortedReplyLineGraphData;
+  const sortedReplySpeedGraphData = ReplySpeedGraphData.sort((a, b) => Number(a.name) - Number(b.name));
+  return sortedReplySpeedGraphData;
 };
 
 const createLineGraphDataWeekly = (
@@ -104,7 +104,7 @@ const createLineGraphDataWeekly = (
 ) => {
   const chatDatesSet = new Set(chatDates.flat());
   const NotDuplicatedChatDates = Array.from(chatDatesSet);
-  const replyLineGraphData: LineGraphData[] = [];
+  const ReplySpeedGraphData: LineGraphData[] = [];
 
   for (let i = 0; i < NotDuplicatedChatDates.length; i += 7) {
     const date: any = { name: NotDuplicatedChatDates[i] };
@@ -121,10 +121,10 @@ const createLineGraphDataWeekly = (
         }
       });
     }
-    replyLineGraphData.push(date);
+    ReplySpeedGraphData.push(date);
   }
-  const sortedReplyLineGraphData = replyLineGraphData.sort((a, b) => Number(a.name) - Number(b.name));
-  return sortedReplyLineGraphData;
+  const sortedReplySpeedGraphData = ReplySpeedGraphData.sort((a, b) => Number(a.name) - Number(b.name));
+  return sortedReplySpeedGraphData;
 };
 
 const getAverageReplyTime = (displayData: Record<string, number>[]) => {
@@ -152,7 +152,7 @@ const countKeysLessThanAverage = (displayData: Record<string, number>[], average
   return keyCounts;
 };
 
-const ReplyLineGraph = () => {
+const ReplySpeedGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -239,4 +239,4 @@ const ReplyLineGraph = () => {
   );
 };
 
-export default ReplyLineGraph;
+export default ReplySpeedGraph;

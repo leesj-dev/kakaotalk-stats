@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area, Tooltip } from "recharts";
 import { AnalyzedMessage, ChatTimes, StackBarData } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
-import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
+import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 
 const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
@@ -47,7 +47,7 @@ const renderTooltipContent = (o: any) => {
   );
 };
 
-const PercentAreaChart = () => {
+const ChatRateGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -107,4 +107,4 @@ const PercentAreaChart = () => {
   );
 };
 
-export default PercentAreaChart;
+export default ChatRateGraph;

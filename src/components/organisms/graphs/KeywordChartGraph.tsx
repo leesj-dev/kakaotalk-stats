@@ -13,7 +13,7 @@ import {
 import { AnalyzedMessage, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
 import { getKeywordCounts } from "../../../module/common/getProperties";
 
-const KeyWordDashBoard = () => {
+const KeywordChartGraph = () => {
   const getHighKeywords = (
     currentKeywordCounts: KeywordCounts[][],
     displayKeywordCount: number,
@@ -99,7 +99,7 @@ const KeyWordDashBoard = () => {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis type="number" />
         <YAxis type="category" dataKey="name" />
-        <Tooltip />
+        <Tooltip contentStyle={{ fontSize: "2px" }} />
         <Legend />
         <Bar dataKey="uv" fill="#8884d8" />
       </BarChart>
@@ -107,4 +107,4 @@ const KeyWordDashBoard = () => {
   );
 };
 
-export default KeyWordDashBoard;
+export default KeywordChartGraph;

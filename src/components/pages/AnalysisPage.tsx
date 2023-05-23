@@ -3,17 +3,17 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { AnalyzedMessage } from "../../@types/index.d";
 import KeywordCloud from "../organisms/graphs/KeywordCloud";
-import ReplyLineGraph from "../organisms/graphs/ReplyLineGraph";
-import MostChatTimesGraph from "../organisms/graphs/MostChatTimesGraph";
+import ReplySpeedGraph from "../organisms/graphs/ReplySpeedGraph";
+import ReplyCountByHourlyGraph from "../organisms/graphs/ReplyCountByHourlyGraph";
 import scrollToEvent from "../../module/common/scrollEvent";
 import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
-import TimezoneGraph from "../organisms/graphs/TimezoneGraph";
-import ChatVolumeGraph from "../organisms/graphs/ChatVolumeGraph";
+import ChatVolumeByHourlyGraph from "../organisms/graphs/ChatVolumeByHourlyGraph";
+import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
 import SummaryPieGraph from "../organisms/graphs/SummaryPieGraph";
 import DatePickerCalendar from "../organisms/DatePickerCalendar";
 import DashboardSection from "../section/DashboardSection";
 import DashboardSideMenu from "../section/DashboardSideMenu";
-import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
+import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
 
 const AnalysisPageBox = styled.div`
   margin-top: 80px;
