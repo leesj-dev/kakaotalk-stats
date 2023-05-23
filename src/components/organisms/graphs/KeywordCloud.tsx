@@ -80,14 +80,12 @@ const getOverlappedKeyword = (keywordData: any[]) => {
  * @param {KeywordCounts[][]} currentKeywordCounts - 현재 키워드 카운트 배열입니다.
  * @returns {ValueCountPair[][]} speaker별로 상위 키워드입니다.
  */
-const getHighKeywords = (
+export const getHighKeywords = (
   currentKeywordCounts: KeywordCounts[][],
   displayKeywordCount: number,
   keywordToFilter: string[] = []
 ) => {
   const highKeywords: ValueCountPair[][] = [];
-  // const keywordCountsArray = Array.from(currentKeywordCounts);
-  // for (const keywordsArray of keywordCountsArray) {
   for (const keywordsArray of currentKeywordCounts) {
     highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
   }
@@ -146,7 +144,6 @@ const KeywordCloud = () => {
   const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, displayKeywordCount);
   const overlappedKeyword = getOverlappedKeyword(keywordData);
   const chatRoomsNFKeywordCounts = getChatRoomsNFKeywordCounts(keywordCounts);
-  console.log(keywordData, "keywordDatakeywoㅁㄴㅇㅁㄴㅇㅁㄴㅇrdData");
   const handleChangeNumberInput = (e: ChangeEvent<HTMLInputElement>) => {
     setNumberInput(Number(e.target.value));
   };

@@ -167,12 +167,6 @@ const DashboardSection = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-  // 키워드
-  const speakersTopNKeywords = useSelector(
-    (state: { speakersTopNKeywordsSlice: ValueCountPair[][] }) => state.speakersTopNKeywordsSlice
-  );
-
-  console.log(speakersTopNKeywords);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
@@ -273,7 +267,6 @@ const DashboardSection = () => {
               </TempGraphBox>
               <TempGraphBox>
                 {Array.isArray(results) && results.length !== 0 && <KeywordChartGraph />}
-                <KeywordCloud />
               </TempGraphBox>
             </HorizontalBox>
           </VerticalBox>

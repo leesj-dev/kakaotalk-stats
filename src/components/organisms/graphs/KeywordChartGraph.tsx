@@ -1,4 +1,4 @@
-import React, { PureComponent, useState } from "react";
+import React, { PureComponent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   BarChart,
@@ -11,51 +11,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnalyzedMessage, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
-import { getKeywordCounts } from "../../../module/common/getProperties";
+import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
+import { getHighKeywords } from "./KeywordCloud";
 
 const KeywordChartGraph = () => {
-  const getHighKeywords = (
-    currentKeywordCounts: KeywordCounts[][],
-    displayKeywordCount: number,
-    keywordToFilter: string[] = []
-  ) => {
-    const highKeywords: ValueCountPair[][] = [];
-    for (const keywordsArray of currentKeywordCounts) {
-      highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
-    }
-
-    const filteredHighKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
-      keywordArray.filter(
-        (keyword: ValueCountPair) => !keywordToFilter.some((el: any) => keyword.value.includes(el))
-      )
-    );
-
-    return filteredHighKeyword;
-  };
-  const getSpeakersTopNKeywords = (keywordsArray: KeywordCounts[], displayKeywordCount: number) => {
-    const allKeywords: KeywordCounts = {};
-    keywordsArray.forEach((keywords: KeywordCounts) => {
-      for (const key in keywords) {
-        allKeywords[key] ? (allKeywords[key] += keywords[key]) : (allKeywords[key] = keywords[key]);
-      }
-    });
-
-    const topNKeywords: ValueCountPair[] = getAllTopNKeywords(allKeywords, displayKeywordCount);
-    return topNKeywords;
-  };
-  const getAllTopNKeywords = (allKeywords: KeywordCounts, n: number) => {
-    const keywordsEntries: ValueCountPair[] = Object.entries(allKeywords).map(([value, count]) => ({
-      value,
-      count,
-    }));
-    const sortedKeywordsEntries: ValueCountPair[] = keywordsEntries.sort(
-      (a: ValueCountPair, b: ValueCountPair) => b.count - a.count
-    );
-    const topNKeywords: ValueCountPair[] = sortedKeywordsEntries.slice(0, n + 1);
-    return topNKeywords;
-  };
-
-  const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(4);
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -63,11 +22,17 @@ const KeywordChartGraph = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const speaker: string[] = getSpeakers(results)[selectedChatRoomIndex];
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedChatRoomIndex];
-  const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, displayKeywordCount);
+
+  const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, speaker.length);
   // 각각의 키워드 순위
-  // console.log(keywordData);
+  // const speakersTopNKeywords = useSelector(
+  //   (state: { speakersTopNKeywordsSlice: ValueCountPair[][] }) => state.speakersTopNKeywordsSlice
+  // );
+  console.log(keywordData, "currentKeywordCounts");
+
   const data = [
     {
       name: "Page A",
@@ -95,13 +60,13 @@ const KeywordChartGraph = () => {
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart layout="vertical" data={data}>
+      <BarChart layout="vertical" data={keywordData[0]}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis type="number" />
-        <YAxis type="category" dataKey="name" />
+        <YAxis type="category" dataKey="value" />
         <Tooltip contentStyle={{ fontSize: "2px" }} />
         <Legend />
-        <Bar dataKey="uv" fill="#8884d8" />
+        <Bar dataKey="count" fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
   );
