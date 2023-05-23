@@ -216,9 +216,10 @@ const DashboardSection = () => {
                 </option>
 
                 {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
+                  const displayName = speaker.length > 6 ? speaker.substring(0, 6) + "..." : speaker;
                   return (
                     <option value={index} key={index}>
-                      {speaker}
+                      {displayName}
                     </option>
                   );
                 })}

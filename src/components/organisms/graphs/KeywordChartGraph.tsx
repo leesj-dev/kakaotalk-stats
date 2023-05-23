@@ -30,24 +30,29 @@ const KeywordChartGraph = () => {
   const speaker: string[] = getSpeakers(results)[selectedChatRoomIndex];
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedChatRoomIndex];
-
   const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, speaker.length);
   // 각각의 키워드 순위
   // const speakersTopNKeywords = useSelector(
   //   (state: { speakersTopNKeywordsSlice: ValueCountPair[][] }) => state.speakersTopNKeywordsSlice
   // );
-  console.log(keywordData, "currentKeywordCounts");
+
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
   useEffect(() => {
     setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
   }, [selectedSpeakerIndex]);
 
+  function truncateValue(value: string) {
+    if (value.length > 7) {
+      return value.substring(0, 6) + "...";
+    }
+    return value;
+  }
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart layout="vertical" data={keywordData[selectedSpeakerIndex]}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis type="number" />
-        <YAxis type="category" dataKey="value" />
+        <YAxis type="category" dataKey="value" tickFormatter={truncateValue} />
         <Tooltip contentStyle={{ fontSize: "2px" }} />
         <Legend />
         <Bar
