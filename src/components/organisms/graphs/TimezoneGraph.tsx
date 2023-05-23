@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
+import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 
 const getDayIndex = (date: string) => {
   const parsedDate = parseInt(date);
@@ -52,10 +53,13 @@ const TimezoneGraph = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
+  );
 
   const [scatter, setScatter] = useState<any>([]);
-  const [selectedSpeakerIndex, setSelectedSpeakerIndex] = useState<number>(0);
-
+  const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
+  console.log(currentSpeakerIndex);
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerNames = getSpeakers(results)[selectedChatRoomIndex];
   speakerNames.unshift("전체");
@@ -87,7 +91,7 @@ const TimezoneGraph = () => {
   const daysOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
 
   const handleClickSpeaker = (index: number) => {
-    setSelectedSpeakerIndex(index);
+    setCurrentSpeakerIndex(index);
   };
 
   useEffect(() => {
@@ -127,6 +131,10 @@ const TimezoneGraph = () => {
     setScatter(graph);
   }, [selectedChatRoomData]);
 
+  useEffect(() => {
+    setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
+  }, [selectedSpeakerIndex]);
+
   return (
     <>
       <div> 시간대별 대화량</div>
@@ -145,7 +153,7 @@ const TimezoneGraph = () => {
         );
       })}
       {scatter.length &&
-        scatter[selectedSpeakerIndex].map((item: any, index: number) => {
+        scatter[currentSpeakerIndex].map((item: any, index: number) => {
           return (
             <ResponsiveContainer key={index} width="100%" height={50}>
               <ScatterChart
@@ -182,7 +190,14 @@ const TimezoneGraph = () => {
                   wrapperStyle={{ zIndex: 100 }}
                   content={renderTooltip}
                 />
-                <Scatter data={item.values} fill="#8884d8" />
+                <Scatter
+                  data={item.values}
+                  fill={
+                    currentSpeakerIndex === 0
+                      ? "#8884d8"
+                      : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
+                  }
+                />
               </ScatterChart>
             </ResponsiveContainer>
           );

@@ -16,6 +16,8 @@ import { AnalyzedMessage } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
+import { lightTheme } from "../../../style/Theme";
+import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 
 type LineGraphData = {
   name: string;
@@ -154,9 +156,11 @@ const ReplyLineGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
-
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
   const [displayData, setDisplayData] = useState<any[]>([]);
@@ -165,10 +169,6 @@ const ReplyLineGraph = () => {
   const replyTimes = getReplyTimes(analyzedMessages)[selectedChatRoomIndex];
   const chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
   const chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
-  const colors = ["#8884d8", "#82ca9d"];
-  const chatSpeakersColorPair = chatSpeakers.map((speaker: string, index: number) => {
-    return [speaker, colors[index % colors.length]];
-  });
   const averageReplyTime = getAverageReplyTime(displayData);
 
   useEffect(() => {
@@ -219,16 +219,17 @@ const ReplyLineGraph = () => {
             label="평균답장속도"
             stroke="orange"
           />
-          {chatSpeakersColorPair.map((speaker: string, index: number) => {
+          {chatSpeakers.map((speaker: string, index: number) => {
             return (
               <Line
                 dot={false}
                 key={index}
                 yAxisId="left"
                 type="monotone"
-                dataKey={speaker[0]}
-                stroke={speaker[1]}
-                strokeWidth={3 / 2}
+                dataKey={speaker}
+                stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                strokeWidth={selectedSpeakerIndex === index ? 2 : 1}
+                style={{ transition: "ease-in-out 0.7s" }}
               />
             );
           })}
