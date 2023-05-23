@@ -46,7 +46,7 @@ const renderTooltip = (props: any) => {
 };
 const range = [16, 225];
 
-const TimezoneGraph = () => {
+const ChatVolumeByHourlyGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -206,4 +206,4 @@ const TimezoneGraph = () => {
   );
 };
 
-export default TimezoneGraph;
+export default ChatVolumeByHourlyGraph;

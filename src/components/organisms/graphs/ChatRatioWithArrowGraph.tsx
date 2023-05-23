@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PieChart, Pie, Cell, Line, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/selectedSpeakerIndexSlice";
@@ -56,7 +56,7 @@ const getValueForAngle = (data: any, selectedSpeakerIndex: number) => {
   return -1;
 };
 
-const PieChartWithNeedle = () => {
+const ChatRatioWithArrowGraph = () => {
   const dispatch = useDispatch();
 
   const results = useSelector(
@@ -137,4 +137,4 @@ const PieChartWithNeedle = () => {
   );
 };
 
-export default PieChartWithNeedle;
+export default ChatRatioWithArrowGraph;

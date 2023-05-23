@@ -27,7 +27,7 @@ export const getNotDuplicatedChatDates = (chatDates: string[]) => {
   return notDuplicatedChatDates;
 };
 
-const ChatVolumeGraph = () => {
+const ChatVolumeByPeriodGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -135,4 +135,4 @@ const ChatVolumeGraph = () => {
   );
 };
 
-export default ChatVolumeGraph;
+export default ChatVolumeByPeriodGraph;

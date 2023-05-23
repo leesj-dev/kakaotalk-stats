@@ -18,7 +18,7 @@ import {
 } from "../../../module/common/getProperties";
 import { AnalyzedMessage, ChatTimes, ReplyTime } from "../../../@types/index.d";
 import { getAverageReplyTime, getTotalChatCounts, getTwoLettersFromSpeakers } from "./SummaryPieGraph";
-import { getNotDuplicatedChatDates } from "./ChatVolumeGraph";
+import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 
@@ -86,7 +86,7 @@ const getRadarRankData = (radarData: number[][]) => {
   return resultData;
 };
 
-const RadarGraph = () => {
+const ChatRoomCompareGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -163,4 +163,4 @@ const RadarGraph = () => {
   );
 };
 
-export default RadarGraph;
+export default ChatRoomCompareGraph;
