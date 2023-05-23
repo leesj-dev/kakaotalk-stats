@@ -121,7 +121,7 @@ const ChatRatioWithArrowGraph = () => {
         >
           {data.map((entry, index) => (
             <Cell
-              key={`cell-${index}`}
+              key={index}
               onClick={() => handleClickSpeakerCell(index)}
               stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
               fill={colorsForGraphArray[index % colorsForGraphArray.length]}

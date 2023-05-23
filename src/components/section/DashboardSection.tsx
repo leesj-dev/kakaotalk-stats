@@ -11,16 +11,10 @@ import ReplyCountByHourlyGraph from "../organisms/graphs/ReplyCountByHourlyGraph
 import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
 import Span from "../atoms/Span";
 import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
-import ChatRatioGraph from "../organisms/graphs/ChatRaitoGraph";
-<<<<<<< Updated upstream
 import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
 import KeywordChartGraph from "../organisms/graphs/KeywordChartGraph";
 import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph";
-=======
-import PercentAreaChart from "../organisms/graphs/PercentAreaChart";
-import KeyWordDashBoard from "../organisms/graphs/KeywordChart";
-import PieChartWithNeedle from "../organisms/graphs/PieChartWithNeedle";
->>>>>>> Stashed changes
+
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
@@ -170,13 +164,9 @@ const DashboardSection = () => {
   const mostChattedTimes = useSelector(
     (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
   );
-<<<<<<< Updated upstream
+
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
-=======
-  const nfKeywordCount = useSelector(
-    (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
->>>>>>> Stashed changes
   );
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
@@ -218,11 +208,14 @@ const DashboardSection = () => {
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
 
-              <select defaultValue="전체"
+              <select
+                defaultValue="전체"
                 value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
                 onChange={handleChangeSpeaker}
               >
-                <option value="전체"  key="전체">전체</option>
+                <option value="전체" key="전체">
+                  전체
+                </option>
 
                 {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
                   return (
