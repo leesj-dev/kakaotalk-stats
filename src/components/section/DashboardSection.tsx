@@ -148,6 +148,30 @@ const SpeakerSelect = styled.div`
   align-items: flex-end;
 `;
 
+const aside전달데이터 = [
+  {
+    id: "레이더",
+    message: "종합비교",
+    graph: <ChatRoomCompareGraph />,
+  },
+  {
+    id: "바",
+    message: "기간대화량",
+    graph: <ChatRoomCompareGraph />,
+  },
+  {
+    id: "에어리어",
+    message: "대화비율",
+    graph: <ChatRoomCompareGraph />,
+  },
+];
+// <올가니즘 전달데이터={전달데이터}>
+//   <TempGraphBox>
+//     <Span>{전달데이터.message}</Span>
+//     {전달데이터.graph}
+//   </TempGraphBox>
+// </올가니즘>
+
 const DashboardSection = () => {
   const dispatch = useDispatch();
   const results = useSelector(
@@ -183,21 +207,11 @@ const DashboardSection = () => {
   useEffect(() => {
     scrollToEvent(0, "auto");
   }, []);
-const aside전달데이터 = [{
-  message : "기간대화량",
-  graph : <ChatRoomCompareGraph />
-}]
-<올가니즘 전달데이터={전달데이터}>
-  <TempGraphBox>
-    <Span>{전달데이터.message}</Span>
-    {전달데이터.graph}
-  </TempGraphBox>
-</올가니즘>
 
   return (
     <DashboardTemplateContainer>
       <AsideBox>
-        {Array.isArray(results) && results.length !== 0 &&  <올가니즘 전달데이터={전달데이터}>}
+        {/* {Array.isArray(results) && results.length !== 0 &&  <올가니즘 전달데이터={전달데이터}>} */}
 
         <TempGraphBox>
           {Array.isArray(results) && results.length !== 0 && <ChatRoomCompareGraph />}
