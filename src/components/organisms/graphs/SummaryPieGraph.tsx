@@ -18,6 +18,21 @@ import styled from "styled-components";
 import Icon from "../../atoms/Icon";
 import { setMostChattedTimes } from "../../../store/reducer/mostChattedTimes";
 
+const ChatRoomIndexArrowBox = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  z-index: 1;
+
+  > * {
+    cursor: pointer;
+    font-size: 30px;
+  }
+`;
+
 export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   let totalChatCounts: number[] = [];
   for (const chatroom of chatTimes) {
@@ -81,21 +96,6 @@ export const getAverageReplyTime = (replyTimes: ReplyTime[][][]) => {
   }
   return averageReplyTimeArray;
 };
-
-const ChatRoomIndexArrowBox = styled.div`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-  z-index: 1;
-
-  > * {
-    cursor: pointer;
-    font-size: 30px;
-  }
-`;
 
 const SummaryPieGraph = () => {
   const dispatch = useDispatch();

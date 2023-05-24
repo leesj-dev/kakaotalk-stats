@@ -93,40 +93,41 @@ const ChatVolumeByHourlyGraph = () => {
     setCurrentSpeakerIndex(index);
   };
 
-  useEffect(() => {
-    let graph: any[] = [];
-    Object.entries(speakerTotalChatTimes).forEach((speaker: any) => {
-      const weekData: WeekData[] = [];
+  let graph: any[] = [];
+  Object.entries(speakerTotalChatTimes).forEach((speaker: any) => {
+    const weekData: WeekData[] = [];
 
-      const timeDataOfWeek: ChatTimes = speaker[1];
-      const timeTable: any[] = Object.values(timeDataOfWeek);
+    const timeDataOfWeek: ChatTimes = speaker[1];
+    const timeTable: any[] = Object.values(timeDataOfWeek);
 
-      daysOfWeek.forEach((day: string, index: number) => {
-        weekData.push({
-          day: day,
-          values: [],
-        });
-        const timeTableDay = timeTable[index];
-        for (const timeNumber in timeTableDay) {
-          weekData.at(-1)?.values.push({
-            hour: timeNumber,
-            value: timeTableDay[timeNumber],
-            index: 1,
-          });
-        }
+    daysOfWeek.forEach((day: string, index: number) => {
+      weekData.push({
+        day: day,
+        values: [],
       });
-      graph.push(weekData);
+      const timeTableDay = timeTable[index];
+      for (const timeNumber in timeTableDay) {
+        weekData.at(-1)?.values.push({
+          hour: timeNumber,
+          value: timeTableDay[timeNumber],
+          index: 1,
+        });
+      }
     });
+    graph.push(weekData);
+  });
 
-    const totalTimezoneData = JSON.parse(JSON.stringify(graph[0]));
-    for (let i = 1; i < graph.length; i++) {
-      for (let j = 0; j < graph[i].length; j++) {
-        for (let k = 0; k < graph[i][j].values.length; k++) {
-          totalTimezoneData[j].values[k].value += graph[i][j].values[k].value;
-        }
+  const totalTimezoneData = JSON.parse(JSON.stringify(graph[0]));
+  for (let i = 1; i < graph.length; i++) {
+    for (let j = 0; j < graph[i].length; j++) {
+      for (let k = 0; k < graph[i][j].values.length; k++) {
+        totalTimezoneData[j].values[k].value += graph[i][j].values[k].value;
       }
     }
-    graph.unshift(totalTimezoneData);
+  }
+  graph.unshift(totalTimezoneData);
+
+  useEffect(() => {
     setScatter(graph);
   }, [selectedChatRoomData]);
 
