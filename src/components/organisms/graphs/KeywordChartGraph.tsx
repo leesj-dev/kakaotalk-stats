@@ -49,6 +49,7 @@ const KeywordChartGraph = () => {
     return value;
   }
   return (
+
     <ResponsiveContainer width="100%" height={"90%"}>
       <BarChart
         layout="vertical"
