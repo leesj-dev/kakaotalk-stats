@@ -1,11 +1,10 @@
-import React, { useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
 import DashboardContainer from "../organisms/DashboardContainer";
 import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../module/common/scrollEvent";
-import { AnalyzedMessage, ChatTimes, StringNumberTuple, ValueCountPair } from "../../@types/index.d";
+import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/index.d";
 import ChatVolumeByHourlyGraph from "../organisms/graphs/ChatVolumeByHourlyGraph";
-import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplySpeedGraph from "../organisms/graphs/ReplySpeedGraph";
 import ReplyCountByHourlyGraph from "../organisms/graphs/ReplyCountByHourlyGraph";
 import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
@@ -18,6 +17,7 @@ import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
+import DetailGraphModalForSquare from "../organisms/DetailGraphModalForSquare";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -192,6 +192,8 @@ const DashboardSection = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
   const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
@@ -301,6 +303,7 @@ const DashboardSection = () => {
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
+      {isModalVisible && <DetailGraphModalForSquare setIsModalVisible={setIsModalVisible} />}
     </DashboardTemplateContainer>
   );
 };
