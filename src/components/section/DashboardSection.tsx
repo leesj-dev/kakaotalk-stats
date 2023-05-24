@@ -183,14 +183,27 @@ const DashboardSection = () => {
   useEffect(() => {
     scrollToEvent(0, "auto");
   }, []);
+const aside전달데이터 = [{
+  message : "기간대화량",
+  graph : <ChatRoomCompareGraph />
+}]
+<올가니즘 전달데이터={전달데이터}>
+  <TempGraphBox>
+    <Span>{전달데이터.message}</Span>
+    {전달데이터.graph}
+  </TempGraphBox>
+</올가니즘>
 
   return (
     <DashboardTemplateContainer>
       <AsideBox>
+        {Array.isArray(results) && results.length !== 0 &&  <올가니즘 전달데이터={전달데이터}>}
+
         <TempGraphBox>
           {Array.isArray(results) && results.length !== 0 && <ChatRoomCompareGraph />}
         </TempGraphBox>
         <TempGraphBox>
+          <Span>기간 대화량</Span>
           {Array.isArray(results) && results.length !== 0 && <ChatVolumeByPeriodGraph />}
         </TempGraphBox>
         <TempGraphBox>
@@ -267,6 +280,7 @@ const DashboardSection = () => {
                 {Array.isArray(results) && results.length !== 0 && <ReplyCountByHourlyGraph />}
               </TempGraphBox>
               <TempGraphBox>
+                <Span>키워드</Span>
                 {Array.isArray(results) && results.length !== 0 && <KeywordChartGraph />}
               </TempGraphBox>
             </HorizontalBox>

@@ -33,6 +33,7 @@ const getAllTopNKeywords = (allKeywords: KeywordCounts, n: number) => {
   const sortedKeywordsEntries: ValueCountPair[] = keywordsEntries.sort(
     (a: ValueCountPair, b: ValueCountPair) => b.count - a.count
   );
+
   const topNKeywords: ValueCountPair[] = sortedKeywordsEntries.slice(0, n + 1);
   return topNKeywords;
 };
@@ -51,7 +52,6 @@ const getSpeakersTopNKeywords = (keywordsArray: KeywordCounts[], displayKeywordC
   });
 
   const topNKeywords: ValueCountPair[] = getAllTopNKeywords(allKeywords, displayKeywordCount);
-
   return topNKeywords;
 };
 
@@ -71,7 +71,6 @@ const getOverlappedKeyword = (keywordData: any[]) => {
   for (const keyword in overlappedKeyword) {
     overlappedKeyword[keyword] === 2 && filteredKeyword.push(keyword);
   }
-  filteredKeyword.shift();
   return filteredKeyword;
 };
 
@@ -89,13 +88,15 @@ export const getHighKeywords = (
   for (const keywordsArray of currentKeywordCounts) {
     highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
   }
+  const spaceFilteredHighKeyword = highKeywords.map((keywordArray) =>
+    keywordArray.filter((keyword) => keyword.value !== "")
+  );
 
-  const filteredHighKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
+  const filteredHighKeyword = spaceFilteredHighKeyword.map((keywordArray: ValueCountPair[]) =>
     keywordArray.filter(
       (keyword: ValueCountPair) => !keywordToFilter.some((el: any) => keyword.value.includes(el))
     )
   );
-
   return filteredHighKeyword;
 };
 
