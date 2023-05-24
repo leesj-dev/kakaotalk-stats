@@ -2,6 +2,8 @@ import React from "react";
 import Img from "../atoms/Img";
 import Span from "../atoms/Span";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedOsIndex } from "../../store/reducer/selectedOsIndexSlice";
 
 const OsIconBox = styled.ul`
   margin-bottom: 30px;
@@ -67,11 +69,15 @@ const osData = [
 
 type OsListProps = {
   size?: string;
-  setSelectedOsIndex: (index: number) => void;
-  selectedOsIndex: number | null;
 };
 
-const OsList = ({ size, selectedOsIndex, setSelectedOsIndex }: OsListProps) => {
+const OsList = ({ size }: OsListProps) => {
+  const dispatch = useDispatch();
+
+  const selectedOsIndex = useSelector(
+    (state: { selectedOsIndexSlice: number }) => state.selectedOsIndexSlice
+  );
+
   return (
     <OsIconBox>
       {osData.map((data: OsData) => {
@@ -80,7 +86,7 @@ const OsList = ({ size, selectedOsIndex, setSelectedOsIndex }: OsListProps) => {
             key={data.id}
             className={`${selectedOsIndex === data.id && "active"}`}
             size={size}
-            onClick={() => setSelectedOsIndex(data.id)}
+            onClick={() => dispatch(setSelectedOsIndex(data.id))}
           >
             <Img src={data.src} />
             <Span>{data.os}</Span>

@@ -20,7 +20,7 @@ import {
   readAsDataURL,
 } from "../../module/core/breakdownTxtFile";
 import { getMessageData } from "../../module/core/getMessageData";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAnalyzedMessages } from "../../store/reducer/analyzedMessagesSlice";
 import Span from "../atoms/Span";
 import { useNavigate } from "react-router";
@@ -124,10 +124,14 @@ const analyzeMessage = async (attachedFiles: FileObject[][], osIndex: number | n
 const AttachmentSection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const selectedOsIndex = useSelector(
+    (state: { selectedOsIndexSlice: number }) => state.selectedOsIndexSlice
+  );
+
   const attachmentSectionRef = useRef<HTMLDivElement | null>(null);
 
   const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
-  const [selectedOsIndex, setSelectedOsIndex] = useState<number | null>(null);
 
   // 파일 확장자 허용 타입
   const isAllowedFileType = (file: File): boolean => {
@@ -198,11 +202,7 @@ const AttachmentSection = () => {
     <AttachmentSectionBox ref={attachmentSectionRef}>
       {!selectedOsIndex ? (
         <OsListBox>
-          <OsList
-            size="100px"
-            selectedOsIndex={selectedOsIndex}
-            setSelectedOsIndex={setSelectedOsIndex}
-          />
+          <OsList size="100px" />
           <Span fontSize="24px">운영체제를 선택해 주세요.</Span>
         </OsListBox>
       ) : (
@@ -210,8 +210,6 @@ const AttachmentSection = () => {
           <FileDrop
             pushNewlyAttachedFiles={pushNewlyAttachedFiles}
             handleChangeFile={handleChangeFile}
-            selectedOsIndex={selectedOsIndex}
-            setSelectedOsIndex={setSelectedOsIndex}
           ></FileDrop>
           <AttachedFileList
             attachedFiles={attachedFiles}
