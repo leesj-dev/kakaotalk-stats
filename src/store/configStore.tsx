@@ -6,6 +6,7 @@ import { averageReplyTimeSlice } from "./reducer/averageReplyTimeSlice";
 import { nfKeywordCountsSlice } from "./reducer/nfKeywordCountSlice";
 import { mostChattedTimesSlice } from "./reducer/mostChattedTimes";
 import { selectedSpeakerIndexSlice } from "./reducer/selectedSpeakerIndexSlice";
+import { attachedFileListSlice } from "./reducer/attachedFileListSlice";
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     nfKeywordCountsSlice: nfKeywordCountsSlice.reducer,
     mostChattedTimesSlice: mostChattedTimesSlice.reducer,
     selectedSpeakerIndexSlice: selectedSpeakerIndexSlice.reducer,
+    attachedFileListSlice: attachedFileListSlice.reducer,
   },
 });
