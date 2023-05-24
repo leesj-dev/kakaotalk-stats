@@ -90,48 +90,38 @@ const ChatVolumeByPeriodGraph = () => {
   // 날짜제한
 
   return (
-    <>
-      기간 대화량
-      <ResponsiveContainer width="100%" height={"90%"}>
-        <BarChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 20,
-            right: 20,
-            left: -20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} />
-          <YAxis fontSize={12} />
-          <Tooltip />
-          {/* <Legend /> */}
-          {chatSpeakers.map((speaker: string, index: number) => {
-            return (
-              <Bar
-                key={index}
-                dataKey={speaker}
-                stackId="a"
-                stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
-                fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-                fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
-                style={{ transition: "ease-in-out 0.7s" }}
-              />
-            );
-          })}
-        </BarChart>
-      </ResponsiveContainer>
-      <div>
-        {/* <ul>
-          <li>월간</li>
-          <li>주간</li>
-          <li>일간</li>
-        </ul> */}
-      </div>
-    </>
+    <ResponsiveContainer width="100%" height={"90%"}>
+      <BarChart
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 20,
+          right: 20,
+          left: 0,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" fontSize={12} />
+        <YAxis fontSize={12} />
+        <Tooltip />
+        {/* <Legend /> */}
+        {chatSpeakers.map((speaker: string, index: number) => {
+          return (
+            <Bar
+              key={index}
+              dataKey={speaker}
+              stackId="a"
+              stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+              fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+              fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
+              style={{ transition: "ease-in-out 0.7s" }}
+            />
+          );
+        })}
+      </BarChart>
+    </ResponsiveContainer>
   );
 };
 

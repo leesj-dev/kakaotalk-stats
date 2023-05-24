@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TagCloud } from "react-tagcloud";
 import { AnalyzedMessage, ValueCountPair } from "../../../@types/index.d";
@@ -7,6 +7,7 @@ import { getKeywordCounts, getSpeakers } from "../../../module/common/getPropert
 import { KeywordCounts } from "../../../@types/index.d";
 import styled from "styled-components";
 import { setNfKeywordCount } from "../../../store/reducer/nfKeywordCountSlice";
+import { setSpeakersTopNKeywords } from "../../../store/reducer/speakersTopNKeywordsSlice";
 
 const KeywordList = styled.li`
   display: flex;
@@ -32,6 +33,7 @@ const getAllTopNKeywords = (allKeywords: KeywordCounts, n: number) => {
   const sortedKeywordsEntries: ValueCountPair[] = keywordsEntries.sort(
     (a: ValueCountPair, b: ValueCountPair) => b.count - a.count
   );
+
   const topNKeywords: ValueCountPair[] = sortedKeywordsEntries.slice(0, n + 1);
   return topNKeywords;
 };
@@ -69,7 +71,6 @@ const getOverlappedKeyword = (keywordData: any[]) => {
   for (const keyword in overlappedKeyword) {
     overlappedKeyword[keyword] === 2 && filteredKeyword.push(keyword);
   }
-  filteredKeyword.shift();
   return filteredKeyword;
 };
 
@@ -78,7 +79,7 @@ const getOverlappedKeyword = (keywordData: any[]) => {
  * @param {KeywordCounts[][]} currentKeywordCounts - 현재 키워드 카운트 배열입니다.
  * @returns {ValueCountPair[][]} speaker별로 상위 키워드입니다.
  */
-const getHighKeywords = (
+export const getHighKeywords = (
   currentKeywordCounts: KeywordCounts[][],
   displayKeywordCount: number,
   keywordToFilter: string[] = []
@@ -87,13 +88,15 @@ const getHighKeywords = (
   for (const keywordsArray of currentKeywordCounts) {
     highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
   }
+  const spaceFilteredHighKeyword = highKeywords.map((keywordArray) =>
+    keywordArray.filter((keyword) => keyword.value !== "")
+  );
 
-  const filteredHighKeyword = highKeywords.map((keywordArray: ValueCountPair[]) =>
+  const filteredHighKeyword = spaceFilteredHighKeyword.map((keywordArray: ValueCountPair[]) =>
     keywordArray.filter(
       (keyword: ValueCountPair) => !keywordToFilter.some((el: any) => keyword.value.includes(el))
     )
   );
-
   return filteredHighKeyword;
 };
 
@@ -142,7 +145,6 @@ const KeywordCloud = () => {
   const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, displayKeywordCount);
   const overlappedKeyword = getOverlappedKeyword(keywordData);
   const chatRoomsNFKeywordCounts = getChatRoomsNFKeywordCounts(keywordCounts);
-
   const handleChangeNumberInput = (e: ChangeEvent<HTMLInputElement>) => {
     setNumberInput(Number(e.target.value));
   };
@@ -188,6 +190,7 @@ const KeywordCloud = () => {
   };
 
   dispatch(setNfKeywordCount(chatRoomsNFKeywordCounts));
+  dispatch(setSpeakersTopNKeywords(keywordData));
 
   return (
     <ul>
