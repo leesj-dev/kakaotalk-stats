@@ -144,28 +144,6 @@ const SpeakerSelectBox = styled.div`
   align-items: flex-end;
 `;
 
-const AsideBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  > * {
-    background: ${(props) => props.theme.mainWhite};
-  }
-  > :nth-child(1) {
-    width: 100%;
-    height: 33%;
-  }
-  > :nth-child(2) {
-    width: 100%;
-    height: 33%;
-  }
-  > :nth-child(3) {
-    width: 100%;
-    height: 33%;
-  }
-`;
-
 const DashboardSection = () => {
   const dispatch = useDispatch();
 
