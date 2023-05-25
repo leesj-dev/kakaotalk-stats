@@ -84,11 +84,11 @@ const ChatRatioWithArrowGraph = () => {
       }
       const chatTimes = chat.chatTimes;
       const chatCounts = chatTimes ? Object.values(chatTimes) : [];
-      const totalChatCount = chatCounts.reduce((acc, count) => Number(acc) + Number(count), 0);
+      const totalChatCount = reduceAPlusB(chatCounts);
       speakerTotalChatCounts[speaker] += Number(totalChatCount);
     });
   });
-  const totalChatCount = Object.values(speakerTotalChatCounts).reduce((a: number, b: number) => a + b);
+  const totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
   const data = Object.entries(speakerTotalChatCounts).map(([name, value], index) => ({
     name,
     value: Number(((value / totalChatCount) * 100).toFixed(0)),

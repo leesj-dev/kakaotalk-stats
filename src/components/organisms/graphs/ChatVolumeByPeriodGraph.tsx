@@ -96,10 +96,10 @@ const ChatVolumeByPeriodGraph = () => {
         height={300}
         data={data}
         margin={{
-          top: 20,
-          right: 20,
-          left: 0,
-          bottom: 5,
+          top: 0,
+          right: 5,
+          left: -20,
+          bottom: -10,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />

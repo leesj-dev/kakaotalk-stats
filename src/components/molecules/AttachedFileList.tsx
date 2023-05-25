@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Icon from "../atoms/Icon";
 import Paragraph from "../atoms/Paragraph";
 import { FileObject } from "../../@types/index.d";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAttachedFileArray } from "../../store/reducer/attachedFileListSlice";
 
 const FileListBox = styled.div`
   width: 50%;
@@ -19,15 +21,16 @@ const Li = styled.li`
   }
 `;
 
-type AttachedFileListProps = {
-  attachedFiles: any;
-  deleteAttachedFileArray: (fileArrayIndex: number) => void;
-};
+const AttachedFileList = () => {
+  const dispatch = useDispatch();
 
-const AttachedFileList = ({ attachedFiles, deleteAttachedFileArray }: AttachedFileListProps) => {
+  const attachedFileList = useSelector(
+    (state: { attachedFileListSlice: FileObject[][] }) => state.attachedFileListSlice
+  );
+
   return (
     <FileListBox>
-      {attachedFiles.map((files: FileObject[], fileArrayIndex: number) => {
+      {attachedFileList.map((files: FileObject[], fileArrayIndex: number) => {
         return (
           <Li key={fileArrayIndex}>
             {files.map((file, fileIndex) => {
@@ -38,7 +41,7 @@ const AttachedFileList = ({ attachedFiles, deleteAttachedFileArray }: AttachedFi
                 </Paragraph>
               );
             })}
-            <Icon onClick={() => deleteAttachedFileArray(fileArrayIndex)}>❌</Icon>
+            <Icon onClick={() => dispatch(deleteAttachedFileArray(fileArrayIndex))}>❌</Icon>
           </Li>
         );
       })}

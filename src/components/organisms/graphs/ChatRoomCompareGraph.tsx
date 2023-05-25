@@ -21,6 +21,7 @@ import { getAverageReplyTime, getTotalChatCounts, getTwoLettersFromSpeakers } fr
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
+import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
 const radarSubjects = ["카톡 양", "답장속도", "인원", "기간", "이모티콘사진"];
 
@@ -105,7 +106,7 @@ const ChatRoomCompareGraph = () => {
   const averageReplyTime: number[][] = getAverageReplyTime(replyTimes);
   const dates: string[][] = getDates(analyzedMessages);
   const nfKeywordCountArray = nfKeywordCounts.map((nfCountArray: number[]) => {
-    return nfCountArray.reduce((a: number, b: number) => a + b, 0);
+    return reduceAPlusB(nfCountArray);
   });
 
   const getRadarData = () => {
@@ -117,8 +118,7 @@ const ChatRoomCompareGraph = () => {
       const date1 = getDateMilliseconds(notDuplicatedChatDates[notDuplicatedChatDates.length - 1]);
       const date2 = getDateMilliseconds(notDuplicatedChatDates[0]);
       radarDatum["카톡 횟수"] = totalChatCounts[i];
-      radarDatum["평균답장속도"] =
-        averageReplyTime[i].reduce((a: number, b: number) => a + b, 0) / speakers[i].length;
+      radarDatum["평균답장속도"] = reduceAPlusB(averageReplyTime[i]) / speakers[i].length;
       radarDatum["인원 수"] = speakers[i].length;
       radarDatum["기간"] = getDayDifference(date1, date2);
       radarDatum["이모티콘사진"] = Math.floor((nfKeywordCountArray[i] / totalChatCounts[i]) * 1000);
@@ -131,7 +131,18 @@ const ChatRoomCompareGraph = () => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarRankData}>
+      <RadarChart
+        cx="50%"
+        cy="50%"
+        outerRadius="80%"
+        data={radarRankData}
+        margin={{
+          top: 0,
+          right: 0,
+          left: 0,
+          bottom: 0,
+        }}
+      >
         <PolarGrid />
         <PolarAngleAxis dataKey="subject" fontSize={15} />
         <PolarRadiusAxis

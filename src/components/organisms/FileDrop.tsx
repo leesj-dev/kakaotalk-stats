@@ -4,6 +4,8 @@ import AttachmentButton from "../atoms/AttachmentButton";
 import Paragraph from "../atoms/Paragraph";
 import Span from "../atoms/Span";
 import OsList from "./OsList";
+import { useDispatch } from "react-redux";
+import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlice";
 
 const DropBox = styled.div`
   display: flex;
@@ -34,18 +36,11 @@ const AttachmentBox = styled.div`
 `;
 
 type DropZoneProps = {
-  pushNewlyAttachedFiles: (files: any) => void;
   handleChangeFile: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  setSelectedOsIndex: (index: number) => void;
-  selectedOsIndex: number | null;
 };
 
-const FileDrop = ({
-  pushNewlyAttachedFiles,
-  handleChangeFile,
-  selectedOsIndex,
-  setSelectedOsIndex,
-}: DropZoneProps) => {
+const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
+  const dispatch = useDispatch();
   const [dragging, setDragging] = useState(false);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -68,7 +63,7 @@ const FileDrop = ({
 
     const files: any = Array.prototype.slice.call(e.dataTransfer.files);
     if (files && files.length) {
-      pushNewlyAttachedFiles(files);
+      dispatch(pushNewlyAttachedFiles(files));
     }
     // const fileArray: any = Array.prototype.slice.call(files);
     // pushNewlyAttachedFiles(fileArray);
@@ -82,7 +77,7 @@ const FileDrop = ({
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <OsList selectedOsIndex={selectedOsIndex} setSelectedOsIndex={setSelectedOsIndex} />
+      <OsList />
 
       <Span fontSize="18px">내보내기한 카카오톡 텍스트 파일을 드래그하여 여기에 끌어다 놓거나</Span>
       <AttachmentBox>

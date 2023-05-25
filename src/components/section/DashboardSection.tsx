@@ -1,4 +1,4 @@
-import React, { useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import styled from "styled-components";
 import DashboardContainer from "../organisms/DashboardContainer";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,7 @@ import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
+import DetailGraphModalForSquare from "../organisms/DetailGraphModalForSquare";
 import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
 import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
@@ -30,14 +31,38 @@ const DashboardTemplateContainer = styled.div`
   text-align: center;
   border: 1px solid #000;
   background: ${(props) => props.theme.mainBlue};
-  * {
-    border-radius: 12px;
-  }
+
   > :nth-child(1) {
-    width: 20%;
+    width: 25%;
   }
   > :nth-child(2) {
-    width: 80%;
+    width: 75%;
+  }
+`;
+
+const AsideBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  > * {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: ${(props) => props.theme.mainWhite};
+    border-radius: 15px;
+  }
+  > :nth-child(1) {
+    height: 33.333%;
+  }
+  > :nth-child(2) {
+    height: 33.333%;
+  }
+  > :nth-child(3) {
+    height: 33.333%;
   }
 `;
 
@@ -54,6 +79,7 @@ const ArticleBox = styled.div`
     height: 85%;
   }
 `;
+
 const HeadBox = styled.div`
   display: flex;
   gap: 10px;
@@ -62,23 +88,13 @@ const HeadBox = styled.div`
     background: ${(props) => props.theme.mainWhite};
     padding: 10px 20px 0px 15px;
     text-align: left;
+    border-radius: 15px;
+    flex: 1;
   }
   > :nth-child(1) {
     flex: 2;
     flex-direction: row;
     justify-content: space-between;
-  }
-  > :nth-child(2) {
-    flex: 1;
-  }
-  > :nth-child(3) {
-    flex: 1;
-  }
-  > :nth-child(4) {
-    flex: 1;
-  }
-  > :nth-child(5) {
-    flex: 1;
   }
 `;
 
@@ -86,6 +102,7 @@ const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   > :nth-child(2) {
     > :nth-child(1) {
       width: 60%;
@@ -101,13 +118,13 @@ const VerticalBox = styled.div`
   flex: 1;
   flex-direction: row;
   gap: 10px;
-  > * {
-    width: 100%;
-  }
   > :nth-child(1) {
+    width: 100%;
+    border-radius: 15px;
     background: ${(props) => props.theme.mainWhite};
   }
 `;
+
 const HorizontalBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -115,6 +132,7 @@ const HorizontalBox = styled.div`
   > * {
     width: 100%;
     background: ${(props) => props.theme.mainWhite};
+    border-radius: 15px;
   }
 `;
 
@@ -163,6 +181,8 @@ const DashboardSection = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
@@ -293,6 +313,7 @@ const DashboardSection = () => {
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
+      {isModalVisible && <DetailGraphModalForSquare setIsModalVisible={setIsModalVisible} />}
     </DashboardTemplateContainer>
   );
 };

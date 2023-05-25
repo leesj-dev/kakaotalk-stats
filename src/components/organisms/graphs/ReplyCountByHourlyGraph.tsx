@@ -56,10 +56,10 @@ const ReplyCountByHourlyGraph = () => {
           height={300}
           data={stackedAreaData}
           margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
+            top: 5,
+            right: 5,
+            left: -5,
+            bottom: -10,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
