@@ -160,7 +160,6 @@ const DashboardSection = () => {
   const mostChattedTimes = useSelector(
     (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
   );
-
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
@@ -214,17 +213,17 @@ const DashboardSection = () => {
     {
       id: 1,
       headerTitle: "대화자 수",
-      headercontent: ` ${speakers[selectedChatRoomIndex]?.length || 0}`,
+      headerContent: ` ${speakers[selectedChatRoomIndex]?.length || 0}`,
     },
     {
       id: 2,
       headerTitle: "총 대화수",
-      headercontent: `${totalChatCounts[selectedChatRoomIndex]?.toLocaleString() || 0}`,
+      headerContent: `${totalChatCounts[selectedChatRoomIndex]?.toLocaleString() || 0}`,
     },
     {
       id: 3,
       headerTitle: "주 대화 시간대",
-      headercontent: `${mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}` + "시",
+      headerContent: `${mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}` + "시",
     },
   ];
   // 데이터 하나짜리도 선언하기

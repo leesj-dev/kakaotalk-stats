@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { AnalyzedMessage } from "../../@types/index.d";
 import Span from "../atoms/Span";
 
 const TempGraphBox = styled.div`

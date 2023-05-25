@@ -6,7 +6,7 @@ const HeaderContentBox = styled.div``;
 
 type headerContentProps = {
   headerTitle: string;
-  headercontent: string;
+  headerContent: string;
 };
 
 const DashboardHeaderContent = ({ data }: { data: headerContentProps }) => {
@@ -14,7 +14,7 @@ const DashboardHeaderContent = ({ data }: { data: headerContentProps }) => {
     <HeaderContentBox>
       <Span color="#7e848a">{data.headerTitle}</Span>
       <Span fontSize="24px" fontWeight="bold" textAlign="right">
-        {data.headercontent}
+        {data.headerContent}
       </Span>
     </HeaderContentBox>
   );
