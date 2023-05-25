@@ -2,7 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import Span from "../atoms/Span";
 
-const HeaderContentBox = styled.div``;
+const HeaderContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 type headerContentProps = {
   headerTitle: string;
