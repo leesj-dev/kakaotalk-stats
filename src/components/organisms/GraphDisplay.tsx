@@ -9,12 +9,12 @@ const TempGraphBox = styled.div`
   margin: 0 auto;
 `;
 
-type GraphBoxData = {
+type GraphBoxProps = {
   id: string;
   message: string;
   graph: JSX.Element;
 };
-const GraphBox = ({ data }: { data: GraphBoxData }) => {
+const GraphBox = ({ data }: { data: GraphBoxProps }) => {
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
