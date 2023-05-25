@@ -287,7 +287,7 @@ const DashboardSection = () => {
               </TempGraphBox>
             </HorizontalBox>
             <HorizontalBox>
-              <TempGraphBox>
+              <TempGraphBox style={{ paddingBottom: "0px" }}>
                 {Array.isArray(results) && results.length !== 0 && <ReplyCountByHourlyGraph />}
               </TempGraphBox>
               <TempGraphBox>
