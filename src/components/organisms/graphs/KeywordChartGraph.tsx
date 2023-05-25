@@ -49,7 +49,6 @@ const KeywordChartGraph = () => {
     return value;
   }
   return (
-
     <ResponsiveContainer width="100%" height={"90%"}>
       <BarChart
         layout="vertical"
@@ -58,6 +57,12 @@ const KeywordChartGraph = () => {
             ? allKeywordData.slice(0, DISPLAY_KEYWORD_COUNT)
             : keywordData[selectedSpeakerIndex]
         }
+        margin={{
+          top: 0,
+          right: 5,
+          left: -5,
+          bottom: -5,
+        }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis type="number" />

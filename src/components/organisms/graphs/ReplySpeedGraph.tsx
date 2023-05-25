@@ -16,7 +16,6 @@ import { AnalyzedMessage } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
-import { lightTheme } from "../../../style/Theme";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 
 type LineGraphData = {
@@ -200,10 +199,10 @@ const ReplySpeedGraph = () => {
           height={300}
           data={displayData}
           margin={{
-            top: 20,
-            right: 50,
-            left: 20,
-            bottom: 5,
+            top: 0,
+            right: -15,
+            left: -25,
+            bottom: -10,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />

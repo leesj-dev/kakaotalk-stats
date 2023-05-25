@@ -28,34 +28,37 @@ const DashboardTemplateContainer = styled.div`
   text-align: center;
   border: 1px solid #000;
   background: ${(props) => props.theme.mainBlue};
-  * {
-    border-radius: 12px;
-  }
+
   > :nth-child(1) {
-    width: 20%;
+    width: 25%;
   }
   > :nth-child(2) {
-    width: 80%;
+    width: 75%;
   }
 `;
 const AsideBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   > * {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     background: ${(props) => props.theme.mainWhite};
+    border-radius: 12px;
   }
   > :nth-child(1) {
-    width: 100%;
-    height: 33%;
+    height: 33.333%;
   }
   > :nth-child(2) {
-    width: 100%;
-    height: 33%;
+    height: 33.333%;
   }
   > :nth-child(3) {
-    width: 100%;
-    height: 33%;
+    height: 33.333%;
   }
 `;
 const ArticleBox = styled.div`
@@ -78,23 +81,13 @@ const HeadBox = styled.div`
     background: ${(props) => props.theme.mainWhite};
     padding: 10px 20px 0px 15px;
     text-align: left;
+    border-radius: 12px;
+    flex: 1;
   }
   > :nth-child(1) {
     flex: 2;
     flex-direction: row;
     justify-content: space-between;
-  }
-  > :nth-child(2) {
-    flex: 1;
-  }
-  > :nth-child(3) {
-    flex: 1;
-  }
-  > :nth-child(4) {
-    flex: 1;
-  }
-  > :nth-child(5) {
-    flex: 1;
   }
 `;
 
@@ -102,6 +95,7 @@ const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   > :nth-child(2) {
     > :nth-child(1) {
       width: 60%;
@@ -117,13 +111,13 @@ const VerticalBox = styled.div`
   flex: 1;
   flex-direction: row;
   gap: 10px;
-  > * {
-    width: 100%;
-  }
   > :nth-child(1) {
+    width: 100%;
+    border-radius: 12px;
     background: ${(props) => props.theme.mainWhite};
   }
 `;
+
 const HorizontalBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -131,6 +125,7 @@ const HorizontalBox = styled.div`
   > * {
     width: 100%;
     background: ${(props) => props.theme.mainWhite};
+    border-radius: 12px;
   }
 `;
 

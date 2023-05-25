@@ -77,10 +77,10 @@ const ChatRateGraph = () => {
         data={data}
         stackOffset="expand"
         margin={{
-          top: 10,
-          right: 30,
-          left: 0,
-          bottom: 0,
+          top: 0,
+          right: 5,
+          left: -20,
+          bottom: -5,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
