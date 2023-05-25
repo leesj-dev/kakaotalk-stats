@@ -49,7 +49,7 @@ const AsideBox = styled.div`
     justify-content: center;
     width: 100%;
     background: ${(props) => props.theme.mainWhite};
-    border-radius: 12px;
+    border-radius: 15px;
   }
   > :nth-child(1) {
     height: 33.333%;
@@ -81,7 +81,7 @@ const HeadBox = styled.div`
     background: ${(props) => props.theme.mainWhite};
     padding: 10px 20px 0px 15px;
     text-align: left;
-    border-radius: 12px;
+    border-radius: 15px;
     flex: 1;
   }
   > :nth-child(1) {
@@ -113,7 +113,7 @@ const VerticalBox = styled.div`
   gap: 10px;
   > :nth-child(1) {
     width: 100%;
-    border-radius: 12px;
+    border-radius: 15px;
     background: ${(props) => props.theme.mainWhite};
   }
 `;
@@ -125,7 +125,7 @@ const HorizontalBox = styled.div`
   > * {
     width: 100%;
     background: ${(props) => props.theme.mainWhite};
-    border-radius: 12px;
+    border-radius: 15px;
   }
 `;
 
@@ -187,7 +187,7 @@ const DashboardSection = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);

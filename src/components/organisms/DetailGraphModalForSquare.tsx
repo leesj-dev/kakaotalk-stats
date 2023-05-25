@@ -14,7 +14,8 @@ const DetailGraphModalForSquareBox = styled.div`
   flex-direction: column;
   background: #5badff3a;
   backdrop-filter: blur(10px);
-  box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlack};
+  box-shadow: 3px 3px 10px 3px ${(props) => props.theme.mainBlue};
+  border-radius: 15px;
   z-index: 999;
 `;
 

@@ -26,6 +26,7 @@ import Span from "../atoms/Span";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../module/common/scrollEvent";
 import OsList from "../organisms/OsList";
+import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlice";
 
 const AttachmentSectionBox = styled.div`
   margin-top: 80px;
@@ -55,12 +56,12 @@ const OsListBox = styled.div`
 
 /**
  * 텍스트 파일을 메시지 데이터로 디코딩합니다.
- * @param {any[]} attachedFiles - 첨부된 파일 배열
+ * @param {any[]} attachedFileList - 첨부된 파일 배열
  * @returns {Promise<any[]>} - 디코딩된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
-const decodeTxtFileIntoMessageData = async (attachedFiles: any[], osIndex: number | null) => {
+const decodeTxtFileIntoMessageData = async (attachedFileList: any[], osIndex: number | null) => {
   const analyzedMessages: MessageInfo[][] = [];
-  for (const fileGroup of attachedFiles) {
+  for (const fileGroup of attachedFileList) {
     const filteredMessages: OriginMessageData[][] = await Promise.all(
       fileGroup.map(async (file: File) => {
         const base64 = await readAsDataURL(file);
@@ -111,14 +112,24 @@ const transformIntoTableForm = (analyzedMessages: any[]) => {
 
 /**
  * 메시지를 분석합니다.
- * @param {any[]} attachedFiles - 첨부된 파일 배열
+ * @param {any[]} attachedFileList - 첨부된 파일 배열
  * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
 
-const analyzeMessage = async (attachedFiles: FileObject[][], osIndex: number | null) => {
-  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(attachedFiles, osIndex);
+const analyzeMessage = async (attachedFileList: FileObject[][], osIndex: number | null) => {
+  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(
+    attachedFileList,
+    osIndex
+  );
   const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
   return analyzedMessageData;
+};
+
+// 파일 확장자 허용 타입
+export const isAllowedFileType = (file: File): boolean => {
+  const allowedExtensions = [".txt", ".csv"];
+  const fileType = file.name.substring(file.name.lastIndexOf("."));
+  return allowedExtensions.includes(fileType);
 };
 
 const AttachmentSection = () => {
@@ -128,46 +139,23 @@ const AttachmentSection = () => {
   const selectedOsIndex = useSelector(
     (state: { selectedOsIndexSlice: number }) => state.selectedOsIndexSlice
   );
+  const attachedFileList = useSelector(
+    (state: { attachedFileListSlice: FileObject[][] }) => state.attachedFileListSlice
+  );
 
   const attachmentSectionRef = useRef<HTMLDivElement | null>(null);
-
-  const [attachedFiles, setAttachedFiles] = useState<FileObject[][]>([]);
-
-  // 파일 확장자 허용 타입
-  const isAllowedFileType = (file: File): boolean => {
-    const allowedExtensions = [".txt", ".csv"];
-    const fileType = file.name.substring(file.name.lastIndexOf("."));
-    return allowedExtensions.includes(fileType);
-  };
-
-  const pushNewlyAttachedFiles = (files: any[]) => {
-    const allowedFiles = files.filter((file) => isAllowedFileType(file));
-    if (allowedFiles.length === 0) {
-      alert("파일은 오직 .txt 그리고 .csv만 첨부가 가능합니다");
-      return;
-    }
-    if (attachedFiles.length) {
-      return setAttachedFiles([...attachedFiles, [...allowedFiles]]);
-    }
-    setAttachedFiles([[...allowedFiles]]);
-  };
-
-  const deleteAttachedFileArray = (fileArrayIndex: number) => {
-    const filteredFileList = [...attachedFiles].filter((_, index) => index !== fileArrayIndex);
-    setAttachedFiles(filteredFileList);
-  };
 
   const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files: FileList | null = event.target.files;
     if (files && files.length) {
-      pushNewlyAttachedFiles(Array.prototype.slice.call(files));
+      dispatch(pushNewlyAttachedFiles(Array.prototype.slice.call(files)));
     }
   };
 
-  const dispatchAnalyzedMessages = async (attachedFiles: FileObject[][]) => {
+  const dispatchAnalyzedMessages = async (attachedFileList: FileObject[][]) => {
     try {
       const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(
-        attachedFiles,
+        attachedFileList,
         selectedOsIndex
       );
       dispatch(setAnalyzedMessages(analyzedMessage));
@@ -177,7 +165,7 @@ const AttachmentSection = () => {
   };
 
   const handleClickAnalyzeButton = () => {
-    dispatchAnalyzedMessages(attachedFiles);
+    dispatchAnalyzedMessages(attachedFileList);
     navigate("/dashboard");
   };
 
@@ -194,7 +182,7 @@ const AttachmentSection = () => {
   //   setAttachedFiles([]);
   // };
 
-  useEffect(() => {}, [attachedFiles]);
+  useEffect(() => {}, [attachedFileList]);
 
   useEffect(() => {}, [selectedOsIndex]);
 
@@ -207,23 +195,17 @@ const AttachmentSection = () => {
         </OsListBox>
       ) : (
         <>
-          <FileDrop
-            pushNewlyAttachedFiles={pushNewlyAttachedFiles}
-            handleChangeFile={handleChangeFile}
-          ></FileDrop>
-          <AttachedFileList
-            attachedFiles={attachedFiles}
-            deleteAttachedFileArray={deleteAttachedFileArray}
-          ></AttachedFileList>
-          {/* {attachedFiles.length !== 0 && (
+          <FileDrop handleChangeFile={handleChangeFile}></FileDrop>
+          <AttachedFileList></AttachedFileList>
+          {/* {attachedFileList.length !== 0 && (
             <RadiusButton onClick={handleDeleteAllButton}>전체 삭제하기</RadiusButton>
           )} */}
 
           <ButtonBox>
-            <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFiles.length}>
+            <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFileList.length}>
               분석하기
             </RadiusButton>
-            {!attachedFiles.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
+            {!attachedFileList.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
           </ButtonBox>
           <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
         </>

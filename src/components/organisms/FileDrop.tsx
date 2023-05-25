@@ -5,6 +5,7 @@ import Paragraph from "../atoms/Paragraph";
 import Span from "../atoms/Span";
 import OsList from "./OsList";
 import { useDispatch } from "react-redux";
+import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlice";
 
 const DropBox = styled.div`
   display: flex;
@@ -35,11 +36,11 @@ const AttachmentBox = styled.div`
 `;
 
 type DropZoneProps = {
-  pushNewlyAttachedFiles: (files: any) => void;
   handleChangeFile: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const FileDrop = ({ pushNewlyAttachedFiles, handleChangeFile }: DropZoneProps) => {
+const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
+  const dispatch = useDispatch();
   const [dragging, setDragging] = useState(false);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -62,7 +63,7 @@ const FileDrop = ({ pushNewlyAttachedFiles, handleChangeFile }: DropZoneProps) =
 
     const files: any = Array.prototype.slice.call(e.dataTransfer.files);
     if (files && files.length) {
-      pushNewlyAttachedFiles(files);
+      dispatch(pushNewlyAttachedFiles(files));
     }
     // const fileArray: any = Array.prototype.slice.call(files);
     // pushNewlyAttachedFiles(fileArray);
