@@ -1,6 +1,9 @@
 import { OriginMessageData } from "../../@types/index.d";
 
 const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
+const regexForWindow = /(.+?)\] \[(오후|오전) \d{1,2}:\d{1,2}] /;
+const regexForMacOS = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},"(.+?)",/;
+const regexForAndroid = /^\d{2}년 \d{1,2}월 \d{1,2}일 (오후|오전) \d{1,2}:\d{2}, (.+?) : /;
 
 /**
  * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환합니다.
@@ -60,21 +63,21 @@ export const utf8Decode = (base64String: string) => {
  * @param {string} base64 - base64 인코딩된 텍스트 파일
  * @returns {Array} 메시지 데이터 배열
  */
-export const breakdownTxtFile = (base64: string) => {
+export const breakdownTxtFileIOS = (base64: string) => {
   const allMessageData = [];
   const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n20");
-    const filteredMessageLineArray = allLineArray.filter((line) => {
-      return filterMessageLine(line);
-    });
+    const filteredMessageLineArray = allLineArray.filter((line) => filterMessageLine(line));
 
     allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
   } catch (error) {
     console.error(error);
   }
+
   return allMessageData.flat();
 };
+
 export const breakdownTxtFileWindow = (base64: string) => {
   const allMessageData = [];
   const decodedTextFile = utf8Decode(base64.toString());
@@ -82,17 +85,100 @@ export const breakdownTxtFileWindow = (base64: string) => {
     const allLineArray = decodedTextFile.split("\n--------------- 20");
     // 여기서 라인확인
     const filteredMessageLineArray = allLineArray.filter((line) => {
-      return line.includes("---------------\r\n");
+      return line.includes("요일 ---------------\r\n[");
     });
-    const dateMessagePair = filteredMessageLineArray.map((item: string) => {
-      return item.split("요일 ---------------\r\n");
-    });
+    const dateMessagePair = filteredMessageLineArray.map((item: string) =>
+      item.split("요일 ---------------\r\n[")
+    );
     const dateMessageObject = dateMessagePair.map((pair: string[]) => {
-      return { date: pair[0], message: pair[1].split("\r\n[") };
+      // 여기서 스플릿할 때 문제가 생김
+      return {
+        date: pair[0],
+        message: pair[1].split("\r\n[").filter((item) => {
+          return regexForWindow.test(item);
+        }),
+      };
     });
-    console.log(dateMessageObject);
 
-    allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
+    const transformedMessageLineArray = dateMessageObject.map((Object) => {
+      const [year, month, day] = Object.date.split(" ", 3);
+      const dateString = `${year.replace("년", ".")} ${month.replace("월", ".")} ${day.replace(
+        "일",
+        "."
+      )}`;
+      const speakerTimeMessageStringArray = Object.message.map((item) => {
+        const [name, timeMessage] = item.split("] [", 2);
+        const [time, message] = timeMessage.split("] ", 2);
+        return `${dateString} ${time}, ${name} : ${message}`;
+      });
+
+      return speakerTimeMessageStringArray;
+    });
+    allMessageData.push(getDataObjectFromLines(transformedMessageLineArray.flat()));
+  } catch (error) {
+    console.error(error);
+  }
+
+  return allMessageData.flat();
+};
+
+export const breakdownTxtFileMacOS = (base64: string) => {
+  const allMessageData = [];
+  const decodedTextFile = utf8Decode(base64.toString());
+  try {
+    const allLineArray = decodedTextFile.split("\n");
+    const filteredMessageLineArray: string[] = [];
+    allLineArray.forEach((line: string) => {
+      if (regexForMacOS.test(line)) {
+        filteredMessageLineArray.push(line);
+      } else {
+        filteredMessageLineArray[filteredMessageLineArray.length - 1] += line;
+      }
+    });
+
+    const transformedMessageLineArray = filteredMessageLineArray.map((line) => {
+      let [dateTime, speaker, message] = line.split(",", 3);
+      const [date, time] = dateTime.split(" ");
+      let [year, month, day] = date.split("-");
+      year = year.slice(2);
+      let [hour, minute] = time.split(":", 2);
+
+      if (Number(hour) >= 12) {
+        hour = `오후 ${Number(hour) - 12}`;
+      } else if (hour === "00") {
+        hour = `오전 12`;
+      } else {
+        hour = `오전 ${hour}`;
+      }
+
+      while (speaker[0] === '"' && speaker.length > 2) {
+        speaker = speaker.slice(1, speaker.length - 1);
+      }
+
+      message = message.slice(1, message.length - 1);
+      return `${year}. ${month}. ${day}. ${hour}:${minute}, ${speaker} : ${message}`;
+    });
+
+    allMessageData.push(getDataObjectFromLines(transformedMessageLineArray));
+  } catch (error) {
+    console.error(error);
+  }
+
+  return allMessageData.flat();
+};
+
+export const breakdownTxtFileAndroid = (base64: string) => {
+  const allMessageData = [];
+  const decodedTextFile = utf8Decode(base64.toString());
+  try {
+    const allLineArray = decodedTextFile.split("\n20");
+    const filteredMessageLineArray = allLineArray.filter((line) => regexForAndroid.test(line));
+    const transformedMessageLineArray = filteredMessageLineArray.map((item) => {
+      const transformedItem = item.replace("년", ".").replace("월", ".").replace("일", ".");
+      return transformedItem;
+    });
+
+    allMessageData.push(getDataObjectFromLines(transformedMessageLineArray));
   } catch (error) {
     console.error(error);
   }

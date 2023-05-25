@@ -60,7 +60,7 @@ export type ValueCountPair = {
 
 export type selectedChatRoomData = {
   averageReplyTime: number[];
-  mostChattedTimes: [string, number];
+  mostChattedTimes: StringNumberTuple[];
   speakerCount: number;
   speakers: string[];
   totalChatCount: number;
@@ -79,4 +79,15 @@ type TimeCount = {
 export type WeekData = {
   day: string;
   values: TimeCount[];
+};
+
+export type StringNumberTuple = [string, number];
+
+export interface ReplyStackedAreaGraph {
+  [speaker: string]: number | string;
+}
+
+export type StackBarData = {
+  name: string;
+  [key: string]: number | string | undefined;
 };

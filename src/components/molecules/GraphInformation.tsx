@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import UnitSpan from "../atoms/UnitSpan";
-import ValueSpan from "../atoms/ValueSpan";
+import Span from "../atoms/Span";
 
 const Container = styled.div`
   padding: 20px;
@@ -13,8 +12,8 @@ const Container = styled.div`
 const GraphInformation = ({ unit, value }: { unit: string; value: string }) => {
   return (
     <Container>
-      <UnitSpan unit={unit} />
-      <ValueSpan value={value} />
+      <Span>{unit}</Span>
+      <Span>{value}</Span>
     </Container>
   );
 };
