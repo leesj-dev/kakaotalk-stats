@@ -50,7 +50,6 @@ const ReplyCountByHourlyGraph = () => {
 
   return (
     <>
-      시간대별 답장 횟수
       <ResponsiveContainer width="100%" height="80%">
         <AreaChart
           width={500}

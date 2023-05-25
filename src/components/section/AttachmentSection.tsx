@@ -27,6 +27,7 @@ import { useNavigate } from "react-router";
 import scrollToEvent from "../../module/common/scrollEvent";
 import OsList from "../organisms/OsList";
 import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlice";
+import { setIsAnalyzedMessagesExist } from "../../store/reducer/isAnalyzedMessagesExistSlice";
 
 const AttachmentSectionBox = styled.div`
   margin-top: 80px;
@@ -159,6 +160,7 @@ const AttachmentSection = () => {
         selectedOsIndex
       );
       dispatch(setAnalyzedMessages(analyzedMessage));
+      dispatch(setIsAnalyzedMessagesExist(true));
     } catch (error) {
       console.error(error);
     }

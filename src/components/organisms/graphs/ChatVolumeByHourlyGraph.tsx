@@ -137,8 +137,8 @@ const ChatVolumeByHourlyGraph = () => {
 
   return (
     <>
-      <div> 시간대별 대화량</div>
-
+      {/*
+      시간대별 대화량 대화자
       {speakerNames.map((_: any, index: number) => {
         return (
           <span
@@ -151,7 +151,7 @@ const ChatVolumeByHourlyGraph = () => {
             {speakerNames[index]}
           </span>
         );
-      })}
+      })} */}
       {scatter.length &&
         scatter[currentSpeakerIndex].map((item: any, index: number) => {
           return (
