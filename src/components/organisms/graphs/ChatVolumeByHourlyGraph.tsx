@@ -137,7 +137,7 @@ const ChatVolumeByHourlyGraph = () => {
 
   return (
     <>
-      {speakerNames.map((_: any, index: number) => {
+      {/* {speakerNames.map((_: any, index: number) => {
         return (
           <span
             style={{
@@ -149,7 +149,7 @@ const ChatVolumeByHourlyGraph = () => {
             {speakerNames[index]}
           </span>
         );
-      })}
+      })} */}
       {scatter.length &&
         scatter[currentSpeakerIndex].map((item: any, index: number) => {
           return (
