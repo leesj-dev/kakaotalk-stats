@@ -3,21 +3,22 @@ import styled from "styled-components";
 import DashboardContainer from "../organisms/DashboardContainer";
 import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../module/common/scrollEvent";
-import { AnalyzedMessage, ChatTimes, StringNumberTuple, ValueCountPair } from "../../@types/index.d";
+import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/index.d";
 import ChatVolumeByHourlyGraph from "../organisms/graphs/ChatVolumeByHourlyGraph";
-import KeywordCloud from "../organisms/graphs/KeywordCloud";
 import ReplySpeedGraph from "../organisms/graphs/ReplySpeedGraph";
 import ReplyCountByHourlyGraph from "../organisms/graphs/ReplyCountByHourlyGraph";
-import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
 import Span from "../atoms/Span";
-import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
-import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
 import KeywordChartGraph from "../organisms/graphs/KeywordChartGraph";
 import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph";
 
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
+import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
+import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
+import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
+import GraphBox from "../organisms/GraphBox";
+import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -38,26 +39,7 @@ const DashboardTemplateContainer = styled.div`
     width: 80%;
   }
 `;
-const AsideBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  > * {
-    background: ${(props) => props.theme.mainWhite};
-  }
-  > :nth-child(1) {
-    width: 100%;
-    height: 33%;
-  }
-  > :nth-child(2) {
-    width: 100%;
-    height: 33%;
-  }
-  > :nth-child(3) {
-    width: 100%;
-    height: 33%;
-  }
-`;
+
 const ArticleBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -134,12 +116,6 @@ const HorizontalBox = styled.div`
   }
 `;
 
-const TempGraphBox = styled.div`
-  height: 100%;
-  padding: 10px;
-  margin: 0 auto;
-`;
-
 const SpeakerSelect = styled.div`
   display: flex;
   flex-direction: column;
@@ -148,35 +124,29 @@ const SpeakerSelect = styled.div`
   align-items: flex-end;
 `;
 
-const aside전달데이터 = [
-  {
-    id: "레이더",
-    message: "종합비교",
-    graph: <ChatRoomCompareGraph />,
-  },
-  {
-    id: "바",
-    message: "기간대화량",
-    graph: <ChatRoomCompareGraph />,
-  },
-  {
-    id: "에어리어",
-    message: "대화비율",
-    graph: <ChatRoomCompareGraph />,
-  },
-];
-// <올가니즘 전달데이터={전달데이터}>
-//   <TempGraphBox>
-//     <Span>{전달데이터.message}</Span>
-//     {전달데이터.graph}
-//   </TempGraphBox>
-// </올가니즘>
+const AsideGraphContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  > * {
+    background: ${(props) => props.theme.mainWhite};
+  }
+  > :nth-child(1) {
+    width: 100%;
+    height: 33%;
+  }
+  > :nth-child(2) {
+    width: 100%;
+    height: 33%;
+  }
+  > :nth-child(3) {
+    width: 100%;
+    height: 33%;
+  }
+`;
 
 const DashboardSection = () => {
   const dispatch = useDispatch();
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
-  );
 
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -208,32 +178,66 @@ const DashboardSection = () => {
     scrollToEvent(0, "auto");
   }, []);
 
+  const asideContent = [
+    {
+      id: "레이더",
+      message: "종합 비교",
+      graph: <ChatRoomCompareGraph />,
+    },
+    {
+      id: "바",
+      message: "기간 대화량",
+      graph: <ChatVolumeByPeriodGraph />,
+    },
+    {
+      id: "에어리어",
+      message: "대화 비율",
+      graph: <ChatRateGraph />,
+    },
+  ];
+  const horizontalBoxContent = [
+    {
+      id: "라인",
+      message: "시간대별 답장 횟수",
+      graph: <ReplyCountByHourlyGraph />,
+    },
+    {
+      id: "바",
+      message: "키워드",
+      graph: <KeywordChartGraph />,
+    },
+  ];
+  const HeaderData = [
+    {
+      id: 1,
+      headerTitle: "대화자 수",
+      headercontent: ` ${speakers[selectedChatRoomIndex]?.length || 0}`,
+    },
+    {
+      id: 2,
+      headerTitle: "총 대화수",
+      headercontent: `${totalChatCounts[selectedChatRoomIndex]?.toLocaleString() || 0}`,
+    },
+    {
+      id: 3,
+      headerTitle: "주 대화 시간대",
+      headercontent: `${mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}` + "시",
+    },
+  ];
   return (
     <DashboardTemplateContainer>
-      <AsideBox>
-        {/* {Array.isArray(results) && results.length !== 0 &&  <올가니즘 전달데이터={전달데이터}>} */}
-
-        <TempGraphBox>
-          {Array.isArray(results) && results.length !== 0 && <ChatRoomCompareGraph />}
-        </TempGraphBox>
-        <TempGraphBox>
-          <Span>기간 대화량</Span>
-          {Array.isArray(results) && results.length !== 0 && <ChatVolumeByPeriodGraph />}
-        </TempGraphBox>
-        <TempGraphBox>
-          {Array.isArray(results) && results.length !== 0 && <ChatRateGraph />}
-        </TempGraphBox>
-      </AsideBox>
+      <AsideGraphContent>
+        {asideContent.map((data) => {
+          return <GraphBox data={data} key={data.id} />;
+        })}
+      </AsideGraphContent>
       <ArticleBox>
         <HeadBox>
           <DashboardContainer>
-            <div>
-              <Span color="#7e848a">대화 비율</Span>
-              {Array.isArray(results) && results.length !== 0 && <ChatRatioWithArrowGraph />}
-            </div>
+            <GraphBox data={{ id: "파이", message: "대화 비율", graph: <ChatRatioWithArrowGraph /> }} />
+
             <SpeakerSelect>
               <Span color="#7e848a">강조할 대화자</Span>
-
               <select
                 value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
                 onChange={handleChangeSpeaker}
@@ -241,7 +245,6 @@ const DashboardSection = () => {
                 <option value="전체" key="전체">
                   전체
                 </option>
-
                 {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
                   const displayName = speaker.length > 6 ? speaker.substring(0, 6) + "..." : speaker;
                   return (
@@ -251,52 +254,35 @@ const DashboardSection = () => {
                   );
                 })}
               </select>
-
               <Span fontSize="11px" color="#0D6EFD">
                 각 대화자의 분석이 가능합니다
               </Span>
             </SpeakerSelect>
           </DashboardContainer>
-          <DashboardContainer>
-            <Span color="#7e848a">대화자 수</Span>
-            <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              {speakers[selectedChatRoomIndex]?.length || 0}
-            </Span>
-          </DashboardContainer>
-          <DashboardContainer>
-            <Span color="#7e848a">총 대화수</Span>
-            <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              {totalChatCounts[selectedChatRoomIndex]?.toLocaleString() || 0}
-            </Span>
-          </DashboardContainer>
 
-          <DashboardContainer>
-            <Span color="#7e848a">주로 대화 시간대</Span>
-            <Span fontSize="24px" fontWeight="bold" textAlign="right">
-              {mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}시
-            </Span>
-          </DashboardContainer>
+          {HeaderData.length > 0 &&
+            HeaderData.map((data) => {
+              return (
+                <DashboardContainer>
+                  <DashboardHeaderContent data={data} key={data.id} />
+                </DashboardContainer>
+              );
+            })}
         </HeadBox>
         <BodyBox>
           <VerticalBox>
-            <TempGraphBox>
-              {Array.isArray(results) && results.length !== 0 && <ReplySpeedGraph />}
-            </TempGraphBox>
+            <GraphBox data={{ id: "라인", message: "답장속도", graph: <ReplySpeedGraph /> }} />
           </VerticalBox>
           <VerticalBox>
             <HorizontalBox>
-              <TempGraphBox>
-                {Array.isArray(results) && results.length !== 0 && <ChatVolumeByHourlyGraph />}
-              </TempGraphBox>
+              <GraphBox
+                data={{ id: "버블", message: "시간대별 대화량", graph: <ChatVolumeByHourlyGraph /> }}
+              />
             </HorizontalBox>
             <HorizontalBox>
-              <TempGraphBox>
-                {Array.isArray(results) && results.length !== 0 && <ReplyCountByHourlyGraph />}
-              </TempGraphBox>
-              <TempGraphBox>
-                <Span>키워드</Span>
-                {Array.isArray(results) && results.length !== 0 && <KeywordChartGraph />}
-              </TempGraphBox>
+              {horizontalBoxContent.map((data) => {
+                return <GraphBox data={data} key={data.id} />;
+              })}
             </HorizontalBox>
           </VerticalBox>
         </BodyBox>

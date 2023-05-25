@@ -137,8 +137,6 @@ const ChatVolumeByHourlyGraph = () => {
 
   return (
     <>
-      <div> 시간대별 대화량</div>
-
       {speakerNames.map((_: any, index: number) => {
         return (
           <span
