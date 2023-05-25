@@ -168,6 +168,7 @@ const AttachmentSection = () => {
         selectedOsIndex
       );
       dispatch(setAnalyzedMessages(analyzedMessage));
+      dispatch(setIsAnalyzedMessagesExist(true));
     } catch (error) {
       console.error(error);
     }
@@ -175,7 +176,6 @@ const AttachmentSection = () => {
 
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFiles);
-    dispatch(setIsAnalyzedMessagesExist(true));
     navigate("/dashboard");
   };
 
