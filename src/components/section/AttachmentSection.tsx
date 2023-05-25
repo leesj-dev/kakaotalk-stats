@@ -26,6 +26,7 @@ import Span from "../atoms/Span";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../module/common/scrollEvent";
 import OsList from "../organisms/OsList";
+import { setIsAnalyzedMessagesExist } from "../../store/reducer/isAnalyzedMessagesExistSlice";
 
 const AttachmentSectionBox = styled.div`
   margin-top: 80px;
@@ -174,6 +175,7 @@ const AttachmentSection = () => {
 
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFiles);
+    dispatch(setIsAnalyzedMessagesExist(true));
     navigate("/dashboard");
   };
 

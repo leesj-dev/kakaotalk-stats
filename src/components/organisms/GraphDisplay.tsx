@@ -3,9 +3,6 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { AnalyzedMessage } from "../../@types/index.d";
 import Span from "../atoms/Span";
-import ChatRateGraph from "./graphs/ChatRateGraph";
-import ChatRoomCompareGraph from "./graphs/ChatRoomCompareGraph";
-import ChatVolumeByPeriodGraph from "./graphs/ChatVolumeByPeriodGraph";
 
 const TempGraphBox = styled.div`
   height: 100%;
@@ -19,13 +16,13 @@ type GraphBoxData = {
   graph: JSX.Element;
 };
 const GraphBox = ({ data }: { data: GraphBoxData }) => {
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage }) => state.analyzedMessagesSlice
+  const isAnalyzedMessagesExist = useSelector(
+    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
   return (
     <TempGraphBox key={data.id}>
       <Span>{data.message}</Span>
-      {Array.isArray(results) && results.length !== 0 && data.graph}
+      {isAnalyzedMessagesExist && data.graph}
     </TempGraphBox>
   );
 };
