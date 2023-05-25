@@ -8,7 +8,7 @@ import { mostChattedTimesSlice } from "./reducer/mostChattedTimes";
 import { selectedSpeakerIndexSlice } from "./reducer/selectedSpeakerIndexSlice";
 import { speakersTopNKeywordsSlice } from "./reducer/speakersTopNKeywordsSlice";
 import { attachedFileListSlice } from "./reducer/attachedFileListSlice";
-
+import { isAnalyzedMessagesExistSlice } from "./reducer/isAnalyzedMessagesExistSlice";
 
 export default configureStore({
   reducer: {
@@ -21,5 +21,6 @@ export default configureStore({
     mostChattedTimesSlice: mostChattedTimesSlice.reducer,
     selectedSpeakerIndexSlice: selectedSpeakerIndexSlice.reducer,
     attachedFileListSlice: attachedFileListSlice.reducer,
+    isAnalyzedMessagesExistSlice: isAnalyzedMessagesExistSlice.reducer,
   },
 });

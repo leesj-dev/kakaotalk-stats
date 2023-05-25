@@ -14,10 +14,10 @@ import ScrollTopTopFloatingButton from "./components/molecules/ScrollTopTopFloat
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <ScrollTopTopFloatingButton />
-
       <NavBar setIsDarkMode={() => setIsDarkMode(!isDarkMode)} isDarkMode={isDarkMode} />
       <Wrapper>
         <Routes>
@@ -28,9 +28,7 @@ function App() {
       <Routes>
         <Route path={"/dashboard"} element={<AnalysisPage />} />
       </Routes>
-
       <Footer />
-      {/* <div onClick={() => setIsDarkMode(!isDarkMode)}>다크모드</div> */}
     </ThemeProvider>
   );
 }

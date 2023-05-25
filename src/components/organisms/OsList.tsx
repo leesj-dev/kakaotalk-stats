@@ -36,12 +36,6 @@ const OsListBox = styled.li<{ size?: string }>`
   }
 `;
 
-interface OsData {
-  id: number;
-  src: string;
-  os: string;
-}
-
 const osData = [
   {
     id: 1,
@@ -64,6 +58,11 @@ const osData = [
     os: "IOS",
   },
 ];
+interface OsData {
+  id: number;
+  src: string;
+  os: string;
+}
 
 type OsListProps = {
   size?: string;

@@ -60,6 +60,7 @@ const getSpeakersTopNKeywords = (keywordsArray: KeywordCounts[], displayKeywordC
  * @param {any[]} keywordData - 키워드 데이터 배열입니다.
  * @returns {string[]} 중복되는 키워드 배열입니다.
  */
+
 const getOverlappedKeyword = (keywordData: any[]) => {
   const overlappedKeyword: any = {};
   keywordData.forEach((keywords) => {
