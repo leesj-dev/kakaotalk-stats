@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
+import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
 const COLORS = ["#FF414D", "#FF8991", "#F7ABB1"];
 
@@ -23,12 +24,12 @@ const ChatRatioGraph = () => {
       }
       const chatTimes = chat.chatTimes;
       const chatCounts = chatTimes ? Object.values(chatTimes) : [];
-      const totalChatCount = chatCounts.reduce((acc, count) => Number(acc) + Number(count), 0);
+      const totalChatCount = reduceAPlusB(chatCounts);
       speakerTotalChatCounts[speaker] += Number(totalChatCount);
     });
   });
 
-  const totalChatCount = Object.values(speakerTotalChatCounts).reduce((a: number, b: number) => a + b);
+  const totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
   const data = Object.entries(speakerTotalChatCounts).map(([name, value]) => ({
     name,
     value: Number(((value / totalChatCount) * 100).toFixed(0)),
