@@ -30,7 +30,6 @@ const DashboardTemplateContainer = styled.div`
   flex-wrap: nowrap;
   flex-direction: row;
   text-align: center;
-
   background: ${(props) => props.theme.mainBlue};
 
   > :nth-child(1) {
@@ -106,7 +105,6 @@ const HeadBox = styled.div`
 
 const BodyBox = styled.div`
   display: flex;
-
   flex-direction: column;
   height: 100%;
   gap: 10px;
@@ -119,11 +117,9 @@ const BodyBox = styled.div`
 
     > :nth-child(1) {
       width: 60%;
-      height: 100%;
     }
     > :nth-child(2) {
       width: 40%;
-      height: 100%;
     }
   }
 `;
