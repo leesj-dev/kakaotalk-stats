@@ -30,7 +30,7 @@ const DashboardTemplateContainer = styled.div`
   flex-wrap: nowrap;
   flex-direction: row;
   text-align: center;
-  border: 1px solid #000;
+
   background: ${(props) => props.theme.mainBlue};
 
   > :nth-child(1) {
@@ -42,7 +42,6 @@ const DashboardTemplateContainer = styled.div`
     display: flex;
     height: 100%;
     width: 75%;
-    background: #0ff;
   }
 `;
 
@@ -78,8 +77,6 @@ const ArticleBox = styled.div`
   height: calc(100vh - 80px);
   width: 100%;
   gap: 10px;
-  background: #00f;
-
   > :nth-child(1) {
     height: 15%;
   }
@@ -109,29 +106,36 @@ const HeadBox = styled.div`
 
 const BodyBox = styled.div`
   display: flex;
+
   flex-direction: column;
   height: 100%;
   gap: 10px;
-  background: #0f0;
-  height: 50%;
 
+  > :nth-child(1) {
+    height: 50%;
+  }
   > :nth-child(2) {
+    height: 50%;
+
     > :nth-child(1) {
       width: 60%;
+      height: 100%;
     }
     > :nth-child(2) {
       width: 40%;
+      height: 100%;
     }
   }
 `;
 
 const VerticalBox = styled.div`
   display: flex;
-  flex: 1;
   gap: 10px;
   height: 100%;
   flex-direction: row;
-  background: #f00;
+  > * {
+    border-radius: 15px;
+  }
   > :nth-child(1) {
     display: flex;
     flex-direction: column;
@@ -139,7 +143,7 @@ const VerticalBox = styled.div`
     align-items: center;
     width: 100%;
     height: 100%;
-    border-radius: 15px;
+
     background: ${(props) => props.theme.mainWhite};
   }
 `;
@@ -148,6 +152,7 @@ const HorizontalBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   > * {
     display: flex;
     flex-direction: column;

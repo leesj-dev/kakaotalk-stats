@@ -156,7 +156,7 @@ const ChatVolumeByHourlyGraph = () => {
       {scatter.length &&
         scatter[currentSpeakerIndex].map((item: any, index: number) => {
           return (
-            <ResponsiveContainer key={index} width="100%" height={50}>
+            <ResponsiveContainer key={index} width="100%" height="100%">
               <ScatterChart
                 margin={{
                   top: 10,
