@@ -200,8 +200,8 @@ const ReplySpeedGraph = () => {
           data={displayData}
           margin={{
             top: 0,
-            right: 50,
-            left: 20,
+            right: -10,
+            left: -20,
             bottom: 5,
           }}
         >

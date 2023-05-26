@@ -6,9 +6,17 @@ import Icon from "../atoms/Icon";
 
 const TempGraphBox = styled.div`
   position: relative;
-  height: 100%;
   padding: 10px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: ${(props) => props.theme.mainWhite};
 `;
 
 const IconBox = styled.div`
