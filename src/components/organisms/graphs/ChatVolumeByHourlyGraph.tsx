@@ -24,7 +24,7 @@ const renderTooltip = (props: any) => {
     return (
       <div
         style={{
-          backgroundColor: "${(props) => props.theme.mainBlue}",
+          backgroundColor: `${(props: { theme: { mainWhite: string } }) => props.theme.mainWhite}`,
           border: "1px solid #999",
           margin: 0,
           padding: 10,
@@ -34,6 +34,7 @@ const renderTooltip = (props: any) => {
           {data.hour}
           <span>시</span>
         </p>
+        ㅇㅎ
         <p>
           <span>대화량: </span>
           {data.value}

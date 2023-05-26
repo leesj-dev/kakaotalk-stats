@@ -36,14 +36,17 @@ const ContentBox = styled.div`
   width: 100%;
   height: 100%;
 `;
+
 const SquareGraphBox = styled.div`
   flex: 3;
   background: #ff00ff70;
 `;
+
 const GraphDescriptionBox = styled.div`
   flex: 1;
   background: #0000ff81;
 `;
+
 const DescriptionBox = styled.div``;
 
 interface DetailGraphModalForSquareProps {

@@ -52,6 +52,7 @@ const ArticleBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
 `;
 
 const HeadBox = styled.div`
@@ -85,7 +86,12 @@ const BodyBox = styled.div`
   height: 85%;
   gap: 10px;
 
+  > :nth-child(1) {
+    height: 50%;
+  }
   > :nth-child(2) {
+    height: 50%;
+
     > :nth-child(1) {
       width: 60%;
     }
@@ -97,7 +103,6 @@ const BodyBox = styled.div`
 
 const VerticalBox = styled.div`
   display: flex;
-  flex: 1;
   gap: 10px;
 `;
 

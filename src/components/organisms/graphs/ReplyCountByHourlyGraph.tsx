@@ -44,10 +44,16 @@ const ReplyCountByHourlyGraph = () => {
       const speakerData = stackedAreaData[Number(time)];
       speakerData[speakers[speakerIndex]] = value || 0;
     });
+
+    for (let i = 0; i < stackedAreaData.length; i++) {
+      if (!(speakers[speakerIndex] in stackedAreaData[i])) {
+        stackedAreaData[i][speakers[speakerIndex]] = 0;
+      }
+    }
   });
 
   useEffect(() => {}, [selectedChatRoomIndex]);
-
+  console.log(stackedAreaData);
   return (
     <>
       <ResponsiveContainer width="100%" height="100%">
