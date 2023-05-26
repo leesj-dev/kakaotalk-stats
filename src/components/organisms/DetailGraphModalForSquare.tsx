@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
+import ChatRatioWithArrowGraph from "./graphs/ChatRatioWithArrowGraph";
 
 const DetailGraphModalForSquareBox = styled.div`
   position: fixed;
@@ -20,7 +21,13 @@ const DetailGraphModalForSquareBox = styled.div`
 `;
 
 const CloseModalBox = styled.div`
-  background: #f00;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  > :nth-child(1) {
+    cursor: pointer;
+  }
 `;
 
 const ContentBox = styled.div`
@@ -41,18 +48,30 @@ const DescriptionBox = styled.div``;
 
 interface DetailGraphModalForSquareProps {
   setIsModalVisible: (visible: boolean) => void;
+  currentModalData?: any;
+  setCurrentModalData: any;
 }
 
-const DetailGraphModalForSquare = ({ setIsModalVisible }: DetailGraphModalForSquareProps) => {
+const DetailGraphModalForSquare = ({
+  setIsModalVisible,
+  currentModalData,
+  setCurrentModalData,
+}: DetailGraphModalForSquareProps) => {
+  const handleClickCloseModalButton = () => {
+    setIsModalVisible(false);
+    setCurrentModalData(-1);
+  };
+
   return (
     <DetailGraphModalForSquareBox>
-      <Span>그래프 이름</Span>
-      <CloseModalBox onClick={() => setIsModalVisible(false)}>
-        <Icon>X</Icon>
+      <Span>{currentModalData?.subject}</Span>
+      <CloseModalBox onClick={() => handleClickCloseModalButton()}>
+        <Icon fontSize="24px">❌</Icon>
       </CloseModalBox>
       <ContentBox>
-        <SquareGraphBox>그래프</SquareGraphBox>
+        <SquareGraphBox>{currentModalData?.graph}</SquareGraphBox>
         <GraphDescriptionBox>
+          <ChatRatioWithArrowGraph />
           <DescriptionBox>설명</DescriptionBox>
         </GraphDescriptionBox>
       </ContentBox>

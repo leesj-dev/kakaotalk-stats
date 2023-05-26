@@ -178,9 +178,9 @@ const ReplySpeedGraph = () => {
 
   return (
     <>
-      <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
+      {/* <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
         일간 답장 속도
-      </div>
+      </div> */}
       {/* <div
         onClick={() => setDisplayData(createLineGraphDataWeekly(chatSpeakers, chatDates, replyTimes))}
       >
@@ -193,13 +193,13 @@ const ReplySpeedGraph = () => {
           )
         )}
       </div> */}
-      <ResponsiveContainer width="100%" height={"80%"}>
+      <ResponsiveContainer width="100%" height={"100%"}>
         <ComposedChart
           width={500}
           height={300}
           data={displayData}
           margin={{
-            top: 20,
+            top: 0,
             right: 50,
             left: 20,
             bottom: 5,

@@ -20,19 +20,35 @@ const IconBox = styled.div`
 
 type GraphBoxProps = {
   id: number;
-  message: string;
+  subject: string;
   graph: JSX.Element;
+  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentModalData: React.Dispatch<React.SetStateAction<any>>;
 };
+
 const GraphBox = ({ data }: { data: GraphBoxProps }) => {
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
+
+  const modalData = {
+    id: data.id,
+    subject: data.subject,
+    graph: data.graph,
+  };
+
+  const handleClickOpenModalButton = (id: number) => {
+    data.setIsModalVisible(true);
+    data.setCurrentModalData(modalData);
+  };
   return (
     <TempGraphBox key={data.id}>
-      <IconBox>
-        <Icon>🌟</Icon>
-      </IconBox>
-      <Span>{data.message}</Span>
+      {data.id !== 0 && (
+        <IconBox onClick={() => handleClickOpenModalButton(data.id)}>
+          <Icon>🌟</Icon>
+        </IconBox>
+      )}
+      <Span>{data.subject}</Span>
       {isAnalyzedMessagesExist && data.graph}
     </TempGraphBox>
   );
