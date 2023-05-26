@@ -75,7 +75,8 @@ const ReplyCountByHourlyGraph = () => {
                 stackId="1"
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
                 fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-                fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
+                strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
+                fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
                 style={{ cursor: "pointer", transition: "ease-in-out 0.7s" }}
               />
             );
