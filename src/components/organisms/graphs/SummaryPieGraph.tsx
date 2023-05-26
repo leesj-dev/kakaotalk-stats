@@ -189,6 +189,9 @@ const SummaryPieGraph = () => {
                   fill={colorsForGraphArray[index % colorsForGraphArray.length]}
                   stroke={selectedChatRoomIndex === index ? lightTheme.mainBlack : ""}
                   strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
+                  fillOpacity={
+                    selectedChatRoomIndex === -1 ? 1 : selectedChatRoomIndex === index ? 1 : 0.4
+                  }
                   cursor="pointer"
                 />
               );

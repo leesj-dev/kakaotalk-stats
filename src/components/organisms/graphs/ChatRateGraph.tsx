@@ -97,7 +97,8 @@ const ChatRateGraph = () => {
               stackId="1"
               stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
               fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
+              strokeWidth={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 0 : 0.3}
+              fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
               style={{ transition: "ease-in-out 0.7s" }}
             />
           );
