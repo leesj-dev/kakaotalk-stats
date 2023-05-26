@@ -180,52 +180,52 @@ const DashboardSection = () => {
 
   const asideContent = [
     {
-      id: "레이더",
+      id: 1,
       message: "종합 비교",
       graph: <ChatRoomCompareGraph />,
     },
     {
-      id: "바",
+      id: 2,
       message: "기간 대화량",
       graph: <ChatVolumeByPeriodGraph />,
     },
     {
-      id: "에어리어",
+      id: 3,
       message: "대화 비율",
       graph: <ChatRateGraph />,
     },
   ];
   const horizontalBoxContent = [
     {
-      id: "라인",
+      id: 4,
       message: "시간대별 답장 횟수",
       graph: <ReplyCountByHourlyGraph />,
     },
     {
-      id: "바",
+      id: 5,
       message: "키워드",
       graph: <KeywordChartGraph />,
     },
   ];
   const HeaderData = [
     {
-      id: 1,
+      id: "speakerCount",
       headerTitle: "대화자 수",
       headerContent: ` ${speakers[selectedChatRoomIndex]?.length || 0}`,
     },
     {
-      id: 2,
+      id: "totalChatCount",
       headerTitle: "총 대화수",
       headerContent: `${totalChatCounts[selectedChatRoomIndex]?.toLocaleString() || 0}`,
     },
     {
-      id: 3,
+      id: "mostChatTime",
       headerTitle: "주 대화 시간대",
       headerContent: `${mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}` + "시",
     },
   ];
   // 데이터 하나짜리도 선언하기
-  const arrowGraphDisplay = { id: "파이", message: "대화 비율", graph: <ChatRatioWithArrowGraph /> };
+  const arrowGraphDisplay = { id: 0, message: "대화 비율", graph: <ChatRatioWithArrowGraph /> };
 
   return (
     <DashboardTemplateContainer>
@@ -274,13 +274,13 @@ const DashboardSection = () => {
         <BodyBox>
           <VerticalBox>
             {/* -> */}
-            <GraphDisplay data={{ id: "라인", message: "답장속도", graph: <ReplySpeedGraph /> }} />
+            <GraphDisplay data={{ id: 6, message: "답장속도", graph: <ReplySpeedGraph /> }} />
           </VerticalBox>
           <VerticalBox>
             <HorizontalBox>
               <GraphDisplay
                 //->
-                data={{ id: "버블", message: "시간대별 대화량", graph: <ChatVolumeByHourlyGraph /> }}
+                data={{ id: 7, message: "시간대별 대화량", graph: <ChatVolumeByHourlyGraph /> }}
               />
             </HorizontalBox>
             <HorizontalBox>
