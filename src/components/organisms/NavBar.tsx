@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
 import { useSelector } from "react-redux";
-import { AnalyzedMessage } from "../../@types/index.d";
 
 const Wrap = styled.div`
   width: 100%;

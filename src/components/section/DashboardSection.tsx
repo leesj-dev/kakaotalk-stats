@@ -276,7 +276,7 @@ const DashboardSection = () => {
           </DashboardContainer>
           {HeaderData.map((data) => {
             return (
-              <DashboardContainer>
+              <DashboardContainer key={data.id}>
                 <DashboardHeaderContent data={data} key={data.id} />
               </DashboardContainer>
             );
