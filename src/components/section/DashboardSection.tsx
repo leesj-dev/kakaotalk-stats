@@ -22,72 +22,43 @@ import GraphDisplay from "../organisms/GraphDisplay";
 import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
 
 const DashboardTemplateContainer = styled.div`
-  height: calc(100vh - 80px);
-  width: 100%;
   padding: 10px;
-  gap: 10px;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   text-align: center;
+  gap: 10px;
+  height: calc(100vh - 80px);
+  width: 100%;
+  border: 1px solid #000;
   background: ${(props) => props.theme.mainBlue};
-
-  > :nth-child(1) {
-    display: flex;
-    height: 100%;
-    width: 25%;
-  }
-  > :nth-child(2) {
-    display: flex;
-    height: 100%;
-    width: 75%;
-  }
 `;
 
 const AsideBox = styled.div`
+  height: 100%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 
   > * {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background: ${(props) => props.theme.mainWhite};
-    border-radius: 15px;
-  }
-  > :nth-child(1) {
-    height: 33.333%;
-  }
-  > :nth-child(2) {
-    height: 33.333%;
-  }
-  > :nth-child(3) {
     height: 33.333%;
   }
 `;
 
 const ArticleBox = styled.div`
+  height: 100%;
+  width: 75%;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 80px);
-  width: 100%;
   gap: 10px;
-  > :nth-child(1) {
-    height: 15%;
-  }
-  > :nth-child(2) {
-    height: 85%;
-  }
+
 `;
 
 const HeadBox = styled.div`
   display: flex;
   gap: 10px;
-  height: 100%;
+  height: 15%;
 
   > * {
     background: ${(props) => props.theme.mainWhite};
@@ -99,14 +70,20 @@ const HeadBox = styled.div`
   > :nth-child(1) {
     flex: 2;
     flex-direction: row;
-    justify-content: space-between;
+
+    /* 대화자 선택 그래프 */
+    > :nth-child(1) {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
   }
 `;
 
 const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 85%;
   gap: 10px;
 
   > :nth-child(1) {
@@ -127,45 +104,19 @@ const BodyBox = styled.div`
 const VerticalBox = styled.div`
   display: flex;
   gap: 10px;
-  height: 100%;
-  flex-direction: row;
-  > * {
-    border-radius: 15px;
-  }
-  > :nth-child(1) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-
-    background: ${(props) => props.theme.mainWhite};
-  }
 `;
 
 const HorizontalBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-
-  > * {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    border-radius: 15px;
-    background: ${(props) => props.theme.mainWhite};
-  }
 `;
 
 const SpeakerSelectBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 10px;
+  width: 100%;
   align-items: flex-end;
 `;
 
