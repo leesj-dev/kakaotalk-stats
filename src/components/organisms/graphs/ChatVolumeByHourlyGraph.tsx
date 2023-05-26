@@ -47,6 +47,18 @@ const renderTooltip = (props: any) => {
 };
 const range = [16, 225];
 
+const getMostValue = (array: any) => {
+  return Math.max(
+    ...array.map((item: any) => {
+      return Math.max(
+        ...item.values.map((hourData: any) => {
+          return hourData.value;
+        })
+      );
+    })
+  );
+};
+
 const ChatVolumeByHourlyGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -120,17 +132,7 @@ const ChatVolumeByHourlyGraph = () => {
       }
     });
     graph.push(weekData);
-    mostValues.push(
-      Math.max(
-        ...weekData.map((item) => {
-          return Math.max(
-            ...item.values.map((hourData) => {
-              return hourData.value;
-            })
-          );
-        })
-      )
-    );
+    mostValues.push(getMostValue(weekData));
   });
 
   const totalTimezoneData = JSON.parse(JSON.stringify(graph[0]));
@@ -141,21 +143,9 @@ const ChatVolumeByHourlyGraph = () => {
       }
     }
   }
-  mostValues.unshift(
-    Math.max(
-      ...totalTimezoneData.map((item: any) => {
-        return Math.max(
-          ...item.values.map((hourData: any) => {
-            return hourData.value;
-          })
-        );
-      })
-    )
-  );
-  console.log(totalTimezoneData);
+  mostValues.unshift(getMostValue(totalTimezoneData));
   graph.unshift(totalTimezoneData);
 
-  console.log(mostValues);
   useEffect(() => {
     setScatter(graph);
   }, [selectedChatRoomData]);
