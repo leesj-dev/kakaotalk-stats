@@ -53,7 +53,6 @@ const ReplyCountByHourlyGraph = () => {
   });
 
   useEffect(() => {}, [selectedChatRoomIndex]);
-  console.log(stackedAreaData);
   return (
     <>
       <ResponsiveContainer width="100%" height="100%">

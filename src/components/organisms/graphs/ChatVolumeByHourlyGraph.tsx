@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
@@ -57,6 +57,9 @@ const ChatVolumeByHourlyGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const volumeHourlyBoxSize = useSelector(
+    (state: { volumeHourlyBoxSizeSlice: number[] }) => state.volumeHourlyBoxSizeSlice
+  );
 
   const [scatter, setScatter] = useState<any>([]);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
@@ -94,6 +97,7 @@ const ChatVolumeByHourlyGraph = () => {
     setCurrentSpeakerIndex(index);
   };
 
+  const mostValues: number[] = [];
   let graph: any[] = [];
   Object.entries(speakerTotalChatTimes).forEach((speaker: any) => {
     const weekData: WeekData[] = [];
@@ -116,6 +120,17 @@ const ChatVolumeByHourlyGraph = () => {
       }
     });
     graph.push(weekData);
+    mostValues.push(
+      Math.max(
+        ...weekData.map((item) => {
+          return Math.max(
+            ...item.values.map((hourData) => {
+              return hourData.value;
+            })
+          );
+        })
+      )
+    );
   });
 
   const totalTimezoneData = JSON.parse(JSON.stringify(graph[0]));
@@ -126,8 +141,21 @@ const ChatVolumeByHourlyGraph = () => {
       }
     }
   }
+  mostValues.unshift(
+    Math.max(
+      ...totalTimezoneData.map((item: any) => {
+        return Math.max(
+          ...item.values.map((hourData: any) => {
+            return hourData.value;
+          })
+        );
+      })
+    )
+  );
+  console.log(totalTimezoneData);
   graph.unshift(totalTimezoneData);
 
+  console.log(mostValues);
   useEffect(() => {
     setScatter(graph);
   }, [selectedChatRoomData]);
@@ -193,6 +221,30 @@ const ChatVolumeByHourlyGraph = () => {
                 />
                 <Scatter
                   data={item.values}
+                  shape={(item) => {
+                    const mostValue =
+                      currentSpeakerIndex === -1 ? mostValues[0] : mostValues[currentSpeakerIndex];
+
+                    const itemWidth = volumeHourlyBoxSize[0] / 24;
+                    const itemHeight = volumeHourlyBoxSize[1] / 7;
+                    const opacity = item.value / mostValue;
+                    return (
+                      <rect
+                        stroke="#ffffff"
+                        strokeWidth={2}
+                        fill={
+                          currentSpeakerIndex === 0
+                            ? "#8884d8"
+                            : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
+                        }
+                        x={item.cx - itemWidth / 2}
+                        y={item.cy - itemHeight / 2}
+                        width={itemWidth}
+                        height={itemHeight}
+                        opacity={opacity}
+                      />
+                    );
+                  }}
                   fill={
                     currentSpeakerIndex === 0
                       ? "#8884d8"

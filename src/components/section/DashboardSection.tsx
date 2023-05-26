@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, useRef } from "react";
 import styled from "styled-components";
 import DashboardContainer from "../organisms/DashboardContainer";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph
 import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
 import GraphDisplay from "../organisms/GraphDisplay";
 import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
+import { setVolumeHourlyBoxSize } from "../../store/reducer/volumeHourlyBoxSizeSlice";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -52,7 +53,6 @@ const ArticleBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-
 `;
 
 const HeadBox = styled.div`
@@ -232,6 +232,14 @@ const DashboardSection = () => {
     },
   ];
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  if (containerRef?.current?.offsetHeight) {
+    dispatch(
+      setVolumeHourlyBoxSize([containerRef?.current?.offsetWidth, containerRef?.current?.offsetHeight])
+    );
+  }
+
   return (
     <DashboardTemplateContainer>
       <AsideBox>
@@ -279,7 +287,7 @@ const DashboardSection = () => {
             <GraphDisplay data={graphContentData[6]} />
           </VerticalBox>
           <VerticalBox>
-            <HorizontalBox>
+            <HorizontalBox ref={containerRef}>
               <GraphDisplay data={graphContentData[7]} />
             </HorizontalBox>
             <HorizontalBox>

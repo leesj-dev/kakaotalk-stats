@@ -10,6 +10,7 @@ import { speakersTopNKeywordsSlice } from "./reducer/speakersTopNKeywordsSlice";
 import { attachedFileListSlice } from "./reducer/attachedFileListSlice";
 import { selectedOsIndexSlice } from "./reducer/selectedOsIndexSlice";
 import { isAnalyzedMessagesExistSlice } from "./reducer/isAnalyzedMessagesExistSlice";
+import { volumeHourlyBoxSizeSlice } from "./reducer/volumeHourlyBoxSizeSlice";
 
 export default configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export default configureStore({
     attachedFileListSlice: attachedFileListSlice.reducer,
     selectedOsIndexSlice: selectedOsIndexSlice.reducer,
     isAnalyzedMessagesExistSlice: isAnalyzedMessagesExistSlice.reducer,
+    volumeHourlyBoxSizeSlice: volumeHourlyBoxSizeSlice.reducer,
   },
 });
