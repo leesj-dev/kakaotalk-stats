@@ -22,67 +22,42 @@ import GraphDisplay from "../organisms/GraphDisplay";
 import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
 
 const DashboardTemplateContainer = styled.div`
-  height: calc(100vh - 80px);
   padding: 10px;
-  gap: 10px;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   text-align: center;
+  gap: 10px;
+  height: calc(100vh - 80px);
+  width: 100%;
   border: 1px solid #000;
   background: ${(props) => props.theme.mainBlue};
-
-  > :nth-child(1) {
-    width: 25%;
-  }
-  > :nth-child(2) {
-    width: 75%;
-  }
 `;
 
 const AsideBox = styled.div`
+  height: 100%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 
   > * {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background: ${(props) => props.theme.mainWhite};
-    border-radius: 15px;
-  }
-  > :nth-child(1) {
-    height: 33.333%;
-  }
-  > :nth-child(2) {
-    height: 33.333%;
-  }
-  > :nth-child(3) {
     height: 33.333%;
   }
 `;
 
 const ArticleBox = styled.div`
   height: 100%;
+  width: 75%;
   display: flex;
   flex-direction: column;
   gap: 10px;
-
-  > :nth-child(1) {
-    height: 15%;
-  }
-  > :nth-child(2) {
-    height: 85%;
-  }
 `;
 
 const HeadBox = styled.div`
   display: flex;
   gap: 10px;
+  height: 15%;
 
   > * {
     background: ${(props) => props.theme.mainWhite};
@@ -94,13 +69,20 @@ const HeadBox = styled.div`
   > :nth-child(1) {
     flex: 2;
     flex-direction: row;
-    justify-content: space-between;
+
+    /* 대화자 선택 그래프 */
+    > :nth-child(1) {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
   }
 `;
 
 const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
+  height: 85%;
   gap: 10px;
 
   > :nth-child(2) {
@@ -116,31 +98,20 @@ const BodyBox = styled.div`
 const VerticalBox = styled.div`
   display: flex;
   flex: 1;
-  flex-direction: row;
   gap: 10px;
-  > :nth-child(1) {
-    width: 100%;
-    border-radius: 15px;
-    background: ${(props) => props.theme.mainWhite};
-  }
 `;
 
 const HorizontalBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  > * {
-    width: 100%;
-    background: ${(props) => props.theme.mainWhite};
-    border-radius: 15px;
-  }
 `;
 
 const SpeakerSelectBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 10px;
+  width: 100%;
   align-items: flex-end;
 `;
 
@@ -160,7 +131,8 @@ const DashboardSection = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(true);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [currentModalData, setCurrentModalData] = useState<any>();
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
@@ -178,35 +150,65 @@ const DashboardSection = () => {
     scrollToEvent(0, "auto");
   }, []);
 
-  const asideContent = [
+  const graphContentData = [
+    {
+      id: 0,
+      subject: "대화 비율",
+      graph: <ChatRatioWithArrowGraph />,
+      setIsModalVisible,
+      setCurrentModalData,
+    },
     {
       id: 1,
-      message: "종합 비교",
+      subject: "종합 비교",
       graph: <ChatRoomCompareGraph />,
+      setIsModalVisible,
+      setCurrentModalData,
     },
     {
       id: 2,
-      message: "기간 대화량",
+      subject: "기간 대화량",
       graph: <ChatVolumeByPeriodGraph />,
+      setIsModalVisible,
+      setCurrentModalData,
     },
     {
       id: 3,
-      message: "대화 비율",
+      subject: "대화 비율",
       graph: <ChatRateGraph />,
+      setIsModalVisible,
+      setCurrentModalData,
     },
-  ];
-  const horizontalBoxContent = [
     {
       id: 4,
-      message: "시간대별 답장 횟수",
+      subject: "시간대별 답장 횟수",
       graph: <ReplyCountByHourlyGraph />,
+      setIsModalVisible,
+      setCurrentModalData,
     },
     {
       id: 5,
-      message: "키워드",
+      subject: "키워드",
       graph: <KeywordChartGraph />,
+      setIsModalVisible,
+      setCurrentModalData,
+    },
+    {
+      id: 6,
+      subject: "답장속도",
+      graph: <ReplySpeedGraph />,
+      setIsModalVisible,
+      setCurrentModalData,
+    },
+    {
+      id: 7,
+      subject: "시간대별 대화량",
+      graph: <ChatVolumeByHourlyGraph />,
+      setIsModalVisible,
+      setCurrentModalData,
     },
   ];
+
   const HeaderData = [
     {
       id: "speakerCount",
@@ -224,21 +226,18 @@ const DashboardSection = () => {
       headerContent: `${mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}` + "시",
     },
   ];
-  // 데이터 하나짜리도 선언하기
-  const arrowGraphDisplay = { id: 0, message: "대화 비율", graph: <ChatRatioWithArrowGraph /> };
 
   return (
     <DashboardTemplateContainer>
       <AsideBox>
-        {asideContent.map((data) => {
+        {graphContentData.slice(1, 4).map((data) => {
           return <GraphDisplay data={data} key={data.id} />;
         })}
       </AsideBox>
       <ArticleBox>
         <HeadBox>
           <DashboardContainer>
-            <GraphDisplay data={arrowGraphDisplay} />
-
+            <GraphDisplay data={graphContentData[0]} />
             <SpeakerSelectBox>
               <Span color="#7e848a">강조할 대화자</Span>
               <select
@@ -262,7 +261,6 @@ const DashboardSection = () => {
               </Span>
             </SpeakerSelectBox>
           </DashboardContainer>
-
           {HeaderData.map((data) => {
             return (
               <DashboardContainer>
@@ -273,25 +271,27 @@ const DashboardSection = () => {
         </HeadBox>
         <BodyBox>
           <VerticalBox>
-            {/* -> */}
-            <GraphDisplay data={{ id: 6, message: "답장속도", graph: <ReplySpeedGraph /> }} />
+            <GraphDisplay data={graphContentData[6]} />
           </VerticalBox>
           <VerticalBox>
             <HorizontalBox>
-              <GraphDisplay
-                //->
-                data={{ id: 7, message: "시간대별 대화량", graph: <ChatVolumeByHourlyGraph /> }}
-              />
+              <GraphDisplay data={graphContentData[7]} />
             </HorizontalBox>
             <HorizontalBox>
-              {horizontalBoxContent.map((data) => {
+              {graphContentData.slice(4, 6).map((data) => {
                 return <GraphDisplay data={data} key={data.id} />;
               })}
             </HorizontalBox>
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
-      {isModalVisible && <DetailGraphModalForSquare setIsModalVisible={setIsModalVisible} />}
+      {isModalVisible && (
+        <DetailGraphModalForSquare
+          setIsModalVisible={setIsModalVisible}
+          currentModalData={currentModalData}
+          setCurrentModalData={setCurrentModalData}
+        />
+      )}
     </DashboardTemplateContainer>
   );
 };
