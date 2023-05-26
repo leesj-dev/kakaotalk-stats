@@ -48,8 +48,8 @@ interface NavBarProps {
 }
 
 const NavBar = ({ setIsDarkMode, isDarkMode }: NavBarProps) => {
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  const isAnalyzedMessagesExist = useSelector(
+    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
   return (
     <Wrap>
@@ -61,7 +61,7 @@ const NavBar = ({ setIsDarkMode, isDarkMode }: NavBarProps) => {
         </H1>
         <Menu>
           <Link to="/2">분석하기</Link>
-          {analyzedMessages.length > 0 && <Link to="/dashboard">결과화면</Link>}
+          {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
           <DarkModeButton className={`${isDarkMode && "active"}`} onClick={setIsDarkMode}>
             다크모드
           </DarkModeButton>
