@@ -16,6 +16,7 @@ import { AnalyzedMessage } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
+import { lightTheme } from "../../../style/Theme";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
 
 type LineGraphData = {
@@ -198,10 +199,10 @@ const ReplySpeedGraph = () => {
           height={300}
           data={displayData}
           margin={{
-            top: 0,
-            right: -15,
-            left: -25,
-            bottom: -10,
+            top: 20,
+            right: 50,
+            left: 20,
+            bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -226,7 +227,7 @@ const ReplySpeedGraph = () => {
                 type="monotone"
                 dataKey={speaker}
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
-                strokeWidth={selectedSpeakerIndex === index ? 2 : 1}
+                strokeWidth={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 2 : 0.2}
                 style={{ transition: "ease-in-out 0.7s" }}
               />
             );
