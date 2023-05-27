@@ -7,13 +7,11 @@ import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/inde
 import ChatVolumeByHourlyGraph from "../organisms/graphs/ChatVolumeByHourlyGraph";
 import ReplySpeedGraph from "../organisms/graphs/ReplySpeedGraph";
 import ReplyCountByHourlyGraph from "../organisms/graphs/ReplyCountByHourlyGraph";
-import Span from "../atoms/Span";
 import KeywordChartGraph from "../organisms/graphs/KeywordChartGraph";
 import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph";
 
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
-import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 import DetailGraphModalForSquare from "../organisms/DetailGraphModalForSquare";
 import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
@@ -21,6 +19,7 @@ import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
 import GraphDisplay from "../organisms/GraphDisplay";
 import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
 import { setVolumeHourlyBoxSize } from "../../store/reducer/volumeHourlyBoxSizeSlice";
+import SpeakerSelect from "../atoms/SpeakerSelect";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -112,14 +111,6 @@ const HorizontalBox = styled.div`
   gap: 10px;
 `;
 
-const SpeakerSelectBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  align-items: flex-end;
-`;
-
 const DashboardSection = () => {
   const dispatch = useDispatch();
 
@@ -142,14 +133,6 @@ const DashboardSection = () => {
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
   const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
-
-  const handleChangeSpeaker = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value !== "전체") {
-      dispatch(setSelectedSpeakerIndex(Number(e.target.value)));
-    } else {
-      dispatch(setSelectedSpeakerIndex(-1));
-    }
-  };
 
   useEffect(() => {
     scrollToEvent(0, "auto");
@@ -251,28 +234,7 @@ const DashboardSection = () => {
         <HeadBox>
           <DashboardContainer>
             <GraphDisplay data={graphContentData[0]} />
-            <SpeakerSelectBox>
-              <Span color="#7e848a">강조할 대화자</Span>
-              <select
-                value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
-                onChange={handleChangeSpeaker}
-              >
-                <option value="전체" key="전체">
-                  전체
-                </option>
-                {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
-                  const displayName = speaker.length > 6 ? speaker.substring(0, 6) + "..." : speaker;
-                  return (
-                    <option value={index} key={index}>
-                      {displayName}
-                    </option>
-                  );
-                })}
-              </select>
-              <Span fontSize="11px" color="#0D6EFD">
-                각 대화자의 분석이 가능합니다
-              </Span>
-            </SpeakerSelectBox>
+            <SpeakerSelect />
           </DashboardContainer>
           {HeaderData.map((data) => {
             return (
