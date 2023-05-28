@@ -5,6 +5,7 @@ import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "./graphs/ChatRatioWithArrowGraph";
 import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
+import { GraphBoxProps } from "./GraphDisplay";
 
 const DetailGraphModalForSquareBox = styled.div`
   position: fixed;
@@ -58,36 +59,35 @@ const SpeakerSelectBox = styled.div`
 const DescriptionBox = styled.div``;
 
 interface DetailGraphModalForSquareProps {
-  setIsModalVisible: (visible: boolean) => void;
-  currentModalData?: any;
-  setCurrentModalData: any;
+  currentModalData: any;
+  modalSetProps: GraphBoxProps;
 }
 
 const DetailGraphModalForSquare = ({
-  setIsModalVisible,
+  modalSetProps,
   currentModalData,
-  setCurrentModalData,
 }: DetailGraphModalForSquareProps) => {
+  const { subject, graph, h2, h3, p } = currentModalData;
+
   const handleClickCloseModalButton = () => {
-    setIsModalVisible(false);
-    setCurrentModalData(-1);
+    modalSetProps.setIsModalVisible(false);
+    modalSetProps.setCurrentModalData(-1);
   };
-  console.log(currentModalData);
 
   return (
     <DetailGraphModalForSquareBox>
-      <Span>{currentModalData?.subject}</Span>
+      <Span>{subject}</Span>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>
         <Icon fontSize="24px">❌</Icon>
       </CloseModalBox>
       <ContentBox>
-        <SquareGraphBox>{currentModalData?.graph}</SquareGraphBox>
+        <SquareGraphBox>{graph}</SquareGraphBox>
         <GraphDescriptionBox>
           <SpeakerSelectBox>
             <ChatRatioWithArrowGraph />
             <SpeakerSelect />
           </SpeakerSelectBox>
-          {/* <CardContent h2={currentModalData?.h2} h3={currentModalData?.h3} p={currentModalData?.p} /> */}
+          <CardContent h2={h2} h3={h3} p={p} />
           <DescriptionBox>설명</DescriptionBox>
         </GraphDescriptionBox>
       </ContentBox>
