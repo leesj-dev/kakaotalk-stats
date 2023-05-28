@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "./graphs/ChatRatioWithArrowGraph";
+import SpeakerSelect from "../atoms/SpeakerSelect";
+import CardContent from "../molecules/CardContent";
 
 const DetailGraphModalForSquareBox = styled.div`
   position: fixed;
@@ -47,6 +49,12 @@ const GraphDescriptionBox = styled.div`
   background: #0000ff81;
 `;
 
+const SpeakerSelectBox = styled.div`
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  background-color: #ff0;
+`;
 const DescriptionBox = styled.div``;
 
 interface DetailGraphModalForSquareProps {
@@ -64,6 +72,7 @@ const DetailGraphModalForSquare = ({
     setIsModalVisible(false);
     setCurrentModalData(-1);
   };
+  console.log(currentModalData);
 
   return (
     <DetailGraphModalForSquareBox>
@@ -74,7 +83,11 @@ const DetailGraphModalForSquare = ({
       <ContentBox>
         <SquareGraphBox>{currentModalData?.graph}</SquareGraphBox>
         <GraphDescriptionBox>
-          <ChatRatioWithArrowGraph />
+          <SpeakerSelectBox>
+            <ChatRatioWithArrowGraph />
+            <SpeakerSelect />
+          </SpeakerSelectBox>
+          {/* <CardContent h2={currentModalData?.h2} h3={currentModalData?.h3} p={currentModalData?.p} /> */}
           <DescriptionBox>설명</DescriptionBox>
         </GraphDescriptionBox>
       </ContentBox>
