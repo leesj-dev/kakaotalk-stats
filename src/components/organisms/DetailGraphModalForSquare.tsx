@@ -58,6 +58,20 @@ const SpeakerSelectBox = styled.div`
 `;
 const DescriptionBox = styled.div``;
 
+const CardContentBox = styled.div`
+  padding: 15px;
+  > * {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+    text-align: start;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+  }
+`;
+
 interface DetailGraphModalForSquareProps {
   currentModalData: any;
   modalSetProps: GraphBoxProps;
@@ -87,7 +101,9 @@ const DetailGraphModalForSquare = ({
             <ChatRatioWithArrowGraph />
             <SpeakerSelect />
           </SpeakerSelectBox>
-          <CardContent h2={h2} h3={h3} p={p} />
+          <CardContentBox>
+            <CardContent h2={h2} h3={h3} p={p} />
+          </CardContentBox>
           <DescriptionBox>설명</DescriptionBox>
         </GraphDescriptionBox>
       </ContentBox>
