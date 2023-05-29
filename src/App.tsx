@@ -11,6 +11,7 @@ import AttachmentPage from "./components/pages/AttachmentPage";
 import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
 import ScrollTopTopFloatingButton from "./components/molecules/ScrollTopTopFloatingButton";
+import GraphDetailSection from "./components/section/GraphDetailSection";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -27,6 +28,7 @@ function App() {
       </Wrapper>
       <Routes>
         <Route path={"/dashboard"} element={<AnalysisPage />} />
+        <Route path={"/dashboard/detail/"} element={<GraphDetailSection />} />
       </Routes>
       <Footer />
     </ThemeProvider>

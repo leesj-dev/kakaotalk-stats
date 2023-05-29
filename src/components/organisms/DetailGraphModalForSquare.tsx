@@ -8,11 +8,6 @@ import CardContent from "../molecules/CardContent";
 import { GraphBoxProps } from "./GraphDisplay";
 
 const DetailGraphModalForSquareBox = styled.div`
-  position: fixed;
-  top: 100px;
-  bottom: 100px;
-  left: 200px;
-  right: 200px;
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -20,7 +15,6 @@ const DetailGraphModalForSquareBox = styled.div`
   backdrop-filter: blur(10px);
   box-shadow: 3px 3px 10px 3px ${(props) => props.theme.mainBlue};
   border-radius: 15px;
-  z-index: 999;
 `;
 
 const CloseModalBox = styled.div`
@@ -42,12 +36,12 @@ const ContentBox = styled.div`
 
 const SquareGraphBox = styled.div`
   flex: 3;
-  background: #ff00ff70;
+  background: #ff00ff15;
 `;
 
 const GraphDescriptionBox = styled.div`
   flex: 1;
-  background: #0000ff81;
+  background: #0000ff13;
 `;
 
 const SpeakerSelectBox = styled.div`
@@ -74,7 +68,7 @@ const CardContentBox = styled.div`
 
 interface DetailGraphModalForSquareProps {
   currentModalData: any;
-  modalSetProps: GraphBoxProps;
+  modalSetProps?: GraphBoxProps;
 }
 
 const DetailGraphModalForSquare = ({
@@ -84,8 +78,8 @@ const DetailGraphModalForSquare = ({
   const { subject, graph, h2, h3, p } = currentModalData;
 
   const handleClickCloseModalButton = () => {
-    modalSetProps.setIsModalVisible(false);
-    modalSetProps.setCurrentModalData(-1);
+    modalSetProps?.setIsModalVisible(false);
+    modalSetProps?.setCurrentModalData(-1);
   };
 
   return (

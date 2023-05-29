@@ -1,26 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import Span from "../atoms/Span";
-import Icon from "../atoms/Icon";
-import ChatRatioWithArrowGraph from "./graphs/ChatRatioWithArrowGraph";
-import ChatRoomCompareGraph from "./graphs/ChatRoomCompareGraph";
-import ChatVolumeByPeriodGraph from "./graphs/ChatVolumeByPeriodGraph";
-import ChatRateGraph from "./graphs/ChatRateGraph";
-import ReplyCountByHourlyGraph from "./graphs/ReplyCountByHourlyGraph";
-import KeywordChartGraph from "./graphs/KeywordChartGraph";
-import ReplySpeedGraph from "./graphs/ReplySpeedGraph";
-import ChatVolumeByHourlyGraph from "./graphs/ChatVolumeByHourlyGraph";
+import scrollToEvent from "../../module/common/scrollEvent";
+import DashboardSection from "../section/DashboardSection";
+import DashboardSideMenu from "../section/DashboardSideMenu";
+import DetailGraphModalForSquare from "../organisms/DetailGraphModalForSquare";
+import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph";
+import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
+import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
+import ChatRateGraph from "../organisms/graphs/ChatRateGraph";
+import ReplyCountByHourlyGraph from "../organisms/graphs/ReplyCountByHourlyGraph";
+import KeywordChartGraph from "../organisms/graphs/KeywordChartGraph";
+import ReplySpeedGraph from "../organisms/graphs/ReplySpeedGraph";
+import ChatVolumeByHourlyGraph from "../organisms/graphs/ChatVolumeByHourlyGraph";
+import { useParams } from "react-router";
+
+const GraphDetailContainer = styled.div`
+  margin-top: 80px;
+  display: flex;
+  width: 100%;
+
+  > :nth-child(1) {
+    width: 15%;
+  }
+  > :nth-child(2) {
+    width: 85%;
+  }
+`;
+
+const GraphBox = styled.div``;
 
 const graphContentData = [
-  {
-    id: 0,
-    subject: "채팅방 대화 비율",
-    graph: <ChatRatioWithArrowGraph />,
-    h2: "채팅방 대화 비율",
-    h3: "대화 참여자별 대화량의 비율을 시각화하여 보여주는 그래프",
-    p: "대화에 참여한 각각의 인원이 차지하는 대화량의 비율을 나타냅니다. 이를 통해 어떤 인원이 얼마나 많은 대화를 하였는지, 대화 참여율이 어떻게 되는지 등을 파악할 수 있습니다.",
-  },
   {
     id: 1,
     subject: "종합 비교",
@@ -80,68 +90,25 @@ const graphContentData = [
   },
 ];
 
-const TempGraphBox = styled.div`
-  position: relative;
-  padding: 10px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  background: ${(props) => props.theme.mainWhite};
-`;
-
-const IconBox = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-`;
-
-export type GraphBoxProps = {
-  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentModalData: React.Dispatch<React.SetStateAction<any>>;
-};
-
-const GraphBox = ({
-  displaySubject,
-  modalSetProps,
-}: {
-  displaySubject: string;
-  modalSetProps: GraphBoxProps;
-}) => {
+const GraphDetailSection = () => {
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
 
-  const modalData = graphContentData.find((item) => item.subject === displaySubject) ?? {
-    id: -1,
-    subject: "subject",
-    graph: <Span>graph element</Span>,
-    h2: "h2",
-    h3: "h3",
-    p: "p",
-  };
+  useEffect(() => {
+    scrollToEvent(0, "auto");
+  }, []);
 
-  const handleClickOpenModalButton = () => {
-    modalSetProps.setIsModalVisible(true);
-    modalSetProps.setCurrentModalData(modalData);
-  };
   return (
-    <TempGraphBox key={modalData.id}>
-      {modalData.id !== 0 && (
-        <IconBox onClick={() => handleClickOpenModalButton()}>
-          <Icon>🌟</Icon>
-        </IconBox>
-      )}
-      <Span>{modalData.subject}</Span>
-      {isAnalyzedMessagesExist && modalData.graph}
-    </TempGraphBox>
+    <GraphDetailContainer>
+      <DashboardSideMenu />
+      <GraphBox>
+        {graphContentData.map((item) => {
+          return <DetailGraphModalForSquare currentModalData={item} />;
+        })}
+      </GraphBox>
+    </GraphDetailContainer>
   );
 };
 
-export default GraphBox;
+export default GraphDetailSection;

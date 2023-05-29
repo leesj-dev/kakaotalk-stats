@@ -102,6 +102,16 @@ const HorizontalBox = styled.div`
   gap: 10px;
 `;
 
+const ModalBox = styled.div`
+  position: fixed;
+  top: 100px;
+  bottom: 100px;
+  left: 200px;
+  right: 200px;
+  z-index: 999;
+  display: flex;
+`;
+
 const DashboardSection = () => {
   const dispatch = useDispatch();
 
@@ -194,7 +204,9 @@ const DashboardSection = () => {
         </BodyBox>
       </ArticleBox>
       {isModalVisible && (
-        <DetailGraphModalForSquare modalSetProps={modalSetProps} currentModalData={currentModalData} />
+        <ModalBox>
+          <DetailGraphModalForSquare modalSetProps={modalSetProps} currentModalData={currentModalData} />
+        </ModalBox>
       )}
     </DashboardTemplateContainer>
   );

@@ -22,6 +22,7 @@ const FloatingButtonBox = styled.div`
   visibility: hidden;
   transition: 0.3s;
   cursor: pointer;
+  z-index: 1000;
 
   &:hover {
     background: ${(props) => props.theme.mainBlueHover};

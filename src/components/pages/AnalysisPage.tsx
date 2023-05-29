@@ -3,6 +3,7 @@ import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
 import DashboardSection from "../section/DashboardSection";
 import DashboardSideMenu from "../section/DashboardSideMenu";
+import GraphDetailSection from "../section/GraphDetailSection";
 
 const AnalysisPageBox = styled.div`
   margin-top: 80px;
