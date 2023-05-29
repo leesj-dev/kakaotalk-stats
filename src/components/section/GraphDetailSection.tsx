@@ -4,7 +4,7 @@ import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
 import DashboardSection from "../section/DashboardSection";
 import DashboardSideMenu from "../section/DashboardSideMenu";
-import DetailGraphModalForSquare from "../organisms/DetailGraphModalForSquare";
+import ModalGraph from "../organisms/ModalGraph";
 import ChatRatioWithArrowGraph from "../organisms/graphs/ChatRatioWithArrowGraph";
 import ChatRoomCompareGraph from "../organisms/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../organisms/graphs/ChatVolumeByPeriodGraph";
@@ -104,7 +104,7 @@ const GraphDetailSection = () => {
       <DashboardSideMenu />
       <GraphBox>
         {graphContentData.map((item) => {
-          return <DetailGraphModalForSquare currentModalData={item} />;
+          return <ModalGraph currentModalData={item} />;
         })}
       </GraphBox>
     </GraphDetailContainer>

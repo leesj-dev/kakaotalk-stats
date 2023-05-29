@@ -6,7 +6,7 @@ import scrollToEvent from "../../module/common/scrollEvent";
 import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
 import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
-import DetailGraphModalForSquare from "../organisms/DetailGraphModalForSquare";
+import ModalGraph from "../organisms/ModalGraph";
 import GraphDisplay from "../organisms/GraphDisplay";
 import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
 import { setVolumeHourlyBoxSize } from "../../store/reducer/volumeHourlyBoxSizeSlice";
@@ -205,7 +205,7 @@ const DashboardSection = () => {
       </ArticleBox>
       {isModalVisible && (
         <ModalBox>
-          <DetailGraphModalForSquare modalSetProps={modalSetProps} currentModalData={currentModalData} />
+          <ModalGraph modalSetProps={modalSetProps} currentModalData={currentModalData} />
         </ModalBox>
       )}
     </DashboardTemplateContainer>

@@ -146,7 +146,7 @@ const DashboardSideMenu = () => {
                   <Paragraph>
                     채팅방{index + 1} ({totalChatCounts[index]}){" "}
                   </Paragraph>
-                  <Link to={`/dashboard/detail/`}>상세보기 {">"}</Link>
+                  <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
                 </ChatRoomHead>
                 <Span>{name}</Span>
               </ChatRoomBox>

@@ -7,7 +7,7 @@ import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
 import { GraphBoxProps } from "./GraphDisplay";
 
-const DetailGraphModalForSquareBox = styled.div`
+const ModalGraphBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -48,7 +48,6 @@ const SpeakerSelectBox = styled.div`
   width: 90%;
   margin: 0 auto;
   display: flex;
-  background-color: #ff0;
 `;
 const DescriptionBox = styled.div``;
 
@@ -66,15 +65,12 @@ const CardContentBox = styled.div`
   }
 `;
 
-interface DetailGraphModalForSquareProps {
+interface ModalGraphProps {
   currentModalData: any;
   modalSetProps?: GraphBoxProps;
 }
 
-const DetailGraphModalForSquare = ({
-  modalSetProps,
-  currentModalData,
-}: DetailGraphModalForSquareProps) => {
+const ModalGraph = ({ modalSetProps, currentModalData }: ModalGraphProps) => {
   const { subject, graph, h2, h3, p } = currentModalData;
 
   const handleClickCloseModalButton = () => {
@@ -83,7 +79,7 @@ const DetailGraphModalForSquare = ({
   };
 
   return (
-    <DetailGraphModalForSquareBox>
+    <ModalGraphBox>
       <Span>{subject}</Span>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>
         <Icon fontSize="24px">❌</Icon>
@@ -101,8 +97,8 @@ const DetailGraphModalForSquare = ({
           <DescriptionBox>설명</DescriptionBox>
         </GraphDescriptionBox>
       </ContentBox>
-    </DetailGraphModalForSquareBox>
+    </ModalGraphBox>
   );
 };
 
-export default DetailGraphModalForSquare;
+export default ModalGraph;

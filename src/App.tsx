@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import Main from "./components/main/Main";
 import Wrapper from "./components/wrapper/Wrapper";
 import "./style/reset.css";
 import { ThemeProvider } from "styled-components";
