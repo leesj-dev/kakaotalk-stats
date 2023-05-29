@@ -5,13 +5,9 @@ import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "./graphs/ChatRatioWithArrowGraph";
 import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
+import { GraphBoxProps } from "./GraphDisplay";
 
-const DetailGraphModalForSquareBox = styled.div`
-  position: fixed;
-  top: 100px;
-  bottom: 100px;
-  left: 200px;
-  right: 200px;
+const ModalGraphBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -19,7 +15,6 @@ const DetailGraphModalForSquareBox = styled.div`
   backdrop-filter: blur(10px);
   box-shadow: 3px 3px 10px 3px ${(props) => props.theme.mainBlue};
   border-radius: 15px;
-  z-index: 999;
 `;
 
 const CloseModalBox = styled.div`
@@ -41,58 +36,68 @@ const ContentBox = styled.div`
 
 const SquareGraphBox = styled.div`
   flex: 3;
-  background: #ff00ff70;
+  background: #ff00ff15;
 `;
 
 const GraphDescriptionBox = styled.div`
   flex: 1;
-  background: #0000ff81;
+  background: #0000ff13;
 `;
 
 const SpeakerSelectBox = styled.div`
   width: 90%;
   margin: 0 auto;
   display: flex;
-  background-color: #ff0;
 `;
 const DescriptionBox = styled.div``;
 
-interface DetailGraphModalForSquareProps {
-  setIsModalVisible: (visible: boolean) => void;
-  currentModalData?: any;
-  setCurrentModalData: any;
+const CardContentBox = styled.div`
+  padding: 15px;
+  > * {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+    text-align: start;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+  }
+`;
+
+interface ModalGraphProps {
+  currentModalData: any;
+  setIsModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DetailGraphModalForSquare = ({
-  setIsModalVisible,
-  currentModalData,
-  setCurrentModalData,
-}: DetailGraphModalForSquareProps) => {
+const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) => {
+  const { subject, graph, h2, h3, p } = currentModalData;
+
   const handleClickCloseModalButton = () => {
-    setIsModalVisible(false);
-    setCurrentModalData(-1);
+    setIsModalVisible && setIsModalVisible(false);
   };
-  console.log(currentModalData);
 
   return (
-    <DetailGraphModalForSquareBox>
-      <Span>{currentModalData?.subject}</Span>
+    <ModalGraphBox>
+      <Span>{subject}</Span>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>
         <Icon fontSize="24px">❌</Icon>
       </CloseModalBox>
       <ContentBox>
-        <SquareGraphBox>{currentModalData?.graph}</SquareGraphBox>
+        <SquareGraphBox>{graph}</SquareGraphBox>
         <GraphDescriptionBox>
           <SpeakerSelectBox>
             <ChatRatioWithArrowGraph />
             <SpeakerSelect />
           </SpeakerSelectBox>
-          {/* <CardContent h2={currentModalData?.h2} h3={currentModalData?.h3} p={currentModalData?.p} /> */}
+          <CardContentBox>
+            <CardContent h2={h2} h3={h3} p={p} />
+          </CardContentBox>
           <DescriptionBox>설명</DescriptionBox>
         </GraphDescriptionBox>
       </ContentBox>
-    </DetailGraphModalForSquareBox>
+    </ModalGraphBox>
   );
 };
 
-export default DetailGraphModalForSquare;
+export default ModalGraph;

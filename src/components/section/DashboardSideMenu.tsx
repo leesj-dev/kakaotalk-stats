@@ -124,6 +124,8 @@ const DashboardSideMenu = () => {
     dispatch(setSelectedSpeakerIndex(-1));
   };
 
+  const handleClickVeiwDetail = () => {};
+
   return (
     <DashboardSideMenuBox>
       <DashboardLayoutBox>
@@ -144,7 +146,7 @@ const DashboardSideMenu = () => {
                   <Paragraph>
                     채팅방{index + 1} ({totalChatCounts[index]}){" "}
                   </Paragraph>
-                  <Link to="">상세보기 {">"}</Link>
+                  <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
                 </ChatRoomHead>
                 <Span>{name}</Span>
               </ChatRoomBox>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import Main from "./components/main/Main";
 import Wrapper from "./components/wrapper/Wrapper";
 import "./style/reset.css";
 import { ThemeProvider } from "styled-components";
@@ -11,6 +10,7 @@ import AttachmentPage from "./components/pages/AttachmentPage";
 import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
 import ScrollTopTopFloatingButton from "./components/molecules/ScrollTopTopFloatingButton";
+import GraphDetailSection from "./components/section/GraphDetailSection";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -27,6 +27,7 @@ function App() {
       </Wrapper>
       <Routes>
         <Route path={"/dashboard"} element={<AnalysisPage />} />
+        <Route path={"/dashboard/detail/"} element={<GraphDetailSection />} />
       </Routes>
       <Footer />
     </ThemeProvider>
