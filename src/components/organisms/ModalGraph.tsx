@@ -67,15 +67,14 @@ const CardContentBox = styled.div`
 
 interface ModalGraphProps {
   currentModalData: any;
-  modalSetProps?: GraphBoxProps;
+  setIsModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalGraph = ({ modalSetProps, currentModalData }: ModalGraphProps) => {
+const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) => {
   const { subject, graph, h2, h3, p } = currentModalData;
 
   const handleClickCloseModalButton = () => {
-    modalSetProps?.setIsModalVisible(false);
-    modalSetProps?.setCurrentModalData(-1);
+    setIsModalVisible && setIsModalVisible(false);
   };
 
   return (

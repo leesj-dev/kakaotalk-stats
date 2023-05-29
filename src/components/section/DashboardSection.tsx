@@ -205,7 +205,7 @@ const DashboardSection = () => {
       </ArticleBox>
       {isModalVisible && (
         <ModalBox>
-          <ModalGraph modalSetProps={modalSetProps} currentModalData={currentModalData} />
+          <ModalGraph setIsModalVisible={setIsModalVisible} currentModalData={currentModalData} />
         </ModalBox>
       )}
     </DashboardTemplateContainer>
