@@ -174,7 +174,7 @@ const ChatVolumeByHourlyGraph = () => {
       {scatter.length &&
         scatter[currentSpeakerIndex].map((item: any, index: number) => {
           return (
-            <ResponsiveContainer key={index} width="100%" height={"13%"}>
+            <ResponsiveContainer key={index} width="100%" height={"10.1%"}>
               <ScatterChart
                 margin={{
                   top: 10,
@@ -183,14 +183,30 @@ const ChatVolumeByHourlyGraph = () => {
                   left: -38,
                 }}
               >
+                {/* {index === scatter[currentSpeakerIndex].length - 1 ? (
+                  <XAxis
+                    type="category"
+                    dataKey="hour"
+                    name="hour"
+                    interval={0}
+                    axisLine={false}
+                    tick={{ dy: -16, fontSize: 14 }}
+                    tickLine={false}
+                    height={24}
+                  />
+                ) : */}
+                (
                 <XAxis
                   type="category"
                   dataKey="hour"
                   name="hour"
                   interval={0}
-                  tick={{ fontSize: 10 }}
-                  tickLine={{ transform: "translate(0, -6)" }}
+                  axisLine={false}
+                  tick={{ dy: -16, fontSize: 14, fontWeight: "100", stroke: "#ababab", strokeWidth: 1 }}
+                  tickLine={false}
+                  height={24}
                 />
+                )
                 <YAxis
                   type="number"
                   dataKey="index"
@@ -203,7 +219,6 @@ const ChatVolumeByHourlyGraph = () => {
                     position: "insideRight",
                   }}
                 />
-                <ZAxis type="number" dataKey="value" range={range} />
                 <Tooltip
                   cursor={{ strokeDasharray: "3 3" }}
                   wrapperStyle={{ zIndex: 100 }}
@@ -215,13 +230,11 @@ const ChatVolumeByHourlyGraph = () => {
                     const mostValue =
                       currentSpeakerIndex === -1 ? mostValues[0] : mostValues[currentSpeakerIndex];
 
-                    const itemWidth = volumeHourlyBoxSize[0] / 24;
+                    const itemWidth = volumeHourlyBoxSize[0] / 25.7;
                     const itemHeight = volumeHourlyBoxSize[1] / 7;
                     const opacity = item.value / mostValue;
                     return (
                       <rect
-                        stroke="#ffffff"
-                        strokeWidth={2}
                         fill={
                           currentSpeakerIndex === 0
                             ? "#8884d8"

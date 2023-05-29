@@ -34,7 +34,7 @@ const FloatingButtonBox = styled.div`
   }
 `;
 
-const ScrollTopTopFloatingButton: React.FC<IconProps> = () => {
+const ScrollToTopFloatingButton: React.FC<IconProps> = () => {
   const [showFloatingButton, setShowFloatingButton] = useState(false);
 
   useEffect(() => {
@@ -64,4 +64,4 @@ const ScrollTopTopFloatingButton: React.FC<IconProps> = () => {
   );
 };
 
-export default ScrollTopTopFloatingButton;
+export default ScrollToTopFloatingButton;

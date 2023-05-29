@@ -7,14 +7,14 @@ declare module "styled-components" {
     mainOrange: string;
     mainYellow: string;
     mainBlue: string;
-    backgroundGrey: string;
     mainWhite: string;
     mainBlack: string;
     mainGray: string;
     mainText: string;
-
     mainBlueHover: string;
     border: string;
+    footerBackground: string;
+    navBackground: string;
   }
 }
 
@@ -25,13 +25,13 @@ declare module "styled-components" {
     mainOrange: string;
     mainYellow: string;
     mainBlue: string;
-    backgroundGrey: string;
     mainWhite: string;
     mainBlack: string;
     mainGray: string;
     mainText: string;
-
     mainBlueHover: string;
     border: string;
+    footerBackground: string;
+    navBackground: string;
   }
 }

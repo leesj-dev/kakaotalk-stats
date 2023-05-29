@@ -37,9 +37,9 @@ const pcCardData = [
 ];
 
 const mobileCardData = [
-  { src: "", text: "모바일설명1" },
-  { src: "", text: "모바일설명2" },
-  { src: "", text: "모바일설명3" },
+  { src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile01.png", text: "모바일설명1" },
+  { src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile02.png", text: "모바일설명2" },
+  { src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile03.png", text: "모바일설명3" },
 ];
 
 const AttachmentDescriptionSection = () => {

@@ -10,7 +10,7 @@ const RadiusButtonStyle = styled.button`
   width: 200px;
   font-weight: 500;
   letter-spacing: 0.05rem;
-  color: ${(props) => props.theme.mainWhite};
+  color: #fff;
   background: ${(props) => props.theme.mainBlue};
   border-radius: 30px;
   transition: 0.3s;
