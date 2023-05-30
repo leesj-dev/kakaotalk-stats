@@ -30,16 +30,34 @@ const ButtonBox = styled.div`
   gap: 10px;
 `;
 
-const pcCardData = [
-  { src: "", text: "PC설명1" },
-  { src: "", text: "PC설명2" },
-  { src: "", text: "PC설명3" },
+const mobileCardData = [
+  {
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/android_method01.png",
+    text: "메뉴의 톱니바퀴를 클릭합니다.",
+  },
+  {
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/android_method02.png",
+    text: "대화내용 내보내기를 눌러 저장을 합니다.",
+  },
+  {
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/android_method03.png",
+    text: "파일에서 kakao를 검색하여 찾을 수 있습니다.",
+  },
 ];
 
-const mobileCardData = [
-  { src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile01.png", text: "모바일설명1" },
-  { src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile02.png", text: "모바일설명2" },
-  { src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile03.png", text: "모바일설명3" },
+const pcCardData = [
+  {
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile01.png",
+    text: "메뉴를 눌러 대화 내보내기를 합니다.",
+  },
+  {
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile02.png",
+    text: "파일을 변경하지 않고 저장합니다.",
+  },
+  {
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile03.png",
+    text: "대화 내보내기 완료를 확인합니다.",
+  },
 ];
 
 const AttachmentDescriptionSection = () => {

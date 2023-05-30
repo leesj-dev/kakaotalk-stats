@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Span from "../atoms/Span";
+import Paragraph from "../atoms/Paragraph";
 const Wrap = styled.div`
   width: 100%;
   background-color: ${(props) => props.theme.footerBackground};
@@ -15,7 +16,9 @@ const Footer = () => {
   return (
     <Wrap>
       <Container>
-        <Span fontSize="100px">ㅇ0ㅇ🐰🐨🦝🐭🐮🐴🐰🐲🐍</Span>
+        <Paragraph fontSize="16px">영한</Paragraph>
+        <Paragraph fontSize="16px">gentry_@naver.com</Paragraph>
+        <Paragraph fontSize="16px">깃허브</Paragraph>
       </Container>
     </Wrap>
   );
