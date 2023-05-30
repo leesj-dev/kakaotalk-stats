@@ -4,7 +4,9 @@ import Span from "../atoms/Span";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedOsIndex } from "../../store/reducer/selectedOsIndexSlice";
-
+import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
+import { SiIos } from "react-icons/si";
+import Icon from "../atoms/Icon";
 const OsIconBox = styled.ul`
   margin-bottom: 30px;
   display: flex;
@@ -41,28 +43,28 @@ const OsListBox = styled.li<{ size?: string }>`
 const osData = [
   {
     id: 1,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/window.png"}`,
+    icon: <AiFillWindows />,
     os: "Window",
   },
   {
     id: 2,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/mac.png"}`,
+    icon: <AiFillApple />,
     os: "MacOS",
   },
   {
     id: 3,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/android.png"}`,
+    icon: <AiFillAndroid />,
     os: "Android",
   },
   {
     id: 4,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/ios.png"}`,
+    icon: <SiIos />,
     os: "IOS",
   },
 ];
 interface OsData {
   id: number;
-  src: string;
+  icon: JSX.Element;
   os: string;
 }
 
@@ -87,7 +89,9 @@ const OsList = ({ size }: OsListProps) => {
             size={size}
             onClick={() => dispatch(setSelectedOsIndex(data.id))}
           >
-            <Img src={data.src} />
+            <Icon fontSize="50px" color="#2da0fa">
+              {data.icon}
+            </Icon>
             <Span>{data.os}</Span>
           </OsListBox>
         );

@@ -25,7 +25,6 @@ export const darkTheme: DarkTheme = {
   mainBlack: "#000000",
   mainGray: "#000000",
   mainText: "#ffffff",
-
   mainBlueHover: "#000000",
   border: "#000000",
 };
