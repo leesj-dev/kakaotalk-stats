@@ -15,7 +15,7 @@ const CardContent: React.FC<CardContentProps> = ({ h2, h3, p }) => {
   return (
     <Description>
       <H2>{h2}</H2>
-      <H3>{h3}</H3>
+      <H3 lineHeight="1.5">{h3}</H3>
       <Paragraph fontSize="15px" lineHeight="1.5em">
         {p}
       </Paragraph>
