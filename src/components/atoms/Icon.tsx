@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
 
-const I = styled.i<{ fontSize?: string }>`
+const I = styled.i<{ fontSize?: string; color?: string }>`
   font-size: ${(props) => props.fontSize || "16px"};
   color: ${(props) => props.theme.color};
 `;

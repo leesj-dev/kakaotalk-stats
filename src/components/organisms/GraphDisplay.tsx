@@ -11,6 +11,7 @@ import ReplyCountByHourlyGraph from "./graphs/ReplyCountByHourlyGraph";
 import KeywordChartGraph from "./graphs/KeywordChartGraph";
 import ReplySpeedGraph from "./graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "./graphs/ChatVolumeByHourlyGraph";
+import { CgMaximize } from "react-icons/cg";
 
 const graphContentData = [
   {
@@ -135,10 +136,14 @@ const GraphBox = ({
     <TempGraphBox key={modalData.id}>
       {modalData.id !== 0 && (
         <IconBox onClick={() => handleClickOpenModalButton()}>
-          <Icon>🌟</Icon>
+          <Icon>
+            <CgMaximize />
+          </Icon>
         </IconBox>
       )}
-      <Span>{modalData.subject}</Span>
+      <Span fontWeight="600" padding="0 0 20px 0">
+        {modalData.subject}
+      </Span>
       {isAnalyzedMessagesExist && modalData.graph}
     </TempGraphBox>
   );
