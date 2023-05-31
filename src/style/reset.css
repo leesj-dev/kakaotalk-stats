@@ -19,12 +19,6 @@ reset
 --------------------------------------
 */
 
-:root {
-  --border: #e1e1e1;
-  --yellow: #ffcb47;
-  --yellow-hover: #ffb700;
-}
-
 html {
   box-sizing: border-box;
 }

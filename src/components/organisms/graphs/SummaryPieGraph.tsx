@@ -12,7 +12,7 @@ import {
 } from "../../../@types/index.d";
 import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import styled from "styled-components";
 import Icon from "../../atoms/Icon";

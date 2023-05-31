@@ -19,7 +19,7 @@ import {
 import { AnalyzedMessage, ChatTimes, ReplyTime } from "../../../@types/index.d";
 import { getAverageReplyTime, getTotalChatCounts, getTwoLettersFromSpeakers } from "./SummaryPieGraph";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 

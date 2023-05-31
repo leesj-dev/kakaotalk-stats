@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, setRotationColor } from "../../../module/common/colorsForGraphArray";
+import styled from "styled-components";
 
 const getDayIndex = (date: string) => {
   const parsedDate = parseInt(date);
@@ -15,6 +16,17 @@ const getDayIndex = (date: string) => {
   return dayOfWeek;
 };
 
+const TooltipBox = styled.div`
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: #fff;
+  > ul {
+    > li {
+      margin-bottom: 5px;
+    }
 const renderTooltip = (props: any) => {
   const { active, payload } = props;
 
@@ -42,9 +54,8 @@ const renderTooltip = (props: any) => {
       </div>
     );
   }
+`;
 
-  return null;
-};
 const range = [16, 225];
 
 const getMostValue = (array: any) => {
@@ -154,6 +165,33 @@ const ChatVolumeByHourlyGraph = () => {
     setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
   }, [selectedSpeakerIndex]);
 
+  const renderTooltip = (props: any) => {
+    const { active, payload } = props;
+
+    if (active && payload?.length) {
+      const data = payload[0]?.payload;
+
+      return (
+        <TooltipBox>
+          <p>
+            {data.hour}
+            <span>시</span>
+          </p>
+          <p
+            style={{
+              color: setRotationColor(currentSpeakerIndex),
+            }}
+          >
+            <span>대화량: </span>
+            {data.value}
+          </p>
+        </TooltipBox>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <>
       {/*
@@ -174,7 +212,7 @@ const ChatVolumeByHourlyGraph = () => {
       {scatter.length &&
         scatter[currentSpeakerIndex].map((item: any, index: number) => {
           return (
-            <ResponsiveContainer key={index} width="100%" height={"13%"}>
+            <ResponsiveContainer key={index} width="100%" height={"10.1%"}>
               <ScatterChart
                 margin={{
                   top: 10,
@@ -183,15 +221,37 @@ const ChatVolumeByHourlyGraph = () => {
                   left: -38,
                 }}
               >
+                {/* {index === scatter[currentSpeakerIndex].length - 1 ? (
+                  <XAxis
+                    type="category"
+                    dataKey="hour"
+                    name="hour"
+                    interval={0}
+                    axisLine={false}
+                    tick={{ dy: -16, fontSize: 14 }}
+                    tickLine={false}
+                    height={24}
+                  />
+                ) : */}
+                (
                 <XAxis
                   type="category"
                   dataKey="hour"
                   name="hour"
                   interval={0}
-                  tick={{ fontSize: 10 }}
-                  tickLine={{ transform: "translate(0, -6)" }}
-                  fontSize={12}
+                  axisLine={false}
+                  tick={{
+                    dy: -16,
+                    fontSize: 14,
+                    fontWeight: "100",
+                    stroke: "#ababab",
+                    strokeWidth: 0.5,
+                  }}
+                  tickLine={false}
+                  height={24}
+
                 />
+                )
                 <YAxis
                   type="number"
                   dataKey="index"
@@ -205,7 +265,6 @@ const ChatVolumeByHourlyGraph = () => {
                   }}
                   fontSize={12}
                 />
-                <ZAxis type="number" dataKey="value" range={range} />
                 <Tooltip
                   cursor={{ strokeDasharray: "3 3" }}
                   wrapperStyle={{ zIndex: 100 }}
@@ -217,18 +276,12 @@ const ChatVolumeByHourlyGraph = () => {
                     const mostValue =
                       currentSpeakerIndex === -1 ? mostValues[0] : mostValues[currentSpeakerIndex];
 
-                    const itemWidth = volumeHourlyBoxSize[0] / 24;
+                    const itemWidth = volumeHourlyBoxSize[0] / 25.7;
                     const itemHeight = volumeHourlyBoxSize[1] / 7;
                     const opacity = item.value / mostValue;
                     return (
                       <rect
-                        stroke="#ffffff"
-                        strokeWidth={2}
-                        fill={
-                          currentSpeakerIndex === 0
-                            ? "#8884d8"
-                            : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
-                        }
+                        fill={setRotationColor(currentSpeakerIndex)}
                         x={item.cx - itemWidth / 2}
                         y={item.cy - itemHeight / 2}
                         width={itemWidth}
@@ -237,11 +290,7 @@ const ChatVolumeByHourlyGraph = () => {
                       />
                     );
                   }}
-                  fill={
-                    currentSpeakerIndex === 0
-                      ? "#8884d8"
-                      : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
-                  }
+                  fill={setRotationColor(currentSpeakerIndex)}
                 />
               </ScatterChart>
             </ResponsiveContainer>

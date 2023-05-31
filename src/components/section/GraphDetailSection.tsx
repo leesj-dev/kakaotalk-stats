@@ -15,21 +15,6 @@ import ReplySpeedGraph from "../organisms/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../organisms/graphs/ChatVolumeByHourlyGraph";
 import { useParams } from "react-router";
 
-const GraphDetailContainer = styled.div`
-  margin-top: 80px;
-  display: flex;
-  width: 100%;
-
-  > :nth-child(1) {
-    width: 15%;
-  }
-  > :nth-child(2) {
-    width: 85%;
-  }
-`;
-
-const GraphBox = styled.div``;
-
 const graphContentData = [
   {
     id: 1,
@@ -89,6 +74,29 @@ const graphContentData = [
     p: "대화가 발생한 시간대를 나타냅니다. 이를 통해 대화가 활발히 이루어지는 시간대, 그리고 상대방과의 대화 타이밍을 파악할 수 있습니다.",
   },
 ];
+
+const GraphDetailContainer = styled.div`
+  margin-top: 80px;
+  display: flex;
+  width: ${100 * graphContentData.length - 1}vw;
+  background: ${(props) => props.theme.mainWhite};
+
+  > :nth-child(1) {
+    width: 100vw * 15/100;
+  }
+  > :nth-child(2) {
+    width: 85%;
+  }
+`;
+
+const GraphBox = styled.div`
+  margin: 15px;
+  display: flex;
+  gap: 30px;
+  > * {
+    width: 100vw;
+  }
+`;
 
 const GraphDetailSection = () => {
   const isAnalyzedMessagesExist = useSelector(

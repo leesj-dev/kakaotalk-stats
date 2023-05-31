@@ -4,7 +4,8 @@ import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area, Tool
 import { AnalyzedMessage, ChatTimes, StackBarData } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
+import styled from "styled-components";
 
 const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
   return Object.values(chatCountsDay).reduce((sum, count) => sum + count, 0);
@@ -30,20 +31,34 @@ const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTim
   });
 };
 
+const TooltipBox = styled.div`
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: #fff;
+  > ul {
+    > li {
+      margin-bottom: 5px;
+    }
+  }
+`;
+
 const renderTooltipContent = (o: any) => {
   const { payload, label } = o;
   const total = payload.reduce((result: any, entry: { value: any }) => result + entry.value, 0);
   return (
-    <div className="customized-tooltip-content">
+    <TooltipBox className="customized-tooltip-content">
       <p className="total">{`${label} (Total: ${total})`}</p>
       <ul className="list">
         {payload.map((entry: { color: any; name: any; value: number }, index: any) => (
           <li key={`item-${index}`} style={{ color: entry.color }}>
-            {`${entry.name}: ${entry.value}(${getPercent(entry.value, total)})`}
+            {`${entry.name}: ${entry.value}(${getPercent(entry.value, total).slice(0, 2)})`}
           </li>
         ))}
       </ul>
-    </div>
+    </TooltipBox>
   );
 };
 

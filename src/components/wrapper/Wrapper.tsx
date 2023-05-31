@@ -5,6 +5,8 @@ const Wrap = styled.div`
   /* margin-top: 100px; */
   display: flex;
   justify-content: center;
+  color: ${(props) => props.theme.mainText};
+  background: ${(props) => props.theme.mainWhite};
 `;
 
 const Wrapper = ({ children }: WrapperProps) => {

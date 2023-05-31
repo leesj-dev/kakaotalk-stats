@@ -1,4 +1,4 @@
-const colorsForGraphArray = [
+export const colorsForGraphArray = [
   "#36A2EB", // 파랑
   "#FFCE56", // 노랑
   "#4BC0C0", // 청록
@@ -11,4 +11,8 @@ const colorsForGraphArray = [
   "#3CB371", // 민트
 ];
 
-export default colorsForGraphArray;
+export const setRotationColor = (currentSpeakerIndex: number) => {
+  return currentSpeakerIndex === 0
+    ? "#8884d8"
+    : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length];
+};

@@ -4,7 +4,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { lightTheme } from "../../../style/Theme";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 
 const getSumTimeCount = (speaker: ChatTimes[]) => {
   const sumTimeCount: ChatTimes = {};

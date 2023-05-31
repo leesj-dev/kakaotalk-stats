@@ -7,7 +7,6 @@ const IndicatorBox = styled.div`
   text-align: center;
   margin: 0 auto;
   width: 300px;
-  color: ${(props) => props.theme.mainGray};
   cursor: pointer;
 
   > :first-child {
@@ -30,6 +29,7 @@ const scrollAnimation = keyframes`
 
 const AnimatedIcon = styled.i`
   display: inline-block;
+  color: ${(props) => props.theme.mainGray};
   animation: ${scrollAnimation} 1s linear infinite;
 `;
 

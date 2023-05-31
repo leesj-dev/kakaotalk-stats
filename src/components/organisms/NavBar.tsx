@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
 import { useSelector } from "react-redux";
+import { darkTheme } from "../../style/Theme";
 
 const Wrap = styled.div`
   width: 100%;
   position: fixed;
   z-index: 999;
-  background-color: ${(props) => props.theme.mainWhite};
-  border-bottom: 1px solid ${(props) => props.theme.backgroundGrey};
+  color: ${(props) => props.theme.mainText};
+  background-color: ${(props) => props.theme.navBackground};
+  border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
 `;
 const Container = styled.div`
   margin: 0 auto;
@@ -36,8 +38,8 @@ const DarkModeButton = styled.div`
   cursor: pointer;
 
   &.active {
-    color: #fff;
-    background: #000;
+    color: ${(props) => props.theme.mainText};
+    background: ${(props) => props.theme.navBackground};
   }
 `;
 

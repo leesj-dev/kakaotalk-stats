@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnalyzedMessage, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, setRotationColor } from "../../../module/common/colorsForGraphArray";
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { getHighKeywords } from "./KeywordCloud";
 
@@ -68,14 +68,7 @@ const KeywordChartGraph = () => {
         <XAxis type="number" fontSize={12} />
         <YAxis type="category" dataKey="value" tickFormatter={truncateValue} fontSize={12} />
         <Tooltip contentStyle={{ fontSize: "2px" }} />
-        <Bar
-          dataKey="count"
-          fill={
-            currentSpeakerIndex === 0
-              ? "#8884d8"
-              : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
-          }
-        />
+        <Bar dataKey="count" fill={setRotationColor(currentSpeakerIndex)} />
       </BarChart>
     </ResponsiveContainer>
   );

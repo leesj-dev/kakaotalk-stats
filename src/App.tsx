@@ -9,7 +9,7 @@ import NavBar from "./components/organisms/NavBar";
 import AttachmentPage from "./components/pages/AttachmentPage";
 import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
-import ScrollTopTopFloatingButton from "./components/molecules/ScrollTopTopFloatingButton";
+import ScrollToTopFloatingButton from "./components/molecules/ScrollToTopFloatingButton";
 import GraphDetailSection from "./components/section/GraphDetailSection";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <ScrollTopTopFloatingButton />
+      <ScrollToTopFloatingButton />
       <NavBar setIsDarkMode={() => setIsDarkMode(!isDarkMode)} isDarkMode={isDarkMode} />
       <Wrapper>
         <Routes>

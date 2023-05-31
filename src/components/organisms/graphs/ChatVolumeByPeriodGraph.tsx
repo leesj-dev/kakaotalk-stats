@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 
 type StackBarData = {
   name: string;

@@ -17,7 +17,7 @@ import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/get
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { lightTheme } from "../../../style/Theme";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 
 type LineGraphData = {
   name: string;
@@ -206,9 +206,15 @@ const ReplySpeedGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} />
-          <YAxis yAxisId="left" fontSize={12} />
-          <YAxis yAxisId="right" orientation="right" />
+          <XAxis dataKey="name" fontSize={12} tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }} />
+          <YAxis yAxisId="left" fontSize={12} tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }} />
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+fontSize={12}
+            tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }}
+          />
+
           <Tooltip />
           {/* <Legend /> */}
           <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#413ea0" />
