@@ -29,6 +29,7 @@ const ChatRoomIndexArrowBox = styled.div`
 
   > * {
     cursor: pointer;
+    font-weight: 200;
     font-size: 30px;
   }
 `;
@@ -188,7 +189,7 @@ const SummaryPieGraph = () => {
                   onClick={() => handleClickChatRoom(index)}
                   fill={colorsForGraphArray[index % colorsForGraphArray.length]}
                   stroke={selectedChatRoomIndex === index ? lightTheme.mainBlack : ""}
-                  strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
+                  strokeWidth={selectedChatRoomIndex === index ? 1 : 1}
                   fillOpacity={
                     selectedChatRoomIndex === -1 ? 1 : selectedChatRoomIndex === index ? 1 : 0.4
                   }

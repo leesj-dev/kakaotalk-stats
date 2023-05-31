@@ -34,7 +34,7 @@ const renderTooltip = (props: any) => {
           {data.hour}
           <span>시</span>
         </p>
-        ㅇㅎ
+
         <p>
           <span>대화량: </span>
           {data.value}
