@@ -4,7 +4,7 @@ import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area, Tool
 import { AnalyzedMessage, ChatTimes, StackBarData } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
 
 const sumChatCountsDay = (chatCountsDay: ChatTimes) => {

@@ -17,7 +17,7 @@ import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/get
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { lightTheme } from "../../../style/Theme";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 
 type LineGraphData = {
   name: string;

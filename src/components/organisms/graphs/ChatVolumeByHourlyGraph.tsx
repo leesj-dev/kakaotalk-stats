@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, setRotationColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
 
 const getDayIndex = (date: string) => {
@@ -153,10 +153,7 @@ const ChatVolumeByHourlyGraph = () => {
           </p>
           <p
             style={{
-              color:
-                currentSpeakerIndex === 0
-                  ? "#8884d8"
-                  : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length],
+              color: setRotationColor(currentSpeakerIndex),
             }}
           >
             <span>대화량: </span>
@@ -250,11 +247,7 @@ const ChatVolumeByHourlyGraph = () => {
                     const opacity = item.value / mostValue;
                     return (
                       <rect
-                        fill={
-                          currentSpeakerIndex === 0
-                            ? "#8884d8"
-                            : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
-                        }
+                        fill={setRotationColor(currentSpeakerIndex)}
                         x={item.cx - itemWidth / 2}
                         y={item.cy - itemHeight / 2}
                         width={itemWidth}
@@ -263,11 +256,7 @@ const ChatVolumeByHourlyGraph = () => {
                       />
                     );
                   }}
-                  fill={
-                    currentSpeakerIndex === 0
-                      ? "#8884d8"
-                      : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
-                  }
+                  fill={setRotationColor(currentSpeakerIndex)}
                 />
               </ScatterChart>
             </ResponsiveContainer>
