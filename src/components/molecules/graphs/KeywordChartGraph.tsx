@@ -11,7 +11,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnalyzedMessage, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
-import { colorsForGraphArray, setRotationColor } from "../../../module/common/colorsForGraphArray";
+import {
+  colorsForGraphArray,
+  customTickColor,
+  setRotationColor,
+} from "../../../module/common/colorsForGraphArray";
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { getHighKeywords } from "./KeywordCloud";
 
@@ -26,6 +30,8 @@ const KeywordChartGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   const DISPLAY_KEYWORD_COUNT = 5;
   const speaker: string[] = getSpeakers(results)[selectedChatRoomIndex];
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
@@ -65,8 +71,14 @@ const KeywordChartGraph = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis type="number" fontSize={12} />
-        <YAxis type="category" dataKey="value" tickFormatter={truncateValue} fontSize={12} />
+        <XAxis type="number" fontSize={12} tick={customTickColor(isDarkMode)} />
+        <YAxis
+          type="category"
+          dataKey="value"
+          tickFormatter={truncateValue}
+          fontSize={12}
+          tick={customTickColor(isDarkMode)}
+        />
         <Tooltip contentStyle={{ fontSize: "2px" }} />
         <Bar dataKey="count" fill={setRotationColor(currentSpeakerIndex)} />
       </BarChart>

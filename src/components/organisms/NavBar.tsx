@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { darkTheme } from "../../style/Theme";
+import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
 
 const Wrap = styled.div`
   width: 100%;
@@ -43,15 +44,18 @@ const DarkModeButton = styled.div`
   }
 `;
 
-interface NavBarProps {
-  setIsDarkMode: () => void;
-  isDarkMode: boolean;
-}
+const NavBar = () => {
+  const dispatch = useDispatch();
 
-const NavBar = ({ setIsDarkMode, isDarkMode }: NavBarProps) => {
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
+  const handleClickDarkModeButton = () => {
+    dispatch(setIsDarkMode(!isDarkMode));
+  };
+
   return (
     <Wrap>
       <Container>
@@ -63,7 +67,7 @@ const NavBar = ({ setIsDarkMode, isDarkMode }: NavBarProps) => {
         <Menu>
           <Link to="/2">분석하기</Link>
           {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
-          <DarkModeButton className={`${isDarkMode && "active"}`} onClick={setIsDarkMode}>
+          <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
             다크모드
           </DarkModeButton>
         </Menu>

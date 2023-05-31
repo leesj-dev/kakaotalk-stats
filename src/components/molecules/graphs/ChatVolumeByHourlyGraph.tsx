@@ -3,7 +3,11 @@ import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
-import { colorsForGraphArray, setRotationColor } from "../../../module/common/colorsForGraphArray";
+import {
+  colorsForGraphArray,
+  customTickColor,
+  setRotationColor,
+} from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
 
 const getDayIndex = (date: string) => {
@@ -57,6 +61,7 @@ const ChatVolumeByHourlyGraph = () => {
   const volumeHourlyBoxSize = useSelector(
     (state: { volumeHourlyBoxSizeSlice: number[] }) => state.volumeHourlyBoxSizeSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [scatter, setScatter] = useState<any>([]);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
@@ -217,9 +222,7 @@ const ChatVolumeByHourlyGraph = () => {
                   tick={{
                     dy: -16,
                     fontSize: 14,
-                    fontWeight: "100",
-                    stroke: "#ababab",
-                    strokeWidth: 0.5,
+                    ...customTickColor(isDarkMode),
                   }}
                   tickLine={false}
                   height={24}
@@ -235,6 +238,7 @@ const ChatVolumeByHourlyGraph = () => {
                   label={{
                     value: `${item.day}`,
                     position: "insideRight",
+                    ...customTickColor(isDarkMode),
                   }}
                   fontSize={12}
                 />

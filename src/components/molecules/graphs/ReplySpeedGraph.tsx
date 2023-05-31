@@ -17,7 +17,7 @@ import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/get
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { lightTheme } from "../../../style/Theme";
-import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 
 type LineGraphData = {
   name: string;
@@ -162,6 +162,7 @@ const ReplySpeedGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [displayData, setDisplayData] = useState<any[]>([]);
   const [countKeysLessThanData, setCountKeysLessThanData] = useState<Record<string, number>>({});
@@ -206,14 +207,9 @@ const ReplySpeedGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }} />
-          <YAxis yAxisId="left" fontSize={12} tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }} />
-          <YAxis
-            yAxisId="right"
-            orientation="right"
-fontSize={12}
-            tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }}
-          />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis yAxisId="right" orientation="right" fontSize={12} tick={customTickColor(isDarkMode)} />
 
           <Tooltip />
           {/* <Legend /> */}

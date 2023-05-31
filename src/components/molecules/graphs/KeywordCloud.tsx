@@ -135,6 +135,7 @@ const KeywordCloud = () => {
   const selectedRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [numberInput, setNumberInput] = useState<number>(50);
   const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(50);

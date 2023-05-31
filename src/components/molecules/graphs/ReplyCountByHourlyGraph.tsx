@@ -4,7 +4,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { lightTheme } from "../../../style/Theme";
-import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 
 const getSumTimeCount = (speaker: ChatTimes[]) => {
   const sumTimeCount: ChatTimes = {};
@@ -28,6 +28,7 @@ const ReplyCountByHourlyGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
   const speakers: string[] = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
@@ -68,8 +69,8 @@ const ReplyCountByHourlyGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} />
-          <YAxis fontSize={12} />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
           <Tooltip />
           {speakers.map((speaker: string, index: number) => {
             return (

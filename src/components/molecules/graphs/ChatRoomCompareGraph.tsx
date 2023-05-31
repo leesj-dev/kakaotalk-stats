@@ -19,7 +19,7 @@ import {
 import { AnalyzedMessage, ChatTimes, ReplyTime } from "../../../@types/index.d";
 import { getAverageReplyTime, getTotalChatCounts, getTwoLettersFromSpeakers } from "./SummaryPieGraph";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
-import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
@@ -97,6 +97,7 @@ const ChatRoomCompareGraph = () => {
   const nfKeywordCounts = useSelector(
     (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
@@ -144,11 +145,12 @@ const ChatRoomCompareGraph = () => {
         }}
       >
         <PolarGrid />
-        <PolarAngleAxis dataKey="subject" fontSize={15} />
+        <PolarAngleAxis dataKey="subject" fontSize={15} tick={customTickColor(isDarkMode)} />
         <PolarRadiusAxis
           fontSize={10}
           angle={60}
           domain={[0, Object.keys(radarRankData[0]).length - 2]}
+          tick={customTickColor(isDarkMode)}
         />
         {chatRoomNames.map((el: any, index: number) => {
           return (

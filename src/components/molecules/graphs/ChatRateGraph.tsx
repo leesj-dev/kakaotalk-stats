@@ -4,7 +4,7 @@ import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area, Tool
 import { AnalyzedMessage, ChatTimes, StackBarData } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
-import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
 
 const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
@@ -72,6 +72,7 @@ const ChatRateGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [data, setData] = useState<StackBarData[]>([]);
   const chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
@@ -99,8 +100,8 @@ const ChatRateGraph = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" fontSize={12} />
-        <YAxis tickFormatter={toPercent} fontSize={12} />
+        <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+        <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
 
         <Tooltip content={renderTooltipContent} />
         {chatSpeakers.map((speaker: string, index: number) => {

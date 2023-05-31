@@ -16,3 +16,9 @@ export const setRotationColor = (currentSpeakerIndex: number) => {
     ? "#8884d8"
     : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length];
 };
+
+export const customTickColor = (isDarkMode: boolean) => {
+  return isDarkMode
+    ? { fontWeight: 100, stroke: "white", strokeWidth: 0.5 }
+    : { fontWeight: 100, stroke: "black", strokeWidth: 0.5 };
+};

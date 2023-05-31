@@ -11,14 +11,15 @@ import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
 import ScrollToTopFloatingButton from "./components/molecules/ScrollToTopFloatingButton";
 import GraphDetailSection from "./components/section/GraphDetailSection";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <ScrollToTopFloatingButton />
-      <NavBar setIsDarkMode={() => setIsDarkMode(!isDarkMode)} isDarkMode={isDarkMode} />
+      <NavBar />
       <Wrapper>
         <Routes>
           <Route path={"/"} element={<MainPage />} />
