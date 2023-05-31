@@ -79,30 +79,29 @@ const GraphDetailContainer = styled.div`
   position: relative;
   margin-top: 80px;
   display: flex;
-  width: ${100 * graphContentData.length - 1}vw;
+  height: 100%;
+  width: 100%;
   background: ${(props) => props.theme.mainWhite};
 
   > :nth-child(1) {
-    width: 100vw * 15/100;
-  }
-  > :nth-child(2) {
-    width: 85%;
-  }
-`;
-
-const GraphBox = styled.div`
-  margin: 15px;
-  display: flex;
-  gap: 30px;
-  > * {
-    width: 100vw;
+    position: sticky;
+    top: 80px;
+    left: 0;
+    width: 15%;
   }
 `;
 
 const ContentBox = styled.div`
   display: flex;
+  flex-direction: column;
+  width: calc(85% - 30px);
+`;
+
+const GraphBox = styled.div`
+  margin: 15px;
+  height: 80vh;
   width: 100%;
-  height: 100px;
+  gap: 30px;
 `;
 
 const GraphDetailSection = () => {
@@ -118,11 +117,14 @@ const GraphDetailSection = () => {
     <GraphDetailContainer>
       <DashboardSideMenu />
       <ContentBox>
-        <GraphBox>
-          {graphContentData.map((item) => {
-            return <ModalGraph currentModalData={item} />;
+        {isAnalyzedMessagesExist &&
+          graphContentData.map((item) => {
+            return (
+              <GraphBox>
+                <ModalGraph currentModalData={item} />
+              </GraphBox>
+            );
           })}
-        </GraphBox>
       </ContentBox>
     </GraphDetailContainer>
   );

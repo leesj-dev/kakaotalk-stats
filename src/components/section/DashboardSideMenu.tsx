@@ -18,6 +18,7 @@ const DashboardSideMenuBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - 80px);
+  width: 100%;
   color: ${(props) => props.theme.mainText};
   background: ${(props) => props.theme.mainWhite};
   border-right: 1px solid ${(props) => props.theme.border};

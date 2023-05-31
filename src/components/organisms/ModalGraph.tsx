@@ -10,6 +10,8 @@ const ModalGraphBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
   /* background: #5badff3a; */
   background: #ffffff39;
   backdrop-filter: blur(70px);
