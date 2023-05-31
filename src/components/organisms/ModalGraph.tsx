@@ -5,6 +5,7 @@ import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
 import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
+import { useLocation } from "react-router";
 
 const ModalGraphBox = styled.div`
   padding: 15px;
@@ -75,6 +76,8 @@ interface ModalGraphProps {
 }
 
 const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) => {
+  const isDetailPage = useLocation().pathname.includes("detail");
+
   const { subject, graph, h2, h3, p } = currentModalData;
 
   const handleClickCloseModalButton = () => {
@@ -85,7 +88,7 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
     <ModalGraphBox>
       <Span>{subject}</Span>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>
-        <Icon fontSize="24px">❌</Icon>
+        {isDetailPage ? null : <Icon fontSize="24px">❌</Icon>}
       </CloseModalBox>
       <ContentBox>
         <SquareGraphBox>{graph}</SquareGraphBox>
