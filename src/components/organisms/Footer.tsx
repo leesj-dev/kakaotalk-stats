@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 const FooterContainer = styled.div`
   width: 100%;
   background-color: ${(props) => props.theme.footerBackground};
-  padding: 60px 0 50px 0;
+  padding: 60px 0 60px 0;
 `;
 const ContentBox = styled.div`
   margin: 0 auto;
@@ -47,7 +47,7 @@ const IconContainer = styled.div`
 `;
 
 const DeveloperBox = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
