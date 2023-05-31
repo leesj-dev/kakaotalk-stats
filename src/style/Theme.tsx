@@ -27,6 +27,6 @@ export const darkTheme: DarkTheme = {
   mainText: "#ffffff",
   mainBlueHover: "#0d6efd",
   border: "#515151",
-  footerBackground: "#141414",
-  navBackground: "#141414",
+  footerBackground: "#202020",
+  navBackground: "#202020",
 };
