@@ -3,14 +3,14 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
-import ChatRatioWithArrowGraph from "./graphs/ChatRatioWithArrowGraph";
-import ChatRoomCompareGraph from "./graphs/ChatRoomCompareGraph";
-import ChatVolumeByPeriodGraph from "./graphs/ChatVolumeByPeriodGraph";
-import ChatRateGraph from "./graphs/ChatRateGraph";
-import ReplyCountByHourlyGraph from "./graphs/ReplyCountByHourlyGraph";
-import KeywordChartGraph from "./graphs/KeywordChartGraph";
-import ReplySpeedGraph from "./graphs/ReplySpeedGraph";
-import ChatVolumeByHourlyGraph from "./graphs/ChatVolumeByHourlyGraph";
+import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
+import ChatRoomCompareGraph from "../molecules/graphs/ChatRoomCompareGraph";
+import ChatVolumeByPeriodGraph from "../molecules/graphs/ChatVolumeByPeriodGraph";
+import ChatRateGraph from "../molecules/graphs/ChatRateGraph";
+import ReplyCountByHourlyGraph from "../molecules/graphs/ReplyCountByHourlyGraph";
+import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
+import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
+import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
 import { CgMaximize } from "react-icons/cg";
 
 const graphContentData = [

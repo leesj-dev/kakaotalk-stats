@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
-import ChatRatioWithArrowGraph from "./graphs/ChatRatioWithArrowGraph";
+import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
 import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
 

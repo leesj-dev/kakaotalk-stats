@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SummaryPieGraph, {
   getTotalChatCounts,
   getTwoLettersFromSpeakers,
-} from "../organisms/graphs/SummaryPieGraph";
+} from "../molecules/graphs/SummaryPieGraph";
 import { useDispatch, useSelector } from "react-redux";
 import { AnalyzedMessage, ChatTimes } from "../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";

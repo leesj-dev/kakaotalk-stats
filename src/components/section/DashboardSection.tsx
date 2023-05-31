@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../module/common/scrollEvent";
 import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
-import { getTotalChatCounts } from "../organisms/graphs/SummaryPieGraph";
+import { getTotalChatCounts } from "../molecules/graphs/SummaryPieGraph";
 import ModalGraph from "../organisms/ModalGraph";
 import GraphDisplay from "../organisms/GraphDisplay";
 import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
