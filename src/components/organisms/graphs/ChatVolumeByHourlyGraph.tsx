@@ -214,7 +214,13 @@ const ChatVolumeByHourlyGraph = () => {
                   name="hour"
                   interval={0}
                   axisLine={false}
-                  tick={{ dy: -16, fontSize: 14, fontWeight: "100", stroke: "#ababab", strokeWidth: 1 }}
+                  tick={{
+                    dy: -16,
+                    fontSize: 14,
+                    fontWeight: "100",
+                    stroke: "#ababab",
+                    strokeWidth: 0.5,
+                  }}
                   tickLine={false}
                   height={24}
                 />

@@ -206,9 +206,13 @@ const ReplySpeedGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis yAxisId="left" />
-          <YAxis yAxisId="right" orientation="right" />
+          <XAxis dataKey="name" tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }} />
+          <YAxis yAxisId="left" tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }} />
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            tick={{ fontWeight: 100, stroke: "black", strokeWidth: 0.5 }}
+          />
           <Tooltip />
           {/* <Legend /> */}
           <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#413ea0" />

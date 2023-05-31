@@ -5,15 +5,15 @@ import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "./graphs/ChatRatioWithArrowGraph";
 import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
-import { GraphBoxProps } from "./GraphDisplay";
 
 const ModalGraphBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
-  background: #5badff3a;
-  backdrop-filter: blur(10px);
-  box-shadow: 3px 3px 10px 3px ${(props) => props.theme.mainBlue};
+  /* background: #5badff3a; */
+  background: #ffffff39;
+  backdrop-filter: blur(70px);
+  box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
 `;
 
@@ -36,12 +36,12 @@ const ContentBox = styled.div`
 
 const SquareGraphBox = styled.div`
   flex: 3;
-  background: #ff00ff15;
+  /* background: #ff00ff15; */
 `;
 
 const GraphDescriptionBox = styled.div`
   flex: 1;
-  background: #0000ff13;
+  /* background: #0000ff13; */
 `;
 
 const SpeakerSelectBox = styled.div`
@@ -49,7 +49,9 @@ const SpeakerSelectBox = styled.div`
   margin: 0 auto;
   display: flex;
 `;
-const DescriptionBox = styled.div``;
+const DescriptionBox = styled.div`
+  height: 37%;
+`;
 
 const CardContentBox = styled.div`
   padding: 15px;
@@ -60,7 +62,7 @@ const CardContentBox = styled.div`
     justify-content: flex-start;
     align-items: start;
     text-align: start;
-    border: 1px solid #ddd;
+    border: 1px solid ${(props) => props.theme.mainGray};
     border-radius: 15px;
   }
 `;
@@ -90,10 +92,10 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
             <ChatRatioWithArrowGraph />
             <SpeakerSelect />
           </SpeakerSelectBox>
+          <DescriptionBox>2023.01~2023.03</DescriptionBox>
           <CardContentBox>
             <CardContent h2={h2} h3={h3} p={p} />
           </CardContentBox>
-          <DescriptionBox>설명</DescriptionBox>
         </GraphDescriptionBox>
       </ContentBox>
     </ModalGraphBox>
