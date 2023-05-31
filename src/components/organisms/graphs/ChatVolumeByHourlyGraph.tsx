@@ -4,6 +4,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContaine
 import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
 import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import styled from "styled-components";
 
 const getDayIndex = (date: string) => {
   const parsedDate = parseInt(date);
@@ -15,36 +16,20 @@ const getDayIndex = (date: string) => {
   return dayOfWeek;
 };
 
-const renderTooltip = (props: any) => {
-  const { active, payload } = props;
-
-  if (active && payload?.length) {
-    const data = payload[0]?.payload;
-
-    return (
-      <div
-        style={{
-          backgroundColor: `${(props: { theme: { mainWhite: string } }) => props.theme.mainWhite}`,
-          border: "1px solid #999",
-          margin: 0,
-          padding: 10,
-        }}
-      >
-        <p>
-          {data.hour}
-          <span>시</span>
-        </p>
-        ㅇㅎ
-        <p>
-          <span>대화량: </span>
-          {data.value}
-        </p>
-      </div>
-    );
+const TooltipBox = styled.div`
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: #fff;
+  > ul {
+    > li {
+      margin-bottom: 5px;
+    }
   }
+`;
 
-  return null;
-};
 const range = [16, 225];
 
 const getMostValue = (array: any) => {
@@ -153,6 +138,36 @@ const ChatVolumeByHourlyGraph = () => {
   useEffect(() => {
     setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
   }, [selectedSpeakerIndex]);
+
+  const renderTooltip = (props: any) => {
+    const { active, payload } = props;
+
+    if (active && payload?.length) {
+      const data = payload[0]?.payload;
+
+      return (
+        <TooltipBox>
+          <p>
+            {data.hour}
+            <span>시</span>
+          </p>
+          <p
+            style={{
+              color:
+                currentSpeakerIndex === 0
+                  ? "#8884d8"
+                  : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length],
+            }}
+          >
+            <span>대화량: </span>
+            {data.value}
+          </p>
+        </TooltipBox>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <>
