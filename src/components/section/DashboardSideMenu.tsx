@@ -24,7 +24,7 @@ const DashboardSideMenuBox = styled.div`
 const DashboardLayoutBox = styled.div`
   display: flex;
   flex-direction: column;
-  background: #0004ff18;
+  background: #2da1fa48;
 `;
 
 const CalendarBox = styled.div`
@@ -40,6 +40,7 @@ const ChatroomGraphBox = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #000;
+  background-color: ${(props) => props.theme.mainWhite};
 `;
 
 const GraphSelectionBox = styled.div`
@@ -54,27 +55,29 @@ const ChatroomListBox = styled.div`
   display: flex;
   gap: 10px;
   flex-direction: column;
-  border-bottom: 1px solid #000;
+  /* border-bottom: 1px solid #000; */
+  background-color: ${(props) => props.theme.mainWhite};
 `;
 
 const AdditionalFunctionBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
-  background: #00bbff;
+  background: #2da0fa;
 `;
 
 const ChatRoomBox = styled.div`
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
-
+  background-color: ${(props) => props.theme.mainWhite};
+  border: 1px solid #ddd;
   &:hover {
-    box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
+    border: 1px solid #2da1fa48;
   }
 
   &.active {
-    box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
+    border: 2px solid #2b8defaf;
   }
 
   > :nth-child(1) {
@@ -88,21 +91,22 @@ const ChatRoomBox = styled.div`
   > :nth-child(2) {
     display: block;
     width: 100%;
+    margin-bottom: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  > :last-child {
+    font-weight: 600;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
 const ChatRoomHead = styled.div`
   display: flex;
   justify-content: space-between;
-
-  > :nth-child(2) {
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 `;
 
 const DashboardSideMenu = () => {
@@ -146,9 +150,9 @@ const DashboardSideMenu = () => {
                   <Paragraph>
                     채팅방{index + 1} ({totalChatCounts[index]}){" "}
                   </Paragraph>
-                  <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
                 </ChatRoomHead>
                 <Span>{name}</Span>
+                <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
               </ChatRoomBox>
             );
           })}

@@ -206,8 +206,8 @@ const ReplySpeedGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis yAxisId="left" />
+          <XAxis dataKey="name" fontSize={12} />
+          <YAxis yAxisId="left" fontSize={12} />
           <YAxis yAxisId="right" orientation="right" />
           <Tooltip />
           {/* <Legend /> */}

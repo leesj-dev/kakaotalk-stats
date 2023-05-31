@@ -34,7 +34,7 @@ const renderTooltip = (props: any) => {
           {data.hour}
           <span>시</span>
         </p>
-        ㅇㅎ
+
         <p>
           <span>대화량: </span>
           {data.value}
@@ -190,6 +190,7 @@ const ChatVolumeByHourlyGraph = () => {
                   interval={0}
                   tick={{ fontSize: 10 }}
                   tickLine={{ transform: "translate(0, -6)" }}
+                  fontSize={12}
                 />
                 <YAxis
                   type="number"
@@ -202,6 +203,7 @@ const ChatVolumeByHourlyGraph = () => {
                     value: `${item.day}`,
                     position: "insideRight",
                   }}
+                  fontSize={12}
                 />
                 <ZAxis type="number" dataKey="value" range={range} />
                 <Tooltip
