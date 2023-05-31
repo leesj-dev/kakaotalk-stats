@@ -27,32 +27,6 @@ const TooltipBox = styled.div`
     > li {
       margin-bottom: 5px;
     }
-const renderTooltip = (props: any) => {
-  const { active, payload } = props;
-
-  if (active && payload?.length) {
-    const data = payload[0]?.payload;
-
-    return (
-      <div
-        style={{
-          backgroundColor: `${(props: { theme: { mainWhite: string } }) => props.theme.mainWhite}`,
-          border: "1px solid #999",
-          margin: 0,
-          padding: 10,
-        }}
-      >
-        <p>
-          {data.hour}
-          <span>시</span>
-        </p>
-
-        <p>
-          <span>대화량: </span>
-          {data.value}
-        </p>
-      </div>
-    );
   }
 `;
 
@@ -249,7 +223,6 @@ const ChatVolumeByHourlyGraph = () => {
                   }}
                   tickLine={false}
                   height={24}
-
                 />
                 )
                 <YAxis
