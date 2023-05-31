@@ -99,7 +99,7 @@ const ChatRateGraph = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="name" fontSize={12} />
         <YAxis tickFormatter={toPercent} fontSize={12} />
 
         <Tooltip content={renderTooltipContent} />

@@ -68,8 +68,8 @@ const ReplyCountByHourlyGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" fontSize={12} />
+          <YAxis fontSize={12} />
           <Tooltip />
           {speakers.map((speaker: string, index: number) => {
             return (

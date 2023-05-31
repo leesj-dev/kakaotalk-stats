@@ -65,8 +65,8 @@ const KeywordChartGraph = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis type="number" />
-        <YAxis type="category" dataKey="value" tickFormatter={truncateValue} />
+        <XAxis type="number" fontSize={12} />
+        <YAxis type="category" dataKey="value" tickFormatter={truncateValue} fontSize={12} />
         <Tooltip contentStyle={{ fontSize: "2px" }} />
         <Bar dataKey="count" fill={setRotationColor(currentSpeakerIndex)} />
       </BarChart>
