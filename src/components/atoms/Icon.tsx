@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const I = styled.i<{ fontSize?: string; color?: string }>`
   font-size: ${(props) => props.fontSize || "16px"};
+  color: ${(props) => props.theme.mainText};
 `;
 
 interface IconProps {

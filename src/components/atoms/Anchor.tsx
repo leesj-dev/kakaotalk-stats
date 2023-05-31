@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const AnchorComponent = styled.a`
-  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,7 +23,11 @@ interface SpanProps {
 }
 
 const Anchor = ({ children, href }: SpanProps) => {
-  return <AnchorComponent href={href}>{children}</AnchorComponent>;
+  return (
+    <AnchorComponent href={href} target="_blank">
+      {children}
+    </AnchorComponent>
+  );
 };
 
 export default Anchor;

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 const FooterContainer = styled.div`
   width: 100%;
   background-color: ${(props) => props.theme.footerBackground};
-  padding: 60px 0 60px 0;
+  padding: 60px 0 50px 0;
 `;
 const ContentBox = styled.div`
   margin: 0 auto;
@@ -46,7 +46,15 @@ const IconContainer = styled.div`
   gap: 10px;
 `;
 
-const DeveloperBox = styled(Anchor)``;
+const DeveloperBox = styled.div`
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+`;
 
 const ProjectNameBox = styled.div`
   padding-top: 10px;
@@ -58,25 +66,41 @@ const Footer = () => {
     <FooterContainer>
       <ContentBox>
         <DeveloperDescriptionBox>
-          <DeveloperBox href="https://github.com/youngentry">
+          <DeveloperBox>
             <IconContainer>
-              <Icon fontSize="30px">
-                <BsGithub />
-              </Icon>
+              <Anchor href="https://github.com/youngentry">
+                <Icon fontSize="22px">
+                  <BsGithub />
+                </Icon>
+              </Anchor>
+              <Anchor href="mailto:example@example.com">
+                <Icon fontSize="22px">
+                  <BsEnvelope />
+                </Icon>
+              </Anchor>
             </IconContainer>
-            <Span fontSize="14px">youngentry</Span>
+
+            <Span fontSize="16px">youngentry</Span>
           </DeveloperBox>
-          <DeveloperBox href="https://github.com/juhee067">
+          <DeveloperBox>
             <IconContainer>
-              <Icon fontSize="30px">
-                <BsGithub />
-              </Icon>
+              <Anchor href="https://github.com/juhee067">
+                <Icon fontSize="22px">
+                  <BsGithub />
+                </Icon>
+              </Anchor>
+              <Anchor href="mailto:juhee067@gmail.com">
+                <Icon fontSize="22px">
+                  <BsEnvelope />
+                </Icon>
+              </Anchor>
             </IconContainer>
-            <Span fontSize="14px">juhee067</Span>
+
+            <Span fontSize="16px">juhee067</Span>
           </DeveloperBox>
         </DeveloperDescriptionBox>
         <ProjectNameBox>
-          <Span fontSize="12px" color="gray">
+          <Span fontSize="14px" color="gray">
             카카오 돋보기(Kakao Magnifying Glass) 2023
           </Span>
         </ProjectNameBox>
