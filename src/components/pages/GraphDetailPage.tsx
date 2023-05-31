@@ -76,6 +76,7 @@ const graphContentData = [
 ];
 
 const GraphDetailContainer = styled.div`
+  position: relative;
   margin-top: 80px;
   display: flex;
   width: ${100 * graphContentData.length - 1}vw;
@@ -98,6 +99,12 @@ const GraphBox = styled.div`
   }
 `;
 
+const ContentBox = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100px;
+`;
+
 const GraphDetailSection = () => {
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
@@ -110,11 +117,13 @@ const GraphDetailSection = () => {
   return (
     <GraphDetailContainer>
       <DashboardSideMenu />
-      <GraphBox>
-        {graphContentData.map((item) => {
-          return <ModalGraph currentModalData={item} />;
-        })}
-      </GraphBox>
+      <ContentBox>
+        <GraphBox>
+          {graphContentData.map((item) => {
+            return <ModalGraph currentModalData={item} />;
+          })}
+        </GraphBox>
+      </ContentBox>
     </GraphDetailContainer>
   );
 };

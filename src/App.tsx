@@ -10,7 +10,7 @@ import AttachmentPage from "./components/pages/AttachmentPage";
 import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
 import ScrollToTopFloatingButton from "./components/molecules/ScrollToTopFloatingButton";
-import GraphDetailSection from "./components/section/GraphDetailSection";
+import GraphDetailSection from "./components/pages/GraphDetailPage";
 import { useSelector } from "react-redux";
 
 function App() {
