@@ -106,10 +106,11 @@ const ChatRatioWithArrowGraph = () => {
       <PieChart
         width={110}
         height={90}
-        style={{
-          // border: "1px solid #8884d8",
-          marginLeft: "30px",
-        }}
+        style={
+          {
+            // border: "1px solid #8884d8",
+          }
+        }
       >
         <Tooltip />
         <Pie

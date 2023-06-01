@@ -42,7 +42,12 @@ const SquareGraphBox = styled.div`
 `;
 
 const GraphDescriptionBox = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  padding: 10px;
+  background-color: ${(props) => props.theme.mainWhite};
+  border-radius: 15px;
   /* background: #0000ff13; */
 `;
 
@@ -50,15 +55,20 @@ const SpeakerSelectBox = styled.div`
   width: 90%;
   margin: 0 auto;
   display: flex;
+  justify-content: space-between;
 `;
 const DescriptionBox = styled.div`
-  height: 37%;
+  border: 1px solid ${(props) => props.theme.mainGray};
+  margin: 10px 0;
+  padding: 20px 0;
+  border-radius: 15px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
 `;
 
 const CardContentBox = styled.div`
-  padding: 15px;
   > * {
-    padding: 15px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -92,6 +102,9 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
       <ContentBox>
         <SquareGraphBox>{graph}</SquareGraphBox>
         <GraphDescriptionBox>
+          <Span fontWeight="700" textAlign="center" marginBottom="20px">
+            INPORMATION
+          </Span>
           <SpeakerSelectBox>
             <ChatRatioWithArrowGraph />
             <SpeakerSelect />
