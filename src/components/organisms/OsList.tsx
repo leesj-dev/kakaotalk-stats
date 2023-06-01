@@ -16,11 +16,7 @@ const OsIconBox = styled.ul`
   gap: 50px;
   > :nth-child(2) {
     > :first-child {
-<<<<<<< HEAD
       transform: scale(98%) translateY(-3px);
-=======
-      transform: scale(98%);
->>>>>>> 2a648df (refactor:운영체제 icon size 조정 & hover,active 효과)
     }
   }
   > :nth-child(3) {

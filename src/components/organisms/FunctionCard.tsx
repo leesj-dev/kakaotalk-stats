@@ -32,6 +32,15 @@ const SlideBox = styled.div`
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     transform: scaleY(-1);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    > :first-child {
+      transform: translateY(3px);
+    }
+=======
+>>>>>>> afe2064 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
+>>>>>>> dd0dc64 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
@@ -41,8 +50,18 @@ const SlideBox = styled.div`
     right: 60%;
     bottom: 15%;
     background-color: ${(props) => props.theme.mainBlue};
+<<<<<<< HEAD
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+=======
+<<<<<<< HEAD
+    border-top-left-radius: 20%;
+    border-bottom-left-radius: 20%;
+=======
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+>>>>>>> afe2064 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
+>>>>>>> dd0dc64 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
