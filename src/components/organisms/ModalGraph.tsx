@@ -37,16 +37,18 @@ const ContentBox = styled.div`
 `;
 
 const SquareGraphBox = styled.div`
-  flex: 3;
+  flex: 4;
   /* background: #ff00ff15; */
 `;
 
 const GraphDescriptionBox = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   flex: 1;
   padding: 10px;
   background-color: ${(props) => props.theme.mainWhite};
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 15px;
   /* background: #0000ff13; */
 `;
@@ -58,12 +60,12 @@ const SpeakerSelectBox = styled.div`
   justify-content: space-between;
 `;
 const DescriptionBox = styled.div`
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
   border: 1px solid ${(props) => props.theme.mainGray};
-  margin: 10px 0;
-  padding: 20px 0;
   border-radius: 15px;
-  font-weight: bold;
-  letter-spacing: 0.03em;
+  font-weight: 500;
 `;
 
 const CardContentBox = styled.div`
@@ -71,12 +73,14 @@ const CardContentBox = styled.div`
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: start;
-    text-align: start;
     border: 1px solid ${(props) => props.theme.mainGray};
     border-radius: 15px;
   }
+`;
+const InfoContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 interface ModalGraphProps {
@@ -102,14 +106,17 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
       <ContentBox>
         <SquareGraphBox>{graph}</SquareGraphBox>
         <GraphDescriptionBox>
-          <Span fontWeight="700" textAlign="center" marginBottom="20px">
-            INPORMATION
-          </Span>
-          <SpeakerSelectBox>
-            <ChatRatioWithArrowGraph />
-            <SpeakerSelect />
-          </SpeakerSelectBox>
-          <DescriptionBox>2023.01~2023.03</DescriptionBox>
+          <InfoContentBox>
+            <Span fontWeight="700" textAlign="center">
+              INFORMATION
+            </Span>
+            <SpeakerSelectBox>
+              <ChatRatioWithArrowGraph />
+              <SpeakerSelect />
+            </SpeakerSelectBox>
+            <DescriptionBox>2023.01~2023.03</DescriptionBox>
+          </InfoContentBox>
+
           <CardContentBox>
             <CardContent h2={h2} h3={h3} p={p} />
           </CardContentBox>
