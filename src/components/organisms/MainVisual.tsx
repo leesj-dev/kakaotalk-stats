@@ -41,12 +41,12 @@ const LogoBox = styled.div`
 interface MainVisualProps {
   onMoveToFunctionCard: () => void;
 }
-
+const MainBox = styled.div``;
 const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <MainBox>
       <Container>
         <LogoBox>
           <Img src={`${process.env.PUBLIC_URL}/images/logoBlack.png`} />
@@ -62,7 +62,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
           카카오 돋보기의 분석 기능
         </ScrollIndicator>
       </Container>
-    </div>
+    </MainBox>
   );
 };
 

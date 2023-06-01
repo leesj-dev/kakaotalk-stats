@@ -57,9 +57,11 @@ const HeadBox = styled.div`
     flex: 1;
   }
   > :nth-child(1) {
-    flex: 2;
+    flex: 1.3;
     flex-direction: row;
-
+    > :nth-child(1) {
+      padding: 0;
+    }
     /* 대화자 선택 그래프 */
     > :nth-child(1) {
       display: flex;

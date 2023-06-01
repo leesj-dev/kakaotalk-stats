@@ -21,10 +21,11 @@ import { setMostChattedTimes } from "../../../store/reducer/mostChattedTimes";
 const ChatRoomIndexArrowBox = styled.div`
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 98%;
   z-index: 1;
 
   > * {
