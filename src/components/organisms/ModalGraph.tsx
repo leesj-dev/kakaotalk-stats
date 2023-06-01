@@ -5,11 +5,13 @@ import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
 import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
+import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
 import { getChatTimes, getDates } from "../../module/common/getProperties";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
+
 const ModalGraphBox = styled.div`
   padding: 30px;
   display: flex;
@@ -93,6 +95,8 @@ interface ModalGraphProps {
 }
 
 const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) => {
+  const isDetailPage = useLocation().pathname.includes("detail");
+
   const { subject, graph, h2, h3, p } = currentModalData;
 
   const handleClickCloseModalButton = () => {
@@ -115,9 +119,9 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
   return (
     <ModalGraphBox>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>
-        <Icon fontSize="24px">
+        {isDetailPage ? null : <Icon fontSize="24px">
           <MdClose />
-        </Icon>
+        </Icon>}
       </CloseModalBox>
       <ContentBox>
         <SquareGraphBox>{graph}</SquareGraphBox>

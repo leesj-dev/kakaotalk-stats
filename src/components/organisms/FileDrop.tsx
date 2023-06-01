@@ -41,6 +41,7 @@ type DropZoneProps = {
 
 const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
   const dispatch = useDispatch();
+
   const [dragging, setDragging] = useState(false);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {

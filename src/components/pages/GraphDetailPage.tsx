@@ -2,10 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
-import DashboardSection from "../section/DashboardSection";
 import DashboardSideMenu from "../section/DashboardSideMenu";
 import ModalGraph from "../organisms/ModalGraph";
-import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
 import ChatRoomCompareGraph from "../molecules/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../molecules/graphs/ChatVolumeByPeriodGraph";
 import ChatRateGraph from "../molecules/graphs/ChatRateGraph";
@@ -13,7 +11,6 @@ import ReplyCountByHourlyGraph from "../molecules/graphs/ReplyCountByHourlyGraph
 import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
-import { useParams } from "react-router";
 
 const graphContentData = [
   {
