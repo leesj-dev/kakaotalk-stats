@@ -79,7 +79,7 @@ const KeywordChartGraph = () => {
           fontSize={12}
           tick={customTickColor(isDarkMode)}
         />
-        <Tooltip contentStyle={{ fontSize: "2px" }} />
+        <Tooltip />
         <Bar dataKey="count" fill={setRotationColor(currentSpeakerIndex)} />
       </BarChart>
     </ResponsiveContainer>

@@ -119,9 +119,11 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
   return (
     <ModalGraphBox>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>
-        {isDetailPage ? null : <Icon fontSize="24px">
-          <MdClose />
-        </Icon>}
+        {isDetailPage ? null : (
+          <Icon fontSize="24px">
+            <MdClose />
+          </Icon>
+        )}
       </CloseModalBox>
       <ContentBox>
         <SquareGraphBox>{graph}</SquareGraphBox>
