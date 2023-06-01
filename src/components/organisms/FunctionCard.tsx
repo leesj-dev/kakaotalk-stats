@@ -88,8 +88,13 @@ const MainSlide = styled.div`
   width: 60%;
   height: 100%;
   position: absolute;
-  top: 0;
+  top: 25%;
   right: 0;
+<<<<<<< HEAD
+=======
+  width: 50%;
+
+>>>>>>> 2a648df (refactor:운영체제 icon size 조정 & hover,active 효과)
   transition: transform 0.5s ease-in-out;
 
   > * {
