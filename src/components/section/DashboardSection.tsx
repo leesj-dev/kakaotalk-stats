@@ -21,7 +21,6 @@ const DashboardTemplateContainer = styled.div`
   gap: 10px;
   height: calc(100vh - 80px);
   width: 100%;
-  border: 1px solid #000;
   background: ${(props) => props.theme.mainBlue};
 `;
 

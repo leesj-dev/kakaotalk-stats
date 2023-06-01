@@ -21,7 +21,6 @@ const DashboardSideMenuBox = styled.div`
   width: 100%;
   color: ${(props) => props.theme.mainText};
   background: ${(props) => props.theme.mainWhite};
-  border-right: 1px solid ${(props) => props.theme.border};
 `;
 
 const DashboardLayoutBox = styled.div`
@@ -137,11 +136,11 @@ const DashboardSideMenu = () => {
   return (
     <DashboardSideMenuBox>
       <DashboardLayoutBox>
-        <CalendarBox>캘린더</CalendarBox>
+        <CalendarBox>채팅방 대화 비율</CalendarBox>
         <ChatroomGraphBox style={{ height: "200px" }}>
           <SummaryPieGraph />
         </ChatroomGraphBox>
-        <GraphSelectionBox>상세선택</GraphSelectionBox>
+        <GraphSelectionBox>채팅방 목록</GraphSelectionBox>
         <ChatroomListBox>
           {chatRoomNames.map((name, index) => {
             return (
