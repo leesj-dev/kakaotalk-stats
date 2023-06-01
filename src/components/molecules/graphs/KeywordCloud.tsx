@@ -15,8 +15,7 @@ const KeywordList = styled.li`
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
-  width: 500px;
-  background: #f3f0ff;
+  width: 100%;
 `;
 
 /**
@@ -135,6 +134,9 @@ const KeywordCloud = () => {
   const selectedRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+  const selectedSpeakerIndex = useSelector(
+    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
+  );
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [numberInput, setNumberInput] = useState<number>(50);
@@ -194,6 +196,10 @@ const KeywordCloud = () => {
   dispatch(setNfKeywordCount(chatRoomsNFKeywordCounts));
   dispatch(setSpeakersTopNKeywords(keywordData));
 
+  useEffect(() => {
+    console.log(keywordToFilter);
+  }, [keywordToFilter]);
+
   return (
     <ul>
       키워드
@@ -220,12 +226,15 @@ const KeywordCloud = () => {
       </form>
       {keywordData.length &&
         keywordData.map((data: ValueCountPair[], index: number) => {
-          return (
-            <KeywordList key={index}>
-              {speaker[index]}
-              <TagCloud minSize={14} maxSize={100} tags={data} />
-            </KeywordList>
-          );
+          if (selectedSpeakerIndex === index) {
+            return (
+              <KeywordList key={index}>
+                {speaker[index]}
+                <TagCloud minSize={14} maxSize={50} tags={data} />
+              </KeywordList>
+            );
+          }
+          return null;
         })}
       <div>키워드 중에서 겹치는 말버릇 모아보기 {overlappedKeyword && overlappedKeyword.join(", ")}</div>
     </ul>
