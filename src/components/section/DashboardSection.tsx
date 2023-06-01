@@ -57,7 +57,7 @@ const HeadBox = styled.div`
     flex: 1;
   }
   > :nth-child(1) {
-    flex: 1;
+    flex: 1.3;
     flex-direction: row;
     > :nth-child(1) {
       padding: 0;
