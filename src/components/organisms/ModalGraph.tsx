@@ -5,7 +5,7 @@ import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
 import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
-
+import { MdClose } from "react-icons/md";
 const ModalGraphBox = styled.div`
   padding: 15px;
   display: flex;
@@ -85,7 +85,9 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
     <ModalGraphBox>
       <Span>{subject}</Span>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>
-        <Icon fontSize="24px">❌</Icon>
+        <Icon fontSize="24px">
+          <MdClose />
+        </Icon>
       </CloseModalBox>
       <ContentBox>
         <SquareGraphBox>{graph}</SquareGraphBox>
