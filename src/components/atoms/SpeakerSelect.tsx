@@ -56,7 +56,7 @@ const SpeakerSelect = () => {
         })}
       </select>
       <Span fontSize="11px" color="#0D6EFD">
-        각 대화자의 분석이 가능합니다
+        각 대화자 분석 가능
       </Span>
     </SpeakerSelectBox>
   );

@@ -5,12 +5,14 @@ const SpanComponent = styled.span<{
   fontWeight?: string;
   textAlign?: string;
   padding?: string;
+  marginBottom?: string;
 }>`
   font-size: ${(props) => props.fontSize || "16px"};
   font-weight: ${(props) => props.fontWeight || "400"};
   color: ${(props) => props.color || props.theme.mainText};
   text-align: ${(props) => props.textAlign || "left"};
   padding: ${(props) => props.padding || "0"};
+  margin-bottom: ${(props) => props.marginBottom || "0"};
 `;
 
 interface SpanProps {
@@ -20,9 +22,18 @@ interface SpanProps {
   color?: string;
   textAlign?: string;
   padding?: string;
+  marginBottom?: string;
 }
 
-const Span: React.FC<SpanProps> = ({ children, fontSize, fontWeight, color, textAlign, padding }) => {
+const Span: React.FC<SpanProps> = ({
+  children,
+  fontSize,
+  fontWeight,
+  color,
+  textAlign,
+  padding,
+  marginBottom,
+}) => {
   return (
     <SpanComponent
       textAlign={textAlign}
@@ -30,6 +41,7 @@ const Span: React.FC<SpanProps> = ({ children, fontSize, fontWeight, color, text
       fontWeight={fontWeight}
       color={color}
       padding={padding}
+      marginBottom={marginBottom}
     >
       {children}
     </SpanComponent>
