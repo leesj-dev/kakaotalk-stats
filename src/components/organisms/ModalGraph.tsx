@@ -112,10 +112,6 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
   const chatDates = getDates(results)[selectedChatRoomIndex];
   const datePickerPeriodData = [chatDates.flat()[0], chatDates.flat().slice(-1)[0]];
 
-  useEffect(() => {
-    console.log(datePickerPeriodData, "과연나오려ㅏ?");
-  }, [datePickerPeriodData]);
-
   return (
     <ModalGraphBox>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>

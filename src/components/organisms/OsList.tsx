@@ -14,9 +14,19 @@ const OsIconBox = styled.ul`
   align-items: center;
   text-align: center;
   gap: 50px;
+  > :nth-child(2) {
+    > :first-child {
+      transform: scale(98%);
+    }
+  }
+  > :nth-child(3) {
+    > :first-child {
+      transform: scale(96%);
+    }
+  }
 `;
 
-const OsListBox = styled.li<{ size?: string }>`
+const OsListBox = styled.li<{ size?: string; color?: string }>`
   padding: 10px;
   display: flex;
   align-items: center;
@@ -26,16 +36,17 @@ const OsListBox = styled.li<{ size?: string }>`
   cursor: pointer;
 
   > :first-child {
-    margin-bottom: 5px;
     width: ${(props) => props.size || "50px"};
     height: ${(props) => props.size || "50px"};
   }
 
   &:hover {
+    color: ${(props) => props.theme.mainBlueHover};
     box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
   }
 
   &.active {
+    color: ${(props) => props.theme.mainBlue};
     box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
   }
 
@@ -82,9 +93,10 @@ interface OsData {
 
 type OsListProps = {
   size?: string;
+  color?: string;
 };
 
-const OsList = ({ size }: OsListProps) => {
+const OsList = ({ size, color }: OsListProps) => {
   const dispatch = useDispatch();
 
   const selectedOsIndex = useSelector(
@@ -100,6 +112,7 @@ const OsList = ({ size }: OsListProps) => {
             key={data.id}
             className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
             size={size}
+            color={color}
             onClick={() => dispatch(setSelectedOsIndex(data.id))}
           >
             <Icon fontSize="50px" color="#2da0fa">

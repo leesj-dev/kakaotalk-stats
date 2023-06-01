@@ -74,9 +74,10 @@ const SideSlide = styled.div`
 const MainSlide = styled.div`
   height: 100%;
   position: absolute;
-  top: 0;
+  top: 25%;
   right: 0;
   width: 50%;
+
   transition: transform 0.5s ease-in-out;
   > * {
     padding: 50px;

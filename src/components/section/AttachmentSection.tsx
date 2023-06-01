@@ -192,7 +192,7 @@ const AttachmentSection = () => {
     <AttachmentSectionBox ref={attachmentSectionRef}>
       {!selectedOsIndex ? (
         <OsListBox>
-          <OsList size="100px" />
+          <OsList size="70px" />
           <Span fontSize="24px">운영체제를 선택해 주세요.</Span>
         </OsListBox>
       ) : (
