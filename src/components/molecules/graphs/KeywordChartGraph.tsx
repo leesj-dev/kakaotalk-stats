@@ -1,4 +1,4 @@
-import React, { PureComponent, useEffect, useState } from "react";
+import React, { PureComponent, useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   BarChart,
@@ -23,7 +23,6 @@ const KeywordChartGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
-
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
@@ -32,7 +31,11 @@ const KeywordChartGraph = () => {
   );
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
-  const DISPLAY_KEYWORD_COUNT = 5;
+  const containerRef = useRef<any>(null);
+
+  const [DISPLAY_KEYWORD_COUNT, setDISPLAY_KEYWORD_COUNT] = useState<number>(5);
+  const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
+
   const speaker: string[] = getSpeakers(results)[selectedChatRoomIndex];
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedChatRoomIndex];
@@ -43,9 +46,9 @@ const KeywordChartGraph = () => {
   //   (state: { speakersTopNKeywordsSlice: ValueCountPair[][] }) => state.speakersTopNKeywordsSlice
   // );
 
-  const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
   useEffect(() => {
     setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
+    console.log(containerRef);
   }, [selectedSpeakerIndex]);
 
   function truncateValue(value: string) {
@@ -54,8 +57,15 @@ const KeywordChartGraph = () => {
     }
     return value;
   }
+
+  useEffect(() => {
+    if (containerRef.current.current.offsetTop === 30) {
+      setDISPLAY_KEYWORD_COUNT(20);
+    }
+  }, [containerRef]);
+
   return (
-    <ResponsiveContainer width="100%" height={"100%"}>
+    <ResponsiveContainer width="100%" height={"100%"} ref={containerRef}>
       <BarChart
         layout="vertical"
         data={
