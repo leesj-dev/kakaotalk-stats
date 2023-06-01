@@ -16,7 +16,7 @@ const OsIconBox = styled.ul`
   gap: 50px;
   > :nth-child(2) {
     > :first-child {
-      transform: scale(98%);
+      transform: scale(98%) translateY(-3px);
     }
   }
   > :nth-child(3) {

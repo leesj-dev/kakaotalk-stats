@@ -17,15 +17,13 @@ const Main2Wrapper = styled.div`
   justify-content: center;
 `;
 const MainVisualImg = styled.div`
+  width: 40%;
   position: absolute;
-  top: 50%;
-  right: 105px;
+  top: 60%;
+  right: 120px;
   transform: translateY(-50%);
   rotate: 15deg;
-  > :first-child {
-    width: 90%;
-    float: right;
-  }
+  box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
 `;
 
 const MainPage = () => {

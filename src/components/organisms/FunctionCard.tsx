@@ -31,6 +31,9 @@ const SlideBox = styled.div`
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     transform: scaleY(-1);
+    &:hover {
+      background: ${(props) => props.theme.mainBlueHover};
+    }
   }
   > :last-child {
     position: absolute;
@@ -39,6 +42,9 @@ const SlideBox = styled.div`
     background-color: ${(props) => props.theme.mainBlue};
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+    &:hover {
+      background: ${(props) => props.theme.mainBlueHover};
+    }
   }
 `;
 

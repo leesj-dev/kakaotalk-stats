@@ -40,7 +40,6 @@ const ChatroomGraphBox = styled.div`
   position: relative;
   padding: 15px;
   display: flex;
-  flex-direction: column;
   border-bottom: 1px solid ${(props) => props.theme.mainBlack};
   background-color: ${(props) => props.theme.mainWhite};
 `;
