@@ -38,6 +38,18 @@ const OsListBox = styled.li<{ size?: string }>`
   &.active {
     box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
   }
+
+  &.dark {
+    &:hover {
+      box-shadow: none;
+      background: #888888;
+    }
+
+    &.active {
+      box-shadow: none;
+      background: #555555;
+    }
+  }
 `;
 
 const osData = [
@@ -78,6 +90,7 @@ const OsList = ({ size }: OsListProps) => {
   const selectedOsIndex = useSelector(
     (state: { selectedOsIndexSlice: number }) => state.selectedOsIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
     <OsIconBox>
@@ -85,7 +98,7 @@ const OsList = ({ size }: OsListProps) => {
         return (
           <OsListBox
             key={data.id}
-            className={`${selectedOsIndex === data.id && "active"}`}
+            className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
             size={size}
             onClick={() => dispatch(setSelectedOsIndex(data.id))}
           >
