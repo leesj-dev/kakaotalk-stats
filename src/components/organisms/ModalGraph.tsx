@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
@@ -6,8 +6,12 @@ import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph
 import SpeakerSelect from "../atoms/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
 import { MdClose } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { AnalyzedMessage } from "../../@types/index.d";
+import { getChatTimes, getDates } from "../../module/common/getProperties";
+import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 const ModalGraphBox = styled.div`
-  padding: 15px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -95,9 +99,21 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
     setIsModalVisible && setIsModalVisible(false);
   };
 
+  const results = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  );
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
+  const chatDates = getDates(results)[selectedChatRoomIndex];
+  const datePickerPeriodData = [chatDates.flat()[0], chatDates.flat().slice(-1)[0]];
+
+  useEffect(() => {
+    console.log(datePickerPeriodData, "과연나오려ㅏ?");
+  }, [datePickerPeriodData]);
+
   return (
     <ModalGraphBox>
-      <Span>{subject}</Span>
       <CloseModalBox onClick={() => handleClickCloseModalButton()}>
         <Icon fontSize="24px">
           <MdClose />
@@ -114,7 +130,9 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
               <ChatRatioWithArrowGraph />
               <SpeakerSelect />
             </SpeakerSelectBox>
-            <DescriptionBox>2023.01~2023.03</DescriptionBox>
+            <DescriptionBox>
+              {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
+            </DescriptionBox>
           </InfoContentBox>
 
           <CardContentBox>
