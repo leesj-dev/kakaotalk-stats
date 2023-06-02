@@ -27,13 +27,16 @@ const DashboardSideMenuBox = styled.div`
 const DashboardLayoutBox = styled.div`
   display: flex;
   flex-direction: column;
-  background: #2da1fa48;
+  background: ${(props) => props.theme.dashBoardBackground};
 `;
 
 const CalendarBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
 `;
 
@@ -49,6 +52,9 @@ const GraphSelectionBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
 `;
 
@@ -66,7 +72,7 @@ const AdditionalFunctionBox = styled.div`
   display: flex;
   flex-direction: column;
   border-top: 1px solid ${(props) => props.theme.border};
-  background: #2da0fa;
+  background: ${(props) => props.theme.mainBackground};
 `;
 
 const ChatRoomBox = styled.div`
@@ -76,11 +82,11 @@ const ChatRoomBox = styled.div`
   background-color: ${(props) => props.theme.mainWhite};
   border: 1px solid #ddd;
   &:hover {
-    border: 1px solid #2da1fa48;
+    border: 1px solid ${(props) => props.theme.dashBoardBackground};
   }
 
   &.active {
-    border: 2px solid #2b8defaf;
+    border: 2px solid ${(props) => props.theme.mainGray};
   }
 
   > :nth-child(1) {

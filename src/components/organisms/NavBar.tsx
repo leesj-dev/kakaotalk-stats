@@ -29,7 +29,6 @@ const H1 = styled.h1`
 const Menu = styled.div`
   display: flex;
   font-size: 22px;
-  font-weight: 300;
 
   > * {
     margin-left: 100px;

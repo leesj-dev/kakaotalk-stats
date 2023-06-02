@@ -53,11 +53,20 @@ const ButtonBox = styled.div`
 `;
 
 const OsListBox = styled.div`
-  margin-top: 50px;
-  margin-bottom: 30px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: 100px 150px 90px 150px;
+  border: 3px dashed ${(props) => props.theme.mainGray};
+  border-radius: 30px;
 
   > :nth-child(1) {
     margin-bottom: 30px;
+  }
+  > :nth-child(2) {
+    margin-bottom: 50px;
+  }
+  > :last-child {
+    color: ${(props) => props.theme.mainGray};
   }
 `;
 
@@ -199,12 +208,13 @@ const AttachmentSection = () => {
       {!selectedOsIndex ? (
         <OsListBox>
           <Paragraph fontSize="24px">자신의 운영체제 아이콘을 선택해 주세요.</Paragraph>
-          <OsList size="70px" />
+          <OsList size="90px" fontSize="70px" />
+          <Span fontSize="15px">* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Span>
         </OsListBox>
       ) : (
         <>
           <FileDrop handleChangeFile={handleChangeFile}></FileDrop>
-          <AttachedFileList></AttachedFileList>
+          <AttachedFileList />
           {/* {attachedFileList.length !== 0 && (
             <RadiusButton onClick={handleDeleteAllButton}>전체 삭제하기</RadiusButton>
           )} */}

@@ -1,10 +1,6 @@
 import { DarkTheme, LightTheme } from "styled-components";
 
 export const lightTheme: LightTheme = {
-  mainRed: "#FF4949",
-  mainPink: "#F7A9A9",
-  mainOrange: "#FF8D29",
-  mainYellow: "#f9e000",
   mainBlue: "#2da0fa",
   mainWhite: "#ffffff",
   mainBlack: "#191F28",
@@ -20,10 +16,6 @@ export const lightTheme: LightTheme = {
   modalContentBackground: "#ffffff9d",
 };
 export const darkTheme: DarkTheme = {
-  mainRed: "#2b2b2b",
-  mainPink: "#2b2b2b",
-  mainOrange: "#2b2b2b",
-  mainYellow: "#2b2b2b",
   mainBlue: " #0d92ff",
   mainWhite: "#2b2b2b",
   mainBlack: "#2b2b2b",
