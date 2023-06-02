@@ -7,7 +7,7 @@ const SpanComponent = styled.span<{
   padding?: string;
   marginBottom?: string;
 }>`
-  font-size: ${(props) => props.fontSize || "16px"};
+  font-size: ${(props) => props.fontSize || "2vh"};
   font-weight: ${(props) => props.fontWeight || "400"};
   color: ${(props) => props.color || props.theme.mainText};
   text-align: ${(props) => props.textAlign || "left"};
