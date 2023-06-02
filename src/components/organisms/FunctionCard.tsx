@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Img from "../atoms/Img";
 import CardContent from "../molecules/CardContent";
@@ -58,6 +59,10 @@ const Card = styled.div`
   background-color: ${(props) => props.theme.mainWhite};
   position: relative;
   overflow: hidden;
+  &.dark {
+    box-shadow: none;
+    background: #555555;
+  }
 `;
 
 const SideSlide = styled.div`
@@ -78,12 +83,11 @@ const SideSlide = styled.div`
 `;
 
 const MainSlide = styled.div`
+  width: 50%;
   height: 100%;
   position: absolute;
   top: 25%;
   right: 0;
-  width: 50%;
-
   transition: transform 0.5s ease-in-out;
   > * {
     padding: 50px;
@@ -163,9 +167,12 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
       setActiveSlideIndex((prevIndex) => (prevIndex - 1 + slideCount) % slideCount);
     }
   };
+
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   return (
     <Container ref={moveScrollPosition}>
-      <Card>
+      <Card className={` ${isDarkMode ? "dark" : ""}`}>
         <MainSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
           {functionCardData.map((data, index) => (
             <CardContent key={index} h2={data.subject} h3={data.h3} p={data.p} />

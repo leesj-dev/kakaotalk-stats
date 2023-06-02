@@ -1,14 +1,16 @@
 export const colorsForGraphArray = [
-  "#4ab7ff", // 파랑
-  "#FFCE56", // 노랑
-  "#7dffff", // 청록
-  "#ffaf5e", // 오렌지
-  "#ff82f5", // 옥색
-  "#FFD700", // 금색
-  "#BA55D3", // 보라핑크
-  "#FF6384", // 핑크
-  "#b363ff", // 보라
+  // 파랑
+  "#ff9900", // 노랑
+  "#82ca30",
+  "#5b84ff", // 청록
+  "#67d202", // 오렌지
+  "#ff7797", // 옥색
+  "#3564ff", // 금색
+  "#ffab19", // 보라핑크
+  "#ffd000", // 핑크
   "#ff7d74", // 민트
+  "#3ba701", // 민트
+  "#ff5222", // 민트
 ];
 
 export const colorsForChatroomArray = [

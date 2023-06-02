@@ -8,14 +8,17 @@ const Description = styled.div`
   > :first-child {
     font-size: 24px;
     margin-bottom: 15px;
-    font-weight: 300;
+    font-weight: 500;
   }
   > :nth-child(2) {
-    font-size: 14px;
+    font-size: 17px;
     margin-bottom: 25px;
   }
   > :last-child {
     font-size: 16px;
+    font-weight: 300;
+    white-space: normal;
+    word-break: keep-all;
   }
 `;
 interface CardContentProps {
