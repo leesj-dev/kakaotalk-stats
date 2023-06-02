@@ -26,7 +26,7 @@ const OsIconBox = styled.ul`
   }
 `;
 
-const OsListBox = styled.li<{ size?: string; color?: string }>`
+const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }>`
   padding: 10px;
   display: flex;
   align-items: center;
@@ -36,8 +36,9 @@ const OsListBox = styled.li<{ size?: string; color?: string }>`
   cursor: pointer;
 
   > :first-child {
-    width: ${(props) => props.size || "50px"};
-    height: ${(props) => props.size || "50px"};
+    width: ${(props) => props.size || "65px"};
+    /* height: ${(props) => props.size || "65px"}; */
+    font-size: ${(props) => props.fontSize || "50px"};
   }
 
   &:hover {
@@ -94,9 +95,10 @@ interface OsData {
 type OsListProps = {
   size?: string;
   color?: string;
+  fontSize?: string;
 };
 
-const OsList = ({ size, color }: OsListProps) => {
+const OsList = ({ size, color, fontSize }: OsListProps) => {
   const dispatch = useDispatch();
 
   const selectedOsIndex = useSelector(
@@ -114,10 +116,9 @@ const OsList = ({ size, color }: OsListProps) => {
             size={size}
             color={color}
             onClick={() => dispatch(setSelectedOsIndex(data.id))}
+            fontSize={fontSize}
           >
-            <Icon fontSize="50px" color="#2da0fa">
-              {data.icon}
-            </Icon>
+            <Icon color="#2da0fa">{data.icon}</Icon>
             <Span>{data.os}</Span>
           </OsListBox>
         );

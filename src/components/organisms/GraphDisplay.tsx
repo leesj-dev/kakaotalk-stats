@@ -141,7 +141,7 @@ const GraphBox = ({
           </Icon>
         </IconBox>
       )}
-      <Span fontWeight="600" padding="0 0 10px 0">
+      <Span fontWeight="500" padding="0 0 1vh 0">
         {modalData.subject}
       </Span>
       {isAnalyzedMessagesExist && modalData.graph}
