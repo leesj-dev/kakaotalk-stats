@@ -20,7 +20,7 @@ const DashboardSideMenuBox = styled.div`
   height: calc(100vh - 80px);
   width: 100%;
   color: ${(props) => props.theme.mainText};
-  background: ${(props) => props.theme.mainWhite};
+  background: ${(props) => props.theme.mainBackground};
   border-right: 1px solid ${(props) => props.theme.border};
 `;
 
@@ -42,7 +42,7 @@ const ChatroomGraphBox = styled.div`
   padding: 15px;
   display: flex;
   border-bottom: 1px solid ${(props) => props.theme.border};
-  background-color: ${(props) => props.theme.mainWhite};
+  background-color: ${(props) => props.theme.mainBackground};
 `;
 
 const GraphSelectionBox = styled.div`
@@ -58,7 +58,7 @@ const ChatroomListBox = styled.div`
   gap: 10px;
   flex-direction: column;
   /* border-bottom: 1px solid #000; */
-  background-color: ${(props) => props.theme.mainWhite};
+  background-color: ${(props) => props.theme.mainBackground};
 `;
 
 const AdditionalFunctionBox = styled.div`

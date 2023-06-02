@@ -8,6 +8,7 @@ const Description = styled.div`
   > :first-child {
     font-size: 24px;
     margin-bottom: 15px;
+    font-weight: 300;
   }
   > :nth-child(2) {
     font-size: 14px;

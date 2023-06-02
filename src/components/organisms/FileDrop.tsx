@@ -19,6 +19,7 @@ const DropBox = styled.div`
 
   > * {
     margin-bottom: 10px;
+    font-weight: 300;
   }
   > :nth-child(1) {
     margin-bottom: 30px;

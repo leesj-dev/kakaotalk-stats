@@ -4,6 +4,7 @@ import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
 import Img from "../atoms/Img";
+import { useSelector } from "react-redux";
 
 const Main2Container = styled.div`
   width: 100%;
@@ -16,12 +17,11 @@ const Main2Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
-const MainVisualImg = styled.div`
-  width: 40%;
+const MainVisualImgBox = styled.div`
   position: absolute;
-  top: 60%;
-  right: 120px;
-  transform: translateY(-50%);
+  top: 120px;
+  right: 30px;
+  width: 40%;
   rotate: 15deg;
   box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
 `;
@@ -42,9 +42,9 @@ const MainPage = () => {
   return (
     <Main2Container>
       <Main2Wrapper>
-        <MainVisualImg>
+        <MainVisualImgBox>
           <Img src={`${process.env.PUBLIC_URL}/images/mainVisual.png`} />
-        </MainVisualImg>
+        </MainVisualImgBox>
         <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
         <FunctionCard moveScrollPosition={moveScrollPosition} />
       </Main2Wrapper>

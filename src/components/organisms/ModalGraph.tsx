@@ -18,17 +18,20 @@ const ModalGraphBox = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  /* background: #5badff3a; */
-  background: #ffffff39;
-  backdrop-filter: blur(70px);
+  background: ${(props) => props.theme.modalBackground};
+  backdrop-filter: blur(80px);
   box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
+  > * {
+    font-weight: 300;
+  }
 `;
 
 const CloseModalBox = styled.div`
   position: absolute;
   top: 5px;
   right: 5px;
+  color: ${(props) => props.theme.mainText};
 
   > :nth-child(1) {
     cursor: pointer;
@@ -43,45 +46,43 @@ const ContentBox = styled.div`
 `;
 
 const SquareGraphBox = styled.div`
-  flex: 4;
+  flex: 3;
   /* background: #ff00ff15; */
 `;
 
-const GraphDescriptionBox = styled.div`
+const DescriptionBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   flex: 1;
-  padding: 10px;
-  background-color: ${(props) => props.theme.mainWhite};
-  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px 30px;
+  background-color: ${(props) => props.theme.modalContentBackground};
   border-radius: 15px;
-  /* background: #0000ff13; */
 `;
 
 const SpeakerSelectBox = styled.div`
-  width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 10px auto;
   display: flex;
   justify-content: space-between;
+  width: 90%;
 `;
-const DescriptionBox = styled.div`
-  padding: 20px;
+const PeriodBox = styled.div`
+  margin-bottom: 10px;
+  padding: 15px 0;
   display: flex;
   flex-direction: column;
-  border: 1px solid ${(props) => props.theme.mainGray};
-  border-radius: 15px;
+  text-align: start;
+  color: ${(props) => props.theme.mainText};
+  border-top: 1px solid ${(props) => props.theme.mainGray};
+  border-bottom: 1px solid ${(props) => props.theme.mainGray};
   font-weight: 500;
 `;
 
 const CardContentBox = styled.div`
-  > * {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid ${(props) => props.theme.mainGray};
-    border-radius: 15px;
-  }
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  color: ${(props) => props.theme.mainText};
 `;
 const InfoContentBox = styled.div`
   display: flex;
@@ -123,24 +124,24 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
       </CloseModalBox>
       <ContentBox>
         <SquareGraphBox>{graph}</SquareGraphBox>
-        <GraphDescriptionBox>
+        <DescriptionBox>
           <InfoContentBox>
             <Span fontWeight="700" textAlign="center">
-              INFORMATION
+              그래프 상세 정보
             </Span>
             <SpeakerSelectBox>
               <ChatRatioWithArrowGraph />
               <SpeakerSelect />
             </SpeakerSelectBox>
-            <DescriptionBox>
+            <PeriodBox>
               {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
-            </DescriptionBox>
+            </PeriodBox>
           </InfoContentBox>
 
           <CardContentBox>
             <CardContent h2={h2} h3={h3} p={p} />
           </CardContentBox>
-        </GraphDescriptionBox>
+        </DescriptionBox>
       </ContentBox>
     </ModalGraphBox>
   );

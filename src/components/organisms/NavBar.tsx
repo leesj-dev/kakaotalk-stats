@@ -29,6 +29,7 @@ const H1 = styled.h1`
 const Menu = styled.div`
   display: flex;
   font-size: 22px;
+  font-weight: 300;
 
   > * {
     margin-left: 100px;
@@ -61,7 +62,7 @@ const NavBar = () => {
       <Container>
         <H1>
           <Link to="/">
-            <Img src={`${process.env.PUBLIC_URL}/images/logoBlack.png`} />
+            <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
           </Link>
         </H1>
         <Menu>
