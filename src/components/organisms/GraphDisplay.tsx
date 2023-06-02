@@ -100,6 +100,7 @@ const IconBox = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
+  color: ${(props) => props.theme.mainText};
   cursor: pointer;
 `;
 
