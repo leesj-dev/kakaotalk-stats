@@ -14,6 +14,7 @@ const AttachDescriptionBox = styled.div`
 
   > * {
     margin-bottom: 30px;
+    font-weight: 300;
   }
 
   > :nth-child(2) {

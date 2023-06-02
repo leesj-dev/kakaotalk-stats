@@ -76,7 +76,7 @@ const KeywordChartGraph = () => {
         margin={{
           top: 0,
           right: 5,
-          left: -5,
+          left: -20,
           bottom: -5,
         }}
       >

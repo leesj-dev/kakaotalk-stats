@@ -14,8 +14,7 @@ const FloatingButtonBox = styled.div`
   bottom: 30px;
   right: 30px;
   padding: 10px;
-  font-size: 20px;
-  color: ${(props) => props.theme.mainWhite};
+  color: #fff;
   background-color: ${(props) => props.theme.mainBlue};
   border-radius: 20%;
   opacity: 0;
@@ -57,7 +56,7 @@ const ScrollToTopFloatingButton: React.FC<IconProps> = () => {
       className={`${showFloatingButton && "show"}`}
       onClick={() => scrollToEvent(0, "smooth")}
     >
-      <Icon>
+      <Icon fontSize="22px">
         <FiArrowUp />
       </Icon>
     </FloatingButtonBox>

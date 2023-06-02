@@ -28,6 +28,7 @@ import scrollToEvent from "../../module/common/scrollEvent";
 import OsList from "../organisms/OsList";
 import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlice";
 import { setIsAnalyzedMessagesExist } from "../../store/reducer/isAnalyzedMessagesExistSlice";
+import Paragraph from "../atoms/Paragraph";
 
 const AttachmentSectionBox = styled.div`
   margin-top: 80px;
@@ -52,7 +53,12 @@ const ButtonBox = styled.div`
 `;
 
 const OsListBox = styled.div`
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+
+  > :nth-child(1) {
+    margin-bottom: 30px;
+  }
 `;
 
 /**
@@ -192,8 +198,8 @@ const AttachmentSection = () => {
     <AttachmentSectionBox ref={attachmentSectionRef}>
       {!selectedOsIndex ? (
         <OsListBox>
+          <Paragraph fontSize="24px">자신의 운영체제 아이콘을 선택해 주세요.</Paragraph>
           <OsList size="70px" />
-          <Span fontSize="24px">운영체제를 선택해 주세요.</Span>
         </OsListBox>
       ) : (
         <>

@@ -54,11 +54,13 @@ const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }
   &.dark {
     &:hover {
       box-shadow: none;
+      color: #fff;
       background: #888888;
     }
 
     &.active {
       box-shadow: none;
+      color: #fff;
       background: #555555;
     }
   }

@@ -6,7 +6,7 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   color: ${(props) => props.theme.mainText};
-  background: ${(props) => props.theme.mainWhite};
+  background: ${(props) => props.theme.mainBackground};
 `;
 
 const Wrapper = ({ children }: WrapperProps) => {

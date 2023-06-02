@@ -33,6 +33,7 @@ const DeveloperDescriptionBox = styled.div`
 const IconContainer = styled.div`
   display: flex;
   gap: 10px;
+  color: ${(props) => props.theme.mainText};
 `;
 
 const DeveloperBox = styled.div`

@@ -78,7 +78,7 @@ const GraphDetailContainer = styled.div`
   display: flex;
   height: 100%;
   width: 100%;
-  background: ${(props) => props.theme.mainWhite};
+  background: ${(props) => props.theme.mainBackground};
 
   > :nth-child(1) {
     position: sticky;
@@ -99,6 +99,9 @@ const GraphBox = styled.div`
   height: 80vh;
   width: 100%;
   gap: 30px;
+  > :nth-child(1) {
+    background: ${(props) => props.theme.modalBackground};
+  }
 `;
 
 const GraphDetailSection = () => {

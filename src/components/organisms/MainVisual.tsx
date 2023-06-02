@@ -6,6 +6,7 @@ import Img from "../atoms/Img";
 import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../molecules/ScrollIndicator";
 import RadiusButton from "../atoms/Button";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   position: relative;
@@ -37,6 +38,7 @@ const LogoBox = styled.div`
   width: 300px;
   height: 100px;
   margin-bottom: 30px;
+  transform: translateX(-3px);
 `;
 interface MainVisualProps {
   onMoveToFunctionCard: () => void;
@@ -45,17 +47,27 @@ const MainBox = styled.div``;
 const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
   const navigate = useNavigate();
 
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   return (
     <MainBox>
       <Container>
         <LogoBox>
-          <Img src={`${process.env.PUBLIC_URL}/images/logoBlack.png`} />
+          <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
         </LogoBox>
         <Paragraph>
-          <Span fontSize="22px">사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,</Span>
-          <Span fontSize="22px">주요단어 및 키워드를 추출해 보여주는 웹 어플리케이션입니다.</Span>
-          <Span fontSize="22px">이를 통해 사용자는 대화 내용을 한 눈에 파악하고,</Span>
-          <Span fontSize="22px">효과적인 의사소통에 도움을 받을 수 있습니다.</Span>
+          <Span fontSize="22px" fontWeight="300">
+            사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,
+          </Span>
+          <Span fontSize="22px" fontWeight="300">
+            주요단어 및 키워드를 추출해 보여주는 웹 어플리케이션입니다.
+          </Span>
+          <Span fontSize="22px" fontWeight="300">
+            이를 통해 사용자는 대화 내용을 한 눈에 파악하고,
+          </Span>
+          <Span fontSize="22px" fontWeight="300">
+            효과적인 의사소통에 도움을 받을 수 있습니다.
+          </Span>
         </Paragraph>
         <RadiusButton onClick={() => navigate("/2")}>GET STARTED</RadiusButton>
         <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
