@@ -21,6 +21,7 @@ const DashboardSideMenuBox = styled.div`
   width: 100%;
   color: ${(props) => props.theme.mainText};
   background: ${(props) => props.theme.mainWhite};
+  border-right: 1px solid ${(props) => props.theme.border};
 `;
 
 const DashboardLayoutBox = styled.div`
@@ -40,7 +41,7 @@ const ChatroomGraphBox = styled.div`
   position: relative;
   padding: 15px;
   display: flex;
-  border-bottom: 1px solid ${(props) => props.theme.mainBlack};
+  border-bottom: 1px solid ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.mainWhite};
 `;
 
