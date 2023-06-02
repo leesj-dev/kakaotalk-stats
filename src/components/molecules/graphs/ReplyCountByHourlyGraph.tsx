@@ -64,7 +64,7 @@ const ReplyCountByHourlyGraph = () => {
           margin={{
             top: 5,
             right: 5,
-            left: -5,
+            left: -20,
             bottom: -10,
           }}
         >
