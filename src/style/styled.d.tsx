@@ -10,7 +10,8 @@ declare module "styled-components" {
     mainBlueHover: string;
     border: string;
     mainBackground: string;
-    dashBoardBackground: string;
+    dashboardBackground: string;
+    dashboardMenuBackground: string;
     footerBackground: string;
     navBackground: string;
     modalBackground: string;
@@ -28,7 +29,8 @@ declare module "styled-components" {
     mainBlueHover: string;
     border: string;
     mainBackground: string;
-    dashBoardBackground: string;
+    dashboardBackground: string;
+    dashboardMenuBackground: string;
     footerBackground: string;
     navBackground: string;
     modalBackground: string;

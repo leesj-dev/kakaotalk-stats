@@ -21,7 +21,7 @@ const DashboardTemplateContainer = styled.div`
   gap: 10px;
   height: calc(100vh - 80px);
   width: 100%;
-  background: ${(props) => props.theme.dashBoardBackground};
+  background: ${(props) => props.theme.dashboardBackground};
 `;
 
 const AsideBox = styled.div`

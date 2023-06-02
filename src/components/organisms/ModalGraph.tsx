@@ -22,9 +22,6 @@ const ModalGraphBox = styled.div`
   backdrop-filter: blur(80px);
   box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
-  > * {
-    font-weight: 300;
-  }
 `;
 
 const CloseModalBox = styled.div`
@@ -56,6 +53,7 @@ const DescriptionBox = styled.div`
   flex: 1;
   padding: 10px 30px;
   background-color: ${(props) => props.theme.modalContentBackground};
+  border: 1px solid #ddd;
   border-radius: 15px;
 `;
 

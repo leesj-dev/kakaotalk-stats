@@ -25,19 +25,21 @@ const DashboardSideMenuBox = styled.div`
 `;
 
 const DashboardLayoutBox = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: ${(props) => props.theme.dashBoardBackground};
 `;
 
-const CalendarBox = styled.div`
+const ChatroomMenuTitleBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
   font-size: 18px;
-  color: #fff;
+  color: ${(props) => props.theme.mainText};
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
+  background: ${(props) => props.theme.dashboardMenuBackground};
 `;
 
 const ChatroomGraphBox = styled.div`
@@ -48,30 +50,45 @@ const ChatroomGraphBox = styled.div`
   background-color: ${(props) => props.theme.mainBackground};
 `;
 
-const GraphSelectionBox = styled.div`
+const ChatroomListTitleBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
   font-size: 18px;
-  color: #fff;
+  color: ${(props) => props.theme.mainText};
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
+  background: ${(props) => props.theme.dashboardMenuBackground};
 `;
 
 const ChatroomListBox = styled.div`
   padding: 15px;
   display: flex;
-  gap: 10px;
   flex-direction: column;
-  /* border-bottom: 1px solid #000; */
+  gap: 10px;
+  height: 100%;
+  width: 100%;
   background-color: ${(props) => props.theme.mainBackground};
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바의 너비 */
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${(props) => props.theme.mainGray}; /* 스크롤바의 색상 */
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(144, 144, 144, 0.2); /*스크롤바 뒷 배경 색상*/
+  }
 `;
 
 const AdditionalFunctionBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
+  width: calc(100% + 1px);
   border-top: 1px solid ${(props) => props.theme.border};
+  border-right: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.mainBackground};
 `;
 
@@ -80,7 +97,7 @@ const ChatRoomBox = styled.div`
   cursor: pointer;
   border-radius: 5px;
   background-color: ${(props) => props.theme.mainWhite};
-  border: 1px solid #ddd;
+  border: 1px solid ${(props) => props.theme.border};
   &:hover {
     border: 1px solid ${(props) => props.theme.dashBoardBackground};
   }
@@ -142,11 +159,11 @@ const DashboardSideMenu = () => {
   return (
     <DashboardSideMenuBox>
       <DashboardLayoutBox>
-        <CalendarBox>채팅방 대화 비율</CalendarBox>
+        <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
         <ChatroomGraphBox style={{ height: "200px" }}>
           <SummaryPieGraph />
         </ChatroomGraphBox>
-        <GraphSelectionBox>채팅방 목록</GraphSelectionBox>
+        <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
         <ChatroomListBox>
           {chatRoomNames.map((name, index) => {
             return (

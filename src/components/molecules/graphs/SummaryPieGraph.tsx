@@ -12,7 +12,7 @@ import {
 } from "../../../@types/index.d";
 import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
-import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
+import { colorsForChatroomArray, colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import styled from "styled-components";
 import Icon from "../../atoms/Icon";
@@ -188,12 +188,9 @@ const SummaryPieGraph = () => {
                 <Cell
                   key={`cell-${index}`}
                   onClick={() => handleClickChatRoom(index)}
-                  fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  fill={colorsForChatroomArray[index % colorsForChatroomArray.length]}
                   stroke={selectedChatRoomIndex === index ? lightTheme.mainBlack : ""}
                   strokeWidth={selectedChatRoomIndex === index ? 1 : 1}
-                  fillOpacity={
-                    selectedChatRoomIndex === -1 ? 1 : selectedChatRoomIndex === index ? 1 : 0.4
-                  }
                   cursor="pointer"
                 />
               );

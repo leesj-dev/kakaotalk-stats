@@ -11,7 +11,8 @@ export const lightTheme: LightTheme = {
   mainBackground: "#ffffff",
   footerBackground: "#f2f2f2",
   navBackground: "#ffffff",
-  dashBoardBackground: "#2da0fa",
+  dashboardBackground: "#2da0fa",
+  dashboardMenuBackground: "#acdbff",
   modalBackground: "#ffffff61",
   modalContentBackground: "#ffffff9d",
 };
@@ -26,7 +27,8 @@ export const darkTheme: DarkTheme = {
   mainBackground: "#171717",
   footerBackground: "#202020",
   navBackground: "#202020",
-  dashBoardBackground: "#151515",
+  dashboardBackground: "#151515",
+  dashboardMenuBackground: "#151515",
   modalBackground: "#44444440",
   modalContentBackground: "#60606070",
 };
