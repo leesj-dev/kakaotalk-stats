@@ -157,7 +157,7 @@ const ChatRoomCompareGraph = () => {
       <RadarChart
         cx="50%"
         cy="50%"
-        outerRadius="80%"
+        outerRadius="70%"
         data={radarRankData}
         margin={{
           top: 0,

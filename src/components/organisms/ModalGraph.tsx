@@ -14,8 +14,6 @@ import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexS
 
 const ModalGraphBox = styled.div`
   padding: 30px;
-  display: flex;
-  flex-direction: column;
   width: 100%;
   height: 100%;
   background: ${(props) => props.theme.modalBackground};
@@ -43,14 +41,17 @@ const ContentBox = styled.div`
 `;
 
 const SquareGraphBox = styled.div`
-  flex: 3;
+  width: 75%;
+  height: 100%;
+
   /* background: #ff00ff15; */
 `;
 
 const DescriptionBox = styled.div`
+  width: 25%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  flex: 1;
   padding: 10px 30px;
   background-color: ${(props) => props.theme.modalContentBackground};
   border: 1px solid #ddd;
@@ -60,15 +61,19 @@ const DescriptionBox = styled.div`
 const SpeakerSelectBox = styled.div`
   margin: 0 auto 10px auto;
   display: flex;
-  justify-content: space-between;
   width: 90%;
+  align-items: center;
+  flex-wrap: wrap;
+  > * {
+    flex: 1;
+  }
 `;
 const PeriodBox = styled.div`
   margin-bottom: 10px;
   padding: 15px 0;
   display: flex;
   flex-direction: column;
-  text-align: start;
+  text-align: center;
   color: ${(props) => props.theme.mainText};
   border-top: 1px solid ${(props) => props.theme.mainGray};
   border-bottom: 1px solid ${(props) => props.theme.mainGray};
@@ -81,6 +86,11 @@ const CardContentBox = styled.div`
   flex-direction: column;
   text-align: start;
   color: ${(props) => props.theme.mainText};
+  > :first-child {
+    > :nth-child(2) {
+      display: none;
+    }
+  }
 `;
 const InfoContentBox = styled.div`
   display: flex;
@@ -96,7 +106,7 @@ interface ModalGraphProps {
 const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
-  const { subject, graph, h2, h3, p } = currentModalData;
+  const { subject, graph, h2, h3, p, fontSize } = currentModalData;
 
   const handleClickCloseModalButton = () => {
     setIsModalVisible && setIsModalVisible(false);
@@ -128,8 +138,8 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
               그래프 상세 정보
             </Span>
             <SpeakerSelectBox>
+              <SpeakerSelect alignItems="start" />
               <ChatRatioWithArrowGraph />
-              <SpeakerSelect />
             </SpeakerSelectBox>
             <PeriodBox>
               {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}

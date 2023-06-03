@@ -47,7 +47,7 @@ const ArticleBox = styled.div`
 const HeadBox = styled.div`
   display: flex;
   gap: 10px;
-  height: 15%;
+  /* height: 10px; */
 
   > * {
     background: ${(props) => props.theme.mainWhite};
@@ -107,8 +107,8 @@ const ModalBox = styled.div`
   position: fixed;
   top: 100px;
   bottom: 100px;
-  left: 200px;
-  right: 200px;
+  left: 10%;
+  right: 10%;
   z-index: 999;
   display: flex;
 `;

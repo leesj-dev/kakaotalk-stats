@@ -6,7 +6,19 @@ import { getSpeakers } from "../../module/common/getProperties";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 import Span from "./Span";
 
-const SpeakerSelect = () => {
+const SpeakerSelectBox = styled.div<{
+  alignItems?: string;
+}>`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  align-items: ${(props) => props.alignItems || "end"};
+`;
+interface SpeakerSelectProps {
+  alignItems?: string;
+}
+const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -28,16 +40,8 @@ const SpeakerSelect = () => {
     }
   };
 
-  const SpeakerSelectBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    align-items: flex-end;
-  `;
-
   return (
-    <SpeakerSelectBox>
+    <SpeakerSelectBox alignItems={alignItems}>
       <Span color="#7e848a">강조할 대화자</Span>
       <select
         value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}

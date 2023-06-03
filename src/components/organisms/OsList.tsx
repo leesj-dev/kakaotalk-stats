@@ -106,6 +106,7 @@ const OsList = ({ size, color, fontSize }: OsListProps) => {
   const selectedOsIndex = useSelector(
     (state: { selectedOsIndexSlice: number }) => state.selectedOsIndexSlice
   );
+
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
