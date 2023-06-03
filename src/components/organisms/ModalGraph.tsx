@@ -14,8 +14,6 @@ import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexS
 
 const ModalGraphBox = styled.div`
   padding: 30px;
-  display: flex;
-  flex-direction: column;
   width: 100%;
   height: 100%;
   background: ${(props) => props.theme.modalBackground};
@@ -43,12 +41,15 @@ const ContentBox = styled.div`
 `;
 
 const SquareGraphBox = styled.div`
-  flex: 3;
+  width: 75%;
+  height: 100%;
+
   /* background: #ff00ff15; */
 `;
 
 const DescriptionBox = styled.div`
-  flex: 1;
+  width: 25%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 10px 30px;
@@ -60,8 +61,12 @@ const DescriptionBox = styled.div`
 const SpeakerSelectBox = styled.div`
   margin: 0 auto 10px auto;
   display: flex;
-  justify-content: space-between;
   width: 90%;
+  align-items: center;
+  flex-wrap: wrap;
+  > * {
+    flex: 1;
+  }
 `;
 const PeriodBox = styled.div`
   margin-bottom: 10px;
@@ -128,8 +133,8 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
               그래프 상세 정보
             </Span>
             <SpeakerSelectBox>
+              <SpeakerSelect alignItems="start" />
               <ChatRatioWithArrowGraph />
-              <SpeakerSelect />
             </SpeakerSelectBox>
             <PeriodBox>
               {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}

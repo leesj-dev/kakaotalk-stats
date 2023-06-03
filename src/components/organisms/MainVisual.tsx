@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 const Container = styled.div`
   position: relative;
   width: 1200px;
-  padding: 160px 0 80px 0;
+  padding: 100px 0 80px 0;
 `;
 
 const LogoBox = styled.div`

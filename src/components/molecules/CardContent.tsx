@@ -4,18 +4,22 @@ import Paragraph from "../atoms/Paragraph";
 import H2 from "../atoms/H2";
 import H3 from "../atoms/H3";
 
-const Description = styled.div`
+const Description = styled.div<{
+  fontSize?: string;
+}>`
+  width: 100%;
+  height: 100%;
   > :first-child {
-    font-size: 3vh;
+    font-size: ${(props) => props.fontSize || "1.7em"};
     margin-bottom: 15px;
     font-weight: 500;
   }
   > :nth-child(2) {
-    font-size: 2.3vh;
+    font-size: ${(props) => props.fontSize || "1.2em"};
     margin-bottom: 25px;
   }
   > :last-child {
-    font-size: 2vh;
+    font-size: ${(props) => props.fontSize || "1em"};
     font-weight: 300;
     white-space: normal;
     word-break: keep-all;
@@ -25,12 +29,13 @@ interface CardContentProps {
   h2: string;
   h3: string;
   p: string;
+  fontSize?: string;
 }
 
-const CardContent: React.FC<CardContentProps> = ({ h2, h3, p }) => {
+const CardContent: React.FC<CardContentProps> = ({ h2, h3, p, fontSize }) => {
   return (
     <Description>
-      <H2>{h2}</H2>
+      <H2 fontSize={fontSize}>{h2}</H2>
       <H3 lineHeight="1.5">{h3}</H3>
       <Paragraph lineHeight="1.5em">{p}</Paragraph>
     </Description>
