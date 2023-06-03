@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled from "styled-components";
 import Paragraph from "../atoms/Paragraph";
 import H2 from "../atoms/H2";
@@ -11,6 +11,7 @@ const Description = styled.div<{
   height: 100%;
   > :first-child {
     font-size: ${(props) => props.fontSize || "1.7em"};
+    font-size: 1.5vw;
     margin-bottom: 15px;
     font-weight: 500;
   }
