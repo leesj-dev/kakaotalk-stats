@@ -18,8 +18,8 @@ const ModalGraphBox = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background: ${(props) => props.theme.mainWhite};
-  /* backdrop-filter: blur(80px); */
+  background: ${(props) => props.theme.modalBackground};
+  backdrop-filter: blur(80px);
   box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
 `;
@@ -68,7 +68,7 @@ const PeriodBox = styled.div`
   padding: 15px 0;
   display: flex;
   flex-direction: column;
-  text-align: start;
+  text-align: center;
   color: ${(props) => props.theme.mainText};
   border-top: 1px solid ${(props) => props.theme.mainGray};
   border-bottom: 1px solid ${(props) => props.theme.mainGray};
