@@ -86,6 +86,11 @@ const CardContentBox = styled.div`
   flex-direction: column;
   text-align: start;
   color: ${(props) => props.theme.mainText};
+  > :first-child {
+    > :nth-child(2) {
+      display: none;
+    }
+  }
 `;
 const InfoContentBox = styled.div`
   display: flex;
@@ -101,7 +106,7 @@ interface ModalGraphProps {
 const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
-  const { subject, graph, h2, h3, p } = currentModalData;
+  const { subject, graph, h2, h3, p, fontSize } = currentModalData;
 
   const handleClickCloseModalButton = () => {
     setIsModalVisible && setIsModalVisible(false);
