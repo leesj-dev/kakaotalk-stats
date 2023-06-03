@@ -42,9 +42,9 @@ const MainPage = () => {
   return (
     <Main2Container>
       <Main2Wrapper>
-        <MainVisualImgBox>
+        {/* <MainVisualImgBox>
           <Img src={`${process.env.PUBLIC_URL}/images/mainVisual.png`} />
-        </MainVisualImgBox>
+        </MainVisualImgBox> */}
         <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
         <FunctionCard moveScrollPosition={moveScrollPosition} />
       </Main2Wrapper>
