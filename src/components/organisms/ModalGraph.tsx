@@ -18,8 +18,8 @@ const ModalGraphBox = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background: ${(props) => props.theme.modalBackground};
-  backdrop-filter: blur(80px);
+  background: ${(props) => props.theme.mainWhite};
+  /* backdrop-filter: blur(80px); */
   box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
 `;
@@ -48,9 +48,9 @@ const SquareGraphBox = styled.div`
 `;
 
 const DescriptionBox = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1;
   padding: 10px 30px;
   background-color: ${(props) => props.theme.modalContentBackground};
   border: 1px solid #ddd;

@@ -26,7 +26,7 @@ const SlideBox = styled.div`
   }
   > :first-child {
     position: absolute;
-    right: 45.5%;
+    right: 56.3%;
     bottom: 5%;
     background-color: ${(props) => props.theme.mainBlue};
     border-top-right-radius: 5px;
@@ -38,7 +38,7 @@ const SlideBox = styled.div`
   }
   > :last-child {
     position: absolute;
-    right: 50%;
+    right: 60%;
     bottom: 15%;
     background-color: ${(props) => props.theme.mainBlue};
     border-top-left-radius: 5px;
@@ -50,10 +50,11 @@ const SlideBox = styled.div`
 `;
 
 const Card = styled.div`
+  position: relative;
   display: flex;
   border-radius: 10px;
   margin: 0 auto;
-  width: 1000px;
+  width: 1200px;
   height: 500px;
   box-shadow: 2px 0px 10px 0px #ddd;
   background-color: ${(props) => props.theme.mainWhite};
@@ -67,11 +68,12 @@ const Card = styled.div`
 
 const SideSlide = styled.div`
   height: 100%;
-  width: 50%;
+  width: 40%;
   position: absolute;
   top: 0;
   left: 0;
   transition: transform 0.5s ease-in-out;
+
   > * {
     height: 100%;
     width: 100%;
@@ -83,17 +85,19 @@ const SideSlide = styled.div`
 `;
 
 const MainSlide = styled.div`
-  width: 50%;
+  width: 60%;
   height: 100%;
   position: absolute;
-  top: 25%;
+  top: 0;
   right: 0;
   transition: transform 0.5s ease-in-out;
+
   > * {
-    padding: 50px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    padding: 100px;
     height: 100%;
     width: 100%;
   }

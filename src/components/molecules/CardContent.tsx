@@ -6,16 +6,16 @@ import H3 from "../atoms/H3";
 
 const Description = styled.div`
   > :first-child {
-    font-size: 24px;
+    font-size: 3vh;
     margin-bottom: 15px;
     font-weight: 500;
   }
   > :nth-child(2) {
-    font-size: 17px;
+    font-size: 2.3vh;
     margin-bottom: 25px;
   }
   > :last-child {
-    font-size: 16px;
+    font-size: 2vh;
     font-weight: 300;
     white-space: normal;
     word-break: keep-all;
