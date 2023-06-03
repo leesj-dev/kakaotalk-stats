@@ -4,20 +4,26 @@ import styled from "styled-components";
 import { AnalyzedMessage } from "../../@types/index.d";
 import { getSpeakers } from "../../module/common/getProperties";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
-import Span from "./Span";
+import Span from "../atoms/Span";
 
 const SpeakerSelectBox = styled.div<{
   alignItems?: string;
 }>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   width: 100%;
   align-items: ${(props) => props.alignItems || "end"};
+
+  > :nth-child(1) {
+    margin-bottom: 10px;
+  }
 `;
+
 interface SpeakerSelectProps {
   alignItems?: string;
 }
+
 const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
@@ -59,8 +65,8 @@ const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
           );
         })}
       </select>
-      <Span fontSize="11px" color="#0D6EFD">
-        각 대화자 분석 가능
+      <Span fontSize="12px" color="#0D6EFD">
+        *대화자 선택 가능
       </Span>
     </SpeakerSelectBox>
   );

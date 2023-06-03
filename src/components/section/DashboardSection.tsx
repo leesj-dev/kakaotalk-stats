@@ -10,7 +10,7 @@ import ModalGraph from "../organisms/ModalGraph";
 import GraphDisplay from "../organisms/GraphDisplay";
 import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
 import { setVolumeHourlyBoxSize } from "../../store/reducer/volumeHourlyBoxSizeSlice";
-import SpeakerSelect from "../atoms/SpeakerSelect";
+import SpeakerSelect from "../molecules/SpeakerSelect";
 
 const DashboardTemplateContainer = styled.div`
   padding: 10px;
@@ -47,11 +47,10 @@ const ArticleBox = styled.div`
 const HeadBox = styled.div`
   display: flex;
   gap: 10px;
-  /* height: 10px; */
 
   > * {
     background: ${(props) => props.theme.mainWhite};
-    padding: 10px 20px 0px 15px;
+    padding: 10px 20px 10px 15px;
     text-align: left;
     border-radius: 15px;
     flex: 1;
@@ -105,8 +104,8 @@ const HorizontalBox = styled.div`
 
 const ModalBox = styled.div`
   position: fixed;
-  top: 100px;
-  bottom: 100px;
+  top: 10%;
+  bottom: 10%;
   left: 10%;
   right: 10%;
   z-index: 999;

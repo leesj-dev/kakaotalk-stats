@@ -8,8 +8,8 @@ import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
 const RADIAN = Math.PI / 180;
 
-const cx = 48;
-const cy = 60;
+const cx = 50;
+const cy = 50;
 const iR = 25;
 const oR = 50;
 
@@ -103,7 +103,7 @@ const ChatRatioWithArrowGraph = () => {
 
   return (
     <div style={{ width: "100%", maxWidth: "300px" }}>
-      <PieChart width={110} height={70}>
+      <PieChart width={110} height={60}>
         <Tooltip />
         <Pie
           dataKey="value"

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
-import SpeakerSelect from "../atoms/SpeakerSelect";
+import SpeakerSelect from "../molecules/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
 import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
@@ -58,14 +58,32 @@ const DescriptionBox = styled.div`
   border-radius: 15px;
 `;
 
-const SpeakerSelectBox = styled.div`
-  margin: 0 auto 10px auto;
+const InfoContentBox = styled.div`
   display: flex;
-  width: 90%;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const SpeakerSelectBox = styled.div`
+  margin: 0 auto;
+  display: flex;
+  width: 100%;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   > * {
+    display: flex;
     flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+  > :nth-child(1) {
+    margin-bottom: 5px;
+  }
+  > :nth-child(2) {
+    > :nth-child(1) {
+      display: none;
+    }
   }
 `;
 const PeriodBox = styled.div`
@@ -91,11 +109,6 @@ const CardContentBox = styled.div`
       display: none;
     }
   }
-`;
-const InfoContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 `;
 
 interface ModalGraphProps {
@@ -138,8 +151,8 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
               그래프 상세 정보
             </Span>
             <SpeakerSelectBox>
-              <SpeakerSelect alignItems="start" />
               <ChatRatioWithArrowGraph />
+              <SpeakerSelect />
             </SpeakerSelectBox>
             <PeriodBox>
               {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
