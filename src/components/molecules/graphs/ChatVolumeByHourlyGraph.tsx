@@ -1,13 +1,9 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
-import {
-  colorsForGraphArray,
-  customTickColor,
-  setRotationColor,
-} from "../../../module/common/colorsForGraphArray";
+import { customTickColor, setRotationColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
 
 const getDayIndex = (date: string) => {
@@ -33,8 +29,6 @@ const TooltipBox = styled.div`
     }
   }
 `;
-
-const range = [16, 225];
 
 const getMostValue = (array: any) => {
   return Math.max(
@@ -94,10 +88,6 @@ const ChatVolumeByHourlyGraph = () => {
   });
 
   const daysOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
-
-  const handleClickSpeaker = (index: number) => {
-    setCurrentSpeakerIndex(index);
-  };
 
   const mostValues: number[] = [];
   let graph: any[] = [];
@@ -173,21 +163,6 @@ const ChatVolumeByHourlyGraph = () => {
 
   return (
     <>
-      {/*
-      시간대별 대화량 대화자
-      {speakerNames.map((_: any, index: number) => {
-        return (
-          <span
-            style={{
-              padding: "0 10px",
-            }}
-            key={index}
-            onClick={() => handleClickSpeaker(index)}
-          >
-            {speakerNames[index]}
-          </span>
-        );
-      })} */}
       {scatter.length &&
         scatter[currentSpeakerIndex].map((item: any, index: number) => {
           return (
@@ -200,19 +175,6 @@ const ChatVolumeByHourlyGraph = () => {
                   left: -38,
                 }}
               >
-                {/* {index === scatter[currentSpeakerIndex].length - 1 ? (
-                  <XAxis
-                    type="category"
-                    dataKey="hour"
-                    name="hour"
-                    interval={0}
-                    axisLine={false}
-                    tick={{ dy: -16, fontSize: 14 }}
-                    tickLine={false}
-                    height={24}
-                  />
-                ) : */}
-                (
                 <XAxis
                   type="category"
                   dataKey="hour"
@@ -227,7 +189,6 @@ const ChatVolumeByHourlyGraph = () => {
                   tickLine={false}
                   height={24}
                 />
-                )
                 <YAxis
                   type="number"
                   dataKey="index"

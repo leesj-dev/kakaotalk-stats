@@ -124,9 +124,6 @@ const DashboardSection = () => {
   const mostChattedTimes = useSelector(
     (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
   );
-  const selectedSpeakerIndex = useSelector(
-    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
-  );
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [currentModalData, setCurrentModalData] = useState<any>();
@@ -160,10 +157,24 @@ const DashboardSection = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   if (containerRef?.current?.offsetHeight) {
+    console.log("1");
     dispatch(
       setVolumeHourlyBoxSize([containerRef?.current?.offsetWidth, containerRef?.current?.offsetHeight])
     );
   }
+
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (modalRef?.current?.offsetHeight) {
+      dispatch(
+        setVolumeHourlyBoxSize([
+          (modalRef?.current?.offsetWidth * 3) / 4,
+          modalRef?.current?.offsetHeight,
+        ])
+      );
+    }
+  }, [isModalVisible]);
 
   const modalSetProps = { setIsModalVisible, setCurrentModalData };
 
@@ -204,7 +215,7 @@ const DashboardSection = () => {
         </BodyBox>
       </ArticleBox>
       {isModalVisible && (
-        <ModalBox>
+        <ModalBox ref={modalRef}>
           <ModalGraph setIsModalVisible={setIsModalVisible} currentModalData={currentModalData} />
         </ModalBox>
       )}

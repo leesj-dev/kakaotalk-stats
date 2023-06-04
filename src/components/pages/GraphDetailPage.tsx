@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
 import DashboardSideMenu from "../section/DashboardSideMenu";
@@ -11,6 +11,7 @@ import ReplyCountByHourlyGraph from "../molecules/graphs/ReplyCountByHourlyGraph
 import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
+import { setVolumeHourlyBoxSize } from "../../store/reducer/volumeHourlyBoxSizeSlice";
 
 const graphContentData = [
   {
@@ -109,6 +110,21 @@ const GraphDetailSection = () => {
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
 
+  const dispatch = useDispatch();
+
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (modalRef?.current?.offsetHeight) {
+      dispatch(
+        setVolumeHourlyBoxSize([
+          (modalRef?.current?.offsetWidth * 3) / 4,
+          modalRef?.current?.offsetHeight,
+        ])
+      );
+    }
+  }, []);
+
   useEffect(() => {
     scrollToEvent(0, "auto");
   }, []);
@@ -120,7 +136,7 @@ const GraphDetailSection = () => {
         {isAnalyzedMessagesExist &&
           graphContentData.map((item) => {
             return (
-              <GraphBox>
+              <GraphBox ref={modalRef}>
                 <ModalGraph currentModalData={item} />
               </GraphBox>
             );
