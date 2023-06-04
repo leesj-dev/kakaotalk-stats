@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
 import { useDispatch, useSelector } from "react-redux";
-import { darkTheme } from "../../style/Theme";
+import { darkTheme, lightTheme } from "../../style/Theme";
 import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
+import Icon from "../atoms/Icon";
+import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 
 const Wrap = styled.div`
   width: 100%;
@@ -28,6 +30,7 @@ const H1 = styled.h1`
 `;
 const Menu = styled.div`
   display: flex;
+  align-items: center;
   font-size: 22px;
 
   > * {
@@ -36,11 +39,59 @@ const Menu = styled.div`
 `;
 
 const DarkModeButton = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  width: 80px;
+  height: 40px;
+  background: #222;
+  border-radius: 25px;
   cursor: pointer;
+  > * {
+    color: ${lightTheme.mainBackground};
+    background: ${darkTheme.mainBackground};
+  }
 
   &.active {
     color: ${(props) => props.theme.mainText};
-    background: ${(props) => props.theme.navBackground};
+    background: ${(props) => props.theme.mainText};
+    justify-content: end;
+
+    > * {
+      color: ${darkTheme.mainBackground};
+      background: ${lightTheme.mainBackground};
+    }
+    > :nth-child(1) {
+      left: 50%;
+      background: ${darkTheme.mainBackground};
+    }
+  }
+`;
+
+const ToggleCircle = styled.div`
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  background: #fff;
+  border-radius: 50%;
+  z-index: 1;
+`;
+
+const IconBox = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  > * {
+    flex: 1;
   }
 `;
 
@@ -68,7 +119,11 @@ const NavBar = () => {
           <Link to="/2">분석하기</Link>
           {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
           <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
-            다크모드
+            <ToggleCircle></ToggleCircle>
+            <IconBox>
+              <BsFillBrightnessHighFill />
+              <BsFillMoonStarsFill />
+            </IconBox>
           </DarkModeButton>
         </Menu>
       </Container>
