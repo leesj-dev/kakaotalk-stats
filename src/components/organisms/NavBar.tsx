@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
 import { useDispatch, useSelector } from "react-redux";
-import { darkTheme } from "../../style/Theme";
+import { darkTheme, lightTheme } from "../../style/Theme";
 import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
+import Icon from "../atoms/Icon";
+import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 
 const Wrap = styled.div`
   width: 100%;
@@ -28,6 +30,7 @@ const H1 = styled.h1`
 `;
 const Menu = styled.div`
   display: flex;
+  align-items: center;
   font-size: 22px;
 
   > * {
@@ -36,11 +39,50 @@ const Menu = styled.div`
 `;
 
 const DarkModeButton = styled.div`
+  position: relative;
+  width: 80px;
+  height: 40px;
   cursor: pointer;
+  > * {
+    color: ${lightTheme.navBackground};
+    background: ${darkTheme.navBackground};
+  }
 
   &.active {
-    color: ${(props) => props.theme.mainText};
-    background: ${(props) => props.theme.navBackground};
+    > * {
+      color: ${darkTheme.navBackground};
+      background: ${lightTheme.navBackground};
+    }
+    > :nth-child(1) {
+      left: 44px;
+      background: ${darkTheme.navBackground};
+    }
+  }
+`;
+
+const ToggleCircle = styled.div`
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 5px;
+  width: calc(50% - 8px);
+  background: #fff;
+  border-radius: 50%;
+  z-index: 1;
+`;
+
+const IconBox = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  > * {
+    flex: 1;
   }
 `;
 
@@ -68,7 +110,11 @@ const NavBar = () => {
           <Link to="/2">분석하기</Link>
           {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
           <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
-            다크모드
+            <ToggleCircle></ToggleCircle>
+            <IconBox>
+              <BsFillBrightnessHighFill />
+              <BsFillMoonStarsFill />
+            </IconBox>
           </DarkModeButton>
         </Menu>
       </Container>

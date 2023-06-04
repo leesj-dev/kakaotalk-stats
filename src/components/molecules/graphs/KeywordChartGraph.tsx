@@ -59,7 +59,7 @@ const KeywordChartGraph = () => {
   }
 
   useEffect(() => {
-    if (containerRef.current.current.offsetTop === 30) {
+    if (containerRef.current.current.offsetLeft === 30) {
       setDISPLAY_KEYWORD_COUNT(20);
     }
   }, [containerRef]);
