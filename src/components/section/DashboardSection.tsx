@@ -104,10 +104,10 @@ const HorizontalBox = styled.div`
 
 const ModalBox = styled.div`
   position: fixed;
-  top: 10%;
+  top: 17%;
   bottom: 10%;
-  left: 10%;
-  right: 10%;
+  left: 21%;
+  right: 5.5%;
   z-index: 999;
   display: flex;
 `;
