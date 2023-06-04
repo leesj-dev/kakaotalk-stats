@@ -40,41 +40,32 @@ const Menu = styled.div`
 
 const DarkModeButton = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-  padding: 5px;
   width: 80px;
   height: 40px;
-  background: #222;
-  border-radius: 25px;
   cursor: pointer;
   > * {
-    color: ${lightTheme.mainBackground};
-    background: ${darkTheme.mainBackground};
+    color: ${lightTheme.navBackground};
+    background: ${darkTheme.navBackground};
   }
 
   &.active {
-    color: ${(props) => props.theme.mainText};
-    background: ${(props) => props.theme.mainText};
-    justify-content: end;
-
     > * {
-      color: ${darkTheme.mainBackground};
-      background: ${lightTheme.mainBackground};
+      color: ${darkTheme.navBackground};
+      background: ${lightTheme.navBackground};
     }
     > :nth-child(1) {
-      left: 50%;
-      background: ${darkTheme.mainBackground};
+      left: 44px;
+      background: ${darkTheme.navBackground};
     }
   }
 `;
 
 const ToggleCircle = styled.div`
   position: absolute;
-  top: 5px;
-  bottom: 5px;
+  top: 4px;
+  bottom: 4px;
   left: 5px;
-  width: calc(50% - 5px);
+  width: calc(50% - 8px);
   background: #fff;
   border-radius: 50%;
   z-index: 1;
