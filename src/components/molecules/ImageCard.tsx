@@ -11,6 +11,7 @@ const ImageCardBox = styled.div`
 
   > :first-child {
     margin-bottom: 10px;
+    border: 1px solid ${(props) => props.theme.border};
   }
 
   > :nth-child(2) {

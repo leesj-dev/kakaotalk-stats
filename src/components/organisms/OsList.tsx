@@ -4,7 +4,9 @@ import Span from "../atoms/Span";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedOsIndex } from "../../store/reducer/selectedOsIndexSlice";
-
+import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
+import { SiIos } from "react-icons/si";
+import Icon from "../atoms/Icon";
 const OsIconBox = styled.ul`
   margin-bottom: 30px;
   display: flex;
@@ -12,9 +14,19 @@ const OsIconBox = styled.ul`
   align-items: center;
   text-align: center;
   gap: 50px;
+  > :nth-child(2) {
+    > :first-child {
+      transform: scale(98%) translateY(-3px);
+    }
+  }
+  > :nth-child(3) {
+    > :first-child {
+      transform: scale(96%);
+    }
+  }
 `;
 
-const OsListBox = styled.li<{ size?: string }>`
+const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }>`
   padding: 10px;
   display: flex;
   align-items: center;
@@ -24,58 +36,78 @@ const OsListBox = styled.li<{ size?: string }>`
   cursor: pointer;
 
   > :first-child {
-    margin-bottom: 5px;
-    width: ${(props) => props.size || "50px"};
-    height: ${(props) => props.size || "50px"};
+    width: ${(props) => props.size || "65px"};
+    /* height: ${(props) => props.size || "65px"}; */
+    font-size: ${(props) => props.fontSize || "50px"};
   }
 
   &:hover {
+    color: ${(props) => props.theme.mainBlueHover};
     box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
   }
 
   &.active {
+    color: ${(props) => props.theme.mainBlue};
     box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
+  }
+
+  &.dark {
+    &:hover {
+      box-shadow: none;
+      color: #fff;
+      background: #888888;
+    }
+
+    &.active {
+      box-shadow: none;
+      color: #fff;
+      background: #555555;
+    }
   }
 `;
 
 const osData = [
   {
     id: 1,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/window.png"}`,
+    icon: <AiFillWindows />,
     os: "Window",
   },
   {
     id: 2,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/mac.png"}`,
+    icon: <AiFillApple />,
     os: "MacOS",
   },
   {
     id: 3,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/android.png"}`,
+    icon: <AiFillAndroid />,
     os: "Android",
   },
   {
     id: 4,
-    src: `${process.env.PUBLIC_URL + "/assets/osIcons/ios.png"}`,
+    icon: <SiIos />,
     os: "IOS",
   },
 ];
 interface OsData {
   id: number;
-  src: string;
+  icon: JSX.Element;
   os: string;
 }
 
 type OsListProps = {
   size?: string;
+  color?: string;
+  fontSize?: string;
 };
 
-const OsList = ({ size }: OsListProps) => {
+const OsList = ({ size, color, fontSize }: OsListProps) => {
   const dispatch = useDispatch();
 
   const selectedOsIndex = useSelector(
     (state: { selectedOsIndexSlice: number }) => state.selectedOsIndexSlice
   );
+
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
     <OsIconBox>
@@ -83,11 +115,13 @@ const OsList = ({ size }: OsListProps) => {
         return (
           <OsListBox
             key={data.id}
-            className={`${selectedOsIndex === data.id && "active"}`}
+            className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
             size={size}
+            color={color}
             onClick={() => dispatch(setSelectedOsIndex(data.id))}
+            fontSize={fontSize}
           >
-            <Img src={data.src} />
+            <Icon color="#2da0fa">{data.icon}</Icon>
             <Span>{data.os}</Span>
           </OsListBox>
         );

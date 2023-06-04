@@ -19,6 +19,7 @@ const DropBox = styled.div`
 
   > * {
     margin-bottom: 10px;
+    font-weight: 300;
   }
   > :nth-child(1) {
     margin-bottom: 30px;
@@ -41,6 +42,7 @@ type DropZoneProps = {
 
 const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
   const dispatch = useDispatch();
+
   const [dragging, setDragging] = useState(false);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -84,7 +86,7 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
         <AttachmentButton onChange={handleChangeFile}>첨부하기</AttachmentButton>
         <Paragraph fontSize="18px">버튼을 클릭하세요.</Paragraph>
       </AttachmentBox>
-      <Span fontSize="15px">* 올바른 운영체제를 선택하지 않으면 분석이 불가합니다.</Span>
+      <Span fontSize="15px">* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Span>
     </DropBox>
   );
 };

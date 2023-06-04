@@ -5,6 +5,10 @@ import Span from "../atoms/Span";
 const HeaderContentBox = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  > :nth-child(2) {
+    margin-top: 12px;
+  }
 `;
 
 type headerContentProps = {

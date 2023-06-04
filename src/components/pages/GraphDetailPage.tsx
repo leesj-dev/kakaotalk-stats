@@ -1,9 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import Span from "../atoms/Span";
-import Icon from "../atoms/Icon";
-import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
+import scrollToEvent from "../../module/common/scrollEvent";
+import DashboardSideMenu from "../section/DashboardSideMenu";
+import ModalGraph from "../organisms/ModalGraph";
 import ChatRoomCompareGraph from "../molecules/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../molecules/graphs/ChatVolumeByPeriodGraph";
 import ChatRateGraph from "../molecules/graphs/ChatRateGraph";
@@ -11,17 +11,9 @@ import ReplyCountByHourlyGraph from "../molecules/graphs/ReplyCountByHourlyGraph
 import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
-import { CgMaximize } from "react-icons/cg";
+import { setVolumeHourlyBoxSize } from "../../store/reducer/volumeHourlyBoxSizeSlice";
 
 const graphContentData = [
-  {
-    id: 0,
-    subject: "채팅방 대화 비율",
-    graph: <ChatRatioWithArrowGraph />,
-    h2: "채팅방 대화 비율",
-    h3: "대화 참여자별 대화량의 비율을 시각화하여 보여주는 그래프",
-    p: "대화에 참여한 각각의 인원이 차지하는 대화량의 비율을 나타냅니다. 이를 통해 어떤 인원이 얼마나 많은 대화를 하였는지, 대화 참여율이 어떻게 되는지 등을 파악할 수 있습니다.",
-  },
   {
     id: 1,
     subject: "종합 비교",
@@ -81,73 +73,77 @@ const graphContentData = [
   },
 ];
 
-const TempGraphBox = styled.div`
+const GraphDetailContainer = styled.div`
   position: relative;
-  padding: 10px;
-  margin: 0 auto;
+  margin-top: 80px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background: ${(props) => props.theme.mainBackground};
+
+  > :nth-child(1) {
+    position: sticky;
+    top: 80px;
+    left: 0;
+    width: 15%;
+  }
+`;
+
+const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
+  width: calc(85% - 30px);
+`;
+
+const GraphBox = styled.div`
+  margin: 15px;
+  height: 80vh;
   width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  background: ${(props) => props.theme.mainWhite};
+  gap: 30px;
+  > :nth-child(1) {
+    background: ${(props) => props.theme.modalBackground};
+  }
 `;
 
-const IconBox = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: ${(props) => props.theme.mainText};
-  cursor: pointer;
-`;
-
-export type GraphBoxProps = {
-  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentModalData: React.Dispatch<React.SetStateAction<any>>;
-};
-
-const GraphBox = ({
-  displaySubject,
-  modalSetProps,
-}: {
-  displaySubject: string;
-  modalSetProps: GraphBoxProps;
-}) => {
+const GraphDetailSection = () => {
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
 
-  const modalData = graphContentData.find((item) => item.subject === displaySubject) ?? {
-    id: -1,
-    subject: "subject",
-    graph: <Span>graph element</Span>,
-    h2: "h2",
-    h3: "h3",
-    p: "p",
-  };
+  const dispatch = useDispatch();
 
-  const handleClickOpenModalButton = () => {
-    modalSetProps.setIsModalVisible(true);
-    modalSetProps.setCurrentModalData(modalData);
-  };
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (modalRef?.current?.offsetHeight) {
+      dispatch(
+        setVolumeHourlyBoxSize([
+          (modalRef?.current?.offsetWidth * 3) / 4,
+          modalRef?.current?.offsetHeight,
+        ])
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    scrollToEvent(0, "auto");
+  }, []);
+
   return (
-    <TempGraphBox key={modalData.id}>
-      {modalData.id !== 0 && (
-        <IconBox onClick={() => handleClickOpenModalButton()}>
-          <Icon>
-            <CgMaximize />
-          </Icon>
-        </IconBox>
-      )}
-      <Span fontWeight="500" padding="0 0 1vh 0">
-        {modalData.subject}
-      </Span>
-      {isAnalyzedMessagesExist && modalData.graph}
-    </TempGraphBox>
+    <GraphDetailContainer>
+      <DashboardSideMenu />
+      <ContentBox>
+        {isAnalyzedMessagesExist &&
+          graphContentData.map((item) => {
+            return (
+              <GraphBox ref={modalRef}>
+                <ModalGraph currentModalData={item} />
+              </GraphBox>
+            );
+          })}
+      </ContentBox>
+    </GraphDetailContainer>
   );
 };
 
-export default GraphBox;
+export default GraphDetailSection;

@@ -2,15 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
-import { useSelector } from "react-redux";
-import { AnalyzedMessage } from "../../@types/index.d";
+import { useDispatch, useSelector } from "react-redux";
+import { darkTheme, lightTheme } from "../../style/Theme";
+import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
+import Icon from "../atoms/Icon";
+import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 
 const Wrap = styled.div`
   width: 100%;
   position: fixed;
   z-index: 999;
-  background-color: ${(props) => props.theme.mainWhite};
-  border-bottom: 1px solid ${(props) => props.theme.backgroundGrey};
+  color: ${(props) => props.theme.mainText};
+  background-color: ${(props) => props.theme.navBackground};
+  border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
 `;
 const Container = styled.div`
   margin: 0 auto;
@@ -26,6 +30,7 @@ const H1 = styled.h1`
 `;
 const Menu = styled.div`
   display: flex;
+  align-items: center;
   font-size: 22px;
 
   > * {
@@ -34,36 +39,82 @@ const Menu = styled.div`
 `;
 
 const DarkModeButton = styled.div`
+  position: relative;
+  width: 80px;
+  height: 40px;
   cursor: pointer;
+  > * {
+    color: ${lightTheme.navBackground};
+    background: ${darkTheme.navBackground};
+  }
 
   &.active {
-    color: #fff;
-    background: #000;
+    > * {
+      color: ${darkTheme.navBackground};
+      background: ${lightTheme.navBackground};
+    }
+    > :nth-child(1) {
+      left: 44px;
+      background: ${darkTheme.navBackground};
+    }
   }
 `;
 
-interface NavBarProps {
-  setIsDarkMode: () => void;
-  isDarkMode: boolean;
-}
+const ToggleCircle = styled.div`
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 5px;
+  width: calc(50% - 8px);
+  background: #fff;
+  border-radius: 50%;
+  z-index: 1;
+`;
 
-const NavBar = ({ setIsDarkMode, isDarkMode }: NavBarProps) => {
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+const IconBox = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  > * {
+    flex: 1;
+  }
+`;
+
+const NavBar = () => {
+  const dispatch = useDispatch();
+
+  const isAnalyzedMessagesExist = useSelector(
+    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
+  const handleClickDarkModeButton = () => {
+    dispatch(setIsDarkMode(!isDarkMode));
+  };
+
   return (
     <Wrap>
       <Container>
         <H1>
           <Link to="/">
-            <Img src={`${process.env.PUBLIC_URL}/images/logoBlack.png`} />
+            <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
           </Link>
         </H1>
         <Menu>
           <Link to="/2">분석하기</Link>
-          {analyzedMessages.length > 0 && <Link to="/dashboard">결과화면</Link>}
-          <DarkModeButton className={`${isDarkMode && "active"}`} onClick={setIsDarkMode}>
-            다크모드
+          {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+          <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
+            <ToggleCircle></ToggleCircle>
+            <IconBox>
+              <BsFillBrightnessHighFill />
+              <BsFillMoonStarsFill />
+            </IconBox>
           </DarkModeButton>
         </Menu>
       </Container>

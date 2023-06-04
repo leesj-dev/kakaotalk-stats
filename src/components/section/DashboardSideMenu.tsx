@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SummaryPieGraph, {
   getTotalChatCounts,
   getTwoLettersFromSpeakers,
-} from "../organisms/graphs/SummaryPieGraph";
+} from "../molecules/graphs/SummaryPieGraph";
 import { useDispatch, useSelector } from "react-redux";
 import { AnalyzedMessage, ChatTimes } from "../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../module/common/getProperties";
@@ -12,69 +12,100 @@ import Paragraph from "../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
+import Icon from "../atoms/Icon";
+import { BsShareFill } from "react-icons/bs";
 
 const DashboardSideMenuBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - 80px);
-  border-bottom: 1px solid #000;
+  width: 100%;
+  color: ${(props) => props.theme.mainText};
+  background: ${(props) => props.theme.mainBackground};
+  border-right: 1px solid ${(props) => props.theme.border};
 `;
 
 const DashboardLayoutBox = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
-  background: #0004ff18;
+  background: ${(props) => props.theme.dashBoardBackground};
 `;
 
-const CalendarBox = styled.div`
+const ChatroomMenuTitleBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #000;
+  font-size: 18px;
+  color: ${(props) => props.theme.mainText};
+  letter-spacing: 0.05rem;
+  border-bottom: 1px solid ${(props) => props.theme.border};
+  background: ${(props) => props.theme.dashboardMenuBackground};
 `;
 
 const ChatroomGraphBox = styled.div`
   position: relative;
   padding: 15px;
   display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid ${(props) => props.theme.border};
+  background-color: ${(props) => props.theme.mainBackground};
 `;
 
-const GraphSelectionBox = styled.div`
+const ChatroomListTitleBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #000;
+  font-size: 18px;
+  color: ${(props) => props.theme.mainText};
+  letter-spacing: 0.05rem;
+  border-bottom: 1px solid ${(props) => props.theme.border};
+  background: ${(props) => props.theme.dashboardMenuBackground};
 `;
 
 const ChatroomListBox = styled.div`
   padding: 15px;
   display: flex;
-  gap: 10px;
   flex-direction: column;
-  border-bottom: 1px solid #000;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  background-color: ${(props) => props.theme.mainBackground};
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바의 너비 */
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${(props) => props.theme.mainGray}; /* 스크롤바의 색상 */
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(144, 144, 144, 0.2); /*스크롤바 뒷 배경 색상*/
+  }
 `;
 
 const AdditionalFunctionBox = styled.div`
   padding: 15px;
   display: flex;
   flex-direction: column;
-  background: #00bbff;
+  width: calc(100% + 1px);
+  border-top: 1px solid ${(props) => props.theme.border};
+  border-right: 1px solid ${(props) => props.theme.border};
+  background: ${(props) => props.theme.mainBackground};
 `;
 
 const ChatRoomBox = styled.div`
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
-
+  background-color: ${(props) => props.theme.mainWhite};
+  border: 1px solid ${(props) => props.theme.border};
   &:hover {
-    box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
+    border: 1px solid ${(props) => props.theme.dashBoardBackground};
   }
 
   &.active {
-    box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
+    border: 2px solid ${(props) => props.theme.mainGray};
   }
 
   > :nth-child(1) {
@@ -88,21 +119,22 @@ const ChatRoomBox = styled.div`
   > :nth-child(2) {
     display: block;
     width: 100%;
+    margin-bottom: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  > :last-child {
+    font-weight: 600;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
 const ChatRoomHead = styled.div`
   display: flex;
   justify-content: space-between;
-
-  > :nth-child(2) {
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 `;
 
 const DashboardSideMenu = () => {
@@ -124,14 +156,28 @@ const DashboardSideMenu = () => {
     dispatch(setSelectedSpeakerIndex(-1));
   };
 
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 링크가 복사되었어요.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClick = () => {
+    const url = "쥬희무쩅이넹~ㅇㅅㅇ~";
+    handleCopyClipBoard(url);
+  };
+
   return (
     <DashboardSideMenuBox>
       <DashboardLayoutBox>
-        <CalendarBox>캘린더</CalendarBox>
+        <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
         <ChatroomGraphBox style={{ height: "200px" }}>
           <SummaryPieGraph />
         </ChatroomGraphBox>
-        <GraphSelectionBox>상세선택</GraphSelectionBox>
+        <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
         <ChatroomListBox>
           {chatRoomNames.map((name, index) => {
             return (
@@ -144,15 +190,19 @@ const DashboardSideMenu = () => {
                   <Paragraph>
                     채팅방{index + 1} ({totalChatCounts[index]}){" "}
                   </Paragraph>
-                  <Link to="">상세보기 {">"}</Link>
                 </ChatRoomHead>
                 <Span>{name}</Span>
+                <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
               </ChatRoomBox>
             );
           })}
         </ChatroomListBox>
       </DashboardLayoutBox>
-      <AdditionalFunctionBox>부가</AdditionalFunctionBox>
+      <AdditionalFunctionBox>
+        <Icon cursor="pointer" onClick={() => handleClick()}>
+          <BsShareFill />
+        </Icon>
+      </AdditionalFunctionBox>
     </DashboardSideMenuBox>
   );
 };

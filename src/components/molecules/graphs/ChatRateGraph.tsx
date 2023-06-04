@@ -4,7 +4,8 @@ import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Area, Tool
 import { AnalyzedMessage, ChatTimes, StackBarData } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
+import styled from "styled-components";
 
 const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
   return Object.values(chatCountsDay).reduce((sum, count) => sum + count, 0);
@@ -30,20 +31,34 @@ const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTim
   });
 };
 
+const TooltipBox = styled.div`
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: #fff;
+  > ul {
+    > li {
+      margin-bottom: 5px;
+    }
+  }
+`;
+
 const renderTooltipContent = (o: any) => {
   const { payload, label } = o;
   const total = payload.reduce((result: any, entry: { value: any }) => result + entry.value, 0);
   return (
-    <div className="customized-tooltip-content">
+    <TooltipBox className="customized-tooltip-content">
       <p className="total">{`${label} (Total: ${total})`}</p>
       <ul className="list">
         {payload.map((entry: { color: any; name: any; value: number }, index: any) => (
           <li key={`item-${index}`} style={{ color: entry.color }}>
-            {`${entry.name}: ${entry.value}(${getPercent(entry.value, total)})`}
+            {`${entry.name}: ${entry.value}(${getPercent(entry.value, total).slice(0, 2)})`}
           </li>
         ))}
       </ul>
-    </div>
+    </TooltipBox>
   );
 };
 
@@ -57,6 +72,7 @@ const ChatRateGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [data, setData] = useState<StackBarData[]>([]);
   const chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
@@ -84,8 +100,8 @@ const ChatRateGraph = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis tickFormatter={toPercent} fontSize={12} />
+        <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+        <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
 
         <Tooltip content={renderTooltipContent} />
         {chatSpeakers.map((speaker: string, index: number) => {
@@ -97,7 +113,8 @@ const ChatRateGraph = () => {
               stackId="1"
               stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
               fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
+              strokeWidth={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 0 : 0.3}
+              fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
               style={{ transition: "ease-in-out 0.7s" }}
             />
           );

@@ -14,14 +14,14 @@ const FloatingButtonBox = styled.div`
   bottom: 30px;
   right: 30px;
   padding: 10px;
-  font-size: 20px;
-  color: ${(props) => props.theme.mainWhite};
+  color: #fff;
   background-color: ${(props) => props.theme.mainBlue};
   border-radius: 20%;
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
   cursor: pointer;
+  z-index: 1000;
 
   &:hover {
     background: ${(props) => props.theme.mainBlueHover};
@@ -33,7 +33,7 @@ const FloatingButtonBox = styled.div`
   }
 `;
 
-const ScrollTopTopFloatingButton: React.FC<IconProps> = () => {
+const ScrollToTopFloatingButton: React.FC<IconProps> = () => {
   const [showFloatingButton, setShowFloatingButton] = useState(false);
 
   useEffect(() => {
@@ -56,11 +56,11 @@ const ScrollTopTopFloatingButton: React.FC<IconProps> = () => {
       className={`${showFloatingButton && "show"}`}
       onClick={() => scrollToEvent(0, "smooth")}
     >
-      <Icon>
+      <Icon fontSize="22px">
         <FiArrowUp />
       </Icon>
     </FloatingButtonBox>
   );
 };
 
-export default ScrollTopTopFloatingButton;
+export default ScrollToTopFloatingButton;

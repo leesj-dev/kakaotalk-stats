@@ -1,4 +1,4 @@
-import React, { PureComponent, useEffect, useState } from "react";
+import React, { PureComponent, useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   BarChart,
@@ -11,7 +11,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnalyzedMessage, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import {
+  colorsForGraphArray,
+  customTickColor,
+  setRotationColor,
+} from "../../../module/common/colorsForGraphArray";
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { getHighKeywords } from "./KeywordCloud";
 
@@ -19,14 +23,19 @@ const KeywordChartGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
-
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-  const DISPLAY_KEYWORD_COUNT = 5;
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
+  const containerRef = useRef<any>(null);
+
+  const [DISPLAY_KEYWORD_COUNT, setDISPLAY_KEYWORD_COUNT] = useState<number>(5);
+  const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
+
   const speaker: string[] = getSpeakers(results)[selectedChatRoomIndex];
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedChatRoomIndex];
@@ -37,9 +46,9 @@ const KeywordChartGraph = () => {
   //   (state: { speakersTopNKeywordsSlice: ValueCountPair[][] }) => state.speakersTopNKeywordsSlice
   // );
 
-  const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
   useEffect(() => {
     setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
+    console.log(containerRef);
   }, [selectedSpeakerIndex]);
 
   function truncateValue(value: string) {
@@ -48,8 +57,15 @@ const KeywordChartGraph = () => {
     }
     return value;
   }
+
+  useEffect(() => {
+    if (containerRef.current.current.offsetLeft === 30) {
+      setDISPLAY_KEYWORD_COUNT(20);
+    }
+  }, [containerRef]);
+
   return (
-    <ResponsiveContainer width="100%" height={"90%"}>
+    <ResponsiveContainer width="100%" height={"100%"} ref={containerRef}>
       <BarChart
         layout="vertical"
         data={
@@ -60,22 +76,21 @@ const KeywordChartGraph = () => {
         margin={{
           top: 0,
           right: 5,
-          left: -5,
+          left: -20,
           bottom: -5,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis type="number" />
-        <YAxis type="category" dataKey="value" tickFormatter={truncateValue} />
-        <Tooltip contentStyle={{ fontSize: "2px" }} />
-        <Bar
-          dataKey="count"
-          fill={
-            currentSpeakerIndex === 0
-              ? "#8884d8"
-              : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length]
-          }
+        <XAxis type="number" fontSize={12} tick={customTickColor(isDarkMode)} />
+        <YAxis
+          type="category"
+          dataKey="value"
+          tickFormatter={truncateValue}
+          fontSize={12}
+          tick={customTickColor(isDarkMode)}
         />
+        <Tooltip />
+        <Bar dataKey="count" fill={setRotationColor(currentSpeakerIndex)} />
       </BarChart>
     </ResponsiveContainer>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Legend,
@@ -19,7 +19,7 @@ import {
 import { AnalyzedMessage, ChatTimes, ReplyTime } from "../../../@types/index.d";
 import { getAverageReplyTime, getTotalChatCounts, getTwoLettersFromSpeakers } from "./SummaryPieGraph";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
@@ -88,6 +88,8 @@ const getRadarRankData = (radarData: number[][]) => {
 };
 
 const ChatRoomCompareGraph = () => {
+  const [fontSize, setFontSize] = useState(15);
+
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -97,6 +99,7 @@ const ChatRoomCompareGraph = () => {
   const nfKeywordCounts = useSelector(
     (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
@@ -128,13 +131,33 @@ const ChatRoomCompareGraph = () => {
   };
 
   const radarRankData = getRadarRankData(getRadarData());
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     const windowWidth = window.innerWidth;
+  //     let calculatedFontSize = 15;
 
+  //     // 여기에서 폰트 사이즈 계산 로직을 작성합니다.
+  //     // 예를 들어, 윈도우 너비가 1200px 이하인 경우에는 10px로 설정할 수 있습니다.
+  //     if (windowWidth <= 1200) {
+  //       calculatedFontSize = 10;
+  //     }
+  //     setFontSize(calculatedFontSize);
+  //   };
+
+  //   // 창 크기 변경 이벤트에 대한 이벤트 리스너를 추가합니다.
+  //   window.addEventListener("resize", handleResize);
+
+  //   // 컴포넌트가 언마운트되면 이벤트 리스너를 제거합니다.
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <RadarChart
         cx="50%"
         cy="50%"
-        outerRadius="80%"
+        outerRadius="70%"
         data={radarRankData}
         margin={{
           top: 0,
@@ -144,11 +167,12 @@ const ChatRoomCompareGraph = () => {
         }}
       >
         <PolarGrid />
-        <PolarAngleAxis dataKey="subject" fontSize={15} />
+        <PolarAngleAxis dataKey="subject" fontSize="1.8vh" tick={customTickColor(isDarkMode)} />
         <PolarRadiusAxis
           fontSize={10}
           angle={60}
           domain={[0, Object.keys(radarRankData[0]).length - 2]}
+          tick={customTickColor(isDarkMode)}
         />
         {chatRoomNames.map((el: any, index: number) => {
           return (

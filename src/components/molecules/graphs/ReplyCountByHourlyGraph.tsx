@@ -4,7 +4,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { lightTheme } from "../../../style/Theme";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 
 const getSumTimeCount = (speaker: ChatTimes[]) => {
   const sumTimeCount: ChatTimes = {};
@@ -28,6 +28,7 @@ const ReplyCountByHourlyGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
   const speakers: string[] = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
@@ -44,13 +45,18 @@ const ReplyCountByHourlyGraph = () => {
       const speakerData = stackedAreaData[Number(time)];
       speakerData[speakers[speakerIndex]] = value || 0;
     });
+
+    for (let i = 0; i < stackedAreaData.length; i++) {
+      if (!(speakers[speakerIndex] in stackedAreaData[i])) {
+        stackedAreaData[i][speakers[speakerIndex]] = 0;
+      }
+    }
   });
 
   useEffect(() => {}, [selectedChatRoomIndex]);
-
   return (
     <>
-      <ResponsiveContainer width="100%" height="80%">
+      <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           width={500}
           height={300}
@@ -58,13 +64,13 @@ const ReplyCountByHourlyGraph = () => {
           margin={{
             top: 5,
             right: 5,
-            left: -5,
+            left: -20,
             bottom: -10,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
           <Tooltip />
           {speakers.map((speaker: string, index: number) => {
             return (
@@ -75,7 +81,8 @@ const ReplyCountByHourlyGraph = () => {
                 stackId="1"
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
                 fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-                fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
+                strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
+                fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
                 style={{ cursor: "pointer", transition: "ease-in-out 0.7s" }}
               />
             );

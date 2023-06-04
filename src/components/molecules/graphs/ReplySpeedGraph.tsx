@@ -16,7 +16,8 @@ import { AnalyzedMessage } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { lightTheme } from "../../../style/Theme";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 
 type LineGraphData = {
   name: string;
@@ -161,6 +162,7 @@ const ReplySpeedGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [displayData, setDisplayData] = useState<any[]>([]);
   const [countKeysLessThanData, setCountKeysLessThanData] = useState<Record<string, number>>({});
@@ -177,9 +179,9 @@ const ReplySpeedGraph = () => {
 
   return (
     <>
-      <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
+      {/* <div onClick={() => setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes))}>
         일간 답장 속도
-      </div>
+      </div> */}
       {/* <div
         onClick={() => setDisplayData(createLineGraphDataWeekly(chatSpeakers, chatDates, replyTimes))}
       >
@@ -192,25 +194,26 @@ const ReplySpeedGraph = () => {
           )
         )}
       </div> */}
-      <ResponsiveContainer width="100%" height={"80%"}>
+      <ResponsiveContainer width="100%" height={"100%"}>
         <ComposedChart
           width={500}
           height={300}
           data={displayData}
           margin={{
             top: 0,
-            right: -15,
-            left: -25,
-            bottom: -10,
+            right: -10,
+            left: -20,
+            bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis yAxisId="left" />
-          <YAxis yAxisId="right" orientation="right" />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis yAxisId="right" orientation="right" fontSize={12} tick={customTickColor(isDarkMode)} />
+
           <Tooltip />
           {/* <Legend /> */}
-          <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#413ea0" />
+          <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" />
           <ReferenceLine
             y={getAverageReplyTime(displayData)}
             yAxisId="left"
@@ -226,7 +229,7 @@ const ReplySpeedGraph = () => {
                 type="monotone"
                 dataKey={speaker}
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
-                strokeWidth={selectedSpeakerIndex === index ? 2 : 1}
+                strokeWidth={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 2 : 0.2}
                 style={{ transition: "ease-in-out 0.7s" }}
               />
             );

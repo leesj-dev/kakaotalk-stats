@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import Main from "./components/main/Main";
 import Wrapper from "./components/wrapper/Wrapper";
 import "./style/reset.css";
 import { ThemeProvider } from "styled-components";
@@ -10,15 +9,17 @@ import NavBar from "./components/organisms/NavBar";
 import AttachmentPage from "./components/pages/AttachmentPage";
 import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
-import ScrollTopTopFloatingButton from "./components/molecules/ScrollTopTopFloatingButton";
+import ScrollToTopFloatingButton from "./components/molecules/ScrollToTopFloatingButton";
+import GraphDetailSection from "./components/pages/GraphDetailPage";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <ScrollTopTopFloatingButton />
-      <NavBar setIsDarkMode={() => setIsDarkMode(!isDarkMode)} isDarkMode={isDarkMode} />
+      <ScrollToTopFloatingButton />
+      <NavBar />
       <Wrapper>
         <Routes>
           <Route path={"/"} element={<MainPage />} />
@@ -27,6 +28,7 @@ function App() {
       </Wrapper>
       <Routes>
         <Route path={"/dashboard"} element={<AnalysisPage />} />
+        <Route path={"/dashboard/detail/"} element={<GraphDetailSection />} />
       </Routes>
       <Footer />
     </ThemeProvider>

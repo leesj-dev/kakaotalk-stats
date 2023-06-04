@@ -5,6 +5,7 @@ import Paragraph from "../atoms/Paragraph";
 import { FileObject } from "../../@types/index.d";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAttachedFileArray } from "../../store/reducer/attachedFileListSlice";
+import { MdClose } from "react-icons/md";
 
 const FileListBox = styled.div`
   width: 50%;
@@ -41,7 +42,9 @@ const AttachedFileList = () => {
                 </Paragraph>
               );
             })}
-            <Icon onClick={() => dispatch(deleteAttachedFileArray(fileArrayIndex))}>❌</Icon>
+            <Icon fontSize="22px" onClick={() => dispatch(deleteAttachedFileArray(fileArrayIndex))}>
+              <MdClose />
+            </Icon>
           </Li>
         );
       })}

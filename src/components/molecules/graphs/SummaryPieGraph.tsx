@@ -12,7 +12,7 @@ import {
 } from "../../../@types/index.d";
 import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForChatroomArray, colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import styled from "styled-components";
 import Icon from "../../atoms/Icon";
@@ -21,14 +21,16 @@ import { setMostChattedTimes } from "../../../store/reducer/mostChattedTimes";
 const ChatRoomIndexArrowBox = styled.div`
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 98%;
   z-index: 1;
 
   > * {
     cursor: pointer;
+    font-weight: 200;
     font-size: 30px;
   }
 `;
@@ -186,9 +188,9 @@ const SummaryPieGraph = () => {
                 <Cell
                   key={`cell-${index}`}
                   onClick={() => handleClickChatRoom(index)}
-                  fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  fill={colorsForChatroomArray[index % colorsForChatroomArray.length]}
                   stroke={selectedChatRoomIndex === index ? lightTheme.mainBlack : ""}
-                  strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
+                  strokeWidth={selectedChatRoomIndex === index ? 1 : 1}
                   cursor="pointer"
                 />
               );

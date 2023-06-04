@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 
 type StackBarData = {
   name: string;
@@ -37,6 +37,7 @@ const ChatVolumeByPeriodGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   // const selectedChatRoomData = results[selectedChatRoomIndex];
   // const speakerTotalChatCounts: Record<string, number> = {};
@@ -90,7 +91,7 @@ const ChatVolumeByPeriodGraph = () => {
   // 날짜제한
 
   return (
-    <ResponsiveContainer width="100%" height={"90%"}>
+    <ResponsiveContainer width="100%" height={"100%"}>
       <BarChart
         width={500}
         height={300}
@@ -103,8 +104,8 @@ const ChatVolumeByPeriodGraph = () => {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" fontSize={12} />
-        <YAxis fontSize={12} />
+        <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+        <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
         <Tooltip />
         {/* <Legend /> */}
         {chatSpeakers.map((speaker: string, index: number) => {
@@ -114,8 +115,9 @@ const ChatVolumeByPeriodGraph = () => {
               dataKey={speaker}
               stackId="a"
               stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+              strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
               fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fillOpacity={selectedSpeakerIndex === index ? 1 : 0.4}
+              fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
               style={{ transition: "ease-in-out 0.7s" }}
             />
           );

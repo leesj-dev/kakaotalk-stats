@@ -9,7 +9,13 @@ const ThreeImagesBox = styled.div`
   align-items: center;
   text-align: center;
   width: 1200px;
+  height: 500px;
   gap: 30px;
+  > * {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export interface CardData {

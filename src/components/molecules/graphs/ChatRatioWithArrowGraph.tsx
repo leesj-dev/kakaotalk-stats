@@ -2,14 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
-import colorsForGraphArray from "../../../module/common/colorsForGraphArray";
+import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/selectedSpeakerIndexSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
 const RADIAN = Math.PI / 180;
 
-const cx = 48;
-const cy = 60;
+const cx = 50;
+const cy = 50;
 const iR = 25;
 const oR = 50;
 
@@ -102,15 +102,8 @@ const ChatRatioWithArrowGraph = () => {
   };
 
   return (
-    <div>
-      <PieChart
-        width={110}
-        height={90}
-        style={{
-          // border: "1px solid #8884d8",
-          marginLeft: "30px",
-        }}
-      >
+    <div style={{ width: "100%", maxWidth: "300px" }}>
+      <PieChart width={110} height={60}>
         <Tooltip />
         <Pie
           dataKey="value"
@@ -130,7 +123,8 @@ const ChatRatioWithArrowGraph = () => {
               onClick={() => handleClickSpeakerCell(index)}
               stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
               fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fillOpacity={selectedSpeakerIndex === index ? 1 : 0.7}
+              strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
+              fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
               style={{ cursor: "pointer" }}
             />
           ))}
