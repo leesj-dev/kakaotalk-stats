@@ -1,9 +1,9 @@
 export const colorsForGraphArray = [
   // 파랑
-  "#ff9900",
-  "#82ca30",
   "#5b84ff",
   "#ffdd57",
+  "#82ca30",
+  "#ff9900",
   "#97d202",
   "#3564ff",
   "#ffab19",

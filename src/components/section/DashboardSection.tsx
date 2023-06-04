@@ -156,8 +156,7 @@ const DashboardSection = () => {
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  if (containerRef?.current?.offsetHeight) {
-    console.log("1");
+  if (!isModalVisible && containerRef?.current?.offsetHeight) {
     dispatch(
       setVolumeHourlyBoxSize([containerRef?.current?.offsetWidth, containerRef?.current?.offsetHeight])
     );
