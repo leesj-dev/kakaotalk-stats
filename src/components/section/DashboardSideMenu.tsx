@@ -12,6 +12,8 @@ import Paragraph from "../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
+import Icon from "../atoms/Icon";
+import { BsShareFill } from "react-icons/bs";
 
 const DashboardSideMenuBox = styled.div`
   display: flex;
@@ -154,7 +156,19 @@ const DashboardSideMenu = () => {
     dispatch(setSelectedSpeakerIndex(-1));
   };
 
-  const handleClickVeiwDetail = () => {};
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 링크가 복사되었어요.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClick = () => {
+    const url = "쥬희무쩅이넹~ㅇㅅㅇ~";
+    handleCopyClipBoard(url);
+  };
 
   return (
     <DashboardSideMenuBox>
@@ -184,7 +198,11 @@ const DashboardSideMenu = () => {
           })}
         </ChatroomListBox>
       </DashboardLayoutBox>
-      <AdditionalFunctionBox>부가</AdditionalFunctionBox>
+      <AdditionalFunctionBox>
+        <Icon cursor="pointer" onClick={() => handleClick()}>
+          <BsShareFill />
+        </Icon>
+      </AdditionalFunctionBox>
     </DashboardSideMenuBox>
   );
 };
