@@ -19,6 +19,20 @@ import {
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { getHighKeywords } from "./KeywordCloud";
 
+const getAllKeywordData = (keywordData: ValueCountPair[]) => {
+  const resultArray: ValueCountPair[] = [];
+
+  keywordData.flat().forEach((item) => {
+    const existingItem = resultArray.find((i) => i.value === item.value);
+    if (existingItem) {
+      existingItem.count += item.count;
+    } else {
+      resultArray.push({ value: item.value, count: item.count });
+    }
+  });
+  return resultArray;
+};
+
 const KeywordChartGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -36,19 +50,15 @@ const KeywordChartGraph = () => {
   const [DISPLAY_KEYWORD_COUNT, setDISPLAY_KEYWORD_COUNT] = useState<number>(5);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
 
-  const speaker: string[] = getSpeakers(results)[selectedChatRoomIndex];
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedChatRoomIndex];
   const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, DISPLAY_KEYWORD_COUNT);
-  const allKeywordData = keywordData.flat().sort((a, b) => Number(b.count) - Number(a.count));
-  // 각각의 키워드 순위
-  // const speakersTopNKeywords = useSelector(
-  //   (state: { speakersTopNKeywordsSlice: ValueCountPair[][] }) => state.speakersTopNKeywordsSlice
-  // );
+  const allKeywordData: ValueCountPair[] = getAllKeywordData(keywordData.flat()).sort(
+    (a, b) => Number(b.count) - Number(a.count)
+  );
 
   useEffect(() => {
     setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
-    console.log(containerRef);
   }, [selectedSpeakerIndex]);
 
   function truncateValue(value: string) {
@@ -76,7 +86,7 @@ const KeywordChartGraph = () => {
         margin={{
           top: 0,
           right: 5,
-          left: -20,
+          left: -10,
           bottom: -5,
         }}
       >
