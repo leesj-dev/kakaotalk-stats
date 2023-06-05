@@ -84,16 +84,6 @@ const ChatroomListBox = styled.div`
   }
 `;
 
-const AdditionalFunctionBox = styled.div`
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  width: calc(100% + 1px);
-  border-top: 1px solid ${(props) => props.theme.border};
-  border-right: 1px solid ${(props) => props.theme.border};
-  background: ${(props) => props.theme.mainBackground};
-`;
-
 const ChatRoomBox = styled.div`
   padding: 10px;
   cursor: pointer;
@@ -156,20 +146,6 @@ const DashboardSideMenu = () => {
     dispatch(setSelectedSpeakerIndex(-1));
   };
 
-  const handleCopyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert("클립보드에 링크가 복사되었어요.");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleClick = () => {
-    const url = "쥬희무쩅이넹~ㅇㅅㅇ~";
-    handleCopyClipBoard(url);
-  };
-
   return (
     <DashboardSideMenuBox>
       <DashboardLayoutBox>
@@ -198,11 +174,6 @@ const DashboardSideMenu = () => {
           })}
         </ChatroomListBox>
       </DashboardLayoutBox>
-      <AdditionalFunctionBox>
-        <Icon cursor="pointer" onClick={() => handleClick()}>
-          <BsShareFill />
-        </Icon>
-      </AdditionalFunctionBox>
     </DashboardSideMenuBox>
   );
 };

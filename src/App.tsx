@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Wrapper from "./components/wrapper/Wrapper";
 import "./style/reset.css";
 import { ThemeProvider } from "styled-components";
@@ -9,16 +9,16 @@ import NavBar from "./components/organisms/NavBar";
 import AttachmentPage from "./components/pages/AttachmentPage";
 import AnalysisPage from "./components/pages/AnalysisPage";
 import Footer from "./components/organisms/Footer";
-import ScrollToTopFloatingButton from "./components/molecules/ScrollToTopFloatingButton";
 import GraphDetailSection from "./components/pages/GraphDetailPage";
 import { useSelector } from "react-redux";
+import FloatingMenu from "./components/organisms/FloatingMenu";
 
 function App() {
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <ScrollToTopFloatingButton />
+      <FloatingMenu />
       <NavBar />
       <Wrapper>
         <Routes>
