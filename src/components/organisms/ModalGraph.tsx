@@ -28,7 +28,6 @@ const CloseModalBox = styled.div`
   top: 5px;
   right: 5px;
   color: ${(props) => props.theme.mainText};
-
   > :nth-child(1) {
     cursor: pointer;
   }
@@ -44,7 +43,6 @@ const ContentBox = styled.div`
 const SquareGraphBox = styled.div`
   width: 75%;
   height: 100%;
-
   /* background: #ff00ff15; */
 `;
 
@@ -87,6 +85,7 @@ const SpeakerSelectBox = styled.div`
     }
   }
 `;
+
 const PeriodBox = styled.div`
   margin-bottom: 10px;
   padding: 15px 0;
@@ -152,6 +151,7 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
             <Span fontWeight="700" textAlign="center">
               그래프 상세 정보
             </Span>
+
             {currentModalData.subject === "종합 비교" ? (
               <SpeakerSelectBox></SpeakerSelectBox>
             ) : (
@@ -160,11 +160,11 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
                 <SpeakerSelect />
               </SpeakerSelectBox>
             )}
+
             <PeriodBox>
               {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
             </PeriodBox>
           </InfoContentBox>
-
           <CardContentBox>
             <CardContent h2={h2} h3={h3} p={p} />
           </CardContentBox>

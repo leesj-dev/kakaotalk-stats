@@ -2,15 +2,15 @@ export const colorsForGraphArray = [
   // 파랑
   "#5b84ff",
   "#ffdd57",
-  "#82ca30",
+  "#ff5410",
   "#ff9900",
   "#97d202",
   "#3564ff",
   "#ffab19",
-  "#ff5222",
+  "#ffd118",
   "#3ba701",
   "#4a39ff",
-  "#ffd000",
+  "#20d2ff",
 ];
 
 export const colorsForChatroomArray = [

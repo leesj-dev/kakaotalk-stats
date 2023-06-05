@@ -131,6 +131,7 @@ const GraphBox = ({
     setCurrentModalData(modalData);
     dispatch(setIsModalVisible(true));
   };
+
   return (
     <TempGraphBox key={modalData.id}>
       {modalData.id !== 0 && (
