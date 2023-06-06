@@ -7,10 +7,11 @@ import SpeakerSelect from "../molecules/SpeakerSelect";
 import CardContent from "../molecules/CardContent";
 import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
 import { getChatTimes, getDates } from "../../module/common/getProperties";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
+import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
 
 const ModalGraphBox = styled.div`
   padding: 30px;
@@ -113,16 +114,17 @@ const CardContentBox = styled.div`
 
 interface ModalGraphProps {
   currentModalData: any;
-  setIsModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) => {
+const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
   const isDetailPage = useLocation().pathname.includes("detail");
+
+  const dispatch = useDispatch();
 
   const { subject, graph, h2, h3, p, fontSize } = currentModalData;
 
   const handleClickCloseModalButton = () => {
-    setIsModalVisible && setIsModalVisible(false);
+    setIsModalVisible && dispatch(setIsModalVisible(false));
   };
 
   const results = useSelector(
@@ -150,10 +152,14 @@ const ModalGraph = ({ setIsModalVisible, currentModalData }: ModalGraphProps) =>
             <Span fontWeight="700" textAlign="center">
               그래프 상세 정보
             </Span>
-            <SpeakerSelectBox>
-              <ChatRatioWithArrowGraph />
-              <SpeakerSelect />
-            </SpeakerSelectBox>
+            {currentModalData.subject === "종합 비교" ? (
+              <SpeakerSelectBox></SpeakerSelectBox>
+            ) : (
+              <SpeakerSelectBox>
+                <ChatRatioWithArrowGraph />
+                <SpeakerSelect />
+              </SpeakerSelectBox>
+            )}
             <PeriodBox>
               {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
             </PeriodBox>

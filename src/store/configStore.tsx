@@ -12,6 +12,7 @@ import { selectedOsIndexSlice } from "./reducer/selectedOsIndexSlice";
 import { isAnalyzedMessagesExistSlice } from "./reducer/isAnalyzedMessagesExistSlice";
 import { volumeHourlyBoxSizeSlice } from "./reducer/volumeHourlyBoxSizeSlice";
 import { isDarkModeSlice } from "./reducer/isDarkModeSlice";
+import { isModalVisibleSlice } from "./reducer/isModalVisibleSlice";
 
 export default configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export default configureStore({
     isAnalyzedMessagesExistSlice: isAnalyzedMessagesExistSlice.reducer,
     volumeHourlyBoxSizeSlice: volumeHourlyBoxSizeSlice.reducer,
     isDarkModeSlice: isDarkModeSlice.reducer,
+    isModalVisibleSlice: isModalVisibleSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
