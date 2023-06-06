@@ -224,7 +224,7 @@ const DashboardSection = () => {
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
-      {isModalVisible && (
+      {isModalVisible && currentModalData && (
         <ModalBox ref={modalRef}>
           <ModalGraph currentModalData={currentModalData} />
         </ModalBox>

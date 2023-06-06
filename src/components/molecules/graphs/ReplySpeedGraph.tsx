@@ -17,15 +17,14 @@ import { AnalyzedMessage } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
-import { lightTheme } from "../../../style/Theme";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
 
 const NavigatorContainer = styled.div`
   position: absolute;
-  top: 610px;
-  height: 1000px;
-  width: 71.5%;
+  bottom: 0px;
+  height: 100%;
+  width: 100%;
   z-index: -1;
 `;
 
@@ -204,7 +203,7 @@ const ReplySpeedGraph = () => {
           )
         )}
       </div> */}
-      <ResponsiveContainer width="100%" height={"100%"}>
+      <ResponsiveContainer width="100%" height={"90%"}>
         <ComposedChart
           width={500}
           height={300}
@@ -244,7 +243,7 @@ const ReplySpeedGraph = () => {
               />
             );
           })}
-          <Brush y={580} fill="#ffffff20" height={65} startIndex={150} />
+          <Brush fill="#ffffff20" height={65} startIndex={150} />
         </ComposedChart>
       </ResponsiveContainer>
       <NavigatorContainer>
