@@ -248,7 +248,7 @@ const ReplySpeedGraph = () => {
             <Brush
               fill={isDarkMode ? "#00000010" : "#ffffff10"}
               height={65}
-              startIndex={150}
+              startIndex={Math.floor(displayData.length * 0.75)}
               stroke={isDarkMode ? "#ccc" : "#666"}
             />
           )}

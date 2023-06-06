@@ -121,14 +121,6 @@ const ChatRateGraph = () => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
           <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
-          {isParentGraphContentBox && (
-            <Brush
-              fill={isDarkMode ? "#00000010" : "#ffffff10"}
-              height={65}
-              startIndex={150}
-              stroke={isDarkMode ? "#ccc" : "#666"}
-            />
-          )}
           <Tooltip content={renderTooltipContent} />
           {chatSpeakers.map((speaker: string, index: number) => {
             return (
@@ -144,6 +136,14 @@ const ChatRateGraph = () => {
               />
             );
           })}
+          {isParentGraphContentBox && (
+            <Brush
+              fill={isDarkMode ? "#00000010" : "#ffffff10"}
+              height={65}
+              startIndex={Math.floor(data.length * 0.75)}
+              stroke={isDarkMode ? "#ccc" : "#666"}
+            />
+          )}
         </AreaChart>
       </ResponsiveContainer>
       {isParentGraphContentBox && (
