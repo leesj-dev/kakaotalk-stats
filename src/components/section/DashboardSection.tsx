@@ -115,6 +115,8 @@ const ModalBox = styled.div`
 const DashboardSection = () => {
   const dispatch = useDispatch();
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -155,8 +157,6 @@ const DashboardSection = () => {
       headerContent: `${mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}시`,
     },
   ];
-
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
   if (!isModalVisible && containerRef?.current?.offsetHeight) {
     dispatch(
@@ -224,7 +224,7 @@ const DashboardSection = () => {
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
-      {isModalVisible && (
+      {isModalVisible && currentModalData && (
         <ModalBox ref={modalRef}>
           <ModalGraph currentModalData={currentModalData} />
         </ModalBox>

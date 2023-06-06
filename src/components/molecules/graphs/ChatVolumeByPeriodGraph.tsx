@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   BarChart,
@@ -9,10 +9,12 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Brush,
 } from "recharts";
 import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
+import NavigatorContainer from "../NavigatorContainer";
 
 type StackBarData = {
   name: string;
@@ -81,6 +83,14 @@ const ChatVolumeByPeriodGraph = () => {
   const chatDates = getDates(results)[selectedChatRoomIndex];
   const chatTimes = getChatTimes(results)[selectedChatRoomIndex];
 
+  const parentRef = useRef<any>(null);
+
+  let isParentGraphContentBox;
+  if (parentRef?.current?.current) {
+    isParentGraphContentBox =
+      parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
+  }
+
   useEffect(() => {
     setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
   }, [selectedChatRoomIndex]);
@@ -91,39 +101,87 @@ const ChatVolumeByPeriodGraph = () => {
   // 날짜제한
 
   return (
-    <ResponsiveContainer width="100%" height={"100%"}>
-      <BarChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 0,
-          right: 5,
-          left: -20,
-          bottom: -10,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-        <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
-        <Tooltip />
-        {/* <Legend /> */}
-        {chatSpeakers.map((speaker: string, index: number) => {
-          return (
-            <Bar
-              key={index}
-              dataKey={speaker}
-              stackId="a"
-              stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
-              strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
-              fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
-              style={{ transition: "ease-in-out 0.7s" }}
+    <>
+      <ResponsiveContainer width="100%" height={"100%"} ref={parentRef}>
+        <BarChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 0,
+            right: 5,
+            left: -20,
+            bottom: -10,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
+          <Tooltip />
+          {/* <Legend /> */}
+          {chatSpeakers.map((speaker: string, index: number) => {
+            return (
+              <Bar
+                key={index}
+                dataKey={speaker}
+                stackId="a"
+                stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
+                fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
+              />
+            );
+          })}
+          {isParentGraphContentBox && (
+            <Brush
+              fill={isDarkMode ? "#00000010" : "#ffffff10"}
+              height={65}
+              startIndex={Math.floor(data.length * 0.75)}
+              stroke={isDarkMode ? "#ccc" : "#666"}
             />
-          );
-        })}
-      </BarChart>
-    </ResponsiveContainer>
+          )}
+        </BarChart>
+      </ResponsiveContainer>
+      {isParentGraphContentBox && (
+        <NavigatorContainer>
+          <ResponsiveContainer width="100%" height={101}>
+            <BarChart
+              width={500}
+              height={300}
+              data={data}
+              margin={{
+                top: 16,
+                right: 5,
+                left: -20,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+              <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
+              <Tooltip />
+              {/* <Legend /> */}
+              {chatSpeakers.map((speaker: string, index: number) => {
+                return (
+                  <Bar
+                    key={index}
+                    dataKey={speaker}
+                    stackId="a"
+                    stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                    strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
+                    fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                    fillOpacity={
+                      selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4
+                    }
+                    style={{ transition: "ease-in-out 0.7s" }}
+                  />
+                );
+              })}
+            </BarChart>
+          </ResponsiveContainer>
+        </NavigatorContainer>
+      )}
+    </>
   );
 };
 
