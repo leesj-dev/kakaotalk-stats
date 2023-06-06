@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   ComposedChart,
   Bar,
+  Brush,
 } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
@@ -18,6 +19,15 @@ import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { lightTheme } from "../../../style/Theme";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
+import styled from "styled-components";
+
+const NavigatorContainer = styled.div`
+  position: absolute;
+  top: 610px;
+  height: 1000px;
+  width: 71.5%;
+  z-index: -1;
+`;
 
 type LineGraphData = {
   name: string;
@@ -234,8 +244,60 @@ const ReplySpeedGraph = () => {
               />
             );
           })}
+          <Brush y={580} fill="#ffffff20" height={65} startIndex={150} />
         </ComposedChart>
       </ResponsiveContainer>
+      <NavigatorContainer>
+        <ResponsiveContainer width="100%" height={"10%"}>
+          <ComposedChart
+            width={500}
+            height={300}
+            data={displayData}
+            margin={{
+              top: 0,
+              right: -10,
+              left: -20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+            <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              fontSize={12}
+              tick={customTickColor(isDarkMode)}
+            />
+
+            <Tooltip />
+            {/* <Legend /> */}
+            <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" />
+            <ReferenceLine
+              y={getAverageReplyTime(displayData)}
+              yAxisId="left"
+              label="평균답장속도"
+              stroke="orange"
+            />
+            {chatSpeakers.map((speaker: string, index: number) => {
+              return (
+                <Line
+                  dot={false}
+                  key={index}
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey={speaker}
+                  stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  strokeWidth={
+                    selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 2 : 0.2
+                  }
+                  style={{ transition: "ease-in-out 0.7s" }}
+                />
+              );
+            })}
+          </ComposedChart>
+        </ResponsiveContainer>
+      </NavigatorContainer>
     </>
   );
 };

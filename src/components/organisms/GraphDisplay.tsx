@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
@@ -12,6 +12,7 @@ import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
 import { CgMaximize } from "react-icons/cg";
+import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
 
 const graphContentData = [
   {
@@ -104,18 +105,15 @@ const IconBox = styled.div`
   cursor: pointer;
 `;
 
-export type GraphBoxProps = {
-  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentModalData: React.Dispatch<React.SetStateAction<any>>;
-};
-
 const GraphBox = ({
   displaySubject,
-  modalSetProps,
+  setCurrentModalData,
 }: {
   displaySubject: string;
-  modalSetProps: GraphBoxProps;
+  setCurrentModalData: (data: any) => void;
 }) => {
+  const dispatch = useDispatch();
+
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
@@ -130,8 +128,8 @@ const GraphBox = ({
   };
 
   const handleClickOpenModalButton = () => {
-    modalSetProps.setIsModalVisible(true);
-    modalSetProps.setCurrentModalData(modalData);
+    setCurrentModalData(modalData);
+    dispatch(setIsModalVisible(true));
   };
   return (
     <TempGraphBox key={modalData.id}>

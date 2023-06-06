@@ -1,22 +1,9 @@
-import React, { PureComponent, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
-import {
-  colorsForGraphArray,
-  customTickColor,
-  setRotationColor,
-} from "../../../module/common/colorsForGraphArray";
-import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
+import { customTickColor, setRotationColor } from "../../../module/common/colorsForGraphArray";
+import { getKeywordCounts } from "../../../module/common/getProperties";
 import { getHighKeywords } from "./KeywordCloud";
 
 const getAllKeywordData = (keywordData: ValueCountPair[]) => {

@@ -124,8 +124,10 @@ const DashboardSection = () => {
   const mostChattedTimes = useSelector(
     (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
   );
+  const isModalVisible = useSelector(
+    (state: { isModalVisibleSlice: StringNumberTuple[] }) => state.isModalVisibleSlice
+  );
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [currentModalData, setCurrentModalData] = useState<any>();
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
@@ -175,19 +177,22 @@ const DashboardSection = () => {
     }
   }, [isModalVisible]);
 
-  const modalSetProps = { setIsModalVisible, setCurrentModalData };
+  // const modalSetProps = { setIsModalVisible, setCurrentModalData };
 
   return (
     <DashboardTemplateContainer>
       <AsideBox>
-        <GraphDisplay displaySubject={"종합 비교"} modalSetProps={modalSetProps} />
-        <GraphDisplay displaySubject={"기간 대화량"} modalSetProps={modalSetProps} />
-        <GraphDisplay displaySubject={"대화 비율"} modalSetProps={modalSetProps} />
+        <GraphDisplay displaySubject={"종합 비교"} setCurrentModalData={setCurrentModalData} />
+        <GraphDisplay displaySubject={"기간 대화량"} setCurrentModalData={setCurrentModalData} />
+        <GraphDisplay displaySubject={"대화 비율"} setCurrentModalData={setCurrentModalData} />
       </AsideBox>
       <ArticleBox>
         <HeadBox>
           <DashboardContainer>
-            <GraphDisplay displaySubject={"채팅방 대화 비율"} modalSetProps={modalSetProps} />
+            <GraphDisplay
+              displaySubject={"채팅방 대화 비율"}
+              setCurrentModalData={setCurrentModalData}
+            />
             <SpeakerSelect />
           </DashboardContainer>
           {HeaderData.map((data) => {
@@ -200,22 +205,28 @@ const DashboardSection = () => {
         </HeadBox>
         <BodyBox>
           <VerticalBox>
-            <GraphDisplay displaySubject={"답장속도"} modalSetProps={modalSetProps} />
+            <GraphDisplay displaySubject={"답장속도"} setCurrentModalData={setCurrentModalData} />
           </VerticalBox>
           <VerticalBox>
             <HorizontalBox ref={containerRef}>
-              <GraphDisplay displaySubject={"시간대별 대화량"} modalSetProps={modalSetProps} />
+              <GraphDisplay
+                displaySubject={"시간대별 대화량"}
+                setCurrentModalData={setCurrentModalData}
+              />
             </HorizontalBox>
             <HorizontalBox>
-              <GraphDisplay displaySubject={"시간대별 답장 횟수"} modalSetProps={modalSetProps} />
-              <GraphDisplay displaySubject={"키워드"} modalSetProps={modalSetProps} />
+              <GraphDisplay
+                displaySubject={"시간대별 답장 횟수"}
+                setCurrentModalData={setCurrentModalData}
+              />
+              <GraphDisplay displaySubject={"키워드"} setCurrentModalData={setCurrentModalData} />
             </HorizontalBox>
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
       {isModalVisible && (
         <ModalBox ref={modalRef}>
-          <ModalGraph setIsModalVisible={setIsModalVisible} currentModalData={currentModalData} />
+          <ModalGraph currentModalData={currentModalData} />
         </ModalBox>
       )}
     </DashboardTemplateContainer>
