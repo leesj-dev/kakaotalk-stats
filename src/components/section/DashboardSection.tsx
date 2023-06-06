@@ -31,9 +31,8 @@ const AsideBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   > * {
-    height: 33.333%;
+    height: calc((100% - 20px) / 3);
   }
 `;
 
@@ -43,6 +42,14 @@ const ArticleBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  /* <HeadBox> */
+  > :first-child {
+    height: calc((100% - 10px) * 0.15);
+  }
+  /*  <BodyBox> */
+  > :last-child {
+    height: calc((100% - 10px) * 0.85);
+  }
 `;
 
 const HeadBox = styled.div`
@@ -75,20 +82,19 @@ const HeadBox = styled.div`
 const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 85%;
   gap: 10px;
-
-  > :nth-child(1) {
-    height: 50%;
+  > * {
+    height: calc((100% - 10px) / 2);
   }
   > :nth-child(2) {
-    height: 50%;
-
     > :nth-child(1) {
       width: 60%;
     }
     > :nth-child(2) {
       width: 40%;
+      > * {
+        height: calc((100% - 10px) / 2);
+      }
     }
   }
 `;
