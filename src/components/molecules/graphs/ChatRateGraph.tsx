@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   ResponsiveContainer,
@@ -15,6 +15,7 @@ import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getP
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
+import NavigatorContainer from "../NavigatorContainer";
 
 const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
   return Object.values(chatCountsDay).reduce((sum, count) => sum + count, 0);
@@ -88,6 +89,14 @@ const ChatRateGraph = () => {
   const chatDates: string[] = getDates(results)[selectedChatRoomIndex];
   const chatTimes: ChatTimes[][] = getChatTimes(results)[selectedChatRoomIndex];
 
+  const parentRef = useRef<any>(null);
+
+  let isParentGraphContentBox;
+  if (parentRef?.current?.current) {
+    isParentGraphContentBox =
+      parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
+  }
+
   useEffect(() => {
     setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
   }, [selectedChatRoomIndex]);
@@ -95,41 +104,91 @@ const ChatRateGraph = () => {
   useEffect(() => {}, [selectedSpeakerIndex]);
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <AreaChart
-        width={500}
-        height={400}
-        data={data}
-        stackOffset="expand"
-        margin={{
-          top: 0,
-          right: 5,
-          left: -20,
-          bottom: -5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-        <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
-
-        <Tooltip content={renderTooltipContent} />
-        {chatSpeakers.map((speaker: string, index: number) => {
-          return (
-            <Area
-              key={index}
-              type="monotone"
-              dataKey={speaker}
-              stackId="1"
-              stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              strokeWidth={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 0 : 0.3}
-              fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
-              style={{ transition: "ease-in-out 0.7s" }}
+    <>
+      <ResponsiveContainer width="100%" height="100%" ref={parentRef}>
+        <AreaChart
+          width={500}
+          height={400}
+          data={data}
+          stackOffset="expand"
+          margin={{
+            top: 0,
+            right: 5,
+            left: -20,
+            bottom: -5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
+          {isParentGraphContentBox && (
+            <Brush
+              fill={isDarkMode ? "#00000010" : "#ffffff10"}
+              height={65}
+              startIndex={150}
+              stroke={isDarkMode ? "#ccc" : "#666"}
             />
-          );
-        })}
-      </AreaChart>
-    </ResponsiveContainer>
+          )}
+          <Tooltip content={renderTooltipContent} />
+          {chatSpeakers.map((speaker: string, index: number) => {
+            return (
+              <Area
+                key={index}
+                type="monotone"
+                dataKey={speaker}
+                stackId="1"
+                stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                strokeWidth={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 0 : 0.3}
+                fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
+              />
+            );
+          })}
+        </AreaChart>
+      </ResponsiveContainer>
+      {isParentGraphContentBox && (
+        <NavigatorContainer>
+          <ResponsiveContainer width="100%" height={101}>
+            <AreaChart
+              width={500}
+              height={400}
+              data={data}
+              stackOffset="expand"
+              margin={{
+                top: 12,
+                right: 5,
+                left: -20,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+              <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
+              <Tooltip content={renderTooltipContent} />
+              {chatSpeakers.map((speaker: string, index: number) => {
+                return (
+                  <Area
+                    key={index}
+                    type="monotone"
+                    dataKey={speaker}
+                    stackId="1"
+                    stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                    fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                    strokeWidth={
+                      selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 0 : 0.3
+                    }
+                    fillOpacity={
+                      selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4
+                    }
+                    style={{ transition: "ease-in-out 0.7s" }}
+                  />
+                );
+              })}
+            </AreaChart>
+          </ResponsiveContainer>
+        </NavigatorContainer>
+      )}
+    </>
   );
 };
 
