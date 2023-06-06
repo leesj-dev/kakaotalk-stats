@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Line,
@@ -19,14 +19,7 @@ import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
-
-const NavigatorContainer = styled.div`
-  position: absolute;
-  bottom: 0px;
-  height: 100%;
-  width: 100%;
-  z-index: -1;
-`;
+import NavigatorContainer from "../NavigatorContainer";
 
 type LineGraphData = {
   name: string;
@@ -181,6 +174,14 @@ const ReplySpeedGraph = () => {
   const chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
   const averageReplyTime = getAverageReplyTime(displayData);
 
+  const parentRef = useRef<any>(null);
+
+  let isParentGraphContentBox;
+  if (parentRef?.current?.current) {
+    isParentGraphContentBox =
+      parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
+  }
+
   useEffect(() => {
     setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes));
     setCountKeysLessThanData(countKeysLessThanAverage(displayData, averageReplyTime));
@@ -203,7 +204,7 @@ const ReplySpeedGraph = () => {
           )
         )}
       </div> */}
-      <ResponsiveContainer width="100%" height={"90%"}>
+      <ResponsiveContainer width="100%" height={"100%"} ref={parentRef}>
         <ComposedChart
           width={500}
           height={300}
@@ -243,60 +244,64 @@ const ReplySpeedGraph = () => {
               />
             );
           })}
-          <Brush fill="#ffffff20" height={65} startIndex={150} />
+          {isParentGraphContentBox && (
+            <Brush
+              fill={isDarkMode ? "#00000010" : "#ffffff10"}
+              height={65}
+              startIndex={150}
+              stroke={isDarkMode ? "#ccc" : "#666"}
+            />
+          )}
         </ComposedChart>
       </ResponsiveContainer>
-      <NavigatorContainer>
-        <ResponsiveContainer width="100%" height={"10%"}>
-          <ComposedChart
-            width={500}
-            height={300}
-            data={displayData}
-            margin={{
-              top: 0,
-              right: -10,
-              left: -20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-            <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
-            <YAxis
-              yAxisId="right"
-              orientation="right"
-              fontSize={12}
-              tick={customTickColor(isDarkMode)}
-            />
+      {isParentGraphContentBox && (
+        <NavigatorContainer>
+          <ResponsiveContainer width="100%" height={101}>
+            <ComposedChart
+              width={500}
+              height={300}
+              data={displayData}
+              margin={{
+                top: 0,
+                right: -10,
+                left: -20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
+              <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
+              <YAxis
+                yAxisId="right"
+                orientation="right"
+                fontSize={12}
+                tick={customTickColor(isDarkMode)}
+              />
 
-            <Tooltip />
-            {/* <Legend /> */}
-            <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" />
-            <ReferenceLine
-              y={getAverageReplyTime(displayData)}
-              yAxisId="left"
-              label="평균답장속도"
-              stroke="orange"
-            />
-            {chatSpeakers.map((speaker: string, index: number) => {
-              return (
-                <Line
-                  dot={false}
-                  key={index}
-                  yAxisId="left"
-                  type="monotone"
-                  dataKey={speaker}
-                  stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
-                  strokeWidth={
-                    selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 2 : 0.2
-                  }
-                  style={{ transition: "ease-in-out 0.7s" }}
-                />
-              );
-            })}
-          </ComposedChart>
-        </ResponsiveContainer>
-      </NavigatorContainer>
+              <Tooltip />
+              {/* <Legend /> */}
+              <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" />
+              <ReferenceLine y={getAverageReplyTime(displayData)} yAxisId="left" stroke="orange" />
+              {chatSpeakers.map((speaker: string, index: number) => {
+                return (
+                  <Line
+                    dot={false}
+                    key={index}
+                    yAxisId="left"
+                    type="monotone"
+                    dataKey={speaker}
+                    stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                    strokeWidth={
+                      selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 2 : 0.2
+                    }
+                    style={{ transition: "ease-in-out 0.7s" }}
+                  />
+                );
+              })}
+            </ComposedChart>
+          </ResponsiveContainer>
+        </NavigatorContainer>
+      )}
     </>
   );
 };
