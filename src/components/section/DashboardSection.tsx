@@ -130,7 +130,7 @@ const DashboardSection = () => {
     (state: { isModalVisibleSlice: StringNumberTuple[] }) => state.isModalVisibleSlice
   );
 
-  const [currentModalData, setCurrentModalData] = useState<any>();
+  const [currentModalData, modalSetProps] = useState<any>();
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
@@ -179,22 +179,19 @@ const DashboardSection = () => {
     }
   }, [isModalVisible]);
 
-  // const modalSetProps = { setIsModalVisible, setCurrentModalData };
+  // const modalSetProps = { setIsModalVisible, modalSetProps };
 
   return (
     <DashboardTemplateContainer>
       <AsideBox>
-        <GraphDisplay displaySubject={"종합 비교"} setCurrentModalData={setCurrentModalData} />
-        <GraphDisplay displaySubject={"기간 대화량"} setCurrentModalData={setCurrentModalData} />
-        <GraphDisplay displaySubject={"대화 비율"} setCurrentModalData={setCurrentModalData} />
+        <GraphDisplay displaySubject={"종합 비교"} modalSetProps={modalSetProps} zIndex={1} />
+        <GraphDisplay displaySubject={"기간 대화량"} modalSetProps={modalSetProps} zIndex={3} />
+        <GraphDisplay displaySubject={"대화 비율"} modalSetProps={modalSetProps} zIndex={2} />
       </AsideBox>
       <ArticleBox>
         <HeadBox>
           <DashboardContainer>
-            <GraphDisplay
-              displaySubject={"채팅방 대화 비율"}
-              setCurrentModalData={setCurrentModalData}
-            />
+            <GraphDisplay displaySubject={"채팅방 대화 비율"} modalSetProps={modalSetProps} zIndex={1} />
             <SpeakerSelect />
           </DashboardContainer>
           {HeaderData.map((data) => {
@@ -207,21 +204,23 @@ const DashboardSection = () => {
         </HeadBox>
         <BodyBox>
           <VerticalBox>
-            <GraphDisplay displaySubject={"답장속도"} setCurrentModalData={setCurrentModalData} />
+            <GraphDisplay displaySubject={"답장속도"} modalSetProps={modalSetProps} zIndex={3} />
           </VerticalBox>
           <VerticalBox>
             <HorizontalBox ref={containerRef}>
               <GraphDisplay
                 displaySubject={"시간대별 대화량"}
-                setCurrentModalData={setCurrentModalData}
+                zIndex={1}
+                modalSetProps={modalSetProps}
               />
             </HorizontalBox>
             <HorizontalBox>
               <GraphDisplay
                 displaySubject={"시간대별 답장 횟수"}
-                setCurrentModalData={setCurrentModalData}
+                zIndex={2}
+                modalSetProps={modalSetProps}
               />
-              <GraphDisplay displaySubject={"키워드"} setCurrentModalData={setCurrentModalData} />
+              <GraphDisplay displaySubject={"키워드"} modalSetProps={modalSetProps} zIndex={1} />
             </HorizontalBox>
           </VerticalBox>
         </BodyBox>

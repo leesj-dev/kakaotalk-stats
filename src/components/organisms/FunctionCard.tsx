@@ -16,31 +16,24 @@ const SlideBox = styled.div`
   width: 50px;
   height: 50px;
   border: none;
-  color: ${(props) => props.theme.mainWhite};
   cursor: pointer;
-  font-size: 20px;
   z-index: 100;
 
   > * {
-    padding: 15px;
+    padding: 10px;
+    color: ${(props) => props.theme.functionArrowWhite};
   }
   > :first-child {
     position: absolute;
     right: 56.3%;
     bottom: 5%;
     background-color: ${(props) => props.theme.mainBlue};
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 20%;
+    border-bottom-right-radius: 20%;
     transform: scaleY(-1);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     > :first-child {
       transform: translateY(3px);
     }
-=======
->>>>>>> afe2064 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
->>>>>>> dd0dc64 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
@@ -50,18 +43,8 @@ const SlideBox = styled.div`
     right: 60%;
     bottom: 15%;
     background-color: ${(props) => props.theme.mainBlue};
-<<<<<<< HEAD
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-=======
-<<<<<<< HEAD
     border-top-left-radius: 20%;
     border-bottom-left-radius: 20%;
-=======
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
->>>>>>> afe2064 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
->>>>>>> dd0dc64 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
@@ -81,7 +64,8 @@ const Card = styled.div`
   overflow: hidden;
   &.dark {
     box-shadow: none;
-    background: #555555;
+    background: #eeeeee;
+    color: ${(props) => props.theme.mainBlack};
   }
 `;
 
@@ -107,13 +91,8 @@ const MainSlide = styled.div`
   width: 60%;
   height: 100%;
   position: absolute;
-  top: 25%;
+  top: 0;
   right: 0;
-<<<<<<< HEAD
-=======
-  width: 50%;
-
->>>>>>> 2a648df (refactor:운영체제 icon size 조정 & hover,active 효과)
   transition: transform 0.5s ease-in-out;
 
   > * {
@@ -206,7 +185,6 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
             <CardContent key={index} h2={data.subject} h3={data.h3} p={data.p} />
           ))}
         </MainSlide>
-
         <SideSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
           {functionCardData.map((data) => (
             <Img src={data.img} />

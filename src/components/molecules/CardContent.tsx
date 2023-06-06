@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { ThemeConsumer } from "styled-components";
 import Paragraph from "../atoms/Paragraph";
 import H2 from "../atoms/H2";
 import H3 from "../atoms/H3";
@@ -36,7 +36,9 @@ const CardContent: React.FC<CardContentProps> = ({ h2, h3, p, fontSize }) => {
     <Description>
       <H2>{h2}</H2>
       <H3 lineHeight="1.5">{h3}</H3>
-      <Paragraph lineHeight="1.5em">{p}</Paragraph>
+      <Paragraph lineHeight="1.5em" color="#000">
+        {p}
+      </Paragraph>
     </Description>
   );
 };

@@ -7,7 +7,7 @@ interface Props {
 }
 const SlideBtn = ({ direction, onClick }: Props) => {
   return (
-    <Icon onClick={onClick}>
+    <Icon fontSize="24px" onClick={onClick}>
       <FiArrowUp />
     </Icon>
   );

@@ -111,7 +111,6 @@ const ChatRateGraph = () => {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
         <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
-
         <Tooltip content={renderTooltipContent} />
         {chatSpeakers.map((speaker: string, index: number) => {
           return (

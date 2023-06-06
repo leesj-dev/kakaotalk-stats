@@ -107,10 +107,12 @@ const IconBox = styled.div`
 
 const GraphBox = ({
   displaySubject,
-  setCurrentModalData,
+  modalSetProps,
+  zIndex,
 }: {
   displaySubject: string;
-  setCurrentModalData: (data: any) => void;
+  modalSetProps: (data: any) => void;
+  zIndex: number;
 }) => {
   const dispatch = useDispatch();
 
@@ -128,12 +130,12 @@ const GraphBox = ({
   };
 
   const handleClickOpenModalButton = () => {
-    setCurrentModalData(modalData);
+    modalSetProps(modalData);
     dispatch(setIsModalVisible(true));
   };
 
   return (
-    <TempGraphBox key={modalData.id}>
+    <TempGraphBox key={modalData.id} style={{ zIndex }}>
       {modalData.id !== 0 && (
         <IconBox onClick={() => handleClickOpenModalButton()}>
           <Icon>
@@ -141,11 +143,7 @@ const GraphBox = ({
           </Icon>
         </IconBox>
       )}
-<<<<<<< HEAD
       <Span fontWeight="500" padding="0 0 1vh 0">
-=======
-      <Span fontWeight="600" padding="0 0 10px 0">
->>>>>>> afe2064 (refactor:dashboard style 정리(대화 비율 화살표, 메인 이미지,펑션카드 화살표)
         {modalData.subject}
       </Span>
       {isAnalyzedMessagesExist && modalData.graph}
