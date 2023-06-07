@@ -40,7 +40,8 @@ const ContentBox = styled.div`
   height: 100%;
 `;
 
-const SquareGraphBox = styled.div`
+const GraphContentBox = styled.div`
+  position: relative;
   width: 75%;
   height: 100%;
   /* background: #ff00ff15; */
@@ -112,7 +113,14 @@ const CardContentBox = styled.div`
 `;
 
 interface ModalGraphProps {
-  currentModalData: any;
+  currentModalData: {
+    subject?: string;
+    graph: any;
+    h2: string;
+    h3: string;
+    p: string;
+    fontSize?: any;
+  };
 }
 
 const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
@@ -120,11 +128,7 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
 
   const dispatch = useDispatch();
 
-  const { subject, graph, h2, h3, p, fontSize } = currentModalData;
-
-  const handleClickCloseModalButton = () => {
-    setIsModalVisible && dispatch(setIsModalVisible(false));
-  };
+  const { subject, graph, h2, h3, p } = currentModalData;
 
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -134,6 +138,10 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
   );
   const chatDates = getDates(results)[selectedChatRoomIndex];
   const datePickerPeriodData = [chatDates.flat()[0], chatDates.flat().slice(-1)[0]];
+
+  const handleClickCloseModalButton = () => {
+    setIsModalVisible && dispatch(setIsModalVisible(false));
+  };
 
   return (
     <ModalGraphBox>
@@ -145,14 +153,13 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
         )}
       </CloseModalBox>
       <ContentBox>
-        <SquareGraphBox>{graph}</SquareGraphBox>
+        <GraphContentBox className="GraphContentBox">{graph}</GraphContentBox>
         <DescriptionBox>
           <InfoContentBox>
             <Span fontWeight="700" textAlign="center">
               그래프 상세 정보
             </Span>
-
-            {currentModalData.subject === "종합 비교" ? (
+            {subject === "종합 비교" ? (
               <SpeakerSelectBox></SpeakerSelectBox>
             ) : (
               <SpeakerSelectBox>

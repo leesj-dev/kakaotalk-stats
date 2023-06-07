@@ -82,7 +82,7 @@ const graphContentData = [
   },
 ];
 
-const TempGraphBox = styled.div`
+const GraphDisplayBox = styled.div`
   position: relative;
   padding: 10px;
   margin: 0 auto;
@@ -128,6 +128,7 @@ const GraphBox = ({
     h3: "h3",
     p: "p",
   };
+  const { id, subject, graph } = modalData;
 
   const handleClickOpenModalButton = () => {
     modalSetProps(modalData);
@@ -135,8 +136,8 @@ const GraphBox = ({
   };
 
   return (
-    <TempGraphBox key={modalData.id} style={{ zIndex }}>
-      {modalData.id !== 0 && (
+    <GraphDisplayBox key={id}>
+      {id !== 0 && (
         <IconBox onClick={() => handleClickOpenModalButton()}>
           <Icon>
             <CgMaximize />
@@ -144,10 +145,10 @@ const GraphBox = ({
         </IconBox>
       )}
       <Span fontWeight="500" padding="0 0 1vh 0">
-        {modalData.subject}
+        {subject}
       </Span>
-      {isAnalyzedMessagesExist && modalData.graph}
-    </TempGraphBox>
+      {isAnalyzedMessagesExist && graph}
+    </GraphDisplayBox>
   );
 };
 

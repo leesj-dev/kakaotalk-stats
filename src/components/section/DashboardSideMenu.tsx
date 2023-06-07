@@ -12,8 +12,6 @@ import Paragraph from "../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
-import Icon from "../atoms/Icon";
-import { BsShareFill } from "react-icons/bs";
 
 const DashboardSideMenuBox = styled.div`
   display: flex;
