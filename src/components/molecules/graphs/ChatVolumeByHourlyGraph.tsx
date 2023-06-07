@@ -5,6 +5,7 @@ import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
 import { customTickColor, setRotationColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
+import ReplyCountByHourlyGraph from "./ReplyCountByHourlyGraph";
 
 const getDayIndex = (date: string) => {
   const parsedDate = parseInt(date);
@@ -183,7 +184,7 @@ const ChatVolumeByHourlyGraph = () => {
                   axisLine={false}
                   tick={{
                     dy: -16,
-                    fontSize: 14,
+                    fontSize: 12,
                     ...customTickColor(isDarkMode),
                   }}
                   tickLine={false}
@@ -193,7 +194,7 @@ const ChatVolumeByHourlyGraph = () => {
                   type="number"
                   dataKey="index"
                   height={10}
-                  width={60}
+                  width={70}
                   tick={false}
                   axisLine={false}
                   label={{
@@ -201,7 +202,7 @@ const ChatVolumeByHourlyGraph = () => {
                     position: "insideRight",
                     ...customTickColor(isDarkMode),
                   }}
-                  fontSize={12}
+                  fontSize={7}
                 />
                 <Tooltip
                   cursor={{ strokeDasharray: "3 3" }}
@@ -234,6 +235,7 @@ const ChatVolumeByHourlyGraph = () => {
             </ResponsiveContainer>
           );
         })}
+      <ReplyCountByHourlyGraph />
     </>
   );
 };

@@ -18,7 +18,6 @@ const SlideBox = styled.div`
   border: none;
   cursor: pointer;
   z-index: 100;
-
   > * {
     padding: 10px;
     color: ${(props) => props.theme.functionArrowWhite};
@@ -65,7 +64,6 @@ const Card = styled.div`
   &.dark {
     box-shadow: none;
     background: #eeeeee;
-    color: ${(props) => props.theme.mainBlack};
   }
 `;
 
@@ -94,7 +92,7 @@ const MainSlide = styled.div`
   top: 0;
   right: 0;
   transition: transform 0.5s ease-in-out;
-
+  color: ${(props) => props.theme.mainBlack};
   > * {
     display: flex;
     flex-direction: column;
