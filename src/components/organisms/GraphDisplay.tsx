@@ -107,10 +107,12 @@ const IconBox = styled.div`
 
 const GraphBox = ({
   displaySubject,
-  setCurrentModalData,
+  modalSetProps,
+  zIndex,
 }: {
   displaySubject: string;
-  setCurrentModalData: (data: any) => void;
+  modalSetProps: (data: any) => void;
+  zIndex: number;
 }) => {
   const dispatch = useDispatch();
 
@@ -129,9 +131,10 @@ const GraphBox = ({
   const { id, subject, graph } = modalData;
 
   const handleClickOpenModalButton = () => {
-    setCurrentModalData(modalData);
+    modalSetProps(modalData);
     dispatch(setIsModalVisible(true));
   };
+
   return (
     <GraphDisplayBox key={id}>
       {id !== 0 && (

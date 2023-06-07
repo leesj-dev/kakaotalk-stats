@@ -31,7 +31,6 @@ const DatePickerCalendar = () => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
-
   const selectedChatRoomData: any = results[selectedChatRoomIndex];
 
   const dispatch = useDispatch();

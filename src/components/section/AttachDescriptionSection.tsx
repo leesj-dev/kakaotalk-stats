@@ -48,15 +48,15 @@ const mobileCardData = [
 
 const pcCardData = [
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile01.png",
-    text: "메뉴를 눌러 대화 내보내기를 합니다.",
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method01.png",
+    text: "Mac OS :메뉴의 채팅방 설정에서 대화 내용 저장을 합니다",
   },
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile02.png",
-    text: "파일을 변경하지 않고 저장합니다.",
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method02.png",
+    text: "Window : 메뉴의 대화내용에서 대화 내보내기를 합니다.",
   },
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/mobile03.png",
+    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method03.png",
     text: "대화 내보내기 완료를 확인합니다.",
   },
 ];

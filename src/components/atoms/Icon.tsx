@@ -4,7 +4,10 @@ import styled from "styled-components";
 const I = styled.i<{ fontSize?: string; color?: string; cursor?: string }>`
   font-size: ${(props) => props.fontSize || "16px"};
   color: ${(props) => props.theme.color || "mainWhite"};
+<<<<<<< HEAD
   cursor: ${(props) => props.cursor && "pointer"};
+=======
+>>>>>>> 2a648df (refactor:운영체제 icon size 조정 & hover,active 효과)
 `;
 
 interface IconProps {

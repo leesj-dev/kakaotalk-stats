@@ -104,6 +104,7 @@ const ChatRateGraph = () => {
   useEffect(() => {}, [selectedSpeakerIndex]);
 
   return (
+
     <>
       <ResponsiveContainer width="100%" height="100%" ref={parentRef}>
         <AreaChart

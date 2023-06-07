@@ -13,8 +13,9 @@ export const lightTheme: LightTheme = {
   navBackground: "#ffffff",
   dashboardBackground: "#2da0fa",
   dashboardMenuBackground: "#acdbff",
-  modalBackground: "#ededed5f",
+  modalBackground: "#fafafa5f",
   modalContentBackground: "#ffffff9d",
+  functionArrowWhite: "#fff",
 };
 export const darkTheme: DarkTheme = {
   mainBlue: " #0d92ff",
@@ -31,4 +32,5 @@ export const darkTheme: DarkTheme = {
   dashboardMenuBackground: "#151515",
   modalBackground: "#44444440",
   modalContentBackground: "#60606070",
+  functionArrowWhite: "#fff",
 };

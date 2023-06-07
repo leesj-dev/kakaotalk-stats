@@ -101,6 +101,7 @@ const ChatVolumeByPeriodGraph = () => {
   // 날짜제한
 
   return (
+
     <>
       <ResponsiveContainer width="100%" height={"100%"} ref={parentRef}>
         <BarChart

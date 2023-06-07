@@ -16,22 +16,24 @@ const SlideBox = styled.div`
   width: 50px;
   height: 50px;
   border: none;
-  color: ${(props) => props.theme.mainWhite};
   cursor: pointer;
-  font-size: 20px;
   z-index: 100;
 
   > * {
-    padding: 15px;
+    padding: 10px;
+    color: ${(props) => props.theme.functionArrowWhite};
   }
   > :first-child {
     position: absolute;
     right: 56.3%;
     bottom: 5%;
     background-color: ${(props) => props.theme.mainBlue};
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 20%;
+    border-bottom-right-radius: 20%;
     transform: scaleY(-1);
+    > :first-child {
+      transform: translateY(3px);
+    }
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
@@ -41,8 +43,8 @@ const SlideBox = styled.div`
     right: 60%;
     bottom: 15%;
     background-color: ${(props) => props.theme.mainBlue};
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-left-radius: 20%;
+    border-bottom-left-radius: 20%;
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
@@ -62,7 +64,8 @@ const Card = styled.div`
   overflow: hidden;
   &.dark {
     box-shadow: none;
-    background: #555555;
+    background: #eeeeee;
+    color: ${(props) => props.theme.mainBlack};
   }
 `;
 
@@ -182,7 +185,6 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
             <CardContent key={index} h2={data.subject} h3={data.h3} p={data.p} />
           ))}
         </MainSlide>
-
         <SideSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
           {functionCardData.map((data) => (
             <Img src={data.img} />
