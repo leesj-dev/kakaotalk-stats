@@ -99,12 +99,12 @@ const ChatRateGraph = () => {
 
   useEffect(() => {
     setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
+    console.log(parentRef);
   }, [selectedChatRoomIndex]);
 
   useEffect(() => {}, [selectedSpeakerIndex]);
 
   return (
-
     <>
       <ResponsiveContainer width="100%" height="100%" ref={parentRef}>
         <AreaChart
