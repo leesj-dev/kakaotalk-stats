@@ -13,7 +13,7 @@ const OsIconBox = styled.ul`
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 50px;
+  gap: 5%;
   > :nth-child(2) {
     > :first-child {
       transform: scale(98%) translateY(-3px);
@@ -29,6 +29,8 @@ const OsIconBox = styled.ul`
 const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }>`
   padding: 10px;
   display: flex;
+  justify-content: center;
+  text-align: center;
   align-items: center;
   flex-direction: column;
   border-radius: 5px;
@@ -37,8 +39,7 @@ const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }
 
   > :first-child {
     width: ${(props) => props.size || "65px"};
-    /* height: ${(props) => props.size || "65px"}; */
-    font-size: ${(props) => props.fontSize || "50px"};
+    font-size: ${(props) => props.fontSize || "60px"};
   }
 
   &:hover {
@@ -95,12 +96,10 @@ interface OsData {
 }
 
 type OsListProps = {
-  size?: string;
   color?: string;
-  fontSize?: string;
 };
 
-const OsList = ({ size, color, fontSize }: OsListProps) => {
+const OsList = ({ color }: OsListProps) => {
   const dispatch = useDispatch();
 
   const selectedOsIndex = useSelector(
@@ -115,10 +114,8 @@ const OsList = ({ size, color, fontSize }: OsListProps) => {
           <OsListBox
             key={data.id}
             className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
-            size={size}
             color={color}
             onClick={() => dispatch(setSelectedOsIndex(data.id))}
-            fontSize={fontSize}
           >
             <Icon color="#2da0fa">{data.icon}</Icon>
             <Span>{data.os}</Span>

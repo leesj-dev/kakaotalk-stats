@@ -8,9 +8,6 @@ import SlideBtn from "../molecules/SlideBtn";
 const Container = styled.div`
   width: 1200px;
   padding: 100px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
 `;
 const SlideBox = styled.div`
   width: 50px;
