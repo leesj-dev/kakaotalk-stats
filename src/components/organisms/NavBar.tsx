@@ -64,6 +64,9 @@ const DarkModeButton = styled.div`
     > :nth-child(1) {
       left: 44px;
       background: ${darkTheme.navBackground};
+      @media (max-width: 768px) {
+        left: 34px;
+      }
     }
   }
   @media (max-width: 768px) {

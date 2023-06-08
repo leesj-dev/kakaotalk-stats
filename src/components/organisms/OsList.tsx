@@ -29,7 +29,9 @@ const OsIconBox = styled.ul`
 const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }>`
   padding: 10px;
   display: flex;
+  justify-content: center;
   align-items: center;
+  text-align: center;
   flex-direction: column;
   border-radius: 5px;
   transition: 0.2s;

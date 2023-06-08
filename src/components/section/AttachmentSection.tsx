@@ -45,6 +45,7 @@ const AttachmentSectionBox = styled.div`
   }
 
   @media (max-width: 768px) {
+    margin: 60px auto 0 auto;
     min-width: 0px;
   }
 `;
