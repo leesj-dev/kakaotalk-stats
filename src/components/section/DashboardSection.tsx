@@ -65,7 +65,6 @@ const HeadBox = styled.div`
   }
   > :nth-child(1) {
     flex: 1.3;
-
     flex-direction: row;
     > :nth-child(1) {
       padding: 0;
@@ -123,8 +122,6 @@ const ModalBox = styled.div`
 const DashboardSection = () => {
   const dispatch = useDispatch();
 
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );
@@ -165,6 +162,8 @@ const DashboardSection = () => {
       headerContent: `${mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}시`,
     },
   ];
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   if (!isModalVisible && containerRef?.current?.offsetHeight) {
     dispatch(
@@ -221,11 +220,11 @@ const DashboardSection = () => {
               />
             </HorizontalBox>
             <HorizontalBox>
-              <GraphDisplay
+              {/* <GraphDisplay
                 displaySubject={"시간대별 답장 횟수"}
                 zIndex={2}
                 modalSetProps={modalSetProps}
-              />
+              /> */}
               <GraphDisplay displaySubject={"키워드"} modalSetProps={modalSetProps} zIndex={1} />
             </HorizontalBox>
           </VerticalBox>
