@@ -12,6 +12,9 @@ const IndicatorBox = styled.div`
   > :first-child {
     margin-bottom: 5px;
   }
+  @media (max-width: 768px) {
+    margin-bottom: -50px;
+  }
 `;
 
 const MotionBox = styled.div`

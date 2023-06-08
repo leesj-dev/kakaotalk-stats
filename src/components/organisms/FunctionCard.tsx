@@ -58,6 +58,7 @@ const Card = styled.div`
   background-color: ${(props) => props.theme.mainWhite};
   position: relative;
   overflow: hidden;
+
   &.dark {
     box-shadow: none;
     background: #eeeeee;
@@ -66,12 +67,14 @@ const Card = styled.div`
 
 const SideSlide = styled.div`
   height: 100%;
-  width: 40%;
+
   position: absolute;
   top: 0;
   left: 0;
   transition: transform 0.5s ease-in-out;
-
+  /* @media (min-width: 769px) {
+    width: 40%;
+  } */
   > * {
     height: 100%;
     width: 100%;
@@ -83,13 +86,15 @@ const SideSlide = styled.div`
 `;
 
 const MainSlide = styled.div`
-  width: 60%;
   height: 100%;
   position: absolute;
   top: 0;
   right: 0;
   transition: transform 0.5s ease-in-out;
   color: ${(props) => props.theme.mainBlack};
+  /* @media (min-width: 769px) {
+    width: 60%;
+  } */
   > * {
     display: flex;
     flex-direction: column;

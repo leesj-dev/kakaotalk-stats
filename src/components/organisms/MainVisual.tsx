@@ -9,16 +9,24 @@ import RadiusButton from "../atoms/Button";
 import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled.div`
+  width: 100%;
+  max-width: 1240px;
   position: relative;
-  padding: 100px 0 80px 0;
+  padding: 100px 20px 80px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1200px;
+
+  @media (max-width: 768px) {
+    width: 1200px;
+    padding-top: 50px;
+    flex-direction: column;
+  }
 `;
 
 const AsideBox = styled.div`
   width: 50%;
+  margin-right: 30px;
   > :nth-child(2) {
     margin-bottom: 50px;
     > * {

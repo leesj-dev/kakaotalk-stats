@@ -7,12 +7,15 @@ const SpanComponent = styled.span<{
   padding?: string;
   marginBottom?: string;
 }>`
-  font-size: ${(props) => props.fontSize || "2vh"};
+  font-size: ${(props) => props.fontSize || "22px"};
   font-weight: ${(props) => props.fontWeight || "400"};
   color: ${(props) => props.color || props.theme.mainText};
   text-align: ${(props) => props.textAlign || "left"};
   padding: ${(props) => props.padding || "0"};
   margin-bottom: ${(props) => props.marginBottom || "0"};
+  @media (max-width: 1200px) {
+    line-height: 1.3;
+  }
 `;
 
 interface SpanProps {
