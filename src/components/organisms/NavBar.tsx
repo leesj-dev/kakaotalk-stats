@@ -11,6 +11,7 @@ import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 const Wrap = styled.div`
   width: 100%;
   position: fixed;
+  top: 0;
   z-index: 999;
   color: ${(props) => props.theme.mainText};
   background-color: ${(props) => props.theme.navBackground};

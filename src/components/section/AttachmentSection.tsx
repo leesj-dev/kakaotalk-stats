@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import AttachedFileList from "../molecules/AttachedFileList";
 import RadiusButton from "../atoms/Button";
@@ -31,7 +31,7 @@ import { setIsAnalyzedMessagesExist } from "../../store/reducer/isAnalyzedMessag
 import Paragraph from "../atoms/Paragraph";
 
 const AttachmentSectionBox = styled.div`
-  margin-top: 80px;
+  margin: 80px auto 0 auto;
   padding: 80px 0;
   display: flex;
   flex-direction: column;
@@ -194,14 +194,6 @@ const AttachmentSection = () => {
       );
     }
   };
-
-  // const handleDeleteAllButton = () => {
-  //   setAttachedFiles([]);
-  // };
-
-  useEffect(() => {}, [attachedFileList]);
-
-  useEffect(() => {}, [selectedOsIndex]);
 
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>

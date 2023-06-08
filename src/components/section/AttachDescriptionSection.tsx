@@ -11,7 +11,6 @@ const AttachDescriptionBox = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-
   > * {
     margin-bottom: 30px;
     font-weight: 300;

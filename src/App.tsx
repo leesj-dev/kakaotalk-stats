@@ -20,12 +20,10 @@ function App() {
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <FloatingMenu />
       <NavBar />
-      <Wrapper>
-        <Routes>
-          <Route path={"/"} element={<MainPage />} />
-          <Route path={"/2"} element={<AttachmentPage />} />
-        </Routes>
-      </Wrapper>
+      <Routes>
+        <Route path={"/"} element={<MainPage />} />
+        <Route path={"/2"} element={<AttachmentPage />} />
+      </Routes>
       <Routes>
         <Route path={"/dashboard"} element={<AnalysisPage />} />
         <Route path={"/dashboard/detail/"} element={<GraphDetailSection />} />
