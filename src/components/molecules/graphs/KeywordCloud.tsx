@@ -25,12 +25,12 @@ const KeywordList = styled.li`
  * @returns {ValueCountPair[]} 상위 N개의 키워드입니다.
  */
 const getAllTopNKeywords = (allKeywords: KeywordCounts, n: number) => {
-  const keywordsEntries: ValueCountPair[] = Object.entries(allKeywords).map(([value, count]) => ({
+  const keywordsEntries: ValueCountPair[] = Object.entries(allKeywords).map(([text, value]) => ({
+    text,
     value,
-    count,
   }));
   const sortedKeywordsEntries: ValueCountPair[] = keywordsEntries.sort(
-    (a: ValueCountPair, b: ValueCountPair) => b.count - a.count
+    (a: ValueCountPair, b: ValueCountPair) => b.value - a.value
   );
 
   const topNKeywords: ValueCountPair[] = sortedKeywordsEntries.slice(0, n + 1);
@@ -64,7 +64,7 @@ const getOverlappedKeyword = (keywordData: any[]) => {
   const overlappedKeyword: any = {};
   keywordData.forEach((keywords) => {
     keywords.forEach((keyword: any) => {
-      overlappedKeyword[keyword.value] = Number(overlappedKeyword[keyword.value] || 0) + 1;
+      overlappedKeyword[keyword.text] = Number(overlappedKeyword[keyword.text] || 0) + 1;
     });
   });
   const filteredKeyword = [];
@@ -89,12 +89,12 @@ export const getHighKeywords = (
     highKeywords.push(getSpeakersTopNKeywords(keywordsArray, displayKeywordCount));
   }
   const spaceFilteredHighKeyword = highKeywords.map((keywordArray) =>
-    keywordArray.filter((keyword) => keyword.value !== "")
+    keywordArray.filter((keyword) => keyword.text !== "")
   );
 
   const filteredHighKeyword = spaceFilteredHighKeyword.map((keywordArray: ValueCountPair[]) =>
     keywordArray.filter(
-      (keyword: ValueCountPair) => !keywordToFilter.some((el: any) => keyword.value.includes(el))
+      (keyword: ValueCountPair) => !keywordToFilter.some((el: any) => keyword.text.includes(el))
     )
   );
   return filteredHighKeyword;
@@ -114,11 +114,11 @@ const getChatRoomsNFKeywordCounts = (keywordCounts: KeywordCounts[][][]) => {
     const keywordData = getHighKeywords(keywordCount, Infinity);
     const nFFilteredData = keywordData.map((keywordArray: ValueCountPair[]) => {
       return keywordArray.filter((keyword: ValueCountPair) => {
-        return keywordsToCheck.some((checker: string) => checker === keyword.value);
+        return keywordsToCheck.some((checker: string) => checker === keyword.text);
       });
     });
     const nFKeywordCount = nFFilteredData.map((nfArray: ValueCountPair[]) => {
-      return nfArray.reduce((a: number, b: ValueCountPair) => a + b.count, 0);
+      return nfArray.reduce((a: number, b: ValueCountPair) => a + b.value, 0);
     });
     chatRoomsNFKeywordCounts.push(nFKeywordCount);
   }
