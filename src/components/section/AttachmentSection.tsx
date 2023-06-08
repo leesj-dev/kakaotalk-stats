@@ -58,7 +58,6 @@ const OsListBox = styled.div`
   padding: 100px 150px 90px 150px;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
-
   > :nth-child(1) {
     margin-bottom: 30px;
   }

@@ -9,6 +9,7 @@ import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlic
 import { VscNewFile } from "react-icons/vsc";
 
 const DropBox = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,10 +17,9 @@ const DropBox = styled.div`
   text-align: center;
   width: 900px;
   height: 400px;
-  /* padding: 80px 200px 80px 200px; */
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
-
+  z-index: 2;
   > * {
     margin-bottom: 10px;
     font-weight: 300;
@@ -27,7 +27,6 @@ const DropBox = styled.div`
   > :nth-child(1) {
     margin-bottom: 30px;
   }
-
   > :last-child {
     color: ${(props) => props.theme.mainGray};
   }
@@ -37,6 +36,18 @@ const AttachmentBox = styled.div`
   margin-bottom: 30px;
   display: flex;
   gap: 5px;
+`;
+
+const DragFile = styled.div`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  gap: 20px;
+  z-index: 1;
 `;
 
 type DropZoneProps = {
@@ -70,9 +81,23 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
     if (files && files.length) {
       dispatch(pushNewlyAttachedFiles(files));
     }
+
     // const fileArray: any = Array.prototype.slice.call(files);
     // pushNewlyAttachedFiles(fileArray);
     // 파일 처리 로직을 수행합니다.
+  };
+  const handleIconDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragging(true);
+  };
+
+  const handleIconDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragging(true);
+  };
+  const handleIconDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragging(true);
   };
   return (
     <DropBox
@@ -83,10 +108,14 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
       onDrop={handleDrop}
     >
       {dragging ? (
-        <>
+        <DragFile
+          onDragEnter={handleIconDragEnter}
+          onDragLeave={handleIconDragLeave}
+          onDragOver={handleIconDragOver}
+        >
           <VscNewFile size={60} />
           <Span fontSize="20px">Drop Files Here</Span>
-        </>
+        </DragFile>
       ) : (
         <>
           <OsList />

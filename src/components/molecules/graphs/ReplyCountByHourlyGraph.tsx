@@ -37,7 +37,7 @@ const ReplyCountByHourlyGraph = () => {
   const stackedAreaData: ReplyStackedAreaGraph[] = Array(24)
     .fill({})
     .map((_, i) => ({
-      name: i.toString().padStart(2, "0"),
+      name: i.toString().padStart(2),
     }));
 
   speakerChatTimes.forEach((speakerChatTime, speakerIndex) => {
@@ -56,21 +56,21 @@ const ReplyCountByHourlyGraph = () => {
   useEffect(() => {}, [selectedChatRoomIndex]);
   return (
     <>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="30%">
         <AreaChart
           width={500}
           height={300}
           data={stackedAreaData}
           margin={{
             top: 5,
-            right: 5,
-            left: -10,
+            right: 13,
+            left: -17,
             bottom: -10,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-          <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
+          <YAxis width={60} fontSize={12} tick={customTickColor(isDarkMode)} />
           <Tooltip />
           {speakers.map((speaker: string, index: number) => {
             return (
