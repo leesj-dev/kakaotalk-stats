@@ -36,6 +36,7 @@ const DropBox = styled.div`
   @media (max-width: 768px) {
     width: calc(100% - 40px);
     min-width: 360px;
+    height: 316px;
     padding: 60px 30px;
   }
 `;
