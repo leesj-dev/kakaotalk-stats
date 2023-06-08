@@ -5,10 +5,9 @@ import Img from "../atoms/Img";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../../style/Theme";
 import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
-import Icon from "../atoms/Icon";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 
-const Wrap = styled.div`
+const NavWrap = styled.div`
   width: 100%;
   position: fixed;
   top: 0;
@@ -19,11 +18,17 @@ const Wrap = styled.div`
 `;
 const Container = styled.div`
   margin: 0 auto;
-  width: 1200px;
+  padding: 0 20px;
+  max-width: 1240px;
+  min-width: 769px;
   display: flex;
   justify-content: space-between;
   font-weight: 500;
   line-height: 80px;
+  @media (max-width: 768px) {
+    min-width: 360px;
+    line-height: 60px;
+  }
 `;
 
 const H1 = styled.h1`
@@ -33,9 +38,11 @@ const Menu = styled.div`
   display: flex;
   align-items: center;
   font-size: 22px;
+  gap: 60px;
 
-  > * {
-    margin-left: 100px;
+  @media (max-width: 768px) {
+    font-size: 18px;
+    gap: 30px;
   }
 `;
 
@@ -58,6 +65,10 @@ const DarkModeButton = styled.div`
       left: 44px;
       background: ${darkTheme.navBackground};
     }
+  }
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 30px;
   }
 `;
 
@@ -100,7 +111,7 @@ const NavBar = () => {
   };
 
   return (
-    <Wrap>
+    <NavWrap>
       <Container>
         <H1>
           <Link to="/">
@@ -119,7 +130,7 @@ const NavBar = () => {
           </DarkModeButton>
         </Menu>
       </Container>
-    </Wrap>
+    </NavWrap>
   );
 };
 

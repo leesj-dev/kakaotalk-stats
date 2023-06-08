@@ -48,11 +48,11 @@ const mobileCardData = [
 const pcCardData = [
   {
     src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method01.png",
-    text: "Mac OS :메뉴의 채팅방 설정에서 대화 내용 저장을 합니다",
+    text: "Mac OS: 메뉴 - 채팅방 설정 - 대화 내용 저장",
   },
   {
     src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method02.png",
-    text: "Window : 메뉴의 대화내용에서 대화 내보내기를 합니다.",
+    text: "Window : 메뉴 - 대화내용 - 내보내기",
   },
   {
     src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method03.png",
@@ -65,7 +65,7 @@ const AttachmentDescriptionSection = () => {
   return (
     <AttachDescriptionBox>
       <Paragraph fontSize="24px">
-        현재 실행하고 있는 기기에서 카카오톡 메시지를 내보내는 방법 알아보기
+        현재 실행하고 있는 기기에서 카카오톡 메시지 내보내기 방법 알아보기
       </Paragraph>
       <ButtonBox>
         <RadiusButton onClick={() => setCardData(pcCardData)}>PC</RadiusButton>

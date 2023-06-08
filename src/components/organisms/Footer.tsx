@@ -8,7 +8,10 @@ import Anchor from "../atoms/Anchor";
 const FooterContainer = styled.div`
   width: 100%;
   background-color: ${(props) => props.theme.footerBackground};
-  padding: 60px 0 60px 0;
+  padding: 60px 0;
+  @media (max-width: 768px) {
+    padding: 40px 0;
+  }
 `;
 const ContentBox = styled.div`
   margin: 0 auto;
@@ -17,7 +20,12 @@ const ContentBox = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 1200px;
+  max-width: 1220px;
+  min-width: 769px;
+  @media (max-width: 768px) {
+    width: calc(100%);
+    min-width: 360px;
+  }
 `;
 
 const DeveloperDescriptionBox = styled.div`

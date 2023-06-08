@@ -4,16 +4,13 @@ import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
 
-const Main2Container = styled.div`
-  width: 100%;
-`;
-
-const Main2Wrapper = styled.div`
+const MainContainer = styled.div`
   padding: 100px 0;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
 `;
 
 const MainPage = () => {
@@ -30,12 +27,10 @@ const MainPage = () => {
   }, []);
 
   return (
-    <Main2Container>
-      <Main2Wrapper>
-        <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
-        <FunctionCard moveScrollPosition={moveScrollPosition} />
-      </Main2Wrapper>
-    </Main2Container>
+    <MainContainer>
+      <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
+      <FunctionCard moveScrollPosition={moveScrollPosition} />
+    </MainContainer>
   );
 };
 
