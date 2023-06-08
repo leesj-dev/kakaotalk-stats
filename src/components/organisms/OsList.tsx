@@ -30,8 +30,8 @@ const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }
   padding: 10px;
   display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
+  align-items: center;
   flex-direction: column;
   border-radius: 5px;
   transition: 0.2s;
@@ -63,14 +63,6 @@ const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }
       box-shadow: none;
       color: #fff;
       background: #555555;
-    }
-  }
-
-  @media (max-width: 768px) {
-    > :first-child {
-      width: ${(props) => props.size || "40px"};
-      font-size: ${(props) => props.fontSize || "45px"};
-      min-width: 0;
     }
   }
 `;
