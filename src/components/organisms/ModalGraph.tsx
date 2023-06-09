@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
@@ -112,6 +112,42 @@ const CardContentBox = styled.div`
   }
 `;
 
+const ResponsiveHeadBox = styled.div`
+  display: flex;
+  align-items: center;
+  > * {
+    flex: 1;
+  }
+`;
+const ResponsivePeriodBox = styled.div`
+  margin-bottom: 5px;
+`;
+
+const ResponsiveContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  height: 100%;
+
+  > :nth-child(1) {
+    flex: 1;
+  }
+  > :nth-child(2) {
+    flex: 5;
+  }
+  > :nth-child(3) {
+    flex: 1;
+  }
+`;
+
+const ResponsiveSubjectBox = styled.div``;
+const ResponsiveParagraphBox = styled.div``;
+const ResponsiveGraphContentBox = styled.div`
+  height: 100%;
+  width: 100%;
+`;
+
 interface ModalGraphProps {
   currentModalData: {
     subject?: string;
@@ -143,22 +179,66 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
     setIsModalVisible && dispatch(setIsModalVisible(false));
   };
 
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
+
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <ModalGraphBox>
-      <CloseModalBox onClick={() => handleClickCloseModalButton()}>
-        {isDetailPage ? null : (
+      {isDetailPage ? null : (
+        <CloseModalBox onClick={() => handleClickCloseModalButton()}>
           <Icon fontSize="24px">
             <MdClose />
           </Icon>
-        )}
-      </CloseModalBox>
-      <ContentBox>
-        <GraphContentBox className="GraphContentBox">{graph}</GraphContentBox>
-        <DescriptionBox>
-          <InfoContentBox>
-            <Span fontWeight="700" textAlign="center">
-              그래프 상세 정보
-            </Span>
+        </CloseModalBox>
+      )}
+      {isDetailPage && screenWidth > 1024 ? (
+        <ContentBox>
+          <GraphContentBox className="GraphContentBox">{graph}</GraphContentBox>
+          <DescriptionBox>
+            <InfoContentBox>
+              <Span fontWeight="700" textAlign="center">
+                그래프 상세 정보
+              </Span>
+              {subject === "종합 비교" ? (
+                <SpeakerSelectBox></SpeakerSelectBox>
+              ) : (
+                <SpeakerSelectBox>
+                  <ChatRatioWithArrowGraph />
+                  <SpeakerSelect />
+                </SpeakerSelectBox>
+              )}
+
+              <PeriodBox>
+                {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
+              </PeriodBox>
+            </InfoContentBox>
+            <CardContentBox>
+              <CardContent h2={h2} h3={h3} p={p} />
+            </CardContentBox>
+          </DescriptionBox>
+        </ContentBox>
+      ) : (
+        <ResponsiveContentBox>
+          <ResponsiveHeadBox>
+            <ResponsiveSubjectBox>
+              <ResponsivePeriodBox>
+                {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
+              </ResponsivePeriodBox>
+              <Span fontSize="28px" fontWeight="700" textAlign="center">
+                {h2}
+              </Span>
+            </ResponsiveSubjectBox>
+
             {subject === "종합 비교" ? (
               <SpeakerSelectBox></SpeakerSelectBox>
             ) : (
@@ -167,16 +247,13 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
                 <SpeakerSelect />
               </SpeakerSelectBox>
             )}
-
-            <PeriodBox>
-              {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
-            </PeriodBox>
-          </InfoContentBox>
-          <CardContentBox>
-            <CardContent h2={h2} h3={h3} p={p} />
-          </CardContentBox>
-        </DescriptionBox>
-      </ContentBox>
+          </ResponsiveHeadBox>
+          <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
+          <ResponsiveParagraphBox>
+            <Span fontSize="18px">{p}</Span>
+          </ResponsiveParagraphBox>
+        </ResponsiveContentBox>
+      )}
     </ModalGraphBox>
   );
 };
