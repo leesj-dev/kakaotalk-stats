@@ -1,64 +1,32 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import H2 from "../atoms/H2";
+import H3 from "../atoms/H3";
 import Img from "../atoms/Img";
+import Paragraph from "../atoms/Paragraph";
 import CardContent from "../molecules/CardContent";
 import SlideBtn from "../molecules/SlideBtn";
 
 const Container = styled.div`
-  width: 1200px;
-  padding: 100px 0;
-`;
-const SlideBox = styled.div`
-  width: 50px;
-  height: 50px;
-  border: none;
-  cursor: pointer;
-  z-index: 100;
-  > * {
-    padding: 10px;
-    color: ${(props) => props.theme.functionArrowWhite};
-  }
-  > :first-child {
-    position: absolute;
-    right: 56.3%;
-    bottom: 5%;
-    background-color: ${(props) => props.theme.mainBlue};
-    border-top-right-radius: 20%;
-    border-bottom-right-radius: 20%;
-    transform: scaleY(-1);
-    > :first-child {
-      transform: translateY(3px);
-    }
-    &:hover {
-      background: ${(props) => props.theme.mainBlueHover};
-    }
-  }
-  > :last-child {
-    position: absolute;
-    right: 60%;
-    bottom: 15%;
-    background-color: ${(props) => props.theme.mainBlue};
-    border-top-left-radius: 20%;
-    border-bottom-left-radius: 20%;
-    &:hover {
-      background: ${(props) => props.theme.mainBlueHover};
-    }
-  }
+  padding: 100px 20px;
 `;
 
 const Card = styled.div`
   position: relative;
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
   display: flex;
   border-radius: 10px;
   margin: 0 auto;
-  width: 1200px;
   height: 500px;
   box-shadow: 2px 0px 10px 0px #ddd;
   background-color: ${(props) => props.theme.mainWhite};
-  position: relative;
   overflow: hidden;
-
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
   &.dark {
     box-shadow: none;
     background: #eeeeee;
@@ -66,46 +34,121 @@ const Card = styled.div`
 `;
 
 const SideSlide = styled.div`
+  width: 50%;
   height: 100%;
-
-  position: absolute;
-  top: 0;
-  left: 0;
   transition: transform 0.5s ease-in-out;
-  /* @media (min-width: 769px) {
-    width: 40%;
+  /* > * {
+    background-color: #ff0;
   } */
-  > * {
-    height: 100%;
+  @media (max-width: 769px) {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-right: 1px solid ${(props) => props.theme.mainGray};
+  }
+`;
+const SideContent = styled.div`
+  width: 100%;
+  height: 100%;
+  border-right: 1px solid ${(props) => props.theme.mainGray};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  @media (max-width: 769px) {
+    padding: 50px;
+    border-right: none;
+  }
+  > :nth-child(1) {
+    display: none;
+    @media (max-width: 769px) {
+      display: block;
+      font-size: 1.3em;
+      margin-bottom: 10px;
+    }
+  }
+  > :nth-child(2) {
+    display: none;
+    @media (max-width: 769px) {
+      display: block;
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+  }
+  > :nth-child(3) {
+    @media (max-width: 769px) {
+      width: 50%;
+      height: 50%;
+    }
+  }
+
+  > :nth-child(4) {
+    display: none;
+    @media (max-width: 769px) {
+      display: block;
+      white-space: normal;
+      word-wrap: break-word;
+      word-break: break-all;
+      line-height: 1.3;
+      word-spacing: 3px;
+      font-size: 0.9em;
+    }
   }
 `;
 
 const MainSlide = styled.div`
+  width: 50%;
   height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
+  background-color: #f00;
   transition: transform 0.5s ease-in-out;
   color: ${(props) => props.theme.mainBlack};
-  /* @media (min-width: 769px) {
-    width: 60%;
-  } */
+  @media (max-width: 769px) {
+    display: none;
+  }
   > * {
     display: flex;
     flex-direction: column;
     align-items: left;
     justify-content: center;
-    padding: 100px;
-    height: 100%;
-    width: 100%;
+    padding: 10%;
+    @media (max-width: 769px) {
+      padding: 30px;
+      text-align: center;
+    }
   }
 `;
+const SlideBox = styled.div`
+  cursor: pointer;
+  z-index: 100;
 
+  > * {
+    padding: 10px;
+    color: ${(props) => props.theme.functionArrowWhite};
+    position: absolute;
+    right: 50%;
+    bottom: 5%;
+    background-color: ${(props) => props.theme.mainBlue};
+  }
+  > :first-child {
+    border-top-right-radius: 20%;
+    border-bottom-right-radius: 20%;
+    transform: scaleY(-1) translateX(44px);
+    @media (max-width: 769px) {
+      bottom: 30px;
+    }
+    &:hover {
+      background: ${(props) => props.theme.mainBlueHover};
+    }
+  }
+  > :last-child {
+    border-top-left-radius: 20%;
+    border-bottom-left-radius: 20%;
+    @media (max-width: 769px) {
+      bottom: 30px;
+    }
+    &:hover {
+      background: ${(props) => props.theme.mainBlueHover};
+    }
+  }
+`;
 interface Props {
   moveScrollPosition: React.MutableRefObject<HTMLDivElement | null>;
 }
@@ -145,7 +188,7 @@ const functionCardData = [
     subject: "키워드",
     h3: "대화 내용에서 빈도수가 높은 단어를 추출하여 시각화하여 보여주는 워드 클라우드",
     p: "대화 내용에서 자주 등장하는 단어나 문구를 나타냅니다. 이를 통해 대화의 주요 주제나 키워드를 파악할 수 있으며, 이를 활용하여 대화의 내용을 더욱 효율적으로 파악하고 관리할 수 있습니다.",
-    img: `${process.env.PUBLIC_URL}/images/KeywordCloud.png`,
+    img: `${process.env.PUBLIC_URL}/images/ChatVolumeByHourlyGraph.png`,
   },
   {
     id: 6,
@@ -180,16 +223,23 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
   return (
     <Container ref={moveScrollPosition}>
       <Card className={` ${isDarkMode ? "dark" : ""}`}>
+        <SideSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
+          {functionCardData.map((data) => (
+            <SideContent>
+              <H2>{data.subject}</H2>{" "}
+              <H3 fontSize="24px" lineHeight="1.5">
+                {data.h3}{" "}
+              </H3>
+              <Img src={data.img} />
+              <Paragraph>{data.p}</Paragraph>
+            </SideContent>
+          ))}
+        </SideSlide>
         <MainSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
           {functionCardData.map((data, index) => (
             <CardContent key={index} h2={data.subject} h3={data.h3} p={data.p} />
           ))}
         </MainSlide>
-        <SideSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
-          {functionCardData.map((data) => (
-            <Img src={data.img} />
-          ))}
-        </SideSlide>
         <SlideBox>
           <SlideBtn onClick={() => handleSlideChange("next")} direction={"down"} />
           <SlideBtn onClick={() => handleSlideChange("prev")} direction={"up"} />
