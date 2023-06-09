@@ -115,8 +115,23 @@ const CardContentBox = styled.div`
 const ResponsiveHeadBox = styled.div`
   display: flex;
   align-items: center;
+  padding: 0 12px;
   > * {
     flex: 1;
+  }
+  > :nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    > :nth-child(1) {
+      margin-right: 7px;
+    }
+    > * {
+      margin-left: auto;
+      > * {
+        margin-left: auto;
+      }
+    }
   }
 `;
 const ResponsivePeriodBox = styled.div`
@@ -142,7 +157,9 @@ const ResponsiveContentBox = styled.div`
 `;
 
 const ResponsiveSubjectBox = styled.div``;
-const ResponsiveParagraphBox = styled.div``;
+const ResponsiveParagraphBox = styled.div`
+  padding: 0 12px;
+`;
 const ResponsiveGraphContentBox = styled.div`
   height: 100%;
   width: 100%;
