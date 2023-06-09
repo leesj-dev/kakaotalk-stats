@@ -18,8 +18,10 @@ const MainVisualContainer = styled.div`
   align-items: center;
 
   @media (max-width: 768px) {
-    width: 1200px;
+    width: 100%;
+    min-width: 1200px;
     padding-top: 50px;
+
     flex-direction: column;
   }
 `;
@@ -27,6 +29,9 @@ const MainVisualContainer = styled.div`
 const AsideBox = styled.div`
   width: 50%;
   margin-right: 30px;
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
   > :nth-child(2) {
     margin-bottom: 50px;
     > * {
