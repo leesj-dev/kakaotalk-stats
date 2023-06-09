@@ -17,8 +17,8 @@ const ModalGraphBox = styled.div`
   padding: 30px;
   width: 100%;
   height: 100%;
-  background: #fff;
-  /* backdrop-filter: blur(80px); */
+  background: ${(props) => props.theme.modalBackground};
+  backdrop-filter: blur(80px);
   box-shadow: 2px 2px 8px -3px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
 `;
