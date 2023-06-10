@@ -90,7 +90,6 @@ const ChatRateGraph = () => {
   const chatTimes: ChatTimes[][] = getChatTimes(results)[selectedChatRoomIndex];
 
   const parentRef = useRef<any>(null);
-  console.log(parentRef, "parentRef", parentRef?.current?.current.offsetParent);
   let isParentGraphContentBox;
   if (parentRef?.current?.current) {
     isParentGraphContentBox =
