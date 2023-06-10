@@ -19,42 +19,57 @@ const MainVisualContainer = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    min-width: 1200px;
-    padding-top: 50px;
-
+    min-width: 1240px;
+    padding: 50px 20px 0 20px;
     flex-direction: column;
   }
 `;
 
 const AsideBox = styled.div`
   width: 50%;
+  max-width: 610px;
   margin-right: 30px;
   @media (max-width: 768px) {
+    width: 100%;
+    min-width: 610px;
+    padding: 0 20px;
     margin-right: 0;
+    text-align: center;
   }
+  /* @media (max-width: 480px) {
+
+  } */
   > :nth-child(2) {
     margin-bottom: 50px;
+    width: 100%;
+    height: 100%;
     > * {
       margin-bottom: 10px;
+      @media (max-width: 768px) {
+        text-align: center;
+      }
     }
   }
   > :nth-child(3) {
     display: inline-block;
     text-decoration: underline;
     text-underline-position: under;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
   > :last-child {
     text-align: center;
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    bottom: 0;
+    bottom: -50px;
   }
 `;
 
 const ArticleBox = styled.div`
   width: 50%;
+  @media (max-width: 768px) {
+    margin-bottom: 40px;
+  }
 `;
 
 const LogoBox = styled.div`
@@ -62,6 +77,9 @@ const LogoBox = styled.div`
   height: 100px;
   margin-bottom: 30px;
   transform: translateX(-3px);
+  @media (max-width: 768px) {
+    margin: 0 auto 30px;
+  }
 `;
 
 const MainVisualImgBox = styled.div`

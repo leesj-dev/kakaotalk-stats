@@ -28,7 +28,7 @@ const Card = styled.div`
   overflow: hidden;
   @media (max-width: 768px) {
     flex-direction: column;
-    margin-top: 50px;
+    margin-top: 100px;
   }
   &.dark {
     box-shadow: none;
@@ -43,7 +43,7 @@ const SideSlide = styled.div`
   /* > * {
     background-color: #ff0;
   } */
-  @media (max-width: 769px) {
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -56,13 +56,13 @@ const SideContent = styled.div`
   align-items: center;
   text-align: center;
 
-  @media (max-width: 769px) {
+  @media (max-width: 768px) {
     padding: 50px;
     border-right: none;
   }
   > :nth-child(1) {
     display: none;
-    @media (max-width: 769px) {
+    @media (max-width: 768px) {
       display: block;
       font-size: 1.3em;
       margin-bottom: 10px;
@@ -71,7 +71,7 @@ const SideContent = styled.div`
   > :nth-child(2) {
     display: none;
 
-    @media (max-width: 769px) {
+    @media (max-width: 768px) {
       display: block;
       font-size: 1.1em;
       margin-bottom: 30px;
@@ -81,7 +81,7 @@ const SideContent = styled.div`
     width: 100%;
     height: 100%;
     object-fit: contain;
-    @media (max-width: 769px) {
+    @media (max-width: 768px) {
       width: 50%;
       height: 50%;
     }
@@ -89,7 +89,7 @@ const SideContent = styled.div`
 
   > :nth-child(4) {
     display: none;
-    @media (max-width: 769px) {
+    @media (max-width: 768px) {
       display: block;
       white-space: normal;
       word-wrap: break-word;
@@ -106,7 +106,7 @@ const MainSlide = styled.div`
   height: 100%;
   transition: transform 0.5s ease-in-out;
   color: ${(props) => props.theme.mainBlack};
-  @media (max-width: 769px) {
+  @media (max-width: 768px) {
     display: none;
   }
   > * {
@@ -115,7 +115,7 @@ const MainSlide = styled.div`
     align-items: left;
     justify-content: center;
     padding: 10%;
-    @media (max-width: 769px) {
+    @media (max-width: 768px) {
       padding: 30px;
       text-align: center;
     }
@@ -137,7 +137,7 @@ const SlideBox = styled.div`
     border-top-right-radius: 20%;
     border-bottom-right-radius: 20%;
     transform: scaleY(-1) translateX(44px);
-    @media (max-width: 769px) {
+    @media (max-width: 768px) {
       bottom: 30px;
     }
     &:hover {
@@ -147,7 +147,7 @@ const SlideBox = styled.div`
   > :last-child {
     border-top-left-radius: 20%;
     border-bottom-left-radius: 20%;
-    @media (max-width: 769px) {
+    @media (max-width: 768px) {
       bottom: 30px;
     }
     &:hover {

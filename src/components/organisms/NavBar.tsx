@@ -6,8 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../../style/Theme";
 import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
+import { HiMenu } from "react-icons/hi";
+import { CgClose } from "react-icons/cg";
+import Icon from "../atoms/Icon";
+import DashboardSideMenu from "../section/DashboardSideMenu";
 
 const NavWrap = styled.div`
+  position: relative;
   width: 100%;
   position: fixed;
   top: 0;
@@ -33,8 +38,18 @@ const Container = styled.div`
 
 const H1 = styled.h1`
   height: 40px;
+  @media (max-width: 480px) {
+    padding-left: 20px;
+    height: 30px;
+    transform: translateY(-22px);
+  }
 `;
 const Menu = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+const PcMenu = styled.div`
   display: flex;
   align-items: center;
   font-size: 22px;
@@ -100,7 +115,65 @@ const IconBox = styled.div`
     flex: 1;
   }
 `;
+const MobileMenuIcon = styled.div`
+  display: none;
+  @media (max-width: 480px) {
+    display: block;
+  }
+`;
+const PageLink = styled.div`
+  display: flex;
+  gap: 60px;
+  @media (max-width: 480px) {
+    width: 100%;
+    flex-direction: column;
+    gap: 0;
+    font-size: 18px;
+    text-align: center;
+    > * {
+      border-bottom: 1px solid ${(props) => props.theme.border};
+    }
+  }
+`;
+const MobileMenuBox = styled.div`
+  &.active {
+    /* display: none; */
+  }
+`;
+const MobileMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100vh;
+  background-color: ${(props) => props.theme.mainWhite};
+  z-index: 999;
 
+  > :nth-child(1) {
+    padding: 20px 20px 0 0;
+  }
+  > :nth-child(2) {
+    margin: 0 auto;
+  }
+`;
+const MobileMenuShadow = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100vh;
+  background-color: ${(props) => props.theme.mainBlack};
+  opacity: 0.8;
+  z-index: 999;
+`;
+const TopContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+const closeMenu = () => {};
 const NavBar = () => {
   const dispatch = useDispatch();
 
@@ -122,15 +195,50 @@ const NavBar = () => {
           </Link>
         </H1>
         <Menu>
-          <Link to="/2">분석하기</Link>
-          {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
-          <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
-            <ToggleCircle></ToggleCircle>
-            <IconBox>
-              <BsFillBrightnessHighFill />
-              <BsFillMoonStarsFill />
-            </IconBox>
-          </DarkModeButton>
+          <PcMenu>
+            <PageLink>
+              <Link to="/2">분석하기</Link>
+              {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+            </PageLink>
+
+            <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
+              <ToggleCircle></ToggleCircle>
+              <IconBox>
+                <BsFillBrightnessHighFill />
+                <BsFillMoonStarsFill />
+              </IconBox>
+            </DarkModeButton>
+          </PcMenu>
+          <MobileMenuIcon>
+            <Icon fontSize="1.5em">
+              <HiMenu />
+            </Icon>
+          </MobileMenuIcon>
+          <MobileMenuBox className={`${"active"}`}>
+            <MobileMenu>
+              <TopContent>
+                <H1>
+                  <Link to="/">
+                    <Img
+                      src={`${process.env.PUBLIC_URL}/images/${
+                        isDarkMode ? "logoGray" : "logoBlack"
+                      }.png`}
+                    />
+                  </Link>
+                </H1>
+                <Icon fontSize="2em">
+                  <CgClose />
+                </Icon>
+              </TopContent>
+
+              <PageLink>
+                <Link to="/2">분석하기</Link>
+                {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+              </PageLink>
+              <DashboardSideMenu />
+            </MobileMenu>
+            <MobileMenuShadow></MobileMenuShadow>
+          </MobileMenuBox>
         </Menu>
       </Container>
     </NavWrap>
