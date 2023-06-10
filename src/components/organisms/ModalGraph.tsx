@@ -9,9 +9,10 @@ import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
-import { getChatTimes, getDates } from "../../module/common/getProperties";
-import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
+import { getDates } from "../../module/common/getProperties";
 import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
+import { graphContentData } from "../pages/GraphDetailPage";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 const ModalGraphBox = styled.div`
   padding: 30px;
@@ -68,8 +69,15 @@ const SubjectBox = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  justify-content: space-between;
   > :nth-child(1) {
     cursor: pointer;
+  }
+  > :nth-child(2) {
+    display: flex;
+    align-items: center;
+    height: 40px;
   }
   > :nth-child(3) {
     cursor: pointer;
@@ -143,10 +151,19 @@ const ResponsiveContentBox = styled.div`
 
 const ResponsiveHeadBox = styled.div`
   display: flex;
+
   align-items: center;
   padding: 0 12px;
+  height: 100%;
+
   > * {
     flex: 1;
+    height: 100%;
+  }
+  > :nth-child(1) {
+    > :nth-child(2) {
+      height: 60px;
+    }
   }
   > :nth-child(2) {
     display: flex;
@@ -186,6 +203,7 @@ const ResponsiveGraphContentBox = styled.div`
 
 interface ModalGraphProps {
   currentModalData: {
+    id?: number;
     subject?: string;
     graph: any;
     h2: string;
@@ -193,9 +211,10 @@ interface ModalGraphProps {
     p: string;
     fontSize?: any;
   };
+  modalSetProps?: (data: any) => void;
 }
 
-const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
+const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
   const dispatch = useDispatch();
@@ -228,6 +247,23 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
     };
   }, []);
 
+  const findModalDataById = (id: number) => {
+    if (id === 0) {
+      return graphContentData.find((item) => item.id === graphContentData.length);
+    } else if (id > graphContentData.length) {
+      return graphContentData.find((item) => item.id === 1);
+    } else {
+      return graphContentData.find((item) => item.id === id);
+    }
+  };
+
+  const handleClickFlipGraphButton = (nextId: number) => {
+    const toFlipModalData = findModalDataById(nextId);
+    if (modalSetProps && toFlipModalData) {
+      modalSetProps(toFlipModalData);
+    }
+  };
+
   return (
     <ModalGraphBox className="GraphContentBox">
       {isDetailPage ? null : (
@@ -243,11 +279,25 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
           <DescriptionBox>
             <InfoContentBox>
               <SubjectBox>
-                <Icon>{"<"}</Icon>
-                <Span fontSize="28px" fontWeight="500" textAlign="center">
+                <Icon
+                  fontSize="24px"
+                  onClick={() =>
+                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
+                  }
+                >
+                  <BsChevronLeft />
+                </Icon>
+                <Span fontSize="26px" fontWeight="500" textAlign="center">
                   {h2}
                 </Span>
-                <Icon>{">"}</Icon>
+                <Icon
+                  fontSize="24px"
+                  onClick={() =>
+                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
+                  }
+                >
+                  <BsChevronRight />
+                </Icon>
               </SubjectBox>
               {subject === "종합 비교" ? (
                 <SpeakerSelectBox></SpeakerSelectBox>
@@ -274,9 +324,27 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
               <ResponsivePeriodBox>
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </ResponsivePeriodBox>
-              <Span fontSize="28px" fontWeight="700" textAlign="center">
-                {h2}
-              </Span>
+              <SubjectBox>
+                <Icon
+                  fontSize="24px"
+                  onClick={() =>
+                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
+                  }
+                >
+                  <BsChevronLeft />
+                </Icon>
+                <Span fontSize="26px" fontWeight="500" textAlign="center">
+                  {h2}
+                </Span>
+                <Icon
+                  fontSize="24px"
+                  onClick={() =>
+                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
+                  }
+                >
+                  <BsChevronRight />
+                </Icon>
+              </SubjectBox>
             </ResponsiveSubjectBox>
 
             {subject === "종합 비교" ? (

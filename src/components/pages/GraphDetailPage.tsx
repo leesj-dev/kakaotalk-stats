@@ -13,7 +13,7 @@ import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
 import { setVolumeHourlyBoxSize } from "../../store/reducer/volumeHourlyBoxSizeSlice";
 
-const graphContentData = [
+export const graphContentData = [
   {
     id: 1,
     subject: "종합 비교",
