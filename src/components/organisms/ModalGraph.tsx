@@ -52,10 +52,9 @@ const DescriptionBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 10px 30px;
-  background-color: ${(props) => props.theme.modalContentBackground};
-  border: 1px solid #ddd;
-  border-radius: 15px;
+  padding: 10px 0px 10px 15px;
+  /* background-color: ${(props) => props.theme.modalContentBackground}; */
+  /* border: 1px solid #ddd; */
 `;
 
 const InfoContentBox = styled.div`
@@ -64,13 +63,28 @@ const InfoContentBox = styled.div`
   gap: 5px;
 `;
 
+const SubjectBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  > :nth-child(1) {
+    cursor: pointer;
+  }
+  > :nth-child(3) {
+    cursor: pointer;
+  }
+`;
+
 const SpeakerSelectBox = styled.div`
   margin: 0 auto;
   display: flex;
   width: 100%;
+  height: 100%;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+
   > * {
     display: flex;
     flex: 1;
@@ -89,7 +103,7 @@ const SpeakerSelectBox = styled.div`
 
 const PeriodBox = styled.div`
   margin-bottom: 10px;
-  padding: 15px 0;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -109,6 +123,21 @@ const CardContentBox = styled.div`
     > :nth-child(2) {
       display: none;
     }
+  }
+`;
+
+const ResponsiveContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 15px;
+
+  > :nth-child(1) {
+    flex: 1;
+  }
+  > :nth-child(2) {
+    flex: 6;
   }
 `;
 
@@ -138,30 +167,20 @@ const ResponsivePeriodBox = styled.div`
   margin-bottom: 5px;
 `;
 
-const ResponsiveContentBox = styled.div`
+const ResponsiveSubjectBox = styled.div`
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  height: 100%;
-
-  > :nth-child(1) {
-    flex: 1;
-  }
-  > :nth-child(2) {
-    flex: 5;
-  }
-  > :nth-child(3) {
-    flex: 1;
-  }
+  align-items: start;
 `;
-
-const ResponsiveSubjectBox = styled.div``;
 const ResponsiveParagraphBox = styled.div`
+  margin-left: 10px;
   padding: 0 12px;
+  text-align: start;
 `;
 const ResponsiveGraphContentBox = styled.div`
-  height: 100%;
+  position: relative;
+  height: calc(100% - 119px);
   width: 100%;
 `;
 
@@ -210,7 +229,7 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
   }, []);
 
   return (
-    <ModalGraphBox>
+    <ModalGraphBox className="GraphContentBox">
       {isDetailPage ? null : (
         <CloseModalBox onClick={() => handleClickCloseModalButton()}>
           <Icon fontSize="24px">
@@ -218,14 +237,18 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
           </Icon>
         </CloseModalBox>
       )}
-      {isDetailPage && screenWidth > 1024 ? (
+      {screenWidth > 1200 ? (
         <ContentBox>
           <GraphContentBox className="GraphContentBox">{graph}</GraphContentBox>
           <DescriptionBox>
             <InfoContentBox>
-              <Span fontWeight="700" textAlign="center">
-                그래프 상세 정보
-              </Span>
+              <SubjectBox>
+                <Icon>{"<"}</Icon>
+                <Span fontSize="28px" fontWeight="500" textAlign="center">
+                  {h2}
+                </Span>
+                <Icon>{">"}</Icon>
+              </SubjectBox>
               {subject === "종합 비교" ? (
                 <SpeakerSelectBox></SpeakerSelectBox>
               ) : (
@@ -240,7 +263,7 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
               </PeriodBox>
             </InfoContentBox>
             <CardContentBox>
-              <CardContent h2={h2} h3={h3} p={p} />
+              <CardContent h3={h3} p={p} />
             </CardContentBox>
           </DescriptionBox>
         </ContentBox>
@@ -266,9 +289,9 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
             )}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
-          <ResponsiveParagraphBox>
+          {/* <ResponsiveParagraphBox>
             <Span fontSize="18px">{p}</Span>
-          </ResponsiveParagraphBox>
+          </ResponsiveParagraphBox> */}
         </ResponsiveContentBox>
       )}
     </ModalGraphBox>
