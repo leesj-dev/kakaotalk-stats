@@ -90,7 +90,7 @@ const ChatRateGraph = () => {
   const chatTimes: ChatTimes[][] = getChatTimes(results)[selectedChatRoomIndex];
 
   const parentRef = useRef<any>(null);
-
+  console.log(parentRef, "parentRef", parentRef?.current?.current.offsetParent);
   let isParentGraphContentBox;
   if (parentRef?.current?.current) {
     isParentGraphContentBox =
@@ -99,17 +99,12 @@ const ChatRateGraph = () => {
 
   useEffect(() => {
     setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
-    console.log(parentRef);
   }, [selectedChatRoomIndex]);
-
-  useEffect(() => {}, [selectedSpeakerIndex]);
 
   return (
     <>
       <ResponsiveContainer width="100%" height="100%" ref={parentRef}>
         <AreaChart
-          width={500}
-          height={400}
           data={data}
           stackOffset="expand"
           margin={{
