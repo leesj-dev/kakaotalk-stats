@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
@@ -137,7 +137,7 @@ const PageLink = styled.div`
 `;
 const MobileMenuBox = styled.div`
   &.active {
-    /* display: none; */
+    display: block;
   }
 `;
 const MobileMenu = styled.div`
@@ -173,7 +173,7 @@ const TopContent = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const closeMenu = () => {};
+
 const NavBar = () => {
   const dispatch = useDispatch();
 
@@ -185,7 +185,10 @@ const NavBar = () => {
   const handleClickDarkModeButton = () => {
     dispatch(setIsDarkMode(!isDarkMode));
   };
-
+  const closeMenu = () => {
+    setMenu(!isOpen);
+  };
+  const [isOpen, setMenu] = useState(false);
   return (
     <NavWrap>
       <Container>
@@ -209,36 +212,38 @@ const NavBar = () => {
               </IconBox>
             </DarkModeButton>
           </PcMenu>
-          <MobileMenuIcon>
+          <MobileMenuIcon onClick={closeMenu}>
             <Icon fontSize="1.5em">
               <HiMenu />
             </Icon>
           </MobileMenuIcon>
-          <MobileMenuBox className={`${"active"}`}>
-            <MobileMenu>
-              <TopContent>
-                <H1>
-                  <Link to="/">
-                    <Img
-                      src={`${process.env.PUBLIC_URL}/images/${
-                        isDarkMode ? "logoGray" : "logoBlack"
-                      }.png`}
-                    />
-                  </Link>
-                </H1>
-                <Icon fontSize="2em">
-                  <CgClose />
-                </Icon>
-              </TopContent>
+          {isOpen ? (
+            <MobileMenuBox className={`${"active"}`}>
+              <MobileMenu>
+                <TopContent>
+                  <H1>
+                    <Link to="/">
+                      <Img
+                        src={`${process.env.PUBLIC_URL}/images/${
+                          isDarkMode ? "logoGray" : "logoBlack"
+                        }.png`}
+                      />
+                    </Link>
+                  </H1>
+                  <Icon fontSize="2em">
+                    <CgClose onClick={closeMenu} />
+                  </Icon>
+                </TopContent>
 
-              <PageLink>
-                <Link to="/2">분석하기</Link>
-                {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
-              </PageLink>
-              <DashboardSideMenu />
-            </MobileMenu>
-            <MobileMenuShadow></MobileMenuShadow>
-          </MobileMenuBox>
+                <PageLink>
+                  <Link to="/2">분석하기</Link>
+                  {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+                </PageLink>
+                <DashboardSideMenu />
+              </MobileMenu>
+              <MobileMenuShadow></MobileMenuShadow>
+            </MobileMenuBox>
+          ) : null}
         </Menu>
       </Container>
     </NavWrap>
