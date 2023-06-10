@@ -38,7 +38,7 @@ const Container = styled.div`
 
 const H1 = styled.h1`
   height: 40px;
-  @media (max-width: 480px) {
+  &.active {
     padding-left: 20px;
     height: 30px;
     transform: translateY(-22px);
@@ -58,6 +58,11 @@ const PcMenu = styled.div`
   @media (max-width: 768px) {
     font-size: 18px;
     gap: 30px;
+  }
+  > :nth-child(1) {
+    @media (max-width: 480px) {
+      display: none;
+    }
   }
 `;
 
@@ -189,6 +194,7 @@ const NavBar = () => {
     setMenu(!isOpen);
   };
   const [isOpen, setMenu] = useState(false);
+  const shouldRenderSingleChatRoomBox = window.innerWidth < 480;
   return (
     <NavWrap>
       <Container>
@@ -200,7 +206,7 @@ const NavBar = () => {
         <Menu>
           <PcMenu>
             <PageLink>
-              <Link to="/2">분석하기</Link>
+              {<Link to="/2">분석하기</Link>}
               {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
             </PageLink>
 
@@ -221,7 +227,7 @@ const NavBar = () => {
             <MobileMenuBox className={`${"active"}`}>
               <MobileMenu>
                 <TopContent>
-                  <H1>
+                  <H1 className="active">
                     <Link to="/">
                       <Img
                         src={`${process.env.PUBLIC_URL}/images/${
@@ -239,7 +245,7 @@ const NavBar = () => {
                   <Link to="/2">분석하기</Link>
                   {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
                 </PageLink>
-                <DashboardSideMenu />
+                {isAnalyzedMessagesExist && <DashboardSideMenu />}
               </MobileMenu>
               <MobileMenuShadow></MobileMenuShadow>
             </MobileMenuBox>
