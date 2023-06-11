@@ -25,7 +25,7 @@ const Description = styled.div<{
   }
 `;
 interface CardContentProps {
-  h2: string;
+  h2?: string;
   h3: string;
   p: string;
   fontSize?: string;
@@ -34,7 +34,7 @@ interface CardContentProps {
 const CardContent: React.FC<CardContentProps> = ({ h2, h3, p, fontSize }) => {
   return (
     <Description>
-      <H2>{h2}</H2>
+      {h2 ? <H2>{h2}</H2> : <H2> </H2>}
       <H3 lineHeight="1.5">{h3}</H3>
       <Paragraph lineHeight="1.5em">{p}</Paragraph>
     </Description>

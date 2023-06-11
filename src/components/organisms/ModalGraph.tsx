@@ -9,9 +9,10 @@ import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { AnalyzedMessage } from "../../@types/index.d";
-import { getChatTimes, getDates } from "../../module/common/getProperties";
-import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
+import { getDates } from "../../module/common/getProperties";
 import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
+import { graphContentData } from "../pages/GraphDetailPage";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 const ModalGraphBox = styled.div`
   padding: 30px;
@@ -52,10 +53,9 @@ const DescriptionBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 10px 30px;
-  background-color: ${(props) => props.theme.modalContentBackground};
-  border: 1px solid #ddd;
-  border-radius: 15px;
+  padding: 10px 0px 10px 15px;
+  /* background-color: ${(props) => props.theme.modalContentBackground}; */
+  /* border: 1px solid #ddd; */
 `;
 
 const InfoContentBox = styled.div`
@@ -64,13 +64,35 @@ const InfoContentBox = styled.div`
   gap: 5px;
 `;
 
+const SubjectBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
+  > :nth-child(1) {
+    cursor: pointer;
+  }
+  > :nth-child(2) {
+    display: flex;
+    align-items: center;
+    height: 40px;
+  }
+  > :nth-child(3) {
+    cursor: pointer;
+  }
+`;
+
 const SpeakerSelectBox = styled.div`
   margin: 0 auto;
   display: flex;
   width: 100%;
+  height: 100%;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+
   > * {
     display: flex;
     flex: 1;
@@ -89,7 +111,7 @@ const SpeakerSelectBox = styled.div`
 
 const PeriodBox = styled.div`
   margin-bottom: 10px;
-  padding: 15px 0;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -112,12 +134,36 @@ const CardContentBox = styled.div`
   }
 `;
 
+const ResponsiveContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 15px;
+
+  > :nth-child(1) {
+    flex: 1;
+  }
+  > :nth-child(2) {
+    flex: 6;
+  }
+`;
+
 const ResponsiveHeadBox = styled.div`
   display: flex;
+
   align-items: center;
   padding: 0 12px;
+  height: 100%;
+
   > * {
     flex: 1;
+    height: 100%;
+  }
+  > :nth-child(1) {
+    > :nth-child(2) {
+      height: 60px;
+    }
   }
   > :nth-child(2) {
     display: flex;
@@ -138,35 +184,26 @@ const ResponsivePeriodBox = styled.div`
   margin-bottom: 5px;
 `;
 
-const ResponsiveContentBox = styled.div`
+const ResponsiveSubjectBox = styled.div`
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  height: 100%;
-
-  > :nth-child(1) {
-    flex: 1;
-  }
-  > :nth-child(2) {
-    flex: 5;
-  }
-  > :nth-child(3) {
-    flex: 1;
-  }
+  align-items: start;
 `;
-
-const ResponsiveSubjectBox = styled.div``;
 const ResponsiveParagraphBox = styled.div`
+  margin-left: 10px;
   padding: 0 12px;
+  text-align: start;
 `;
 const ResponsiveGraphContentBox = styled.div`
-  height: 100%;
+  position: relative;
+  height: calc(100% - 119px);
   width: 100%;
 `;
 
 interface ModalGraphProps {
   currentModalData: {
+    id?: number;
     subject?: string;
     graph: any;
     h2: string;
@@ -174,9 +211,10 @@ interface ModalGraphProps {
     p: string;
     fontSize?: any;
   };
+  modalSetProps?: (data: any) => void;
 }
 
-const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
+const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
   const dispatch = useDispatch();
@@ -209,8 +247,25 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
     };
   }, []);
 
+  const findModalDataById = (id: number) => {
+    if (id === 0) {
+      return graphContentData.find((item) => item.id === graphContentData.length);
+    } else if (id > graphContentData.length) {
+      return graphContentData.find((item) => item.id === 1);
+    } else {
+      return graphContentData.find((item) => item.id === id);
+    }
+  };
+
+  const handleClickFlipGraphButton = (nextId: number) => {
+    const toFlipModalData = findModalDataById(nextId);
+    if (modalSetProps && toFlipModalData) {
+      modalSetProps(toFlipModalData);
+    }
+  };
+
   return (
-    <ModalGraphBox>
+    <ModalGraphBox className="GraphContentBox">
       {isDetailPage ? null : (
         <CloseModalBox onClick={() => handleClickCloseModalButton()}>
           <Icon fontSize="24px">
@@ -218,14 +273,32 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
           </Icon>
         </CloseModalBox>
       )}
-      {isDetailPage && screenWidth > 1024 ? (
+      {screenWidth > 1200 ? (
         <ContentBox>
           <GraphContentBox className="GraphContentBox">{graph}</GraphContentBox>
           <DescriptionBox>
             <InfoContentBox>
-              <Span fontWeight="700" textAlign="center">
-                그래프 상세 정보
-              </Span>
+              <SubjectBox>
+                <Icon
+                  fontSize="24px"
+                  onClick={() =>
+                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
+                  }
+                >
+                  <BsChevronLeft />
+                </Icon>
+                <Span fontSize="26px" fontWeight="500" textAlign="center">
+                  {h2}
+                </Span>
+                <Icon
+                  fontSize="24px"
+                  onClick={() =>
+                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
+                  }
+                >
+                  <BsChevronRight />
+                </Icon>
+              </SubjectBox>
               {subject === "종합 비교" ? (
                 <SpeakerSelectBox></SpeakerSelectBox>
               ) : (
@@ -240,7 +313,7 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
               </PeriodBox>
             </InfoContentBox>
             <CardContentBox>
-              <CardContent h2={h2} h3={h3} p={p} />
+              <CardContent h3={h3} p={p} />
             </CardContentBox>
           </DescriptionBox>
         </ContentBox>
@@ -251,9 +324,27 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
               <ResponsivePeriodBox>
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </ResponsivePeriodBox>
-              <Span fontSize="28px" fontWeight="700" textAlign="center">
-                {h2}
-              </Span>
+              <SubjectBox>
+                <Icon
+                  fontSize="24px"
+                  onClick={() =>
+                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
+                  }
+                >
+                  <BsChevronLeft />
+                </Icon>
+                <Span fontSize="26px" fontWeight="500" textAlign="center">
+                  {h2}
+                </Span>
+                <Icon
+                  fontSize="24px"
+                  onClick={() =>
+                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
+                  }
+                >
+                  <BsChevronRight />
+                </Icon>
+              </SubjectBox>
             </ResponsiveSubjectBox>
 
             {subject === "종합 비교" ? (
@@ -266,9 +357,9 @@ const ModalGraph = ({ currentModalData }: ModalGraphProps) => {
             )}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
-          <ResponsiveParagraphBox>
+          {/* <ResponsiveParagraphBox>
             <Span fontSize="18px">{p}</Span>
-          </ResponsiveParagraphBox>
+          </ResponsiveParagraphBox> */}
         </ResponsiveContentBox>
       )}
     </ModalGraphBox>
