@@ -21,7 +21,6 @@ const DashboardTemplateContainer = styled.div`
   gap: 10px;
   height: calc(100vh - 80px);
   width: 100%;
-
   background: ${(props) => props.theme.dashboardBackground};
 `;
 
@@ -38,7 +37,7 @@ const AsideBox = styled.div`
 
 const ArticleBox = styled.div`
   height: 100%;
-  width: 75%;
+  width: calc(100% - 25% - 10px);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -90,10 +89,7 @@ const BodyBox = styled.div`
       width: 60%;
     }
     > :nth-child(2) {
-      width: 40%;
-      > * {
-        height: calc((100% - 10px) / 2);
-      }
+      width: calc(100% - 60% - 10px);
     }
   }
 `;
@@ -220,11 +216,6 @@ const DashboardSection = () => {
               />
             </HorizontalBox>
             <HorizontalBox>
-              {/* <GraphDisplay
-                displaySubject={"시간대별 답장 횟수"}
-                zIndex={2}
-                modalSetProps={modalSetProps}
-              /> */}
               <GraphDisplay displaySubject={"키워드"} modalSetProps={modalSetProps} zIndex={1} />
             </HorizontalBox>
           </VerticalBox>

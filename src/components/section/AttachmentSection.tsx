@@ -39,14 +39,13 @@ const AttachmentSectionBox = styled.div`
   align-items: center;
   text-align: center;
   max-width: 1220px;
-  min-width: 769px;
+
   > * + * {
     margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
   }
 
   @media (max-width: 768px) {
     margin: 60px auto 0 auto;
-    min-width: 0px;
   }
 `;
 
@@ -75,9 +74,6 @@ const OsListBox = styled.div`
     @media (max-width: 480px) {
       font-size: 1.2em;
     }
-    /* @media (max-width: 480px) {
-      font-size: 1.2em;
-    } */
   }
   > :nth-child(2) {
     margin-bottom: 30px;

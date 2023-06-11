@@ -34,6 +34,12 @@ const AttachDescriptionBox = styled.div`
 const ButtonBox = styled.div`
   display: flex;
   gap: 10px;
+  > * {
+    @media (max-width: 480px) {
+      padding: 15px 0;
+      width: 140px;
+    }
+  }
 `;
 
 const mobileCardData = [
