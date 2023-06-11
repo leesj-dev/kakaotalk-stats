@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
@@ -12,6 +12,7 @@ import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
 import { CgMaximize } from "react-icons/cg";
+import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
 
 const graphContentData = [
   {
@@ -81,7 +82,7 @@ const graphContentData = [
   },
 ];
 
-const TempGraphBox = styled.div`
+const GraphDisplayBox = styled.div`
   position: relative;
   padding: 10px;
   margin: 0 auto;
@@ -104,18 +105,17 @@ const IconBox = styled.div`
   cursor: pointer;
 `;
 
-export type GraphBoxProps = {
-  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentModalData: React.Dispatch<React.SetStateAction<any>>;
-};
-
 const GraphBox = ({
   displaySubject,
   modalSetProps,
+  zIndex,
 }: {
   displaySubject: string;
-  modalSetProps: GraphBoxProps;
+  modalSetProps: (data: any) => void;
+  zIndex: number;
 }) => {
+  const dispatch = useDispatch();
+
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
@@ -128,14 +128,16 @@ const GraphBox = ({
     h3: "h3",
     p: "p",
   };
+  const { id, subject, graph } = modalData;
 
   const handleClickOpenModalButton = () => {
-    modalSetProps.setIsModalVisible(true);
-    modalSetProps.setCurrentModalData(modalData);
+    modalSetProps(modalData);
+    dispatch(setIsModalVisible(true));
   };
+
   return (
-    <TempGraphBox key={modalData.id}>
-      {modalData.id !== 0 && (
+    <GraphDisplayBox key={id}>
+      {id !== 0 && (
         <IconBox onClick={() => handleClickOpenModalButton()}>
           <Icon>
             <CgMaximize />
@@ -143,10 +145,10 @@ const GraphBox = ({
         </IconBox>
       )}
       <Span fontWeight="500" padding="0 0 1vh 0">
-        {modalData.subject}
+        {subject}
       </Span>
-      {isAnalyzedMessagesExist && modalData.graph}
-    </TempGraphBox>
+      {isAnalyzedMessagesExist && graph}
+    </GraphDisplayBox>
   );
 };
 

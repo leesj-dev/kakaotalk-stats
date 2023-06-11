@@ -16,6 +16,7 @@ declare module "styled-components" {
     navBackground: string;
     modalBackground: string;
     modalContentBackground: string;
+    functionArrowWhite: string;
   }
 }
 
@@ -35,5 +36,6 @@ declare module "styled-components" {
     navBackground: string;
     modalBackground: string;
     modalContentBackground: string;
+    functionArrowWhite: string;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import AttachedFileList from "../molecules/AttachedFileList";
 import RadiusButton from "../atoms/Button";
@@ -31,17 +31,22 @@ import { setIsAnalyzedMessagesExist } from "../../store/reducer/isAnalyzedMessag
 import Paragraph from "../atoms/Paragraph";
 
 const AttachmentSectionBox = styled.div`
-  margin-top: 80px;
+  margin: 80px auto 0 auto;
   padding: 80px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 1200px;
-
+  max-width: 1220px;
+  min-width: 769px;
   > * + * {
     margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
+  }
+
+  @media (max-width: 768px) {
+    margin: 60px auto 0 auto;
+    min-width: 0px;
   }
 `;
 
@@ -53,20 +58,26 @@ const ButtonBox = styled.div`
 `;
 
 const OsListBox = styled.div`
-  margin-top: 40px;
-  margin-bottom: 40px;
-  padding: 100px 150px 90px 150px;
+  margin: 0 auto;
+  padding: 100px 20px;
+  width: 80%;
+  min-width: calc(729px);
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
-
   > :nth-child(1) {
     margin-bottom: 30px;
   }
   > :nth-child(2) {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
   }
   > :last-child {
     color: ${(props) => props.theme.mainGray};
+  }
+
+  @media (max-width: 768px) {
+    width: calc(100% - 40px);
+    min-width: 360px;
+    padding: 60px 30px;
   }
 `;
 
@@ -189,36 +200,24 @@ const AttachmentSection = () => {
   const handleScrollDown = () => {
     if (attachmentSectionRef.current) {
       scrollToEvent(
-        attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight,
+        attachmentSectionRef.current.offsetTop + attachmentSectionRef.current.offsetHeight - 30,
         "smooth"
       );
     }
   };
-
-  // const handleDeleteAllButton = () => {
-  //   setAttachedFiles([]);
-  // };
-
-  useEffect(() => {}, [attachedFileList]);
-
-  useEffect(() => {}, [selectedOsIndex]);
 
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
       {!selectedOsIndex ? (
         <OsListBox>
           <Paragraph fontSize="24px">자신의 운영체제 아이콘을 선택해 주세요.</Paragraph>
-          <OsList size="90px" fontSize="70px" />
+          <OsList />
           <Span fontSize="15px">* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Span>
         </OsListBox>
       ) : (
         <>
           <FileDrop handleChangeFile={handleChangeFile}></FileDrop>
           <AttachedFileList />
-          {/* {attachedFileList.length !== 0 && (
-            <RadiusButton onClick={handleDeleteAllButton}>전체 삭제하기</RadiusButton>
-          )} */}
-
           <ButtonBox>
             <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFileList.length}>
               분석하기

@@ -21,6 +21,7 @@ const DashboardTemplateContainer = styled.div`
   gap: 10px;
   height: calc(100vh - 80px);
   width: 100%;
+
   background: ${(props) => props.theme.dashboardBackground};
 `;
 
@@ -30,9 +31,8 @@ const AsideBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   > * {
-    height: 33.333%;
+    height: calc((100% - 20px) / 3);
   }
 `;
 
@@ -42,6 +42,14 @@ const ArticleBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  /* <HeadBox> */
+  > :first-child {
+    height: calc((100% - 10px) * 0.15);
+  }
+  /*  <BodyBox> */
+  > :last-child {
+    height: calc((100% - 10px) * 0.85);
+  }
 `;
 
 const HeadBox = styled.div`
@@ -73,20 +81,19 @@ const HeadBox = styled.div`
 const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 85%;
   gap: 10px;
-
-  > :nth-child(1) {
-    height: 50%;
+  > * {
+    height: calc((100% - 10px) / 2);
   }
   > :nth-child(2) {
-    height: 50%;
-
     > :nth-child(1) {
       width: 60%;
     }
     > :nth-child(2) {
       width: 40%;
+      > * {
+        height: calc((100% - 10px) / 2);
+      }
     }
   }
 `;
@@ -104,10 +111,10 @@ const HorizontalBox = styled.div`
 
 const ModalBox = styled.div`
   position: fixed;
-  top: 10%;
+  top: 17%;
   bottom: 10%;
-  left: 10%;
-  right: 10%;
+  left: 21%;
+  right: 5.5%;
   z-index: 999;
   display: flex;
 `;
@@ -124,9 +131,11 @@ const DashboardSection = () => {
   const mostChattedTimes = useSelector(
     (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
   );
+  const isModalVisible = useSelector(
+    (state: { isModalVisibleSlice: StringNumberTuple[] }) => state.isModalVisibleSlice
+  );
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [currentModalData, setCurrentModalData] = useState<any>();
+  const [currentModalData, modalSetProps] = useState<any>();
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
@@ -175,19 +184,19 @@ const DashboardSection = () => {
     }
   }, [isModalVisible]);
 
-  const modalSetProps = { setIsModalVisible, setCurrentModalData };
+  // const modalSetProps = { setIsModalVisible, modalSetProps };
 
   return (
     <DashboardTemplateContainer>
       <AsideBox>
-        <GraphDisplay displaySubject={"종합 비교"} modalSetProps={modalSetProps} />
-        <GraphDisplay displaySubject={"기간 대화량"} modalSetProps={modalSetProps} />
-        <GraphDisplay displaySubject={"대화 비율"} modalSetProps={modalSetProps} />
+        <GraphDisplay displaySubject={"종합 비교"} modalSetProps={modalSetProps} zIndex={1} />
+        <GraphDisplay displaySubject={"기간 대화량"} modalSetProps={modalSetProps} zIndex={3} />
+        <GraphDisplay displaySubject={"대화 비율"} modalSetProps={modalSetProps} zIndex={2} />
       </AsideBox>
       <ArticleBox>
         <HeadBox>
           <DashboardContainer>
-            <GraphDisplay displaySubject={"채팅방 대화 비율"} modalSetProps={modalSetProps} />
+            <GraphDisplay displaySubject={"채팅방 대화 비율"} modalSetProps={modalSetProps} zIndex={1} />
             <SpeakerSelect />
           </DashboardContainer>
           {HeaderData.map((data) => {
@@ -200,22 +209,30 @@ const DashboardSection = () => {
         </HeadBox>
         <BodyBox>
           <VerticalBox>
-            <GraphDisplay displaySubject={"답장속도"} modalSetProps={modalSetProps} />
+            <GraphDisplay displaySubject={"답장속도"} modalSetProps={modalSetProps} zIndex={3} />
           </VerticalBox>
           <VerticalBox>
             <HorizontalBox ref={containerRef}>
-              <GraphDisplay displaySubject={"시간대별 대화량"} modalSetProps={modalSetProps} />
+              <GraphDisplay
+                displaySubject={"시간대별 대화량"}
+                zIndex={1}
+                modalSetProps={modalSetProps}
+              />
             </HorizontalBox>
             <HorizontalBox>
-              <GraphDisplay displaySubject={"시간대별 답장 횟수"} modalSetProps={modalSetProps} />
-              <GraphDisplay displaySubject={"키워드"} modalSetProps={modalSetProps} />
+              {/* <GraphDisplay
+                displaySubject={"시간대별 답장 횟수"}
+                zIndex={2}
+                modalSetProps={modalSetProps}
+              /> */}
+              <GraphDisplay displaySubject={"키워드"} modalSetProps={modalSetProps} zIndex={1} />
             </HorizontalBox>
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
-      {isModalVisible && (
+      {isModalVisible && currentModalData && (
         <ModalBox ref={modalRef}>
-          <ModalGraph setIsModalVisible={setIsModalVisible} currentModalData={currentModalData} />
+          <ModalGraph currentModalData={currentModalData} modalSetProps={modalSetProps} />
         </ModalBox>
       )}
     </DashboardTemplateContainer>

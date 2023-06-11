@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SummaryPieGraph, {
   getTotalChatCounts,
@@ -12,8 +12,6 @@ import Paragraph from "../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
-import Icon from "../atoms/Icon";
-import { BsShareFill } from "react-icons/bs";
 
 const DashboardSideMenuBox = styled.div`
   display: flex;
@@ -22,15 +20,18 @@ const DashboardSideMenuBox = styled.div`
   height: calc(100vh - 80px);
   width: 100%;
   color: ${(props) => props.theme.mainText};
-  background: ${(props) => props.theme.mainBackground};
-  border-right: 1px solid ${(props) => props.theme.border};
+  background: ${(props) => props.theme.mainWhite};
 `;
 
 const DashboardLayoutBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: ${(props) => props.theme.dashBoardBackground};
+  @media (max-width: 480px) {
+    text-align: center;
+    padding: 0;
+    /* border-bottom: 1px solid ${(props) => props.theme.border}; */
+  }
 `;
 
 const ChatroomMenuTitleBox = styled.div`
@@ -42,6 +43,10 @@ const ChatroomMenuTitleBox = styled.div`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
+  @media (max-width: 480px) {
+    text-align: center;
+    padding: 0;
+  }
 `;
 
 const ChatroomGraphBox = styled.div`
@@ -50,6 +55,10 @@ const ChatroomGraphBox = styled.div`
   display: flex;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.mainBackground};
+  @media (max-width: 480px) {
+    padding: 20px;
+    border-bottom: 0;
+  }
 `;
 
 const ChatroomListTitleBox = styled.div`
@@ -61,6 +70,9 @@ const ChatroomListTitleBox = styled.div`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
+  @media (max-width: 480px) {
+    display: none;
+  }
 `;
 
 const ChatroomListBox = styled.div`
@@ -72,6 +84,12 @@ const ChatroomListBox = styled.div`
   width: 100%;
   background-color: ${(props) => props.theme.mainBackground};
   overflow-y: scroll;
+  @media (max-width: 480px) {
+    height: 170px;
+    padding: 20px 50px;
+    overflow: hidden;
+    border-bottom: 1px solid ${(props) => props.theme.border};
+  }
   &::-webkit-scrollbar {
     width: 6px; /* 스크롤바의 너비 */
   }
@@ -82,16 +100,6 @@ const ChatroomListBox = styled.div`
   &::-webkit-scrollbar-track {
     background: rgba(144, 144, 144, 0.2); /*스크롤바 뒷 배경 색상*/
   }
-`;
-
-const AdditionalFunctionBox = styled.div`
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  width: calc(100% + 1px);
-  border-top: 1px solid ${(props) => props.theme.border};
-  border-right: 1px solid ${(props) => props.theme.border};
-  background: ${(props) => props.theme.mainBackground};
 `;
 
 const ChatRoomBox = styled.div`
@@ -123,11 +131,21 @@ const ChatRoomBox = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    @media (max-width: 480px) {
+      overflow: visible;
+      white-space: wrap;
+    }
   }
-  > :last-child {
+
+  > :nth-child(3) {
     font-weight: 600;
     &:hover {
       text-decoration: underline;
+    }
+  }
+  @media (max-width: 480px) {
+    > :nth-child(3) {
+      display: none;
     }
   }
 `;
@@ -155,21 +173,20 @@ const DashboardSideMenu = () => {
     dispatch(setSelectedChatRoomIndex(index));
     dispatch(setSelectedSpeakerIndex(-1));
   };
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
 
-  const handleCopyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert("클립보드에 링크가 복사되었어요.");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    window.addEventListener("resize", handleResize);
 
-  const handleClick = () => {
-    const url = "쥬희무쩅이넹~ㅇㅅㅇ~";
-    handleCopyClipBoard(url);
-  };
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
+  const shouldRenderSingleChatRoomBox = window.innerWidth < 480;
   return (
     <DashboardSideMenuBox>
       <DashboardLayoutBox>
@@ -179,30 +196,36 @@ const DashboardSideMenu = () => {
         </ChatroomGraphBox>
         <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
         <ChatroomListBox>
-          {chatRoomNames.map((name, index) => {
-            return (
-              <ChatRoomBox
-                key={index}
-                className={`${selectedChatRoomIndex === index && "active"}`}
-                onClick={() => handleClickChatRoom(index)}
-              >
-                <ChatRoomHead>
-                  <Paragraph>
-                    채팅방{index + 1} ({totalChatCounts[index]}){" "}
-                  </Paragraph>
-                </ChatRoomHead>
-                <Span>{name}</Span>
-                <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
-              </ChatRoomBox>
-            );
-          })}
+          {shouldRenderSingleChatRoomBox ? (
+            <ChatRoomBox>
+              <ChatRoomHead>
+                <Paragraph>
+                  채팅방 {selectedChatRoomIndex + 1} ({totalChatCounts[selectedChatRoomIndex]})
+                </Paragraph>
+              </ChatRoomHead>
+              <Span>{chatRoomNames[selectedChatRoomIndex]}</Span>
+            </ChatRoomBox>
+          ) : (
+            chatRoomNames.map((name, index) => {
+              return (
+                <ChatRoomBox
+                  key={index}
+                  className={`${selectedChatRoomIndex === index && "active"}`}
+                  onClick={() => handleClickChatRoom(index)}
+                >
+                  <ChatRoomHead>
+                    <Paragraph>
+                      채팅방{index + 1} ({totalChatCounts[index]}){" "}
+                    </Paragraph>
+                  </ChatRoomHead>
+                  <Span>{name}</Span>
+                  <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
+                </ChatRoomBox>
+              );
+            })
+          )}
         </ChatroomListBox>
       </DashboardLayoutBox>
-      <AdditionalFunctionBox>
-        <Icon cursor="pointer" onClick={() => handleClick()}>
-          <BsShareFill />
-        </Icon>
-      </AdditionalFunctionBox>
     </DashboardSideMenuBox>
   );
 };

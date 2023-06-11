@@ -8,10 +8,76 @@ import ScrollIndicator from "../molecules/ScrollIndicator";
 import RadiusButton from "../atoms/Button";
 import { useSelector } from "react-redux";
 
-const Container = styled.div`
+const MainVisualContainer = styled.div`
+  width: 100%;
+  max-width: 1240px;
   position: relative;
-  width: 1200px;
-  padding: 100px 0 80px 0;
+  padding: 100px 20px 80px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    max-width: 808px;
+    padding: 50px 0 0;
+    flex-direction: column;
+  }
+  @media (max-width: 480px) {
+    max-width: 520px;
+  }
+  @media (max-width: 320px) {
+    max-width: 360px;
+    padding: 30px 0 0;
+  }
+`;
+
+const AsideBox = styled.div`
+  width: 70%;
+  margin-right: 30px;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0 20px;
+    margin-right: 0;
+    text-align: center;
+  }
+
+  > :nth-child(2) {
+    margin-bottom: 50px;
+    width: 100%;
+    height: 100%;
+    white-space: wrap;
+    font-size: 22px;
+
+    @media (max-width: 1220px) {
+      font-size: 20px;
+    }
+    @media (max-width: 768px) {
+      text-align: center;
+    }
+    @media (max-width: 320px) {
+      font-size: 15px;
+    }
+  }
+  > :nth-child(3) {
+    display: inline-block;
+    text-decoration: underline;
+    text-underline-position: under;
+    margin-bottom: 30px;
+  }
+  > :last-child {
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: -50px;
+  }
+`;
+
+const ArticleBox = styled.div`
+  width: 50%;
+  @media (max-width: 768px) {
+    margin-bottom: 40px;
+  }
 `;
 
 const LogoBox = styled.div`
@@ -19,82 +85,55 @@ const LogoBox = styled.div`
   height: 100px;
   margin-bottom: 30px;
   transform: translateX(-3px);
+  @media (max-width: 768px) {
+    margin: 0 auto 30px;
+  }
+  @media (max-width: 480px) {
+    width: 210px;
+    height: 70px;
+  }
+  @media (max-width: 320px) {
+    width: 150px;
+    height: 50px;
+  }
 `;
 
-const AsideBox = styled.div`
-  width: 50%;
-  > :nth-child(2) {
-    margin-bottom: 50px;
-    > * {
-      margin-bottom: 10px;
-    }
-  }
-  > :nth-child(3) {
-    display: inline-block;
-    text-decoration: underline;
-    text-underline-position: under;
-    margin-bottom: 100px;
-  }
-  > :last-child {
-    text-align: center;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
-    bottom: 0;
-  }
-`;
-const ArticleBox = styled.div``;
 const MainVisualImgBox = styled.div`
-  position: absolute;
-  top: 50%;
-  right: 7%;
-  transform: translateY(-50%);
-  width: 45%;
-  rotate: 15deg;
+  transform: translateY(10%);
   box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
 `;
+
 interface MainVisualProps {
   onMoveToFunctionCard: () => void;
 }
-const MainBox = styled.div``;
+
 const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
   const navigate = useNavigate();
 
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
-    <MainBox>
-      <Container>
-        <AsideBox>
-          <LogoBox>
-            <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
-          </LogoBox>
-          <Paragraph>
-            <Span fontSize="22px" fontWeight="300">
-              사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,
-            </Span>
-            <Span fontSize="22px" fontWeight="300">
-              주요단어 및 키워드를 추출해 보여주는 웹 어플리케이션입니다.
-            </Span>
-            <Span fontSize="22px" fontWeight="300">
-              이를 통해 사용자는 대화 내용을 한 눈에 파악하고,
-            </Span>
-            <Span fontSize="22px" fontWeight="300">
-              효과적인 의사소통에 도움을 받을 수 있습니다.
-            </Span>
-          </Paragraph>
-          <RadiusButton onClick={() => navigate("/2")}>GET STARTED</RadiusButton>
-          <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
-            카카오 돋보기의 분석 기능
-          </ScrollIndicator>
-        </AsideBox>
-        <ArticleBox>
-          <MainVisualImgBox>
-            <Img src={`${process.env.PUBLIC_URL}/images/mainVisual.png`} />
-          </MainVisualImgBox>
-        </ArticleBox>
-      </Container>
-    </MainBox>
+    <MainVisualContainer>
+      <AsideBox>
+        <LogoBox>
+          <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
+        </LogoBox>
+        <Paragraph fontSize="22px" lineHeight="1.5">
+          사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,주요단어 및 키워드를 추출해
+          보여주는 웹 어플리케이션입니다. 이를 통해 사용자는 대화 내용을 한 눈에 파악하고, 효과적인
+          의사소통에 도움을 받을 수 있습니다.
+        </Paragraph>
+        <RadiusButton onClick={() => navigate("/2")}>GET STARTED</RadiusButton>
+        <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
+          카카오 돋보기의 분석 기능
+        </ScrollIndicator>
+      </AsideBox>
+      <ArticleBox>
+        <MainVisualImgBox>
+          <Img src={`${process.env.PUBLIC_URL}/images/mainVisual.png`} />
+        </MainVisualImgBox>
+      </ArticleBox>
+    </MainVisualContainer>
   );
 };
 

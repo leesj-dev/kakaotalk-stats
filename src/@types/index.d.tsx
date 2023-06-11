@@ -54,8 +54,8 @@ export type NameValuePair = {
 };
 
 export type ValueCountPair = {
-  value: string;
-  count: number;
+  text: string;
+  value: number;
 };
 
 export type selectedChatRoomData = {
