@@ -27,7 +27,7 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
-  outline: 1px solid lightblue;
+  /* outline: 1px solid lightblue; */
 }
 
 body {

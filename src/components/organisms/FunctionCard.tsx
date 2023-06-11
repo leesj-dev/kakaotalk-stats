@@ -30,6 +30,7 @@ const Card = styled.div`
     flex-direction: column;
     margin-top: 100px;
   }
+
   &.dark {
     box-shadow: none;
     background: #eeeeee;
@@ -59,6 +60,9 @@ const SideContent = styled.div`
   @media (max-width: 768px) {
     padding: 50px;
     border-right: none;
+  }
+  @media (max-width: 320px) {
+    padding: 20px;
   }
   > :nth-child(1) {
     display: none;
@@ -97,6 +101,9 @@ const SideContent = styled.div`
       line-height: 1.3;
       word-spacing: 3px;
       font-size: 0.9em;
+    }
+    @media (max-width: 600px) {
+      padding-bottom: 50px;
     }
   }
 `;

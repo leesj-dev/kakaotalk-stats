@@ -43,11 +43,18 @@ const H1 = styled.h1`
     height: 30px;
     transform: translateY(-22px);
   }
+  @media (max-width: 480px) {
+    height: 30px;
+  }
+`;
+const MenuBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 const Menu = styled.div`
   display: flex;
-  align-items: center;
   gap: 20px;
+  align-items: center;
 `;
 const PcMenu = styled.div`
   display: flex;
@@ -124,6 +131,7 @@ const MobileMenuIcon = styled.div`
   display: none;
   @media (max-width: 480px) {
     display: block;
+    transform: translateY(6px);
   }
 `;
 const PageLink = styled.div`
@@ -194,7 +202,7 @@ const NavBar = () => {
     setMenu(!isOpen);
   };
   const [isOpen, setMenu] = useState(false);
-  const shouldRenderSingleChatRoomBox = window.innerWidth < 480;
+
   return (
     <NavWrap>
       <Container>
@@ -203,26 +211,31 @@ const NavBar = () => {
             <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
           </Link>
         </H1>
-        <Menu>
-          <PcMenu>
-            <PageLink>
-              {<Link to="/2">분석하기</Link>}
-              {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
-            </PageLink>
+        <MenuBox>
+          <Menu>
+            <PcMenu>
+              <PageLink>
+                <Link to="/2">분석하기</Link>
+                {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+              </PageLink>
 
-            <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
-              <ToggleCircle></ToggleCircle>
-              <IconBox>
-                <BsFillBrightnessHighFill />
-                <BsFillMoonStarsFill />
-              </IconBox>
-            </DarkModeButton>
-          </PcMenu>
-          <MobileMenuIcon onClick={closeMenu}>
-            <Icon fontSize="1.5em">
-              <HiMenu />
-            </Icon>
-          </MobileMenuIcon>
+              <DarkModeButton
+                className={`${isDarkMode && "active"}`}
+                onClick={handleClickDarkModeButton}
+              >
+                <ToggleCircle></ToggleCircle>
+                <IconBox>
+                  <BsFillBrightnessHighFill />
+                  <BsFillMoonStarsFill />
+                </IconBox>
+              </DarkModeButton>
+            </PcMenu>
+            <MobileMenuIcon onClick={closeMenu}>
+              <Icon fontSize="1.8em">
+                <HiMenu />
+              </Icon>
+            </MobileMenuIcon>
+          </Menu>
           {isOpen ? (
             <MobileMenuBox className={`${"active"}`}>
               <MobileMenu>
@@ -250,7 +263,7 @@ const NavBar = () => {
               <MobileMenuShadow></MobileMenuShadow>
             </MobileMenuBox>
           ) : null}
-        </Menu>
+        </MenuBox>
       </Container>
     </NavWrap>
   );

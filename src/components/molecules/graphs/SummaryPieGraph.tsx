@@ -28,7 +28,7 @@ const ChatRoomIndexArrowBox = styled.div`
   width: 98%;
   z-index: 1;
   @media (max-width: 480px) {
-    width: 70%;
+    width: 88%;
   }
   > * {
     cursor: pointer;
