@@ -18,30 +18,25 @@ const MainVisualContainer = styled.div`
   align-items: center;
 
   @media (max-width: 768px) {
-    width: 100%;
-    min-width: 1240px;
-    padding: 50px 20px 0 20px;
+    max-width: 808px;
+    background-color: #ff0;
+    padding: 50px 0 0;
     flex-direction: column;
   }
-  @media (max-width: 600px) {
-    width: 100%;
-    min-width: 700px;
-    padding: 50px 20px 0 20px;
-    flex-direction: column;
+  @media (max-width: 480px) {
+    max-width: 520px;
   }
   @media (max-width: 320px) {
-    width: 100%;
-    min-width: 450px;
-    padding: 30px 10px 0 10px;
-    flex-direction: column;
+    max-width: 360px;
+    padding: 30px 0 0;
   }
 `;
 
 const AsideBox = styled.div`
   width: 70%;
-  max-width: 610px;
   margin-right: 30px;
   @media (max-width: 768px) {
+    width: 100%;
     padding: 0 20px;
     margin-right: 0;
     text-align: center;
