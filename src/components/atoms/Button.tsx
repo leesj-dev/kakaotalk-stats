@@ -16,7 +16,10 @@ const RadiusButtonStyle = styled.button`
   transition: 0.3s;
   border: none;
   cursor: pointer;
-
+  @media (max-width: 480px) {
+    width: 170px;
+    font-size: 12px;
+  }
   &:hover {
     background: ${(props) => props.theme.mainBlueHover};
   }

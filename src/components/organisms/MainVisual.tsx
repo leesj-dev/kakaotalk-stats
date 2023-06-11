@@ -9,39 +9,75 @@ import RadiusButton from "../atoms/Button";
 import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled.div`
+  width: 100%;
+  max-width: 1240px;
   position: relative;
-  padding: 100px 0 80px 0;
+  padding: 100px 20px 80px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1200px;
+
+  @media (max-width: 768px) {
+    max-width: 808px;
+    padding: 50px 0 0;
+    flex-direction: column;
+  }
+  @media (max-width: 480px) {
+    max-width: 520px;
+  }
+  @media (max-width: 320px) {
+    max-width: 360px;
+    padding: 30px 0 0;
+  }
 `;
 
 const AsideBox = styled.div`
-  width: 50%;
+  width: 70%;
+  margin-right: 30px;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0 20px;
+    margin-right: 0;
+    text-align: center;
+  }
+
   > :nth-child(2) {
     margin-bottom: 50px;
-    > * {
-      margin-bottom: 10px;
+    width: 100%;
+    height: 100%;
+    white-space: wrap;
+    font-size: 22px;
+
+    @media (max-width: 1220px) {
+      font-size: 20px;
+    }
+    @media (max-width: 768px) {
+      text-align: center;
+    }
+    @media (max-width: 320px) {
+      font-size: 15px;
     }
   }
   > :nth-child(3) {
     display: inline-block;
     text-decoration: underline;
     text-underline-position: under;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
   > :last-child {
     text-align: center;
     position: absolute;
     left: 50%;
     transform: translate(-50%);
-    bottom: 0;
+    bottom: -50px;
   }
 `;
 
 const ArticleBox = styled.div`
   width: 50%;
+  @media (max-width: 768px) {
+    margin-bottom: 40px;
+  }
 `;
 
 const LogoBox = styled.div`
@@ -49,6 +85,17 @@ const LogoBox = styled.div`
   height: 100px;
   margin-bottom: 30px;
   transform: translateX(-3px);
+  @media (max-width: 768px) {
+    margin: 0 auto 30px;
+  }
+  @media (max-width: 480px) {
+    width: 210px;
+    height: 70px;
+  }
+  @media (max-width: 320px) {
+    width: 150px;
+    height: 50px;
+  }
 `;
 
 const MainVisualImgBox = styled.div`
@@ -71,19 +118,10 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
         <LogoBox>
           <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
         </LogoBox>
-        <Paragraph>
-          <Span fontSize="22px" fontWeight="300">
-            사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,
-          </Span>
-          <Span fontSize="22px" fontWeight="300">
-            주요단어 및 키워드를 추출해 보여주는 웹 어플리케이션입니다.
-          </Span>
-          <Span fontSize="22px" fontWeight="300">
-            이를 통해 사용자는 대화 내용을 한 눈에 파악하고,
-          </Span>
-          <Span fontSize="22px" fontWeight="300">
-            효과적인 의사소통에 도움을 받을 수 있습니다.
-          </Span>
+        <Paragraph fontSize="22px" lineHeight="1.5">
+          사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,주요단어 및 키워드를 추출해
+          보여주는 웹 어플리케이션입니다. 이를 통해 사용자는 대화 내용을 한 눈에 파악하고, 효과적인
+          의사소통에 도움을 받을 수 있습니다.
         </Paragraph>
         <RadiusButton onClick={() => navigate("/2")}>GET STARTED</RadiusButton>
         <ScrollIndicator onClick={() => onMoveToFunctionCard()}>

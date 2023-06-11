@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
@@ -6,8 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../../style/Theme";
 import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
+import { HiMenu } from "react-icons/hi";
+import { CgClose } from "react-icons/cg";
+import Icon from "../atoms/Icon";
+import DashboardSideMenu from "../section/DashboardSideMenu";
 
 const NavWrap = styled.div`
+  position: relative;
   width: 100%;
   position: fixed;
   top: 0;
@@ -33,8 +38,25 @@ const Container = styled.div`
 
 const H1 = styled.h1`
   height: 40px;
+  &.active {
+    padding-left: 20px;
+    height: 30px;
+    transform: translateY(-22px);
+  }
+  @media (max-width: 480px) {
+    height: 30px;
+  }
+`;
+const MenuBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 const Menu = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
+`;
+const PcMenu = styled.div`
   display: flex;
   align-items: center;
   font-size: 22px;
@@ -43,6 +65,11 @@ const Menu = styled.div`
   @media (max-width: 768px) {
     font-size: 18px;
     gap: 30px;
+  }
+  > :nth-child(1) {
+    @media (max-width: 480px) {
+      display: none;
+    }
   }
 `;
 
@@ -100,6 +127,65 @@ const IconBox = styled.div`
     flex: 1;
   }
 `;
+const MobileMenuIcon = styled.div`
+  display: none;
+  @media (max-width: 480px) {
+    display: block;
+    transform: translateY(6px);
+  }
+`;
+const PageLink = styled.div`
+  display: flex;
+  gap: 60px;
+  @media (max-width: 480px) {
+    width: 100%;
+    flex-direction: column;
+    gap: 0;
+    font-size: 18px;
+    text-align: center;
+    > * {
+      border-bottom: 1px solid ${(props) => props.theme.border};
+    }
+  }
+`;
+const MobileMenuBox = styled.div`
+  &.active {
+    display: block;
+  }
+`;
+const MobileMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100vh;
+  background-color: ${(props) => props.theme.mainWhite};
+  z-index: 999;
+
+  > :nth-child(1) {
+    padding: 20px 20px 0 0;
+  }
+  > :nth-child(2) {
+    margin: 0 auto;
+  }
+`;
+const MobileMenuShadow = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100vh;
+  background-color: ${(props) => props.theme.mainBlack};
+  opacity: 0.8;
+  z-index: 999;
+`;
+const TopContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -112,6 +198,10 @@ const NavBar = () => {
   const handleClickDarkModeButton = () => {
     dispatch(setIsDarkMode(!isDarkMode));
   };
+  const closeMenu = () => {
+    setMenu(!isOpen);
+  };
+  const [isOpen, setMenu] = useState(false);
 
   return (
     <NavWrap>
@@ -121,17 +211,59 @@ const NavBar = () => {
             <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
           </Link>
         </H1>
-        <Menu>
-          <Link to="/2">분석하기</Link>
-          {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
-          <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
-            <ToggleCircle></ToggleCircle>
-            <IconBox>
-              <BsFillBrightnessHighFill />
-              <BsFillMoonStarsFill />
-            </IconBox>
-          </DarkModeButton>
-        </Menu>
+        <MenuBox>
+          <Menu>
+            <PcMenu>
+              <PageLink>
+                <Link to="/2">분석하기</Link>
+                {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+              </PageLink>
+
+              <DarkModeButton
+                className={`${isDarkMode && "active"}`}
+                onClick={handleClickDarkModeButton}
+              >
+                <ToggleCircle></ToggleCircle>
+                <IconBox>
+                  <BsFillBrightnessHighFill />
+                  <BsFillMoonStarsFill />
+                </IconBox>
+              </DarkModeButton>
+            </PcMenu>
+            <MobileMenuIcon onClick={closeMenu}>
+              <Icon fontSize="1.8em">
+                <HiMenu />
+              </Icon>
+            </MobileMenuIcon>
+          </Menu>
+          {isOpen ? (
+            <MobileMenuBox className={`${"active"}`}>
+              <MobileMenu>
+                <TopContent>
+                  <H1 className="active">
+                    <Link to="/">
+                      <Img
+                        src={`${process.env.PUBLIC_URL}/images/${
+                          isDarkMode ? "logoGray" : "logoBlack"
+                        }.png`}
+                      />
+                    </Link>
+                  </H1>
+                  <Icon fontSize="2em">
+                    <CgClose onClick={closeMenu} />
+                  </Icon>
+                </TopContent>
+
+                <PageLink>
+                  <Link to="/2">분석하기</Link>
+                  {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+                </PageLink>
+                {isAnalyzedMessagesExist && <DashboardSideMenu />}
+              </MobileMenu>
+              <MobileMenuShadow></MobileMenuShadow>
+            </MobileMenuBox>
+          ) : null}
+        </MenuBox>
       </Container>
     </NavWrap>
   );

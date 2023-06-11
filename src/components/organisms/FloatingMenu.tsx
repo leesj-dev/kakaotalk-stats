@@ -16,7 +16,7 @@ const FloatingMenuContainer = styled.div`
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
-  z-index: 1000;
+  z-index: 900;
 
   &.show {
     opacity: 1;

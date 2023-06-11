@@ -10,8 +10,7 @@ const Description = styled.div<{
   width: 100%;
   height: 100%;
   > :first-child {
-    font-size: ${(props) => props.fontSize || "1.7em"};
-    font-size: 1.5vw;
+    font-size: ${(props) => props.fontSize || "1.5em"};
     margin-bottom: 15px;
     font-weight: 500;
   }
@@ -24,6 +23,7 @@ const Description = styled.div<{
     font-weight: 300;
   }
 `;
+
 interface CardContentProps {
   h2?: string;
   h3: string;
