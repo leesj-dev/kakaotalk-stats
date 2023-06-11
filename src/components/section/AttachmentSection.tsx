@@ -61,23 +61,29 @@ const OsListBox = styled.div`
   margin: 0 auto;
   padding: 100px 20px;
   width: 80%;
-  min-width: calc(729px);
+  max-width: 970px;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
+  @media (max-width: 480px) {
+    padding: 50px 20px;
+  }
   > :nth-child(1) {
     margin-bottom: 30px;
+    @media (max-width: 768px) {
+      font-size: 1.3em;
+    }
+    @media (max-width: 480px) {
+      font-size: 1.2em;
+    }
+    /* @media (max-width: 480px) {
+      font-size: 1.2em;
+    } */
   }
   > :nth-child(2) {
     margin-bottom: 30px;
   }
   > :last-child {
     color: ${(props) => props.theme.mainGray};
-  }
-
-  @media (max-width: 768px) {
-    width: calc(100% - 40px);
-    min-width: 360px;
-    padding: 60px 30px;
   }
 `;
 

@@ -199,7 +199,7 @@ const DashboardSideMenu = () => {
           {shouldRenderSingleChatRoomBox ? (
             <ChatRoomBox>
               <ChatRoomHead>
-                <Paragraph>
+                <Paragraph fontWeight="500">
                   채팅방 {selectedChatRoomIndex + 1} ({totalChatCounts[selectedChatRoomIndex]})
                 </Paragraph>
               </ChatRoomHead>
@@ -214,7 +214,7 @@ const DashboardSideMenu = () => {
                   onClick={() => handleClickChatRoom(index)}
                 >
                   <ChatRoomHead>
-                    <Paragraph>
+                    <Paragraph fontWeight="500">
                       채팅방{index + 1} ({totalChatCounts[index]}){" "}
                     </Paragraph>
                   </ChatRoomHead>

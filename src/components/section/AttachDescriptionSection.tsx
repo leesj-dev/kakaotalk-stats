@@ -16,6 +16,12 @@ const AttachDescriptionBox = styled.div`
     font-weight: 300;
   }
 
+  > :nth-child(1) {
+    padding: 0 20px;
+    @media (max-width: 480px) {
+      font-size: 1.2em;
+    }
+  }
   > :nth-child(2) {
     margin-bottom: 60px;
   }
