@@ -40,16 +40,11 @@ const Card = styled.div`
 const SideSlide = styled.div`
   width: 50%;
   height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   transition: transform 0.5s ease-in-out;
-  /* @media (min-width: 769px) {
-    width: 40%;
+  /* > * {
+    background-color: #ff0;
   } */
-  > * {
-    height: 100%;
-
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -115,15 +110,12 @@ const SideContent = styled.div`
 
 const MainSlide = styled.div`
   width: 50%;
-
   height: 100%;
   transition: transform 0.5s ease-in-out;
   color: ${(props) => props.theme.mainBlack};
-
   @media (max-width: 768px) {
     display: none;
   }
-
   > * {
     display: flex;
     flex-direction: column;
@@ -242,7 +234,7 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
             <SideContent>
               <H2>{data.subject}</H2>{" "}
               <H3 fontSize="24px" lineHeight="1.5">
-                {data.h3}{" "}
+                {data.h3}
               </H3>
               <Img src={data.img} />
               <Paragraph>{data.p}</Paragraph>
