@@ -38,8 +38,14 @@ const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }
   cursor: pointer;
 
   > :first-child {
+    background: #f00;
     width: ${(props) => props.size || "65px"};
     font-size: ${(props) => props.fontSize || "60px"};
+
+    @media (max-width: 768px) {
+      width: ${(props) => props.size || "40px"};
+      font-size: ${(props) => props.fontSize || "40px"};
+    }
   }
 
   &:hover {
