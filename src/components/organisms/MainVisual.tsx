@@ -19,7 +19,7 @@ const MainVisualContainer = styled.div`
 
   @media (max-width: 768px) {
     max-width: 808px;
-    padding: 50px 0 0;
+    padding: 50px 20px 0;
     flex-direction: column;
   }
   @media (max-width: 480px) {

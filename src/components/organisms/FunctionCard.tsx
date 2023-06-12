@@ -42,9 +42,7 @@ const SideSlide = styled.div`
   width: 50%;
   height: 100%;
   transition: transform 0.5s ease-in-out;
-  /* > * {
-    background-color: #ff0;
-  } */
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -57,7 +55,10 @@ const SideContent = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-
+  color: ${(props) => props.theme.mainBlack};
+  @media (max-width: 1200px) {
+    background-color: ${(props) => props.theme.functionArrowWhite};
+  }
   @media (max-width: 768px) {
     padding: 30px 20px;
     border-right: none;

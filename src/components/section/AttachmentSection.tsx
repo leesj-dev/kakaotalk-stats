@@ -39,14 +39,13 @@ const AttachmentSectionBox = styled.div`
   align-items: center;
   text-align: center;
   max-width: 1220px;
-  min-width: 769px;
+
   > * + * {
     margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
   }
 
   @media (max-width: 768px) {
     margin: 60px auto 0 auto;
-    min-width: 0px;
   }
 `;
 
@@ -61,23 +60,26 @@ const OsListBox = styled.div`
   margin: 0 auto;
   padding: 100px 20px;
   width: 80%;
-  min-width: calc(729px);
+  max-width: 970px;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
+  @media (max-width: 480px) {
+    padding: 50px 20px;
+  }
   > :nth-child(1) {
     margin-bottom: 30px;
+    @media (max-width: 768px) {
+      font-size: 1.3em;
+    }
+    @media (max-width: 480px) {
+      font-size: 1.2em;
+    }
   }
   > :nth-child(2) {
     margin-bottom: 30px;
   }
   > :last-child {
     color: ${(props) => props.theme.mainGray};
-  }
-
-  @media (max-width: 768px) {
-    width: calc(100% - 40px);
-    min-width: 360px;
-    padding: 60px 30px;
   }
 `;
 
@@ -194,7 +196,12 @@ const AttachmentSection = () => {
 
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFileList);
-    navigate("/dashboard");
+    const windowWidth = window.innerWidth;
+    if (windowWidth > 1024) {
+      navigate("/dashboard");
+    } else {
+      navigate("/dashboard/detail");
+    }
   };
 
   const handleScrollDown = () => {

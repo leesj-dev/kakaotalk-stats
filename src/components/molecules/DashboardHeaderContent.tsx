@@ -20,7 +20,7 @@ const DashboardHeaderContent = ({ data }: { data: headerContentProps }) => {
   return (
     <HeaderContentBox>
       <Span color="#7e848a">{data.headerTitle}</Span>
-      <Span fontSize="24px" fontWeight="bold" textAlign="right">
+      <Span fontSize="24px" fontWeight="700" textAlign="right">
         {data.headerContent}
       </Span>
     </HeaderContentBox>
