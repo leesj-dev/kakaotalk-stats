@@ -1,5 +1,4 @@
 import React from "react";
-import Img from "../atoms/Img";
 import Span from "../atoms/Span";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,7 +37,6 @@ const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }
   cursor: pointer;
 
   > :first-child {
-    background: #f00;
     width: ${(props) => props.size || "65px"};
     font-size: ${(props) => props.fontSize || "60px"};
 
