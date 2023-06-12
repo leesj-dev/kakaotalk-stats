@@ -196,7 +196,12 @@ const AttachmentSection = () => {
 
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFileList);
-    navigate("/dashboard");
+    const windowWidth = window.innerWidth;
+    if (windowWidth > 1024) {
+      navigate("/dashboard");
+    } else {
+      navigate("/dashboard/detail");
+    }
   };
 
   const handleScrollDown = () => {

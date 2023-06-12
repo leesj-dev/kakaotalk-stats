@@ -13,20 +13,23 @@ import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexS
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
-const DashboardSideMenuBox = styled.div`
+// const DashboardSideMenuBox = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   height: calc(100vh - 80px);
+//   width:100%;
+//   color: ${(props) => props.theme.mainText};
+//   background: ${(props) => props.theme.mainWhite};
+// `;
+
+const DashboardLayoutBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 80px);
-  width: 100%;
-  color: ${(props) => props.theme.mainText};
-  background: ${(props) => props.theme.mainWhite};
-`;
-
-const DashboardLayoutBox = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  /* @media (max-width: 1024px) {
+    display: none;
+  } */
   @media (max-width: 480px) {
     text-align: center;
     padding: 0;
@@ -188,45 +191,43 @@ const DashboardSideMenu = () => {
 
   const shouldRenderSingleChatRoomBox = window.innerWidth < 480;
   return (
-    <DashboardSideMenuBox>
-      <DashboardLayoutBox>
-        <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
-        <ChatroomGraphBox style={{ height: "200px" }}>
-          <SummaryPieGraph />
-        </ChatroomGraphBox>
-        <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
-        <ChatroomListBox>
-          {shouldRenderSingleChatRoomBox ? (
-            <ChatRoomBox>
-              <ChatRoomHead>
-                <Paragraph fontWeight="500">
-                  채팅방 {selectedChatRoomIndex + 1} ({totalChatCounts[selectedChatRoomIndex]})
-                </Paragraph>
-              </ChatRoomHead>
-              <Span>{chatRoomNames[selectedChatRoomIndex]}</Span>
-            </ChatRoomBox>
-          ) : (
-            chatRoomNames.map((name, index) => {
-              return (
-                <ChatRoomBox
-                  key={index}
-                  className={`${selectedChatRoomIndex === index && "active"}`}
-                  onClick={() => handleClickChatRoom(index)}
-                >
-                  <ChatRoomHead>
-                    <Paragraph fontWeight="500">
-                      채팅방{index + 1} ({totalChatCounts[index]}){" "}
-                    </Paragraph>
-                  </ChatRoomHead>
-                  <Span>{name}</Span>
-                  <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
-                </ChatRoomBox>
-              );
-            })
-          )}
-        </ChatroomListBox>
-      </DashboardLayoutBox>
-    </DashboardSideMenuBox>
+    <DashboardLayoutBox>
+      <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
+      <ChatroomGraphBox style={{ height: "200px" }}>
+        <SummaryPieGraph />
+      </ChatroomGraphBox>
+      <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
+      <ChatroomListBox>
+        {shouldRenderSingleChatRoomBox ? (
+          <ChatRoomBox>
+            <ChatRoomHead>
+              <Paragraph fontWeight="500">
+                채팅방 {selectedChatRoomIndex + 1} ({totalChatCounts[selectedChatRoomIndex]})
+              </Paragraph>
+            </ChatRoomHead>
+            <Span>{chatRoomNames[selectedChatRoomIndex]}</Span>
+          </ChatRoomBox>
+        ) : (
+          chatRoomNames.map((name, index) => {
+            return (
+              <ChatRoomBox
+                key={index}
+                className={`${selectedChatRoomIndex === index && "active"}`}
+                onClick={() => handleClickChatRoom(index)}
+              >
+                <ChatRoomHead>
+                  <Paragraph fontWeight="500">
+                    채팅방{index + 1} ({totalChatCounts[index]}){" "}
+                  </Paragraph>
+                </ChatRoomHead>
+                <Span>{name}</Span>
+                <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
+              </ChatRoomBox>
+            );
+          })
+        )}
+      </ChatroomListBox>
+    </DashboardLayoutBox>
   );
 };
 
