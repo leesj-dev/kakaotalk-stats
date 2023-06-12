@@ -25,13 +25,12 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 0 20px;
   max-width: 1240px;
-  min-width: 769px;
   display: flex;
   justify-content: space-between;
   font-weight: 500;
   line-height: 80px;
   @media (max-width: 768px) {
-    min-width: 360px;
+    width: 100%;
     line-height: 60px;
   }
 `;
@@ -59,11 +58,10 @@ const Menu = styled.div`
 const PcMenu = styled.div`
   display: flex;
   align-items: center;
-  font-size: 22px;
+  font-size: 2.2rem;
   gap: 60px;
 
   @media (max-width: 768px) {
-    font-size: 18px;
     gap: 30px;
   }
   > :nth-child(1) {
@@ -130,8 +128,8 @@ const IconBox = styled.div`
 const MobileMenuIcon = styled.div`
   display: none;
   @media (max-width: 480px) {
-    display: block;
-    transform: translateY(6px);
+    display: flex;
+    transform: translateY(3px);
   }
 `;
 const PageLink = styled.div`
@@ -231,7 +229,7 @@ const NavBar = () => {
               </DarkModeButton>
             </PcMenu>
             <MobileMenuIcon onClick={closeMenu}>
-              <Icon fontSize="1.8em">
+              <Icon fontSize="3rem">
                 <HiMenu />
               </Icon>
             </MobileMenuIcon>

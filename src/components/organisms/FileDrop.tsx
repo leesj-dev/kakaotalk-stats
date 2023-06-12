@@ -11,14 +11,13 @@ import { VscNewFile } from "react-icons/vsc";
 const DropBox = styled.div`
   position: relative;
   width: 80%;
-  padding: 30px 0;
+  padding: 8rem 0;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
   z-index: 2;
@@ -28,18 +27,19 @@ const DropBox = styled.div`
     text-align: center;
   }
   > :nth-child(1) {
-    margin-bottom: 30px;
+    margin-bottom: 3rem;
   }
   > :last-child {
     color: ${(props) => props.theme.mainGray};
   }
   @media (max-width: 768px) {
-    padding: 60px 30px;
+    padding: 4rem 3rem;
+    margin-bottom: 0px;
   }
 `;
 
 const AttachmentBox = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
   display: flex;
   gap: 5px;
 `;
@@ -53,7 +53,6 @@ const DragFile = styled.div`
   justify-items: center;
   gap: 20px;
   z-index: 1;
-  background-color: #ff0;
 `;
 
 type DropZoneProps = {
@@ -140,14 +139,23 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
         <>
           <OsList />
           {screenWidth > 769 ? (
-            <Span fontSize="18px">내보내기한 카카오톡 텍스트 파일을 드래그하여 여기에 끌어 놓거나</Span>
+            <>
+              <Span fontSize="18px">
+                내보내기한 카카오톡 텍스트 파일을 드래그하여 여기에 끌어 놓거나
+              </Span>
+              <AttachmentBox>
+                <AttachmentButton onChange={handleChangeFile}>첨부하기</AttachmentButton>
+                <Paragraph fontSize="18px">버튼을 클릭하세요.</Paragraph>
+              </AttachmentBox>
+            </>
           ) : (
-            <Span fontSize="18px">내보내기한 카카오톡 텍스트 파일을 분석하기 위해</Span>
+            <>
+              <Span fontSize="18px">카카오톡 텍스트 파일</Span>
+              <AttachmentBox>
+                <AttachmentButton onChange={handleChangeFile}>첨부하기</AttachmentButton>
+              </AttachmentBox>
+            </>
           )}
-          <AttachmentBox>
-            <AttachmentButton onChange={handleChangeFile}>첨부하기</AttachmentButton>
-            <Paragraph fontSize="18px">버튼을 클릭하세요.</Paragraph>
-          </AttachmentBox>
           <Span fontSize="15px">* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Span>
         </>
       )}

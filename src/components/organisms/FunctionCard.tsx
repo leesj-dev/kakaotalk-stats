@@ -9,7 +9,7 @@ import CardContent from "../molecules/CardContent";
 import SlideBtn from "../molecules/SlideBtn";
 
 const Container = styled.div`
-  padding: 100px 20px;
+  padding: 100px 0px;
   @media (max-width: 768px) {
     padding: 50px 20px;
   }
@@ -29,7 +29,6 @@ const Card = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     margin-top: 100px;
-    height: 100%;
   }
 
   &.dark {
@@ -42,7 +41,6 @@ const SideSlide = styled.div`
   width: 50%;
   height: 100%;
   transition: transform 0.5s ease-in-out;
-
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -87,11 +85,9 @@ const SideContent = styled.div`
     width: 100%;
     height: 100%;
     object-fit: contain;
-
     @media (max-width: 768px) {
       width: 100%;
       height: 50%;
-      background: #f00;
     }
   }
 

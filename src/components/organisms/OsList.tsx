@@ -6,26 +6,26 @@ import { setSelectedOsIndex } from "../../store/reducer/selectedOsIndexSlice";
 import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
 import { SiIos } from "react-icons/si";
 import Icon from "../atoms/Icon";
-const OsIconBox = styled.ul`
-  width: 50%;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
+const OsListBox = styled.ul`
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 5%;
-  margin: 0 auto;
-  > * {
-    margin-bottom: 10px;
+  gap: 2.5rem;
+
+  @media (max-width: 1200px) {
+    flex-wrap: nowrap;
   }
   @media (max-width: 520px) {
+    flex-wrap: wrap;
     margin: 0 auto;
-    width: 70%;
+    width: 80%;
     max-width: 480px;
+    gap: 1.5rem;
   }
 
-  > :nth-child(2) {
+  /* > :nth-child(2) {
     > :first-child {
       transform: scale(98%) translateY(-3px);
     }
@@ -34,11 +34,11 @@ const OsIconBox = styled.ul`
     > :first-child {
       transform: scale(96%);
     }
-  }
+  } */
 `;
 
-const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }>`
-  padding: 10px;
+const OsIconBox = styled.li<{ size?: string; color?: string; fontSize?: string }>`
+  padding: 1rem;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -48,13 +48,20 @@ const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }
   transition: 0.2s;
   cursor: pointer;
 
-  > :first-child {
-    width: ${(props) => props.size || "65px"};
-    font-size: ${(props) => props.fontSize || "60px"};
+  @media (max-width: 520px) {
+    padding: 0.25rem;
+  }
 
-    @media (max-width: 768px) {
-      width: ${(props) => props.size || "40px"};
-      font-size: ${(props) => props.fontSize || "40px"};
+  > :nth-child(2) {
+    font-size: 1.5rem;
+  }
+
+  > :first-child {
+    width: ${(props) => props.size || "6.5rem"};
+    font-size: ${(props) => props.fontSize || "6rem"};
+    @media (max-width: 520px) {
+      width: ${(props) => props.size || "6.5rem"};
+      font-size: ${(props) => props.fontSize || "5rem"};
     }
   }
 
@@ -80,6 +87,14 @@ const OsListBox = styled.li<{ size?: string; color?: string; fontSize?: string }
       color: #fff;
       background: #555555;
     }
+  }
+`;
+
+const OsRowBox = styled.div`
+  display: flex;
+  gap: 2.5rem;
+  @media (max-width: 520px) {
+    gap: 1.5rem;
   }
 `;
 
@@ -124,21 +139,38 @@ const OsList = ({ color }: OsListProps) => {
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
-    <OsIconBox>
-      {osData.map((data: OsData) => {
-        return (
-          <OsListBox
-            key={data.id}
-            className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
-            color={color}
-            onClick={() => dispatch(setSelectedOsIndex(data.id))}
-          >
-            <Icon color="#2da0fa">{data.icon}</Icon>
-            <Span>{data.os}</Span>
-          </OsListBox>
-        );
-      })}
-    </OsIconBox>
+    <OsListBox>
+      <OsRowBox>
+        {osData.slice(0, 2).map((data: OsData) => {
+          return (
+            <OsIconBox
+              key={data.id}
+              className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
+              color={color}
+              onClick={() => dispatch(setSelectedOsIndex(data.id))}
+            >
+              <Icon color="#2da0fa">{data.icon}</Icon>
+              <Span>{data.os}</Span>
+            </OsIconBox>
+          );
+        })}
+      </OsRowBox>
+      <OsRowBox>
+        {osData.slice(2, 4).map((data: OsData) => {
+          return (
+            <OsIconBox
+              key={data.id}
+              className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
+              color={color}
+              onClick={() => dispatch(setSelectedOsIndex(data.id))}
+            >
+              <Icon color="#2da0fa">{data.icon}</Icon>
+              <Span>{data.os}</Span>
+            </OsIconBox>
+          );
+        })}
+      </OsRowBox>
+    </OsListBox>
   );
 };
 

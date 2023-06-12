@@ -10,16 +10,16 @@ const Description = styled.div<{
   width: 100%;
   height: 100%;
   > :first-child {
-    font-size: ${(props) => props.fontSize || "1.5em"};
+    font-size: ${(props) => props.fontSize || "2.6em"};
     margin-bottom: 15px;
     font-weight: 500;
   }
   > :nth-child(2) {
-    font-size: ${(props) => props.fontSize || "1.2em"};
+    font-size: ${(props) => props.fontSize || "1.8em"};
     margin-bottom: 25px;
   }
   > :last-child {
-    font-size: ${(props) => props.fontSize || "1em"};
+    font-size: ${(props) => props.fontSize || "1.6em"};
     font-weight: 300;
   }
 `;

@@ -58,7 +58,7 @@ const ButtonBox = styled.div`
 
 const OsListBox = styled.div`
   margin: 0 auto;
-  padding: 100px 20px;
+  padding: 10rem 20px;
   width: 80%;
   max-width: 970px;
   border: 3px dashed ${(props) => props.theme.mainGray};

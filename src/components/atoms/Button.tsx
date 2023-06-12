@@ -3,16 +3,17 @@ import styled, { css } from "styled-components";
 
 const RadiusButtonStyle = styled.button`
   margin: 0 auto;
-  padding: 20px 40px;
+  padding: 1.7rem 3.4rem;
   display: flex;
   justify-content: center;
   text-align: center;
-  width: 200px;
+  width: 18rem;
+  font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: 0.05rem;
   color: #fff;
   background: ${(props) => props.theme.mainBlue};
-  border-radius: 30px;
+  border-radius: 3rem;
   transition: 0.3s;
   border: none;
   cursor: pointer;

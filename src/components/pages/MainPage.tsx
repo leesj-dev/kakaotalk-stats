@@ -5,7 +5,7 @@ import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
 
 const MainContainer = styled.div`
-  padding: 100px 0;
+  padding: 100px 20px;
   display: flex;
   align-items: center;
   flex-direction: column;

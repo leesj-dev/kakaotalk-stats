@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Paragraph from "../atoms/Paragraph";
-import Span from "../atoms/Span";
 import Img from "../atoms/Img";
 import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../molecules/ScrollIndicator";
@@ -10,16 +9,16 @@ import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled.div`
   width: 100%;
-  max-width: 1240px;
+  max-width: 1200px;
   position: relative;
-  padding: 100px 20px 80px 20px;
+  padding: 100px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   @media (max-width: 768px) {
     max-width: 808px;
-    padding: 50px 20px 0;
+    padding: 50px 0px 0;
     flex-direction: column;
   }
   @media (max-width: 480px) {
@@ -32,11 +31,10 @@ const MainVisualContainer = styled.div`
 `;
 
 const AsideBox = styled.div`
-  width: 70%;
+  width: 50%;
   margin-right: 30px;
   @media (max-width: 768px) {
     width: 100%;
-    padding: 0 20px;
     margin-right: 0;
     text-align: center;
   }
@@ -46,16 +44,15 @@ const AsideBox = styled.div`
     width: 100%;
     height: 100%;
     white-space: wrap;
-    font-size: 22px;
 
     @media (max-width: 1220px) {
-      font-size: 20px;
+      /* font-size: 20px; */
     }
     @media (max-width: 768px) {
       text-align: center;
     }
     @media (max-width: 320px) {
-      font-size: 15px;
+      /* font-size: 15px; */
     }
   }
   > :nth-child(3) {
@@ -76,17 +73,15 @@ const AsideBox = styled.div`
 const ArticleBox = styled.div`
   width: 50%;
   @media (max-width: 768px) {
-    padding: 0 20px;
     margin-bottom: 40px;
     width: 100%;
   }
 `;
 
 const LogoBox = styled.div`
-  width: 300px;
-  height: 100px;
   margin-bottom: 30px;
-  transform: translateX(-3px);
+  font-size: 3.6rem;
+  font-weight: 700;
   @media (max-width: 768px) {
     margin: 0 auto 30px;
   }
@@ -101,7 +96,6 @@ const LogoBox = styled.div`
 `;
 
 const MainVisualImgBox = styled.div`
-  transform: translateY(10%);
   box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
 `;
 
@@ -118,12 +112,17 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
     <MainVisualContainer>
       <AsideBox>
         <LogoBox>
-          <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
+          <Paragraph fontSize="3.6rem" fontWeight="700" lineHeight="1.5">
+            카카오돋보기 2023
+          </Paragraph>
+          <Paragraph fontSize="2.8rem" lineHeight="1.5" fontWeight="900" color="#a6a6a6">
+            내가 좋아하는 사람을 내것으로 만들기 위한 필수 사이트 100%보장
+          </Paragraph>
+          {/* <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} /> */}
         </LogoBox>
-        <Paragraph fontSize="22px" lineHeight="1.5">
-          사용자가 선택한 기간 동안의 카카오톡 채팅방 대화 내용을 분석하여,주요단어 및 키워드를 추출해
-          보여주는 웹 어플리케이션입니다. 이를 통해 사용자는 대화 내용을 한 눈에 파악하고, 효과적인
-          의사소통에 도움을 받을 수 있습니다.
+        <Paragraph fontSize="2.2rem" lineHeight="1.5">
+          카카오돋보기는 대화를 분석하여 인사이트를 제공하는 도구입니다. 대화의 양이나 시간대와 같은
+          정보를 통하여 재미보셈
         </Paragraph>
         <RadiusButton onClick={() => navigate("/2")}>GET STARTED</RadiusButton>
         <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
