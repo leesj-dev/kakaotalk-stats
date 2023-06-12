@@ -8,12 +8,24 @@ import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
 import { SiIos } from "react-icons/si";
 import Icon from "../atoms/Icon";
 const OsIconBox = styled.ul`
+  width: 50%;
+  flex-wrap: wrap;
   margin-bottom: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   gap: 5%;
+  margin: 0 auto;
+  > * {
+    margin-bottom: 10px;
+  }
+  @media (max-width: 520px) {
+    margin: 0 auto;
+    width: 70%;
+    max-width: 480px;
+  }
+
   > :nth-child(2) {
     > :first-child {
       transform: scale(98%) translateY(-3px);

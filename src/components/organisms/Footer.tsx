@@ -21,10 +21,8 @@ const ContentBox = styled.div`
   align-items: center;
   text-align: center;
   max-width: 1220px;
-  min-width: 769px;
   @media (max-width: 768px) {
     width: calc(100%);
-    min-width: 360px;
   }
 `;
 

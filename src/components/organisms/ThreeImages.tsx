@@ -9,7 +9,6 @@ const ThreeImagesBox = styled.div`
   text-align: center;
   padding: 0 10px;
   max-width: 1220px;
-  min-width: 769px;
   height: 100%;
   gap: 30px;
   > * {
@@ -19,13 +18,11 @@ const ThreeImagesBox = styled.div`
   }
 
   @media (max-width: 1024px) {
-    width: calc(60%);
     flex-direction: column;
-    min-width: 360px;
   }
-  @media (max-width: 768px) {
-    width: calc(80%);
-    min-width: 360px;
+
+  @media (max-width: 320px) {
+    max-width: 340px;
   }
 `;
 

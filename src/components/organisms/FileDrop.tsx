@@ -10,15 +10,15 @@ import { VscNewFile } from "react-icons/vsc";
 
 const DropBox = styled.div`
   position: relative;
+  width: 80%;
+  padding: 30px 0;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 80%;
-  min-width: 729px;
-  height: 424px;
+
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
   z-index: 2;
@@ -34,9 +34,6 @@ const DropBox = styled.div`
     color: ${(props) => props.theme.mainGray};
   }
   @media (max-width: 768px) {
-    width: calc(100% - 40px);
-    min-width: 360px;
-    height: 316px;
     padding: 60px 30px;
   }
 `;
@@ -49,7 +46,6 @@ const AttachmentBox = styled.div`
 
 const DragFile = styled.div`
   width: 100%;
-  height: 100%;
   justify-content: center;
   display: flex;
   flex-direction: column;
@@ -57,6 +53,7 @@ const DragFile = styled.div`
   justify-items: center;
   gap: 20px;
   z-index: 1;
+  background-color: #ff0;
 `;
 
 type DropZoneProps = {
