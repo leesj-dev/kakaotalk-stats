@@ -29,6 +29,7 @@ const Card = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     margin-top: 100px;
+    height: 100%;
   }
 
   &.dark {
@@ -58,7 +59,7 @@ const SideContent = styled.div`
   text-align: center;
 
   @media (max-width: 768px) {
-    padding: 50px;
+    padding: 30px 20px;
     border-right: none;
   }
   @media (max-width: 320px) {
@@ -78,16 +79,18 @@ const SideContent = styled.div`
     @media (max-width: 768px) {
       display: block;
       font-size: 1.1em;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
     }
   }
   > :nth-child(3) {
     width: 100%;
     height: 100%;
     object-fit: contain;
+
     @media (max-width: 768px) {
-      width: 50%;
+      width: 100%;
       height: 50%;
+      background: #f00;
     }
   }
 
@@ -139,14 +142,15 @@ const SlideBox = styled.div`
     right: 50%;
     bottom: 5%;
     background-color: ${(props) => props.theme.mainBlue};
+    @media (max-width: 768px) {
+      bottom: 0;
+      font-size: 15px;
+    }
   }
   > :first-child {
     border-top-right-radius: 20%;
     border-bottom-right-radius: 20%;
     transform: scaleY(-1) translateX(44px);
-    @media (max-width: 768px) {
-      bottom: 30px;
-    }
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
@@ -154,9 +158,7 @@ const SlideBox = styled.div`
   > :last-child {
     border-top-left-radius: 20%;
     border-bottom-left-radius: 20%;
-    @media (max-width: 768px) {
-      bottom: 30px;
-    }
+
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
