@@ -42,7 +42,7 @@ const AsideBox = styled.div`
   }
 
   > :nth-child(2) {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     width: 100%;
     height: 100%;
     white-space: wrap;
@@ -76,7 +76,9 @@ const AsideBox = styled.div`
 const ArticleBox = styled.div`
   width: 50%;
   @media (max-width: 768px) {
+    padding: 0 20px;
     margin-bottom: 40px;
+    width: 100%;
   }
 `;
 
