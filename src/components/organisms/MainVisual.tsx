@@ -5,7 +5,6 @@ import Img from "../atoms/Img";
 import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../molecules/ScrollIndicator";
 import RadiusButton from "../atoms/Button";
-import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled.div`
   width: 100%;
@@ -33,6 +32,7 @@ const MainVisualContainer = styled.div`
 const AsideBox = styled.div`
   width: 50%;
   margin-right: 30px;
+
   @media (max-width: 768px) {
     width: 100%;
     margin-right: 0;
@@ -40,13 +40,6 @@ const AsideBox = styled.div`
   }
   > :nth-child(2) {
     margin-bottom: 30px;
-    width: 100%;
-    height: 100%;
-    white-space: wrap;
-
-    @media (max-width: 768px) {
-      text-align: center;
-    }
   }
   > :nth-child(3) {
     display: inline-block;
@@ -55,10 +48,9 @@ const AsideBox = styled.div`
     margin-bottom: 30px;
   }
   > :last-child {
-    text-align: center;
     position: absolute;
     left: 50%;
-    transform: translate(-50%);
+    transform: translateX(-50%);
     bottom: -50px;
   }
 `;
@@ -75,17 +67,6 @@ const LogoBox = styled.div`
   margin-bottom: 30px;
   font-size: 3.6rem;
   font-weight: 700;
-  @media (max-width: 768px) {
-    margin: 0 auto 30px;
-  }
-  @media (max-width: 480px) {
-    width: 210px;
-    height: 70px;
-  }
-  @media (max-width: 320px) {
-    width: 150px;
-    height: 50px;
-  }
 `;
 
 const MainVisualImgBox = styled.div`
@@ -107,7 +88,9 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
             카카오돋보기 2023
           </Paragraph>
           <Paragraph fontSize="2.8rem" lineHeight="1.5" fontWeight="900" color="#a6a6a6">
-            내가 좋아하는 사람을 내것으로 만들기 위한 필수 사이트 100%보장
+            내가 좋아하는 사람을 내것으로 만들기 위한 필수
+            사이트⭐100%성공보장없음⭐즐겁다❗❗❗구독좋아요알림설정👍확률2배UP EVENT✅이 사이트는 무료로
+            해줍니다🥰원하다 당신의 관심이🙇‍♂️메시지 분석하러가기💯안전사이트비밀보장💯
           </Paragraph>
         </LogoBox>
         <Paragraph fontSize="2.2rem" lineHeight="1.5">

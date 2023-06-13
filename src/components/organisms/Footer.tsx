@@ -6,13 +6,10 @@ import Icon from "../atoms/Icon";
 import Anchor from "../atoms/Anchor";
 
 const FooterContainer = styled.div`
-  width: 100%;
-  background-color: ${(props) => props.theme.footerBackground};
-  padding: 60px 0;
-  @media (max-width: 768px) {
-    padding: 40px 0;
-  }
+  background: ${(props) => props.theme.footerBackground};
+  padding: 6rem 0;
 `;
+
 const ContentBox = styled.div`
   margin: 0 auto;
   display: flex;
@@ -21,14 +18,10 @@ const ContentBox = styled.div`
   align-items: center;
   text-align: center;
   max-width: 1220px;
-  @media (max-width: 768px) {
-    width: calc(100%);
-  }
 `;
 
 const DeveloperDescriptionBox = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -43,7 +36,7 @@ const IconContainer = styled.div`
 `;
 
 const DeveloperBox = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -52,9 +45,7 @@ const DeveloperBox = styled.div`
   gap: 5px;
 `;
 
-const ProjectNameBox = styled.div`
-  padding-top: 10px;
-`;
+const ProjectNameBox = styled.div``;
 
 const Footer = () => {
   return (
