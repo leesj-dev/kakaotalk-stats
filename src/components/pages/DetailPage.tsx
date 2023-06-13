@@ -7,7 +7,6 @@ import ModalGraph from "../organisms/ModalGraph";
 import ChatRoomCompareGraph from "../molecules/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../molecules/graphs/ChatVolumeByPeriodGraph";
 import ChatRateGraph from "../molecules/graphs/ChatRateGraph";
-import ReplyCountByHourlyGraph from "../molecules/graphs/ReplyCountByHourlyGraph";
 import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
@@ -65,7 +64,7 @@ export const graphContentData = [
   },
 ];
 
-const DetailPageContainer = styled.div`
+const GraphDetailContainer = styled.div`
   position: relative;
   margin-top: 80px;
   display: flex;
@@ -138,7 +137,7 @@ const DetailPage = () => {
   }, []);
 
   return (
-    <DetailPageContainer>
+    <GraphDetailContainer>
       {windowWidth > 1024 && <DashboardSideMenu />}
       <ContentBox>
         {isAnalyzedMessagesExist &&
@@ -150,7 +149,7 @@ const DetailPage = () => {
             );
           })}
       </ContentBox>
-    </DetailPageContainer>
+    </GraphDetailContainer>
   );
 };
 

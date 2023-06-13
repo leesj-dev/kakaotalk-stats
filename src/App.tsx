@@ -11,7 +11,10 @@ import { useSelector } from "react-redux";
 import FloatingMenu from "./components/organisms/FloatingMenu";
 import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
+<<<<<<< HEAD
 import NavHead from "./components/sections/NavHead";
+=======
+>>>>>>> 5bd5030 (feat: defaultTheme 생성 여기저기 css 달라짐)
 
 function App() {
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);

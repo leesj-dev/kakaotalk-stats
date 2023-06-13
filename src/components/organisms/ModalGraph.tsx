@@ -162,6 +162,7 @@ const ResponsiveContentBox = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
+
   gap: 15px;
 
   > :nth-child(1) {

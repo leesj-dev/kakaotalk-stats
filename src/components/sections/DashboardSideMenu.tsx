@@ -14,7 +14,6 @@ import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
 const DashboardLayoutBox = styled.div`
-  height: calc(100vh - 80px);
   position: sticky;
   top: 80px;
   left: 0;
