@@ -14,11 +14,24 @@ import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
 const DashboardLayoutBox = styled.div`
+<<<<<<< HEAD
   background-color: #ff0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - 80px);
+=======
+  position: sticky;
+  top: 80px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 15%;
+  /* @media (max-width: 1024px) {
+    display: none;
+  } */
+>>>>>>> 5bd5030 (feat: defaultTheme 생성 여기저기 css 달라짐)
   @media (max-width: 480px) {
     padding: 0;
     height: 100%;
@@ -98,7 +111,7 @@ const ChatRoomBox = styled.div`
   cursor: pointer;
   background: ${(props) => props.theme.mainWhite};
   &:hover {
-    border: 1px solid ${(props) => props.theme.dashBoardBackground};
+    border: 1px solid ${(props) => props.theme.dashboardBackground};
   }
   &.active {
     border: 2px solid ${(props) => props.theme.mainGray};
@@ -134,6 +147,7 @@ const DashboardSideMenu = () => {
     dispatch(setSelectedChatRoomIndex(index));
     dispatch(setSelectedSpeakerIndex(-1));
   };
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {
