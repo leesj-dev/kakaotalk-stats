@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
-import { lightTheme } from "../../../style/Theme";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 
 const getSumTimeCount = (speaker: ChatTimes[]) => {

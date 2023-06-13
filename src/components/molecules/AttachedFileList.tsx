@@ -7,11 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteAttachedFileArray } from "../../store/reducer/attachedFileListSlice";
 import { MdClose } from "react-icons/md";
 
-const FileListBox = styled.div`
+const FileUlBox = styled.ul`
   width: 50%;
 `;
 
-const Li = styled.li`
+const FileList = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,10 +30,10 @@ const AttachedFileList = () => {
   );
 
   return (
-    <FileListBox>
+    <FileUlBox>
       {attachedFileList.map((files: FileObject[], fileArrayIndex: number) => {
         return (
-          <Li key={fileArrayIndex}>
+          <FileList key={fileArrayIndex}>
             {files.map((file, fileIndex) => {
               return (
                 <Paragraph key={fileIndex}>
@@ -45,10 +45,10 @@ const AttachedFileList = () => {
             <Icon fontSize="22px" onClick={() => dispatch(deleteAttachedFileArray(fileArrayIndex))}>
               <MdClose />
             </Icon>
-          </Li>
+          </FileList>
         );
       })}
-    </FileListBox>
+    </FileUlBox>
   );
 };
 

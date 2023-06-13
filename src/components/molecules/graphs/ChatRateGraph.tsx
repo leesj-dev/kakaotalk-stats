@@ -17,6 +17,21 @@ import { colorsForGraphArray, customTickColor } from "../../../module/common/col
 import styled from "styled-components";
 import NavigatorContainer from "../NavigatorContainer";
 
+const TooltipBox = styled.div`
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: #fff;
+
+  > ul {
+    > li {
+      margin-bottom: 5px;
+    }
+  }
+`;
+
 const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
   return Object.values(chatCountsDay).reduce((sum, count) => sum + count, 0);
 };
@@ -40,20 +55,6 @@ const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTim
     return stackBarData;
   });
 };
-
-const TooltipBox = styled.div`
-  border: 1px solid #ddd;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  background: #fff;
-  > ul {
-    > li {
-      margin-bottom: 5px;
-    }
-  }
-`;
 
 const renderTooltipContent = (o: any) => {
   const { payload, label } = o;
@@ -90,6 +91,7 @@ const ChatRateGraph = () => {
   const chatTimes: ChatTimes[][] = getChatTimes(results)[selectedChatRoomIndex];
 
   const parentRef = useRef<any>(null);
+
   let isParentGraphContentBox;
   if (parentRef?.current?.current) {
     isParentGraphContentBox =
