@@ -46,6 +46,7 @@ const ChatroomMenuTitleBox = styled.div`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
+
   @media (max-width: 480px) {
     text-align: center;
     padding: 0;
@@ -56,8 +57,9 @@ const ChatroomGraphBox = styled.div`
   position: relative;
   padding: 15px;
   display: flex;
+  background: ${(props) => props.theme.mainBackground};
   border-bottom: 1px solid ${(props) => props.theme.border};
-  background-color: ${(props) => props.theme.mainBackground};
+
   @media (max-width: 480px) {
     padding: 20px;
     border-bottom: 0;
@@ -70,9 +72,10 @@ const ChatroomListTitleBox = styled.div`
   flex-direction: column;
   font-size: 18px;
   color: ${(props) => props.theme.mainText};
+  background: ${(props) => props.theme.dashboardMenuBackground};
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
-  background: ${(props) => props.theme.dashboardMenuBackground};
+
   @media (max-width: 480px) {
     display: none;
   }
@@ -87,6 +90,7 @@ const ChatroomListBox = styled.div`
   width: 100%;
   background-color: ${(props) => props.theme.mainBackground};
   overflow-y: scroll;
+
   @media (max-width: 480px) {
     height: 170px;
     padding: 20px 50px;
@@ -107,39 +111,33 @@ const ChatroomListBox = styled.div`
 
 const ChatRoomBox = styled.div`
   padding: 10px;
-  cursor: pointer;
   border-radius: 5px;
-  background-color: ${(props) => props.theme.mainWhite};
+  background: ${(props) => props.theme.mainWhite};
   border: 1px solid ${(props) => props.theme.border};
+  cursor: pointer;
+
   &:hover {
     border: 1px solid ${(props) => props.theme.dashBoardBackground};
   }
-
   &.active {
     border: 2px solid ${(props) => props.theme.mainGray};
   }
-
-  > :nth-child(1) {
-    margin-bottom: 5px;
-    display: flex;
-    width: 100%;
+  > * {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  > :nth-child(1) {
+    display: flex;
+  }
   > :nth-child(2) {
     display: block;
-    width: 100%;
     margin-bottom: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     @media (max-width: 480px) {
       overflow: visible;
       white-space: wrap;
     }
   }
-
   > :nth-child(3) {
     font-weight: 600;
     &:hover {
