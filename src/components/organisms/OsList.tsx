@@ -6,6 +6,7 @@ import { setSelectedOsIndex } from "../../store/reducer/selectedOsIndexSlice";
 import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
 import { SiIos } from "react-icons/si";
 import Icon from "../atoms/Icon";
+
 const OsListBox = styled.ul`
   margin: 0 auto;
   display: flex;

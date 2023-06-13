@@ -29,6 +29,7 @@ const CloseModalBox = styled.div`
   top: 5px;
   right: 5px;
   color: ${(props) => props.theme.mainText};
+
   > :nth-child(1) {
     cursor: pointer;
   }
@@ -45,7 +46,6 @@ const GraphContentBox = styled.div`
   position: relative;
   width: 75%;
   height: 100%;
-  /* background: #ff00ff15; */
 `;
 
 const DescriptionBox = styled.div`
@@ -54,8 +54,6 @@ const DescriptionBox = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px 0px 10px 15px;
-  /* background-color: ${(props) => props.theme.modalContentBackground}; */
-  /* border: 1px solid #ddd; */
 `;
 
 const InfoContentBox = styled.div`
@@ -68,9 +66,10 @@ const SubjectBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   width: 100%;
-  justify-content: space-between;
+
   > :nth-child(1) {
     cursor: pointer;
   }
@@ -87,11 +86,11 @@ const SubjectBox = styled.div`
 const SpeakerSelectBox = styled.div`
   margin: 0 auto;
   display: flex;
-  width: 100%;
-  height: 100%;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
 
   > * {
     display: flex;
@@ -127,6 +126,7 @@ const CardContentBox = styled.div`
   flex-direction: column;
   text-align: start;
   color: ${(props) => props.theme.mainText};
+
   > :first-child {
     > :nth-child(2) {
       display: none;
@@ -150,10 +150,9 @@ const ResponsiveContentBox = styled.div`
 `;
 
 const ResponsiveHeadBox = styled.div`
-  display: flex;
-
-  align-items: center;
   padding: 0 12px;
+  display: flex;
+  align-items: center;
   height: 100%;
 
   > * {
@@ -180,6 +179,7 @@ const ResponsiveHeadBox = styled.div`
     }
   }
 `;
+
 const ResponsivePeriodBox = styled.div`
   margin-bottom: 5px;
 `;
@@ -190,11 +190,13 @@ const ResponsiveSubjectBox = styled.div`
   flex-direction: column;
   align-items: start;
 `;
+
 const ResponsiveParagraphBox = styled.div`
   margin-left: 10px;
   padding: 0 12px;
   text-align: start;
 `;
+
 const ResponsiveGraphContentBox = styled.div`
   position: relative;
   height: calc(100% - 119px);
