@@ -43,7 +43,6 @@ const AttachmentSectionBox = styled.div`
   > * + * {
     margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
   }
-
   @media (max-width: 768px) {
     margin: 60px auto 0 auto;
   }
@@ -51,6 +50,7 @@ const AttachmentSectionBox = styled.div`
 
 const ButtonBox = styled.div`
   margin-bottom: 50px;
+
   > :first-child {
     margin-bottom: 10px;
   }
@@ -78,7 +78,7 @@ const OsListBox = styled.div`
   > :nth-child(2) {
     margin-bottom: 30px;
   }
-  > :last-child {
+  > :nth-child(3) {
     color: ${(props) => props.theme.mainGray};
   }
 `;
@@ -144,7 +144,6 @@ const transformIntoTableForm = (analyzedMessages: any[]) => {
  * @param {any[]} attachedFileList - 첨부된 파일 배열
  * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
-
 const analyzeMessage = async (attachedFileList: FileObject[][], osIndex: number | null) => {
   const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(
     attachedFileList,

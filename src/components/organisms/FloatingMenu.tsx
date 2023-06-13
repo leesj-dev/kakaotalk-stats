@@ -22,11 +22,10 @@ const FloatingMenuContainer = styled.div`
     opacity: 1;
     visibility: visible;
   }
-
   > * {
     padding: 10px;
     transition: 0.3s;
-    background-color: ${(props) => props.theme.mainBlue};
+    background: ${(props) => props.theme.mainBlue};
     border-radius: 25%;
     cursor: pointer;
 
@@ -80,7 +79,6 @@ const FloatingMenu = () => {
           <BsShareFill />
         </Icon>
       </ShareButtonBox>
-
       <ScrollToTopButtonBox onClick={() => scrollToEvent(0, "smooth")}>
         <Icon fontSize="24px">
           <FiArrowUp />

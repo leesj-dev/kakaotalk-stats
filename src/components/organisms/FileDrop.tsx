@@ -21,6 +21,7 @@ const DropBox = styled.div`
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
   z-index: 2;
+
   > * {
     margin-bottom: 10px;
     font-weight: 300;
@@ -31,10 +32,10 @@ const DropBox = styled.div`
   }
   > :last-child {
     color: ${(props) => props.theme.mainGray};
+    margin-bottom: 0px;
   }
   @media (max-width: 768px) {
     padding: 4rem 3rem;
-    margin-bottom: 0px;
   }
 `;
 
@@ -114,10 +115,12 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
     e.preventDefault();
     setDragging(true);
   };
+
   const handleIconDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setDragging(true);
   };
+
   return (
     <DropBox
       className={`drop-zone ${dragging ? "dragging" : ""}`}

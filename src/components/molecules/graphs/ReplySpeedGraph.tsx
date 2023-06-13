@@ -18,7 +18,6 @@ import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/get
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
-import styled from "styled-components";
 import NavigatorContainer from "../NavigatorContainer";
 
 type LineGraphData = {

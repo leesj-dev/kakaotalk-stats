@@ -12,7 +12,7 @@ import {
 } from "../../../@types/index.d";
 import { setAverageReplyTime } from "../../../store/reducer/averageReplyTimeSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
-import { colorsForChatroomArray, colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
+import { colorsForChatroomArray } from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import styled from "styled-components";
 import Icon from "../../atoms/Icon";
@@ -27,6 +27,7 @@ const ChatRoomIndexArrowBox = styled.div`
   justify-content: space-between;
   width: 98%;
   z-index: 1;
+
   @media (max-width: 480px) {
     width: 88%;
   }

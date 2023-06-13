@@ -12,17 +12,10 @@ const ThreeImagesBox = styled.div`
   height: 100%;
   gap: 30px;
   > * {
-    text-align: center;
-    align-items: center;
     justify-content: center;
   }
-
   @media (max-width: 1024px) {
     flex-direction: column;
-  }
-
-  @media (max-width: 320px) {
-    max-width: 340px;
   }
 `;
 

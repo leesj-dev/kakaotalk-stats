@@ -12,15 +12,15 @@ import Icon from "../atoms/Icon";
 import DashboardSideMenu from "../section/DashboardSideMenu";
 
 const NavWrap = styled.div`
-  position: relative;
-  width: 100%;
   position: fixed;
   top: 0;
-  z-index: 999;
+  width: 100%;
   color: ${(props) => props.theme.mainText};
-  background-color: ${(props) => props.theme.navBackground};
+  background: ${(props) => props.theme.navBackground};
   border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
+  z-index: 999;
 `;
+
 const Container = styled.div`
   margin: 0 auto;
   padding: 0 20px;
@@ -29,6 +29,7 @@ const Container = styled.div`
   justify-content: space-between;
   font-weight: 500;
   line-height: 80px;
+
   @media (max-width: 768px) {
     width: 100%;
     line-height: 60px;
@@ -37,6 +38,7 @@ const Container = styled.div`
 
 const H1 = styled.h1`
   height: 40px;
+
   &.active {
     padding-left: 20px;
     height: 30px;
@@ -46,15 +48,18 @@ const H1 = styled.h1`
     height: 30px;
   }
 `;
+
 const MenuBox = styled.div`
   display: flex;
   align-items: center;
 `;
+
 const Menu = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
 `;
+
 const PcMenu = styled.div`
   display: flex;
   align-items: center;
@@ -76,11 +81,11 @@ const DarkModeButton = styled.div`
   width: 80px;
   height: 40px;
   cursor: pointer;
+
   > * {
     color: ${lightTheme.navBackground};
     background: ${darkTheme.navBackground};
   }
-
   &.active {
     > * {
       color: ${darkTheme.navBackground};
@@ -125,16 +130,20 @@ const IconBox = styled.div`
     flex: 1;
   }
 `;
+
 const MobileMenuIcon = styled.div`
   display: none;
+
   @media (max-width: 480px) {
     display: flex;
     transform: translateY(3px);
   }
 `;
+
 const PageLink = styled.div`
   display: flex;
   gap: 60px;
+
   @media (max-width: 480px) {
     width: 100%;
     flex-direction: column;
@@ -146,11 +155,13 @@ const PageLink = styled.div`
     }
   }
 `;
+
 const MobileMenuBox = styled.div`
   &.active {
     display: block;
   }
 `;
+
 const MobileMenu = styled.div`
   display: flex;
   flex-direction: column;
@@ -169,6 +180,7 @@ const MobileMenu = styled.div`
     margin: 0 auto;
   }
 `;
+
 const MobileMenuShadow = styled.div`
   position: absolute;
   top: 0;
@@ -179,10 +191,16 @@ const MobileMenuShadow = styled.div`
   opacity: 0.8;
   z-index: 999;
 `;
+
 const TopContent = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  > :nth-child(2) {
+    font-size: 3rem;
+    cursor: pointer;
+  }
 `;
 
 const NavBar = () => {

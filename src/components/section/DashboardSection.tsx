@@ -25,11 +25,12 @@ const DashboardTemplateContainer = styled.div`
 `;
 
 const AsideBox = styled.div`
-  height: 100%;
-  width: 25%;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 25%;
   gap: 10px;
+
   > * {
     height: calc((100% - 20px) / 3);
   }
@@ -41,6 +42,7 @@ const ArticleBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   /* <HeadBox> */
   > :first-child {
     height: calc((100% - 10px) * 0.15);
@@ -81,6 +83,7 @@ const BodyBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   > * {
     height: calc((100% - 10px) / 2);
   }

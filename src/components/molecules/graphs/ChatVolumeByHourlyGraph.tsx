@@ -7,16 +7,6 @@ import { customTickColor, setRotationColor } from "../../../module/common/colors
 import styled from "styled-components";
 import ReplyCountByHourlyGraph from "./ReplyCountByHourlyGraph";
 
-const getDayIndex = (date: string) => {
-  const parsedDate = parseInt(date);
-  const dayOfWeek: number = new Date(
-    2000 + Math.floor(parsedDate / 10000),
-    (Math.floor(parsedDate / 100) % 100) - 1,
-    parsedDate % 100
-  ).getDay();
-  return dayOfWeek;
-};
-
 const TooltipBox = styled.div`
   border: 1px solid #ddd;
   padding: 10px;
@@ -30,6 +20,16 @@ const TooltipBox = styled.div`
     }
   }
 `;
+
+const getDayIndex = (date: string) => {
+  const parsedDate = parseInt(date);
+  const dayOfWeek: number = new Date(
+    2000 + Math.floor(parsedDate / 10000),
+    (Math.floor(parsedDate / 100) % 100) - 1,
+    parsedDate % 100
+  ).getDay();
+  return dayOfWeek;
+};
 
 const getMostValue = (array: any) => {
   return Math.max(

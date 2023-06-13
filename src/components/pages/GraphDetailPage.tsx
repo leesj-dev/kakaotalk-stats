@@ -92,6 +92,7 @@ const GraphBox = styled.div`
   height: 80vh;
   width: 100%;
   gap: 30px;
+
   > :nth-child(1) {
     background: ${(props) => props.theme.modalBackground};
   }

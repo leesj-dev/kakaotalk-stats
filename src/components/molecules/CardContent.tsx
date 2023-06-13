@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { ThemeConsumer } from "styled-components";
+import styled from "styled-components";
 import Paragraph from "../atoms/Paragraph";
 import H2 from "../atoms/H2";
 import H3 from "../atoms/H3";
