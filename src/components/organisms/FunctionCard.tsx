@@ -10,6 +10,7 @@ import SlideBtn from "../molecules/SlideBtn";
 
 const Container = styled.div`
   padding: 100px 0px;
+
   @media (max-width: 768px) {
     padding: 50px 20px;
   }
@@ -17,20 +18,20 @@ const Container = styled.div`
 
 const Card = styled.div`
   position: relative;
+  margin: 0 auto;
+  display: flex;
   width: 100%;
   max-width: 1200px;
-  display: flex;
-  border-radius: 10px;
-  margin: 0 auto;
   height: 500px;
+  background: ${(props) => props.theme.mainWhite};
+  border-radius: 10px;
   box-shadow: 2px 0px 10px 0px #ddd;
-  background-color: ${(props) => props.theme.mainWhite};
   overflow: hidden;
+
   @media (max-width: 768px) {
     flex-direction: column;
     margin-top: 100px;
   }
-
   &.dark {
     box-shadow: none;
     background: #eeeeee;
@@ -41,21 +42,24 @@ const SideSlide = styled.div`
   width: 50%;
   height: 100%;
   transition: transform 0.5s ease-in-out;
+
   @media (max-width: 768px) {
     width: 100%;
   }
 `;
+
 const SideContent = styled.div`
-  width: 100%;
-  height: 100%;
-  border-right: 1px solid ${(props) => props.theme.mainGray};
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  width: 100%;
+  height: 100%;
   color: ${(props) => props.theme.mainBlack};
+  border-right: 1px solid ${(props) => props.theme.mainGray};
+
   @media (max-width: 1200px) {
-    background-color: ${(props) => props.theme.functionArrowWhite};
+    background: ${(props) => props.theme.functionArrowWhite};
   }
   @media (max-width: 768px) {
     padding: 30px 20px;
@@ -86,7 +90,6 @@ const SideContent = styled.div`
     height: 100%;
     object-fit: contain;
     @media (max-width: 768px) {
-      width: 100%;
       height: 50%;
     }
   }
@@ -95,12 +98,12 @@ const SideContent = styled.div`
     display: none;
     @media (max-width: 768px) {
       display: block;
+      font-size: 0.9em;
+      line-height: 1.3;
       white-space: normal;
       word-wrap: break-word;
       word-break: break-all;
-      line-height: 1.3;
       word-spacing: 3px;
-      font-size: 0.9em;
     }
     @media (max-width: 600px) {
       padding-bottom: 50px;
@@ -113,6 +116,7 @@ const MainSlide = styled.div`
   height: 100%;
   transition: transform 0.5s ease-in-out;
   color: ${(props) => props.theme.mainBlack};
+
   @media (max-width: 768px) {
     display: none;
   }
@@ -128,6 +132,7 @@ const MainSlide = styled.div`
     }
   }
 `;
+
 const SlideBox = styled.div`
   cursor: pointer;
   z-index: 100;
@@ -143,27 +148,20 @@ const SlideBox = styled.div`
       bottom: 0;
       font-size: 15px;
     }
+    &:hover {
+      background: ${(props) => props.theme.mainBlueHover};
+    }
   }
   > :first-child {
     border-top-right-radius: 20%;
     border-bottom-right-radius: 20%;
     transform: scaleY(-1) translateX(44px);
-    &:hover {
-      background: ${(props) => props.theme.mainBlueHover};
-    }
   }
   > :last-child {
     border-top-left-radius: 20%;
     border-bottom-left-radius: 20%;
-
-    &:hover {
-      background: ${(props) => props.theme.mainBlueHover};
-    }
   }
 `;
-interface Props {
-  moveScrollPosition: React.MutableRefObject<HTMLDivElement | null>;
-}
 
 const functionCardData = [
   {
@@ -210,6 +208,10 @@ const functionCardData = [
     img: `${process.env.PUBLIC_URL}/images/ChatVolumeByHourlyGraph.jpg`,
   },
 ];
+
+interface Props {
+  moveScrollPosition: React.MutableRefObject<HTMLDivElement | null>;
+}
 
 const FunctionCard = ({ moveScrollPosition }: Props) => {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);

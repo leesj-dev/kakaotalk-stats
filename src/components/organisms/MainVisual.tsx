@@ -38,21 +38,14 @@ const AsideBox = styled.div`
     margin-right: 0;
     text-align: center;
   }
-
   > :nth-child(2) {
     margin-bottom: 30px;
     width: 100%;
     height: 100%;
     white-space: wrap;
 
-    @media (max-width: 1220px) {
-      /* font-size: 20px; */
-    }
     @media (max-width: 768px) {
       text-align: center;
-    }
-    @media (max-width: 320px) {
-      /* font-size: 15px; */
     }
   }
   > :nth-child(3) {
@@ -106,8 +99,6 @@ interface MainVisualProps {
 const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
   const navigate = useNavigate();
 
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
-
   return (
     <MainVisualContainer>
       <AsideBox>
@@ -118,7 +109,6 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
           <Paragraph fontSize="2.8rem" lineHeight="1.5" fontWeight="900" color="#a6a6a6">
             내가 좋아하는 사람을 내것으로 만들기 위한 필수 사이트 100%보장
           </Paragraph>
-          {/* <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} /> */}
         </LogoBox>
         <Paragraph fontSize="2.2rem" lineHeight="1.5">
           카카오돋보기는 대화를 분석하여 인사이트를 제공하는 도구입니다. 대화의 양이나 시간대와 같은
