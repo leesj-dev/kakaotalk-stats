@@ -1,5 +1,4 @@
 import React from "react";
-import "./style/reset.css";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./style/Theme";
 import MainPage from "./components/pages/MainPage";
@@ -12,12 +11,14 @@ import GraphDetailSection from "./components/pages/GraphDetailPage";
 import { useSelector } from "react-redux";
 import FloatingMenu from "./components/organisms/FloatingMenu";
 import Wrapper from "./components/wrapper/Wrapper";
+import GlobalStyle from "./style/GlobalStyles";
 
 function App() {
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <GlobalStyle />
       <Wrapper>
         <FloatingMenu />
         <NavBar />

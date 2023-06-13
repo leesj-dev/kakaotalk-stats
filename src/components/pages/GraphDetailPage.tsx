@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
@@ -69,15 +69,10 @@ const GraphDetailContainer = styled.div`
   position: relative;
   margin-top: 80px;
   display: flex;
-  height: 100%;
   width: 100%;
   background: ${(props) => props.theme.mainBackground};
-
-  > :nth-child(1) {
-    position: sticky;
-    top: 80px;
-    left: 0;
-    width: 15%;
+  @media (max-width: 768px) {
+    margin-top: 60px;
   }
 `;
 
@@ -85,6 +80,10 @@ const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
   width: calc(85% - 30px);
+
+  @media (max-width: 1024px) {
+    width: calc(100% - 30px);
+  }
 `;
 
 const GraphBox = styled.div`
@@ -95,6 +94,9 @@ const GraphBox = styled.div`
 
   > :nth-child(1) {
     background: ${(props) => props.theme.modalBackground};
+  }
+  @media (max-width: 768px) {
+    height: 70vh;
   }
 `;
 
@@ -122,9 +124,22 @@ const GraphDetailSection = () => {
     scrollToEvent(0, "auto");
   }, []);
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <GraphDetailContainer>
-      <DashboardSideMenu />
+      {windowWidth > 1024 && <DashboardSideMenu />}
       <ContentBox>
         {isAnalyzedMessagesExist &&
           graphContentData.map((item) => {

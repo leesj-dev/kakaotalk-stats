@@ -24,9 +24,13 @@ import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerInde
 // `;
 
 const DashboardLayoutBox = styled.div`
+  position: sticky;
+  top: 80px;
+  left: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 15%;
   /* @media (max-width: 1024px) {
     display: none;
   } */
@@ -117,7 +121,7 @@ const ChatRoomBox = styled.div`
   cursor: pointer;
 
   &:hover {
-    border: 1px solid ${(props) => props.theme.dashBoardBackground};
+    border: 1px solid ${(props) => props.theme.dashboardBackground};
   }
   &.active {
     border: 2px solid ${(props) => props.theme.mainGray};
@@ -174,6 +178,7 @@ const DashboardSideMenu = () => {
     dispatch(setSelectedChatRoomIndex(index));
     dispatch(setSelectedSpeakerIndex(-1));
   };
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {
