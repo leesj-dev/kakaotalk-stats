@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import RadiusButton from "../atoms/Button";
+import RadiusButton from "../atoms/BlueButton";
 import Paragraph from "../atoms/Paragraph";
 import ThreeImages, { CardData } from "../organisms/ThreeImages";
 import scrollToEvent from "../../module/common/scrollEvent";
@@ -39,30 +39,30 @@ const ButtonBox = styled.div`
 
 const mobileCardData = [
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/android_method01.png",
+    src: process.env.PUBLIC_URL + "/images/attachmentMethod/android_method01.png",
     text: "메뉴의 톱니바퀴를 클릭합니다.",
   },
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/android_method02.png",
+    src: process.env.PUBLIC_URL + "/images/attachmentMethod/android_method02.png",
     text: "대화내용 내보내기를 눌러 저장을 합니다.",
   },
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/android_method03.png",
+    src: process.env.PUBLIC_URL + "/images/attachmentMethod/android_method03.png",
     text: "파일에서 kakao를 검색하여 찾을 수 있습니다.",
   },
 ];
 
 const pcCardData = [
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method01.png",
+    src: process.env.PUBLIC_URL + "/images/attachmentMethod/pc_method01.png",
     text: "Mac OS: 메뉴 - 채팅방 설정 - 대화 내용 저장",
   },
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method02.png",
+    src: process.env.PUBLIC_URL + "/images/attachmentMethod/pc_method02.png",
     text: "Window : 메뉴 - 대화내용 - 내보내기",
   },
   {
-    src: process.env.PUBLIC_URL + "/assets/mobileHowToExport/pc_method03.png",
+    src: process.env.PUBLIC_URL + "/images/attachmentMethod/pc_method03.png",
     text: "대화 내보내기 완료를 확인합니다.",
   },
 ];

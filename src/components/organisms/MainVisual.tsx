@@ -4,7 +4,7 @@ import Paragraph from "../atoms/Paragraph";
 import Img from "../atoms/Img";
 import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../molecules/ScrollIndicator";
-import RadiusButton from "../atoms/Button";
+import RadiusButton from "../atoms/BlueButton";
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 
 const MainVisualContainer = styled(FlexCenterDiv)`
@@ -103,7 +103,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
       </AsideBox>
       <ArticleBox>
         <MainVisualImgBox>
-          <Img src={`${process.env.PUBLIC_URL}/images/mainVisual.png`} />
+          <Img src={`${process.env.PUBLIC_URL}/images/main/mainVisual.png`} />
         </MainVisualImgBox>
       </ArticleBox>
     </MainVisualContainer>
