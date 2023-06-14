@@ -178,7 +178,7 @@ const DashboardSideMenu = () => {
               <Span>{name}</Span>
               {window.innerWidth > 480 && ( // 현재 윈도우의 가로 크기가 480보다 클 때만 렌더링
                 <Span underline fontWeight="500">
-                  <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
+                  <Link to={`/detail`}>상세보기 {">"}</Link>
                 </Span>
               )}
             </ChatRoomBox>

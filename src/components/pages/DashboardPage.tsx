@@ -4,7 +4,7 @@ import scrollToEvent from "../../module/common/scrollEvent";
 import DashboardSection from "../section/DashboardSection";
 import DashboardSideMenu from "../section/DashboardSideMenu";
 
-const AnalysisPageBox = styled.div`
+const DashboardBox = styled.div`
   margin-top: 80px;
   display: flex;
   width: 100%;
@@ -17,17 +17,17 @@ const AnalysisPageBox = styled.div`
   }
 `;
 
-const AnalysisPage = () => {
+const DashboardPage = () => {
   useEffect(() => {
     scrollToEvent(0, "auto");
   }, []);
 
   return (
-    <AnalysisPageBox>
+    <DashboardBox>
       <DashboardSideMenu />
       <DashboardSection />
-    </AnalysisPageBox>
+    </DashboardBox>
   );
 };
 
-export default AnalysisPage;
+export default DashboardPage;

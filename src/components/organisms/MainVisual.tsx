@@ -96,7 +96,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
           카카오돋보기는 대화를 분석하여 인사이트를 제공하는 도구입니다. 대화의 양이나 시간대와 같은
           정보를 통하여 재미보셈
         </Paragraph>
-        <RadiusButton onClick={() => navigate("/2")}>GET STARTED</RadiusButton>
+        <RadiusButton onClick={() => navigate("/attachment")}>GET STARTED</RadiusButton>
         <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
           카카오 돋보기의 분석 기능
         </ScrollIndicator>

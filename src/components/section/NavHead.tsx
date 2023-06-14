@@ -9,7 +9,7 @@ import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
 import { CgClose } from "react-icons/cg";
 import Icon from "../atoms/Icon";
-import DashboardSideMenu from "../section/DashboardSideMenu";
+import DashboardSideMenu from "./DashboardSideMenu";
 
 const NavWrap = styled.div`
   position: fixed;
@@ -218,7 +218,7 @@ const NavBar = () => {
           <Menu>
             <PcMenu>
               <PageLink>
-                <Link to="/2">분석하기</Link>
+                <Link to="/attachment">분석하기</Link>
                 {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
               </PageLink>
               <DarkModeButton
@@ -255,8 +255,8 @@ const NavBar = () => {
 
                 <PageLink>
                   {isAnalyzedMessagesExist && <DashboardSideMenu />}
-                  <Link to="/2">분석하기</Link>
-                  {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+                  <Link to="/attachment">분석하기</Link>
+                  {isAnalyzedMessagesExist && <Link to="/detail">결과화면</Link>}
                 </PageLink>
               </MobileMenu>
               <MobileMenuShadow></MobileMenuShadow>
