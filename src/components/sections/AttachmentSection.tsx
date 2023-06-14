@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import AttachedFileList from "../molecules/AttachedFileList";
-import RadiusButton from "../atoms/BlueButton";
+import BlueButton from "../atoms/BlueButton";
 import ScrollIndicator from "../molecules/ScrollIndicator";
 import FileDrop from "../organisms/FileDrop";
 import {
@@ -221,9 +221,9 @@ const AttachmentSection = () => {
           <FileDrop handleChangeFile={handleChangeFile}></FileDrop>
           <AttachedFileList />
           <ButtonBox>
-            <RadiusButton onClick={handleClickAnalyzeButton} disabled={!attachedFileList.length}>
+            <BlueButton onClick={handleClickAnalyzeButton} disabled={!attachedFileList.length}>
               분석하기
-            </RadiusButton>
+            </BlueButton>
             {!attachedFileList.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
           </ButtonBox>
           <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import AttachmentSection from "../section/AttachmentSection";
-import AttachmentDescriptionSection from "../section/AttachDescriptionSection";
+import AttachmentSection from "../sections/AttachmentSection";
+import AttachmentDescriptionSection from "../sections/AttachDescriptionSection";
 import scrollToEvent from "../../module/common/scrollEvent";
 
 const AttachmentPageBox = styled.div`

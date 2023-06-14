@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { FileObject } from "../../@types/index.d";
-import { isAllowedFileType } from "../../components/section/AttachmentSection";
+import { isAllowedFileType } from "../../components/sections/AttachmentSection";
 
 const initialState: FileObject[][] = [];
 

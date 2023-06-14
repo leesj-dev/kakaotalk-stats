@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import DashboardContainer from "../organisms/DashboardContainer";
 import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../module/common/scrollEvent";
 import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../@types/index.d";
@@ -77,6 +76,14 @@ const HeadBox = styled.div`
       align-items: flex-start;
     }
   }
+`;
+
+const DashboardContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 `;
 
 const BodyBox = styled.div`

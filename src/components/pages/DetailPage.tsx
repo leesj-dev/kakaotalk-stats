@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
-import DashboardSideMenu from "../section/DashboardSideMenu";
+import DashboardSideMenu from "../sections/DashboardSideMenu";
 import ModalGraph from "../organisms/ModalGraph";
 import ChatRoomCompareGraph from "../molecules/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../molecules/graphs/ChatVolumeByPeriodGraph";
