@@ -16,9 +16,9 @@ const NavWrap = styled.div`
   top: 0;
   width: 100%;
   color: ${(props) => props.theme.mainText};
-  background: ${(props) => props.theme.navBackground};
   border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
   z-index: 999;
+  background: ${(props) => props.theme.navBackground};
 `;
 
 const Container = styled.div`
@@ -29,7 +29,6 @@ const Container = styled.div`
   justify-content: space-between;
   font-weight: 500;
   line-height: 80px;
-
   @media (max-width: 768px) {
     width: 100%;
     line-height: 60px;
@@ -38,9 +37,7 @@ const Container = styled.div`
 
 const H1 = styled.h1`
   height: 40px;
-
   &.active {
-    padding-left: 20px;
     height: 30px;
     transform: translateY(-22px);
   }
@@ -62,10 +59,9 @@ const Menu = styled.div`
 
 const PcMenu = styled.div`
   display: flex;
+  gap: 60px;
   align-items: center;
   font-size: 2.2rem;
-  gap: 60px;
-
   @media (max-width: 768px) {
     gap: 30px;
   }
@@ -81,7 +77,6 @@ const DarkModeButton = styled.div`
   width: 80px;
   height: 40px;
   cursor: pointer;
-
   > * {
     color: ${lightTheme.navBackground};
     background: ${darkTheme.navBackground};
@@ -111,9 +106,9 @@ const ToggleCircle = styled.div`
   bottom: 4px;
   left: 5px;
   width: calc(50% - 8px);
-  background: #fff;
   border-radius: 50%;
   z-index: 1;
+  background: #fff;
 `;
 
 const IconBox = styled.div`
@@ -133,17 +128,14 @@ const IconBox = styled.div`
 
 const MobileMenuIcon = styled.div`
   display: none;
-
   @media (max-width: 480px) {
     display: flex;
-    transform: translateY(3px);
   }
 `;
 
 const PageLink = styled.div`
   display: flex;
   gap: 60px;
-
   @media (max-width: 480px) {
     width: 100%;
     flex-direction: column;
@@ -163,22 +155,15 @@ const MobileMenuBox = styled.div`
 `;
 
 const MobileMenu = styled.div`
-  display: flex;
-  flex-direction: column;
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
   width: 80%;
   height: 100vh;
-  background-color: ${(props) => props.theme.mainWhite};
   z-index: 999;
-
-  > :nth-child(1) {
-    padding: 20px 20px 0 0;
-  }
-  > :nth-child(2) {
-    margin: 0 auto;
-  }
+  background-color: ${(props) => props.theme.mainWhite};
 `;
 
 const MobileMenuShadow = styled.div`
@@ -187,20 +172,17 @@ const MobileMenuShadow = styled.div`
   right: 0;
   width: 20%;
   height: 100vh;
-  background-color: ${(props) => props.theme.mainBlack};
   opacity: 0.8;
   z-index: 999;
+  background-color: ${(props) => props.theme.mainBlack};
 `;
 
 const TopContent = styled.div`
+  padding: 0 20px 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  > :nth-child(2) {
-    font-size: 3rem;
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 const NavBar = () => {
@@ -222,6 +204,11 @@ const NavBar = () => {
   return (
     <NavWrap>
       <Container>
+        <MobileMenuIcon onClick={closeMenu}>
+          <Icon fontSize="3rem">
+            <HiMenu />
+          </Icon>
+        </MobileMenuIcon>
         <H1>
           <Link to="/">
             <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
@@ -234,7 +221,6 @@ const NavBar = () => {
                 <Link to="/2">분석하기</Link>
                 {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
               </PageLink>
-
               <DarkModeButton
                 className={`${isDarkMode && "active"}`}
                 onClick={handleClickDarkModeButton}
@@ -246,16 +232,16 @@ const NavBar = () => {
                 </IconBox>
               </DarkModeButton>
             </PcMenu>
-            <MobileMenuIcon onClick={closeMenu}>
-              <Icon fontSize="3rem">
-                <HiMenu />
-              </Icon>
-            </MobileMenuIcon>
           </Menu>
           {isOpen ? (
             <MobileMenuBox className={`${"active"}`}>
               <MobileMenu>
                 <TopContent>
+                  <MobileMenuIcon onClick={closeMenu}>
+                    <Icon fontSize="3rem">
+                      <HiMenu />
+                    </Icon>
+                  </MobileMenuIcon>
                   <H1 className="active">
                     <Link to="/">
                       <Img
@@ -265,16 +251,13 @@ const NavBar = () => {
                       />
                     </Link>
                   </H1>
-                  <Icon fontSize="2em">
-                    <CgClose onClick={closeMenu} />
-                  </Icon>
                 </TopContent>
 
                 <PageLink>
+                  {isAnalyzedMessagesExist && <DashboardSideMenu />}
                   <Link to="/2">분석하기</Link>
                   {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
                 </PageLink>
-                {isAnalyzedMessagesExist && <DashboardSideMenu />}
               </MobileMenu>
               <MobileMenuShadow></MobileMenuShadow>
             </MobileMenuBox>

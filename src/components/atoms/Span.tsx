@@ -6,6 +6,7 @@ const SpanComponent = styled.span<{
   textAlign?: string;
   padding?: string;
   marginBottom?: string;
+  underline?: boolean;
 }>`
   font-size: ${(props) => props.fontSize || "17px"};
   font-weight: ${(props) => props.fontWeight || "400"};
@@ -13,6 +14,10 @@ const SpanComponent = styled.span<{
   text-align: ${(props) => props.textAlign || "left"};
   padding: ${(props) => props.padding || "0"};
   margin-bottom: ${(props) => props.marginBottom || "0"};
+
+  &:hover {
+    text-decoration: ${(props) => (props.underline ? "underline" : "none")};
+  }
   @media (max-width: 1200px) {
     line-height: 1.3;
   }
@@ -26,6 +31,7 @@ interface SpanProps {
   textAlign?: string;
   padding?: string;
   marginBottom?: string;
+  underline?: boolean;
 }
 
 const Span: React.FC<SpanProps> = ({
@@ -36,6 +42,7 @@ const Span: React.FC<SpanProps> = ({
   textAlign,
   padding,
   marginBottom,
+  underline,
 }) => {
   return (
     <SpanComponent
@@ -45,6 +52,7 @@ const Span: React.FC<SpanProps> = ({
       color={color}
       padding={padding}
       marginBottom={marginBottom}
+      underline={underline}
     >
       {children}
     </SpanComponent>
