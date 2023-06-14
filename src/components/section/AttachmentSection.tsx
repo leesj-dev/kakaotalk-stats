@@ -29,15 +29,11 @@ import OsList from "../organisms/OsList";
 import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlice";
 import { setIsAnalyzedMessagesExist } from "../../store/reducer/isAnalyzedMessagesExistSlice";
 import Paragraph from "../atoms/Paragraph";
+import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 
-const AttachmentSectionBox = styled.div`
+const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   margin: 80px auto 0 auto;
   padding: 80px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   max-width: 1220px;
 
   > * + * {

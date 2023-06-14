@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 const TitleText = styled.h3<{ fontSize?: string }>`
   font-size: ${(props) => props.fontSize};
-  color: ${(props) => props.theme.mainGrey};
+  color: ${(props) => props.theme.mainGray};
   margin-bottom: 50px;
   line-height: 1.5;
 `;

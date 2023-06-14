@@ -1,6 +1,6 @@
-import { DarkTheme, LightTheme } from "styled-components";
+import { DefaultTheme } from "styled-components";
 
-export const lightTheme: LightTheme = {
+export const lightTheme: DefaultTheme = {
   mainBlue: "#2da0fa",
   mainWhite: "#ffffff",
   mainBlack: "#191F28",
@@ -17,7 +17,7 @@ export const lightTheme: LightTheme = {
   modalContentBackground: "#ffffff9d",
   functionArrowWhite: "#fff",
 };
-export const darkTheme: DarkTheme = {
+export const darkTheme: DefaultTheme = {
   mainBlue: " #0d92ff",
   mainWhite: "#2b2b2b",
   mainBlack: "#2b2b2b",

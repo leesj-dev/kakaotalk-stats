@@ -22,6 +22,10 @@ const ModalGraphBox = styled.div`
   backdrop-filter: blur(80px);
   box-shadow: 2px 2px 8px -3px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
+
+  @media (max-width: 480px) {
+    padding: 15px 10px 30px 10px;
+  }
 `;
 
 const CloseModalBox = styled.div`
@@ -29,7 +33,6 @@ const CloseModalBox = styled.div`
   top: 5px;
   right: 5px;
   color: ${(props) => props.theme.mainText};
-
   > :nth-child(1) {
     cursor: pointer;
   }
@@ -139,6 +142,7 @@ const ResponsiveContentBox = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
+
   gap: 15px;
 
   > :nth-child(1) {
@@ -162,12 +166,16 @@ const ResponsiveHeadBox = styled.div`
   > :nth-child(1) {
     > :nth-child(2) {
       height: 60px;
+      @media (max-width: 480px) {
+        height: 30px;
+      }
     }
   }
   > :nth-child(2) {
     display: flex;
     flex-direction: column;
     margin-left: auto;
+
     > :nth-child(1) {
       margin-right: 7px;
     }
@@ -175,8 +183,20 @@ const ResponsiveHeadBox = styled.div`
       margin-left: auto;
       > * {
         margin-left: auto;
+        @media (max-width: 480px) {
+          margin: 0 auto;
+        }
+      }
+      @media (max-width: 480px) {
+        margin: 0 auto;
       }
     }
+  }
+  @media (max-width: 480px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0 auto;
   }
 `;
 
@@ -188,7 +208,9 @@ const ResponsiveSubjectBox = styled.div`
   margin-left: 10px;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  @media (max-width: 480px) {
+    align-items: center;
+  }
 `;
 
 const ResponsiveParagraphBox = styled.div`
@@ -328,18 +350,16 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
               </ResponsivePeriodBox>
               <SubjectBox>
                 <Icon
-                  fontSize="24px"
                   onClick={() =>
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
                   <BsChevronLeft />
                 </Icon>
-                <Span fontSize="26px" fontWeight="500" textAlign="center">
+                <Span fontWeight="500" textAlign="center">
                   {h2}
                 </Span>
                 <Icon
-                  fontSize="24px"
                   onClick={() =>
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }

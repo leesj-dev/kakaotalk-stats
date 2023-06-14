@@ -1,7 +1,8 @@
-import "styled-components";
+import { DefaultTheme } from "styled-components";
 
+// DefaultTheme을 확장한 CustomTheme 인터페이스 정의
 declare module "styled-components" {
-  export interface LightTheme {
+  export interface DefaultTheme {
     mainBlue: string;
     mainWhite: string;
     mainBlack: string;
@@ -10,30 +11,10 @@ declare module "styled-components" {
     mainBlueHover: string;
     border: string;
     mainBackground: string;
-    dashboardBackground: string;
-    dashboardMenuBackground: string;
     footerBackground: string;
     navBackground: string;
-    modalBackground: string;
-    modalContentBackground: string;
-    functionArrowWhite: string;
-  }
-}
-
-declare module "styled-components" {
-  export interface DarkTheme {
-    mainBlue: string;
-    mainWhite: string;
-    mainBlack: string;
-    mainGray: string;
-    mainText: string;
-    mainBlueHover: string;
-    border: string;
-    mainBackground: string;
     dashboardBackground: string;
     dashboardMenuBackground: string;
-    footerBackground: string;
-    navBackground: string;
     modalBackground: string;
     modalContentBackground: string;
     functionArrowWhite: string;
