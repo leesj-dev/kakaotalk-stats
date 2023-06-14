@@ -4,18 +4,13 @@ import RadiusButton from "../atoms/Button";
 import Paragraph from "../atoms/Paragraph";
 import ThreeImages, { CardData } from "../organisms/ThreeImages";
 import scrollToEvent from "../../module/common/scrollEvent";
+import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 
-const AttachDescriptionBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+const AttachDescriptionBox = styled(FlexColumnCenterDiv)`
   > * {
     margin-bottom: 30px;
     font-weight: 300;
   }
-
   > :nth-child(1) {
     padding: 0 20px;
     @media (max-width: 480px) {

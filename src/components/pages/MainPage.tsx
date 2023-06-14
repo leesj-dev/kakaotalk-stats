@@ -3,13 +3,10 @@ import FunctionCard from "../organisms/FunctionCard";
 import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
+import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 
-const MainContainer = styled.div`
+const MainContainer = styled(FlexColumnCenterDiv)`
   padding: 100px 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
   width: 100%;
 `;
 

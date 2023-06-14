@@ -5,15 +5,14 @@ import Img from "../atoms/Img";
 import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../molecules/ScrollIndicator";
 import RadiusButton from "../atoms/Button";
+import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 
-const MainVisualContainer = styled.div`
+const MainVisualContainer = styled(FlexCenterDiv)`
   width: 100%;
   max-width: 1200px;
   position: relative;
   padding: 100px 0px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  text-align: start;
 
   @media (max-width: 768px) {
     max-width: 808px;
