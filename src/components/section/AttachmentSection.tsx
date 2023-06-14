@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import AttachedFileList from "../molecules/AttachedFileList";
-import RadiusButton from "../atoms/Button";
+import RadiusButton from "../atoms/BlueButton";
 import ScrollIndicator from "../molecules/ScrollIndicator";
 import FileDrop from "../organisms/FileDrop";
 import {

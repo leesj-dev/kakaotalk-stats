@@ -211,7 +211,9 @@ const NavBar = () => {
         </MobileMenuIcon>
         <H1>
           <Link to="/">
-            <Img src={`${process.env.PUBLIC_URL}/images/${isDarkMode ? "logoGray" : "logoBlack"}.png`} />
+            <Img
+              src={`${process.env.PUBLIC_URL}/images/logo/${isDarkMode ? "logoGray" : "logoBlack"}.png`}
+            />
           </Link>
         </H1>
         <MenuBox>
@@ -245,7 +247,7 @@ const NavBar = () => {
                   <H1 className="active">
                     <Link to="/">
                       <Img
-                        src={`${process.env.PUBLIC_URL}/images/${
+                        src={`${process.env.PUBLIC_URL}/images/logo/${
                           isDarkMode ? "logoGray" : "logoBlack"
                         }.png`}
                       />

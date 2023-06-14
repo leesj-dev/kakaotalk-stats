@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import styled, { css } from "styled-components";
 
-const RadiusButtonStyle = styled.button`
+const BlueButtonStyle = styled.button`
   margin: 0 auto;
   padding: 1.7rem 3.4rem;
   display: flex;
@@ -37,19 +37,19 @@ const RadiusButtonStyle = styled.button`
     `}
 `;
 
-interface RadiusButtonProps {
+interface BlueButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   children: ReactNode;
   // 필요한 다른 속성 추가
 }
 
-const RadiusButton: React.FC<RadiusButtonProps> = ({ onClick, disabled = false, children }) => {
+const BlueButton: React.FC<BlueButtonProps> = ({ onClick, disabled = false, children }) => {
   return (
-    <RadiusButtonStyle onClick={onClick} disabled={disabled}>
+    <BlueButtonStyle onClick={onClick} disabled={disabled}>
       {children}
-    </RadiusButtonStyle>
+    </BlueButtonStyle>
   );
 };
 
-export default RadiusButton;
+export default BlueButton;
