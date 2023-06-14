@@ -13,6 +13,7 @@ import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
 import { CgMaximize } from "react-icons/cg";
 import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
+import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 
 const graphContentData = [
   {
@@ -82,15 +83,10 @@ const graphContentData = [
   },
 ];
 
-const GraphDisplayBox = styled.div`
+const GraphDisplayBox = styled(FlexColumnCenterDiv)`
   position: relative;
   padding: 10px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
   border-radius: 15px;

@@ -1,13 +1,53 @@
 import { createGlobalStyle } from "styled-components";
+import PretendardThin from "../fonts/PretendardThin.woff2";
+import PretendardLight from "../fonts/PretendardLight.woff2";
+import PretendardRegular from "../fonts/PretendardRegular.woff2";
+import PretendardMedium from "../fonts/PretendardMedium.woff2";
+import PretendardBold from "../fonts/PretendardBold.woff2";
+import PretendardBlack from "../fonts/PretendardBlack.woff2";
 
 const GlobalStyle = createGlobalStyle`
+  @font-face {
+    src: local('PretendardThin'), local('PretendardThin'), url(${PretendardThin}) format('woff2');
+    font-family: '100';
+    font-style: normal;
+    
+  }
+  @font-face {
+    src: local('PretendardLight'), local('PretendardLight'), url(${PretendardLight}) format('woff2');
+    font-family: '300';
+    font-style: normal;
+    
+  }
+  @font-face {
+    src: local('PretendardRegular'), local('PretendardRegular'), url(${PretendardRegular}) format('woff2');
+    font-family: '400';
+    font-style: normal;
+    
+  }
+  @font-face {
+    src: local('PretendardMedium'), local('PretendardMedium'), url(${PretendardMedium}) format('woff2');
+    font-family: '500';
+    font-style: normal;
+    
+  }
+  @font-face {
+    src: local('PretendardBold'), local('PretendardBold'), url(${PretendardBold}) format('woff2');
+    font-family: '700';
+    font-style: normal;
+    
+  }
+  @font-face {
+    src: local('PretendardBlack'), local('PretendardBlack'), url(${PretendardBlack}) format('woff2');
+    font-family: '900';
+    font-style: normal;
+    
+  }
+
 html {
   box-sizing: border-box;
   font-size: 10px;
   background: ${(props) => props.theme.mainBackground};
-  color:#f0f;
-  background:#f00;
-  
   @media (max-width: 768px) {
 	font-size: 8px;
   }
@@ -21,13 +61,12 @@ html {
 
 
 body {
+  font-family: "400";
   margin: 0;
   padding: 0;
-  font-family: "Pretendard";
   font-weight: normal;
   line-height: 1;
   letter-spacing: -0.025em;
-  color: #222222;
 }
 
 ul,

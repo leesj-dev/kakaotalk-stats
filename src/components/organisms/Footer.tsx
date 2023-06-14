@@ -4,27 +4,19 @@ import Span from "../atoms/Span";
 import { BsGithub, BsEnvelope } from "react-icons/bs";
 import Icon from "../atoms/Icon";
 import Anchor from "../atoms/Anchor";
+import { FlexCenterDiv, FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 
 const FooterContainer = styled.div`
   background: ${(props) => props.theme.footerBackground};
   padding: 6rem 0;
 `;
 
-const ContentBox = styled.div`
+const ContentBox = styled(FlexColumnCenterDiv)`
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   max-width: 1220px;
 `;
 
-const DeveloperDescriptionBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+const DeveloperDescriptionBox = styled(FlexCenterDiv)`
   width: 100%;
   gap: 30px;
 `;
@@ -35,13 +27,8 @@ const IconContainer = styled.div`
   color: ${(props) => props.theme.mainText};
 `;
 
-const DeveloperBox = styled.div`
+const DeveloperBox = styled(FlexColumnCenterDiv)`
   margin-bottom: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   gap: 5px;
 `;
 

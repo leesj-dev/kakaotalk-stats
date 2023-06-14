@@ -7,17 +7,13 @@ import OsList from "./OsList";
 import { useDispatch } from "react-redux";
 import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlice";
 import { VscNewFile } from "react-icons/vsc";
+import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 
-const DropBox = styled.div`
+const DropBox = styled(FlexColumnCenterDiv)`
   position: relative;
   width: 80%;
   padding: 8rem 0;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
   z-index: 2;
@@ -45,13 +41,8 @@ const AttachmentBox = styled.div`
   gap: 5px;
 `;
 
-const DragFile = styled.div`
+const DragFile = styled(FlexColumnCenterDiv)`
   width: 100%;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-items: center;
   gap: 20px;
   z-index: 1;
 `;
