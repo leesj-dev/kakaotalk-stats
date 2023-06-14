@@ -13,16 +13,6 @@ import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexS
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
-// const DashboardSideMenuBox = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   height: calc(100vh - 80px);
-//   width:100%;
-//   color: ${(props) => props.theme.mainText};
-//   background: ${(props) => props.theme.mainWhite};
-// `;
-
 const DashboardLayoutBox = styled.div`
   position: sticky;
   top: 80px;
@@ -34,10 +24,11 @@ const DashboardLayoutBox = styled.div`
   /* @media (max-width: 1024px) {
     display: none;
   } */
+  height: calc(100vh - 80px);
   @media (max-width: 480px) {
-    text-align: center;
     padding: 0;
-    /* border-bottom: 1px solid ${(props) => props.theme.border}; */
+    height: 100%;
+    text-align: center;
   }
 `;
 
@@ -50,9 +41,7 @@ const ChatroomMenuTitleBox = styled.div`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
-
   @media (max-width: 480px) {
-    text-align: center;
     padding: 0;
   }
 `;
@@ -61,12 +50,10 @@ const ChatroomGraphBox = styled.div`
   position: relative;
   padding: 15px;
   display: flex;
-  background: ${(props) => props.theme.mainBackground};
   border-bottom: 1px solid ${(props) => props.theme.border};
-
+  background: ${(props) => props.theme.mainBackground};
   @media (max-width: 480px) {
     padding: 20px;
-    border-bottom: 0;
   }
 `;
 
@@ -76,10 +63,9 @@ const ChatroomListTitleBox = styled.div`
   flex-direction: column;
   font-size: 18px;
   color: ${(props) => props.theme.mainText};
-  background: ${(props) => props.theme.dashboardMenuBackground};
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
-
+  background: ${(props) => props.theme.dashboardMenuBackground};
   @media (max-width: 480px) {
     display: none;
   }
@@ -92,21 +78,19 @@ const ChatroomListBox = styled.div`
   gap: 10px;
   height: 100%;
   width: 100%;
-  background-color: ${(props) => props.theme.mainBackground};
   overflow-y: scroll;
-
+  background-color: ${(props) => props.theme.mainBackground};
   @media (max-width: 480px) {
-    height: 170px;
-    padding: 20px 50px;
-    overflow: hidden;
+    padding: 20px 20px;
+    height: 300px;
     border-bottom: 1px solid ${(props) => props.theme.border};
   }
   &::-webkit-scrollbar {
     width: 6px; /* 스크롤바의 너비 */
   }
   &::-webkit-scrollbar-thumb {
-    background: ${(props) => props.theme.mainGray}; /* 스크롤바의 색상 */
     border-radius: 10px;
+    background: ${(props) => props.theme.mainGray}; /* 스크롤바의 색상 */
   }
   &::-webkit-scrollbar-track {
     background: rgba(144, 144, 144, 0.2); /*스크롤바 뒷 배경 색상*/
@@ -116,10 +100,10 @@ const ChatroomListBox = styled.div`
 const ChatRoomBox = styled.div`
   padding: 10px;
   border-radius: 5px;
-  background: ${(props) => props.theme.mainWhite};
+
   border: 1px solid ${(props) => props.theme.border};
   cursor: pointer;
-
+  background: ${(props) => props.theme.mainWhite};
   &:hover {
     border: 1px solid ${(props) => props.theme.dashboardBackground};
   }
@@ -127,31 +111,10 @@ const ChatRoomBox = styled.div`
     border: 2px solid ${(props) => props.theme.mainGray};
   }
   > * {
+    display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  > :nth-child(1) {
-    display: flex;
-  }
-  > :nth-child(2) {
-    display: block;
-    margin-bottom: 10px;
-    @media (max-width: 480px) {
-      overflow: visible;
-      white-space: wrap;
-    }
-  }
-  > :nth-child(3) {
-    font-weight: 600;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  @media (max-width: 480px) {
-    > :nth-child(3) {
-      display: none;
-    }
   }
 `;
 
@@ -192,7 +155,6 @@ const DashboardSideMenu = () => {
     };
   }, []);
 
-  const shouldRenderSingleChatRoomBox = window.innerWidth < 480;
   return (
     <DashboardLayoutBox>
       <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
@@ -201,34 +163,27 @@ const DashboardSideMenu = () => {
       </ChatroomGraphBox>
       <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
       <ChatroomListBox>
-        {shouldRenderSingleChatRoomBox ? (
-          <ChatRoomBox>
-            <ChatRoomHead>
-              <Paragraph fontWeight="500">
-                채팅방 {selectedChatRoomIndex + 1} ({totalChatCounts[selectedChatRoomIndex]})
-              </Paragraph>
-            </ChatRoomHead>
-            <Span>{chatRoomNames[selectedChatRoomIndex]}</Span>
-          </ChatRoomBox>
-        ) : (
-          chatRoomNames.map((name, index) => {
-            return (
-              <ChatRoomBox
-                key={index}
-                className={`${selectedChatRoomIndex === index && "active"}`}
-                onClick={() => handleClickChatRoom(index)}
-              >
-                <ChatRoomHead>
-                  <Paragraph fontWeight="500">
-                    채팅방{index + 1} ({totalChatCounts[index]}){" "}
-                  </Paragraph>
-                </ChatRoomHead>
-                <Span>{name}</Span>
-                <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
-              </ChatRoomBox>
-            );
-          })
-        )}
+        {chatRoomNames.map((name, index) => {
+          return (
+            <ChatRoomBox
+              key={index}
+              className={`${selectedChatRoomIndex === index && "active"}`}
+              onClick={() => handleClickChatRoom(index)}
+            >
+              <ChatRoomHead>
+                <Paragraph fontWeight="500">
+                  채팅방{index + 1} ({totalChatCounts[index]})
+                </Paragraph>
+              </ChatRoomHead>
+              <Span>{name}</Span>
+              {window.innerWidth > 480 && ( // 현재 윈도우의 가로 크기가 480보다 클 때만 렌더링
+                <Span underline fontWeight="500">
+                  <Link to={`/dashboard/detail`}>상세보기 {">"}</Link>
+                </Span>
+              )}
+            </ChatRoomBox>
+          );
+        })}
       </ChatroomListBox>
     </DashboardLayoutBox>
   );
