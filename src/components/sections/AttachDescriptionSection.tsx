@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import RadiusButton from "../atoms/BlueButton";
+import BlueButton from "../atoms/BlueButton";
 import Paragraph from "../atoms/Paragraph";
 import ThreeImages, { CardData } from "../organisms/ThreeImages";
 import scrollToEvent from "../../module/common/scrollEvent";
@@ -75,11 +75,11 @@ const AttachmentDescriptionSection = () => {
         현재 실행하고 있는 기기에서 카카오톡 메시지 내보내기 방법 알아보기
       </Paragraph>
       <ButtonBox>
-        <RadiusButton onClick={() => setCardData(pcCardData)}>PC</RadiusButton>
-        <RadiusButton onClick={() => setCardData(mobileCardData)}>모바일</RadiusButton>
+        <BlueButton onClick={() => setCardData(pcCardData)}>PC</BlueButton>
+        <BlueButton onClick={() => setCardData(mobileCardData)}>모바일</BlueButton>
       </ButtonBox>
       <ThreeImages srcAndText={cardData} />
-      <RadiusButton onClick={() => scrollToEvent(0, "smooth")}>분석하러 가기</RadiusButton>
+      <BlueButton onClick={() => scrollToEvent(0, "smooth")}>분석하러 가기</BlueButton>
     </AttachDescriptionBox>
   );
 };

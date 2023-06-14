@@ -4,7 +4,7 @@ import Paragraph from "../atoms/Paragraph";
 import Img from "../atoms/Img";
 import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../molecules/ScrollIndicator";
-import RadiusButton from "../atoms/BlueButton";
+import BlueButton from "../atoms/BlueButton";
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 
 const MainVisualContainer = styled(FlexCenterDiv)`
@@ -83,7 +83,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
     <MainVisualContainer>
       <AsideBox>
         <LogoBox>
-          <Paragraph fontSize="3.6rem" fontWeight="700" lineHeight="1.5">
+          <Paragraph fontSize="3.6rem" fontWeight="100" lineHeight="1.5">
             카카오돋보기 2023
           </Paragraph>
           <Paragraph fontSize="2.8rem" lineHeight="1.5" fontWeight="900" color="#a6a6a6">
@@ -96,7 +96,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
           카카오돋보기는 대화를 분석하여 인사이트를 제공하는 도구입니다. 대화의 양이나 시간대와 같은
           정보를 통하여 재미보셈
         </Paragraph>
-        <RadiusButton onClick={() => navigate("/attachment")}>GET STARTED</RadiusButton>
+        <BlueButton onClick={() => navigate("/attachment")}>GET STARTED</BlueButton>
         <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
           카카오 돋보기의 분석 기능
         </ScrollIndicator>

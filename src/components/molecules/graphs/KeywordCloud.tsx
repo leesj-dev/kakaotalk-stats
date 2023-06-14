@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TagCloud } from "react-tagcloud";
+// import { TagCloud } from "react-tagcloud";
 import { AnalyzedMessage, ValueCountPair } from "../../../@types/index.d";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
@@ -9,14 +9,14 @@ import styled from "styled-components";
 import { setNfKeywordCount } from "../../../store/reducer/nfKeywordCountSlice";
 import { setSpeakersTopNKeywords } from "../../../store/reducer/speakersTopNKeywordsSlice";
 
-const KeywordList = styled.li`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 100%;
-`;
+// const KeywordList = styled.li`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   margin-bottom: 10px;
+//   width: 100%;
+// `;
 
 /**
  * 모든 키워드에서 상위 N개의 키워드를 가져옵니다.
@@ -60,19 +60,19 @@ const getSpeakersTopNKeywords = (keywordsArray: KeywordCounts[], displayKeywordC
  * @returns {string[]} 중복되는 키워드 배열입니다.
  */
 
-const getOverlappedKeyword = (keywordData: any[]) => {
-  const overlappedKeyword: any = {};
-  keywordData.forEach((keywords) => {
-    keywords.forEach((keyword: any) => {
-      overlappedKeyword[keyword.text] = Number(overlappedKeyword[keyword.text] || 0) + 1;
-    });
-  });
-  const filteredKeyword = [];
-  for (const keyword in overlappedKeyword) {
-    overlappedKeyword[keyword] === 2 && filteredKeyword.push(keyword);
-  }
-  return filteredKeyword;
-};
+// const getOverlappedKeyword = (keywordData: any[]) => {
+//   const overlappedKeyword: any = {};
+//   keywordData.forEach((keywords) => {
+//     keywords.forEach((keyword: any) => {
+//       overlappedKeyword[keyword.text] = Number(overlappedKeyword[keyword.text] || 0) + 1;
+//     });
+//   });
+//   const filteredKeyword = [];
+//   for (const keyword in overlappedKeyword) {
+//     overlappedKeyword[keyword] === 2 && filteredKeyword.push(keyword);
+//   }
+//   return filteredKeyword;
+// };
 
 /**
  * 현재 키워드 카운트 배열에서 speaker별로 상위 키워드를 가져옵니다.
@@ -134,64 +134,64 @@ const KeywordCloud = () => {
   const selectedRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
-  const selectedSpeakerIndex = useSelector(
-    (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
-  );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+  // const selectedSpeakerIndex = useSelector(
+  //   (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
+  // );
+  // const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
-  const [numberInput, setNumberInput] = useState<number>(50);
+  // const [numberInput, setNumberInput] = useState<number>(50);
   const [displayKeywordCount, setDisplayKeywordCount] = useState<number>(50);
   const [keywordToFilter, setKeywordToFilter] = useState<string[]>([]);
 
-  const speaker: string[] = getSpeakers(analyzedMessages)[selectedRoomIndex];
+  // const speaker: string[] = getSpeakers(analyzedMessages)[selectedRoomIndex];
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(analyzedMessages);
   const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedRoomIndex];
   const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, displayKeywordCount);
-  const overlappedKeyword = getOverlappedKeyword(keywordData);
+  // const overlappedKeyword = getOverlappedKeyword(keywordData);
   const chatRoomsNFKeywordCounts = getChatRoomsNFKeywordCounts(keywordCounts);
-  const handleChangeNumberInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setNumberInput(Number(e.target.value));
-  };
+  // const handleChangeNumberInput = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setNumberInput(Number(e.target.value));
+  // };
 
-  const handleSubmitNumber = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setDisplayKeywordCount(numberInput);
-  };
+  // const handleSubmitNumber = (e: ChangeEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   setDisplayKeywordCount(numberInput);
+  // };
 
-  const handClickExceptEmoticon = () => {
-    const keywordsToCheck = ["이모티콘", "사진", "동영상"];
-    if (!keywordsToCheck.some((keyword) => keywordToFilter.includes(keyword))) {
-      setKeywordToFilter([...keywordToFilter, ...keywordsToCheck]);
-    }
-  };
-  const handClickExceptLaughter = () => {
-    const keywordsToCheck = ["ㅋ", "ㅎ"];
-    if (!keywordsToCheck.some((keyword) => keywordToFilter.includes(keyword))) {
-      setKeywordToFilter([...keywordToFilter, ...keywordsToCheck]);
-    }
-  };
+  // const handClickExceptEmoticon = () => {
+  //   const keywordsToCheck = ["이모티콘", "사진", "동영상"];
+  //   if (!keywordsToCheck.some((keyword) => keywordToFilter.includes(keyword))) {
+  //     setKeywordToFilter([...keywordToFilter, ...keywordsToCheck]);
+  //   }
+  // };
+  // const handClickExceptLaughter = () => {
+  //   const keywordsToCheck = ["ㅋ", "ㅎ"];
+  //   if (!keywordsToCheck.some((keyword) => keywordToFilter.includes(keyword))) {
+  //     setKeywordToFilter([...keywordToFilter, ...keywordsToCheck]);
+  //   }
+  // };
 
-  const handleClickDeleteKeyword = (index: number) => {
-    const copiedFilterKeyword = [...keywordToFilter];
-    copiedFilterKeyword.splice(index, 1);
-    setKeywordToFilter(copiedFilterKeyword);
-  };
+  // const handleClickDeleteKeyword = (index: number) => {
+  //   const copiedFilterKeyword = [...keywordToFilter];
+  //   copiedFilterKeyword.splice(index, 1);
+  //   setKeywordToFilter(copiedFilterKeyword);
+  // };
 
-  const [filterKeywordInput, setFilterKeywordInput] = useState<string>("");
+  // const [filterKeywordInput, setFilterKeywordInput] = useState<string>("");
 
-  const handleFilterKeywordInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilterKeywordInput(e.target.value);
-  };
+  // const handleFilterKeywordInput = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setFilterKeywordInput(e.target.value);
+  // };
 
-  const handleFilterKeywordForm = (e: FormEvent, keywordToFilter: string[]) => {
-    e.preventDefault();
-    if (!keywordToFilter.includes(filterKeywordInput)) {
-      setFilterKeywordInput("");
-      setKeywordToFilter([...keywordToFilter, filterKeywordInput]);
-    } else {
-      window.alert("이미 포함되어있는 문구입니다.");
-    }
-  };
+  // const handleFilterKeywordForm = (e: FormEvent, keywordToFilter: string[]) => {
+  //   e.preventDefault();
+  //   if (!keywordToFilter.includes(filterKeywordInput)) {
+  //     setFilterKeywordInput("");
+  //     setKeywordToFilter([...keywordToFilter, filterKeywordInput]);
+  //   } else {
+  //     window.alert("이미 포함되어있는 문구입니다.");
+  //   }
+  // };
 
   dispatch(setNfKeywordCount(chatRoomsNFKeywordCounts));
   dispatch(setSpeakersTopNKeywords(keywordData));
@@ -202,7 +202,7 @@ const KeywordCloud = () => {
 
   return (
     <ul>
-      키워드
+      {/* 키워드
       <form action="" onSubmit={(e) => handleFilterKeywordForm(e, keywordToFilter)}>
         <div onClick={handClickExceptEmoticon}>이모티콘,사진,동영상 제외하기</div>
         <div onClick={handClickExceptLaughter}>ㅋ,ㅎ 제외하기</div>
@@ -236,7 +236,7 @@ const KeywordCloud = () => {
           }
           return null;
         })}
-      <div>키워드 중에서 겹치는 말버릇 모아보기 {overlappedKeyword && overlappedKeyword.join(", ")}</div>
+      <div>키워드 중에서 겹치는 말버릇 모아보기 {overlappedKeyword && overlappedKeyword.join(", ")}</div> */}
     </ul>
   );
 };

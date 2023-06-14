@@ -12,7 +12,6 @@ export interface ChatDataDetail {
   keywordCounts: KeywordCounts;
   replyTime: ReplyTime;
 }
-
 export type AnalyzedMessage = {
   speaker: string;
   date: string;
@@ -20,7 +19,6 @@ export type AnalyzedMessage = {
   keywordCounts: KeywordCounts;
   replyTime: ReplyTime;
 };
-
 export interface FileObject {
   lastModified: number;
   lastModifiedDate: Date;
@@ -29,7 +27,6 @@ export interface FileObject {
   type: string;
   webkitRelativePath: string;
 }
-
 export type OriginMessageData = {
   date: string;
   hour: string;
@@ -37,27 +34,22 @@ export type OriginMessageData = {
   speaker: string;
   keywords: string[];
 };
-
 export type MessageInfo = {
   date: string;
   data: ChatDataDetail;
 };
-
 export interface Chatroom {
   speaker: string;
   dates: MessageInfo[];
 }
-
 export type NameValuePair = {
   name: string;
   value: number;
 };
-
 export type ValueCountPair = {
   text: string;
   value: number;
 };
-
 export type selectedChatRoomData = {
   averageReplyTime: number[];
   mostChattedTimes: StringNumberTuple[];
@@ -65,28 +57,22 @@ export type selectedChatRoomData = {
   speakers: string[];
   totalChatCount: number;
 };
-
 export type WrapperProps = {
   children: ReactNode;
 };
-
 type TimeCount = {
   hour: string;
   value: number;
   index: number;
 };
-
 export type WeekData = {
   day: string;
   values: TimeCount[];
 };
-
 export type StringNumberTuple = [string, number];
-
 export interface ReplyStackedAreaGraph {
   [speaker: string]: number | string;
 }
-
 export type StackBarData = {
   name: string;
   [key: string]: number | string | undefined;

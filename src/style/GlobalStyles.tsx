@@ -1,48 +1,32 @@
 import { createGlobalStyle } from "styled-components";
-import PretendardThin from "../fonts/PretendardThin.woff2";
 import PretendardLight from "../fonts/PretendardLight.woff2";
 import PretendardRegular from "../fonts/PretendardRegular.woff2";
 import PretendardMedium from "../fonts/PretendardMedium.woff2";
 import PretendardBold from "../fonts/PretendardBold.woff2";
-import PretendardBlack from "../fonts/PretendardBlack.woff2";
 
 const GlobalStyle = createGlobalStyle`
+
   @font-face {
-    src: local('PretendardThin'), local('PretendardThin'), url(${PretendardThin}) format('woff2');
-    font-family: '100';
-    font-style: normal;
-    
-  }
-  @font-face {
+    font-family: "Pretendard";
     src: local('PretendardLight'), local('PretendardLight'), url(${PretendardLight}) format('woff2');
-    font-family: '300';
-    font-style: normal;
-    
+    font-weight:300;
   }
   @font-face {
+    font-family: "Pretendard";
     src: local('PretendardRegular'), local('PretendardRegular'), url(${PretendardRegular}) format('woff2');
-    font-family: '400';
-    font-style: normal;
-    
+    font-weight:400;
   }
   @font-face {
+    font-family: "Pretendard";
     src: local('PretendardMedium'), local('PretendardMedium'), url(${PretendardMedium}) format('woff2');
-    font-family: '500';
-    font-style: normal;
-    
+    font-weight:500;
   }
   @font-face {
+    font-family: "Pretendard";
     src: local('PretendardBold'), local('PretendardBold'), url(${PretendardBold}) format('woff2');
-    font-family: '700';
-    font-style: normal;
-    
+    font-weight:700;
   }
-  @font-face {
-    src: local('PretendardBlack'), local('PretendardBlack'), url(${PretendardBlack}) format('woff2');
-    font-family: '900';
-    font-style: normal;
-    
-  }
+
 
 html {
   box-sizing: border-box;
@@ -61,7 +45,8 @@ html {
 
 
 body {
-  font-family: "400";
+  font-family: "Pretendard";
+  font-weight: 900;
   margin: 0;
   padding: 0;
   font-weight: normal;
@@ -117,7 +102,6 @@ input,
 textarea,
 button {
   font-size: inherit;
-  font-family: "Noto Sans KR";
   font-weight: inherit;
   margin: 0;
 }
@@ -137,6 +121,7 @@ address,
 em,
 i {
   font-style: normal;
+  font-weight:100
 }
 
 hr {
@@ -160,7 +145,6 @@ button,
 input,
 select,
 textarea {
-  font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   margin: 0;
