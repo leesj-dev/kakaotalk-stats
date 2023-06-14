@@ -195,7 +195,7 @@ const AttachmentSection = () => {
     if (windowWidth > 1024) {
       navigate("/dashboard");
     } else {
-      navigate("/dashboard/detail");
+      navigate("/detail");
     }
   };
 

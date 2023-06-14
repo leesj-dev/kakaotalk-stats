@@ -12,7 +12,7 @@ import DashboardHeaderContent from "../molecules/DashboardHeaderContent";
 import { setVolumeHourlyBoxSize } from "../../store/reducer/volumeHourlyBoxSizeSlice";
 import SpeakerSelect from "../molecules/SpeakerSelect";
 
-const DashboardTemplateContainer = styled.div`
+const DashboardSectionContainer = styled.div`
   padding: 10px;
   display: flex;
   flex-wrap: nowrap;
@@ -186,7 +186,7 @@ const DashboardSection = () => {
   // const modalSetProps = { setIsModalVisible, modalSetProps };
 
   return (
-    <DashboardTemplateContainer>
+    <DashboardSectionContainer>
       <AsideBox>
         <GraphDisplay displaySubject={"종합 비교"} modalSetProps={modalSetProps} zIndex={1} />
         <GraphDisplay displaySubject={"기간 대화량"} modalSetProps={modalSetProps} zIndex={3} />
@@ -229,7 +229,7 @@ const DashboardSection = () => {
           <ModalGraph currentModalData={currentModalData} modalSetProps={modalSetProps} />
         </ModalBox>
       )}
-    </DashboardTemplateContainer>
+    </DashboardSectionContainer>
   );
 };
 

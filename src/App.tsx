@@ -3,11 +3,11 @@ import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./style/Theme";
 import MainPage from "./components/pages/MainPage";
 import { Routes, Route } from "react-router-dom";
-import NavBar from "./components/organisms/NavBar";
+import NavHead from "./components/section/NavHead";
 import AttachmentPage from "./components/pages/AttachmentPage";
-import AnalysisPage from "./components/pages/AnalysisPage";
-import Footer from "./components/organisms/Footer";
-import GraphDetailSection from "./components/pages/GraphDetailPage";
+import DashboardPage from "./components/pages/DashboardPage";
+import Footer from "./components/section/Footer";
+import DetailPage from "./components/pages/DetailPage";
 import { useSelector } from "react-redux";
 import FloatingMenu from "./components/organisms/FloatingMenu";
 import Wrapper from "./components/wrapper/Wrapper";
@@ -21,14 +21,14 @@ function App() {
       <GlobalStyle />
       <Wrapper>
         <FloatingMenu />
-        <NavBar />
+        <NavHead />
         <Routes>
           <Route path={"/"} element={<MainPage />} />
-          <Route path={"/2"} element={<AttachmentPage />} />
+          <Route path={"/attachment"} element={<AttachmentPage />} />
         </Routes>
         <Routes>
-          <Route path={"/dashboard"} element={<AnalysisPage />} />
-          <Route path={"/dashboard/detail/"} element={<GraphDetailSection />} />
+          <Route path={"/dashboard"} element={<DashboardPage />} />
+          <Route path={"/detail"} element={<DetailPage />} />
         </Routes>
         <Footer />
       </Wrapper>

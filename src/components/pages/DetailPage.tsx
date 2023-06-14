@@ -65,7 +65,7 @@ export const graphContentData = [
   },
 ];
 
-const GraphDetailContainer = styled.div`
+const DetailPageContainer = styled.div`
   position: relative;
   margin-top: 80px;
   display: flex;
@@ -100,7 +100,7 @@ const GraphBox = styled.div`
   }
 `;
 
-const GraphDetailSection = () => {
+const DetailPage = () => {
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
@@ -138,7 +138,7 @@ const GraphDetailSection = () => {
   }, []);
 
   return (
-    <GraphDetailContainer>
+    <DetailPageContainer>
       {windowWidth > 1024 && <DashboardSideMenu />}
       <ContentBox>
         {isAnalyzedMessagesExist &&
@@ -150,8 +150,8 @@ const GraphDetailSection = () => {
             );
           })}
       </ContentBox>
-    </GraphDetailContainer>
+    </DetailPageContainer>
   );
 };
 
-export default GraphDetailSection;
+export default DetailPage;
