@@ -13,12 +13,19 @@ import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
 import { graphContentData } from "../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import H3 from "../atoms/H3";
 import Paragraph from "../atoms/Paragraph";
 import H2 from "../atoms/H2";
 =======
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 >>>>>>> 2c82f53 (feat: 모달 좌우 이동 detail 페이지에서 나타나지 않게 하기)
+=======
+
+import H3 from "../atoms/H3";
+import Paragraph from "../atoms/Paragraph";
+import H2 from "../atoms/H2";
+>>>>>>> 3b718c5 (refactor:cardContent 해부)
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
