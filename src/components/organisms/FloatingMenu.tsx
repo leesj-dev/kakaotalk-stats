@@ -12,12 +12,10 @@ const FloatingMenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  color: #fff;
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
   z-index: 900;
-
   &.show {
     opacity: 1;
     visibility: visible;
@@ -39,6 +37,20 @@ const ScrollToTopButtonBox = styled.div``;
 
 const ShareButtonBox = styled.div``;
 
+const copyClipBoard = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("클립보드에 주소가 복사되었어요.");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const handleClickCShareButton = () => {
+  const url = "쥬희무쩅이넹~ㅇㅅㅇ~";
+  copyClipBoard(url);
+};
+
 const FloatingMenu = () => {
   const [showFloatingButton, setShowFloatingButton] = useState(false);
 
@@ -48,20 +60,6 @@ const FloatingMenu = () => {
     } else {
       setShowFloatingButton(false);
     }
-  };
-
-  const copyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert("클립보드에 주소가 복사되었어요.");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleClickCShareButton = () => {
-    const url = "쥬희무쩅이넹~ㅇㅅㅇ~";
-    copyClipBoard(url);
   };
 
   useEffect(() => {
@@ -75,12 +73,12 @@ const FloatingMenu = () => {
   return (
     <FloatingMenuContainer className={`${showFloatingButton && "show"}`}>
       <ShareButtonBox onClick={() => handleClickCShareButton()}>
-        <Icon fontSize="24px">
+        <Icon fontSize="24px" color="#fff">
           <BsShareFill />
         </Icon>
       </ShareButtonBox>
       <ScrollToTopButtonBox onClick={() => scrollToEvent(0, "smooth")}>
-        <Icon fontSize="24px">
+        <Icon fontSize="24px" color="#fff">
           <FiArrowUp />
         </Icon>
       </ScrollToTopButtonBox>
