@@ -36,27 +36,22 @@ const AttachmentPage = () => {
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("enter");
     setDragging(true);
   };
 
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("leave");
     setDragging(false);
   };
 
   const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("leave");
     setDragging(false);
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("drop");
     setDragging(false);
-
     const files: any = Array.prototype.slice.call(e.dataTransfer.files);
     if (files && files.length) {
       dispatch(pushNewlyAttachedFiles(files));
