@@ -6,6 +6,7 @@ import { setSelectedOsIndex } from "../../store/reducer/selectedOsIndexSlice";
 import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
 import { SiIos } from "react-icons/si";
 import Icon from "../atoms/Icon";
+import { lightTheme } from "../../style/Theme";
 
 const OsListBox = styled.ul`
   margin: 0 auto;
@@ -150,7 +151,9 @@ const OsList = ({ color }: OsListProps) => {
               color={color}
               onClick={() => dispatch(setSelectedOsIndex(data.id))}
             >
-              <Icon color="#2da0fa">{data.icon}</Icon>
+              <Icon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
+                {data.icon}
+              </Icon>
               <Span>{data.os}</Span>
             </OsIconBox>
           );
@@ -165,7 +168,9 @@ const OsList = ({ color }: OsListProps) => {
               color={color}
               onClick={() => dispatch(setSelectedOsIndex(data.id))}
             >
-              <Icon color="#2da0fa">{data.icon}</Icon>
+              <Icon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
+                {data.icon}
+              </Icon>
               <Span>{data.os}</Span>
             </OsIconBox>
           );
