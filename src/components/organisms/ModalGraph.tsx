@@ -162,7 +162,6 @@ const ResponsiveContentBox = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-
   gap: 15px;
 
   > :nth-child(1) {
@@ -390,7 +389,6 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                 </Icon>
               </SubjectBox>
             </ResponsiveSubjectBox>
-
             {subject === "종합 비교" ? (
               <SpeakerSelectBox></SpeakerSelectBox>
             ) : (
@@ -401,9 +399,6 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
             )}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
-          {/* <ResponsiveParagraphBox>
-            <Span fontSize="18px">{p}</Span>
-          </ResponsiveParagraphBox> */}
         </ResponsiveContentBox>
       )}
     </ModalGraphBox>
