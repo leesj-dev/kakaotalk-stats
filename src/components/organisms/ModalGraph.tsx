@@ -13,6 +13,7 @@ import { getDates } from "../../module/common/getProperties";
 import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
 import { graphContentData } from "../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 
 const ModalGraphBox = styled.div`
   padding: 30px;
@@ -65,22 +66,15 @@ const InfoContentBox = styled.div`
   gap: 5px;
 `;
 
-const SubjectBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const SubjectBox = styled(FlexCenterDiv)`
   justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-
-  > :nth-child(1) {
-    cursor: pointer;
-  }
-  > :nth-child(2) {
+  > * {
     display: flex;
     align-items: center;
     height: 40px;
   }
+
+  > :nth-child(1),
   > :nth-child(3) {
     cursor: pointer;
   }
@@ -309,7 +303,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
-                  <BsChevronLeft />
+                  {!isDetailPage && <BsChevronLeft />}
                 </Icon>
                 <Span fontSize="26px" fontWeight="500" textAlign="center">
                   {h2}
@@ -320,7 +314,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }
                 >
-                  <BsChevronRight />
+                  {!isDetailPage && <BsChevronRight />}
                 </Icon>
               </SubjectBox>
               {subject === "종합 비교" ? (
@@ -354,7 +348,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
-                  <BsChevronLeft />
+                  {!isDetailPage && <BsChevronLeft />}
                 </Icon>
                 <Span fontWeight="500" textAlign="center">
                   {h2}
@@ -364,7 +358,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }
                 >
-                  <BsChevronRight />
+                  {!isDetailPage && <BsChevronRight />}
                 </Icon>
               </SubjectBox>
             </ResponsiveSubjectBox>
