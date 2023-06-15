@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import H2 from "../atoms/H2";
 import H3 from "../atoms/H3";
+import Icon from "../atoms/Icon";
 import Img from "../atoms/Img";
 import Paragraph from "../atoms/Paragraph";
 import CardContent from "../molecules/CardContent";
-import SlideBtn from "../molecules/SlideBtn";
 
+import { FiArrowUp, FiArrowDown } from "react-icons/fi";
 const Container = styled.div`
   padding: 100px 0px;
 
@@ -155,7 +156,7 @@ const SlideBox = styled.div`
   > :first-child {
     border-top-right-radius: 20%;
     border-bottom-right-radius: 20%;
-    transform: scaleY(-1) translateX(44px);
+    transform: translateX(44px);
   }
   > :last-child {
     border-top-left-radius: 20%;
@@ -217,7 +218,7 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const slideCount = 6; // 슬라이드 개수
 
-  const handleSlideChange = (direction: string) => {
+  const handleSlideChange = (direction: "next" | "prev") => {
     if (direction === "next") {
       setActiveSlideIndex((prevIndex) => (prevIndex + 1) % slideCount);
     } else if (direction === "prev") {
@@ -248,8 +249,12 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
           ))}
         </MainSlide>
         <SlideBox>
-          <SlideBtn onClick={() => handleSlideChange("next")} direction={"down"} />
-          <SlideBtn onClick={() => handleSlideChange("prev")} direction={"up"} />
+          <Icon fontSize="24px" onClick={() => handleSlideChange("next")} direction="next">
+            <FiArrowDown />
+          </Icon>
+          <Icon fontSize="24px" onClick={() => handleSlideChange("prev")} direction="prev">
+            <FiArrowUp />
+          </Icon>
         </SlideBox>
       </Card>
     </Container>

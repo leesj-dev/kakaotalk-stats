@@ -94,7 +94,6 @@ const ChatroomListBox = styled.div`
 const ChatRoomBox = styled.div`
   padding: 10px;
   border-radius: 5px;
-
   border: 1px solid ${(props) => props.theme.border};
   cursor: pointer;
   background: ${(props) => props.theme.mainWhite};
