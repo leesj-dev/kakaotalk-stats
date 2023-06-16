@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const SpanComponent = styled.span<{
   fontSize?: string;
+  responsiveFontSize?: string;
   fontWeight?: string;
   textAlign?: string;
   padding?: string;
@@ -9,6 +10,7 @@ const SpanComponent = styled.span<{
   underline?: boolean;
 }>`
   font-size: ${(props) => props.fontSize || "17px"};
+  font-size: ${(props) => props.responsiveFontSize};
   font-weight: ${(props) => props.fontWeight || "400"};
   color: ${(props) => props.color || props.theme.mainText};
   text-align: ${(props) => props.textAlign || "left"};
@@ -27,6 +29,7 @@ interface SpanProps {
   children: React.ReactNode;
   fontWeight?: string;
   fontSize?: string;
+  responsiveFontSize?: string;
   color?: string;
   textAlign?: string;
   padding?: string;
@@ -37,6 +40,7 @@ interface SpanProps {
 const Span: React.FC<SpanProps> = ({
   children,
   fontSize,
+  responsiveFontSize,
   fontWeight,
   color,
   textAlign,
@@ -48,6 +52,7 @@ const Span: React.FC<SpanProps> = ({
     <SpanComponent
       textAlign={textAlign}
       fontSize={fontSize}
+      responsiveFontSize={responsiveFontSize}
       fontWeight={fontWeight}
       color={color}
       padding={padding}

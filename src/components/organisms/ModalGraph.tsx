@@ -158,10 +158,17 @@ const ResponsiveHeadBox = styled.div`
     height: 100%;
   }
   > :nth-child(1) {
+    align-items: start;
+    justify-content: center;
+    > :nth-child(1) {
+      @media (max-width: 480px) {
+        font-size: 16px;
+      }
+    }
     > :nth-child(2) {
       height: 60px;
       @media (max-width: 480px) {
-        height: 30px;
+        height: 22px;
       }
     }
   }
@@ -171,14 +178,28 @@ const ResponsiveHeadBox = styled.div`
     margin-left: auto;
 
     > :nth-child(1) {
+      justify-content: end;
+      width: 100%;
       margin-right: 7px;
+      @media (max-width: 480px) {
+        margin-right: 17px;
+        margin-bottom: 5px;
+      }
+    }
+    > :nth-child(2) {
+      justify-content: end;
+      align-items: end;
+      width: 100%;
+      margin-right: 19px;
+
+      @media (max-width: 480px) {
+        margin: 0 auto;
+      }
     }
     > * {
-      margin-left: auto;
       > * {
-        margin-left: auto;
         @media (max-width: 480px) {
-          margin: 0 auto;
+          margin-left: 0 auto;
         }
       }
       @media (max-width: 480px) {
@@ -195,6 +216,7 @@ const ResponsiveHeadBox = styled.div`
 `;
 
 const ResponsivePeriodBox = styled.div`
+  font-size: 16px;
   margin-bottom: 5px;
 `;
 
@@ -350,7 +372,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                 >
                   {!isDetailPage && <BsChevronLeft />}
                 </Icon>
-                <Span fontWeight="500" textAlign="center">
+                <Span fontWeight="500" textAlign="center" fontSize="26px" responsiveFontSize="20px">
                   {h2}
                 </Span>
                 <Icon
