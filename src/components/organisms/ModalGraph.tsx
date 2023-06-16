@@ -186,12 +186,12 @@ const ResponsiveHeadBox = styled.div`
       }
     }
   }
-  @media (max-width: 480px) {
+  /* @media (max-width: 480px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-left: 0 auto;
-  }
+  } */
 `;
 
 const ResponsivePeriodBox = styled.div`
