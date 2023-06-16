@@ -1,33 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-import PretendardLight from "../fonts/PretendardLight.woff2";
-import PretendardRegular from "../fonts/PretendardRegular.woff2";
-import PretendardMedium from "../fonts/PretendardMedium.woff2";
-import PretendardBold from "../fonts/PretendardBold.woff2";
-
 const GlobalStyle = createGlobalStyle`
-
-  @font-face {
-    font-family: "Pretendard";
-    src: local('PretendardLight'), local('PretendardLight'), url(${PretendardLight}) format('woff2');
-    font-weight:300;
-  }
-  @font-face {
-    font-family: "Pretendard";
-    src: local('PretendardRegular'), local('PretendardRegular'), url(${PretendardRegular}) format('woff2');
-    font-weight:400;
-  }
-  @font-face {
-    font-family: "Pretendard";
-    src: local('PretendardMedium'), local('PretendardMedium'), url(${PretendardMedium}) format('woff2');
-    font-weight:500;
-  }
-  @font-face {
-    font-family: "Pretendard";
-    src: local('PretendardBold'), local('PretendardBold'), url(${PretendardBold}) format('woff2');
-    font-weight:700;
-  }
-
 
 html {
   box-sizing: border-box;
@@ -51,11 +24,9 @@ html {
 body {
 
   font-family: "Pretendard";
-  font-weight: 900;
+  font-weight: normal;
   margin: 0;
   padding: 0;
-  font-family: "Pretendard";
-  font-weight: normal;
   line-height: 1;
   letter-spacing: -0.025em;
   color: #222222;
