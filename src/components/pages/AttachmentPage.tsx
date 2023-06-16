@@ -16,7 +16,7 @@ const AttachmentPageBox = styled.div`
   }
 `;
 
-const TempBox = styled(FlexColumnCenterDiv)`
+const DropZone = styled(FlexColumnCenterDiv)`
   position: fixed;
   top: 0;
   left: 0;
@@ -76,12 +76,12 @@ const AttachmentPage = () => {
   return (
     <AttachmentPageBox onDragOver={handleDragOver}>
       {screenWidth > 769 && dragging && (
-        <TempBox onDragEnd={handleDragEnd} onDragLeave={handleDragLeave} onDrop={handleDrop}>
+        <DropZone onDragEnd={handleDragEnd} onDragLeave={handleDragLeave} onDrop={handleDrop}>
           <VscNewFile size={60} />
           <Span fontSize="20px" color="#fff">
             Drop Files Here
           </Span>
-        </TempBox>
+        </DropZone>
       )}
       <AttachmentSection />
       <AttachmentDescriptionSection />
