@@ -14,6 +14,7 @@ const SpeakerSelectBox = styled.div<{
   gap: 5px;
   width: 100%;
   align-items: ${(props) => props.alignItems || "end"};
+  font-size: 12px;
 
   > :nth-child(1) {
     margin-bottom: 10px;
