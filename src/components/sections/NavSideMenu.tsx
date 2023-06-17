@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
 import { useSelector } from "react-redux";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../atoms/Icon";
 import DashboardSideMenu from "./DashboardSideMenu";
+import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import Span from "../atoms/Span";
 
 const Container = styled.div``;
 
@@ -39,21 +41,30 @@ const PageLink = styled.div`
     width: 100%;
     flex-direction: column;
     gap: 0;
-    font-size: 18px;
+    font-size: 2rem;
+    font-weight: 300;
     text-align: center;
     > * {
+      line-height: 3em;
       border-bottom: 1px solid ${(props) => props.theme.border};
     }
   }
 `;
-
+const slideInAnimation = keyframes`
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
 const MobileMenuBox = styled.div`
   &.active {
     display: block;
   }
 `;
 
-const MobileMenu = styled.div`
+const MobileMenu = styled.div<{ isOpen: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -63,6 +74,9 @@ const MobileMenu = styled.div`
   height: 100vh;
   z-index: 999;
   background-color: ${(props) => props.theme.mainWhite};
+  transform: ${(props) => (props.isOpen ? "translateX(0)" : "translateX(-100%)")};
+  transition: transform 0.3s ease-in-out;
+  animation: ${(props) => (props.isOpen ? slideInAnimation : "none")} 0.3s ease-in-out;
   @media (max-width: 768px) {
     width: 50%;
   }
@@ -78,20 +92,11 @@ const MobileMenuShadow = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  width: 60%;
+  width: 100%;
   height: 100vh;
   opacity: 0.8;
-  z-index: 999;
+  z-index: 800;
   background-color: ${(props) => props.theme.mainBlack};
-  @media (max-width: 768px) {
-    width: 50%;
-  }
-  @media (max-width: 480px) {
-    width: 30%;
-  }
-  @media (max-width: 320px) {
-    width: 20%;
-  }
 `;
 
 const TopContent = styled.div`
@@ -100,6 +105,15 @@ const TopContent = styled.div`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+`;
+const IconBox = styled.div`
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-top: 2px solid ${(props) => props.theme.mainBlack};
+  border-bottom: 2px solid ${(props) => props.theme.mainBlack};
 `;
 
 const NavBar = () => {
@@ -126,7 +140,7 @@ const NavBar = () => {
       <MenuBox>
         {isOpen ? (
           <MobileMenuBox className={`${"active"}`}>
-            <MobileMenu>
+            <MobileMenu isOpen={isOpen}>
               <TopContent>
                 <MobileMenuIcon onClick={closeMenu}>
                   <Icon fontSize="3rem">
@@ -144,15 +158,18 @@ const NavBar = () => {
                 </H1>
               </TopContent>
               <PageLink>
+                <Link to="/attachment" onClick={closeMenu}>
+                  <IconBox>
+                    <Span fontWeight="700">분석하기</Span>
+                    <BsFillArrowRightCircleFill />
+                  </IconBox>
+                </Link>
                 <Link to="/" onClick={closeMenu}>
                   메인
                 </Link>
                 <Link to="/attachment" onClick={closeMenu}>
                   첨부방법
                 </Link>
-                <Link to="/attachment" onClick={closeMenu}>
-                  분석하기
-                </Link>{" "}
                 {isAnalyzedMessagesExist && (
                   <Link to="/detail" onClick={closeMenu}>
                     결과화면

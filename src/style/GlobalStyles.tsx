@@ -18,17 +18,13 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
-  outline: 1px solid #f00;
+  /* outline: 1px solid #f00; */
 }
 
 
 body {
   font-family: "Pretendard";
-<<<<<<< HEAD
-  font-weight: 900;
-=======
   font-weight: normal;
->>>>>>> d12726c (refactor:메뉴 반응형 수정)
   margin: 0;
   padding: 0;
   line-height: 1;
