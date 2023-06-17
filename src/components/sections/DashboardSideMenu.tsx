@@ -22,14 +22,9 @@ const DashboardLayoutBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 15%;
-  /* @media (max-width: 1024px) {
-    display: none;
-  } */
-
-  @media (max-width: 480px) {
-    padding: 0;
+  @media (max-width: 1024px) {
+    width: 100%;
     height: 100%;
-    text-align: center;
   }
 `;
 
@@ -42,7 +37,7 @@ const ChatroomMenuTitleBox = styled.div`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     padding: 0;
   }
 `;
@@ -53,9 +48,6 @@ const ChatroomGraphBox = styled.div`
   display: flex;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.mainBackground};
-  @media (max-width: 480px) {
-    padding: 20px;
-  }
 `;
 
 const ChatroomListTitleBox = styled.div`
@@ -67,7 +59,7 @@ const ChatroomListTitleBox = styled.div`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;

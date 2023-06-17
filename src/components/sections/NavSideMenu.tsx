@@ -59,21 +59,39 @@ const MobileMenu = styled.div`
   left: 0;
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 40%;
   height: 100vh;
   z-index: 999;
   background-color: ${(props) => props.theme.mainWhite};
+  @media (max-width: 768px) {
+    width: 50%;
+  }
+  @media (max-width: 480px) {
+    width: 70%;
+  }
+  @media (max-width: 320px) {
+    width: 80%;
+  }
 `;
 
 const MobileMenuShadow = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  width: 20%;
+  width: 60%;
   height: 100vh;
   opacity: 0.8;
   z-index: 999;
   background-color: ${(props) => props.theme.mainBlack};
+  @media (max-width: 768px) {
+    width: 50%;
+  }
+  @media (max-width: 480px) {
+    width: 30%;
+  }
+  @media (max-width: 320px) {
+    width: 20%;
+  }
 `;
 
 const TopContent = styled.div`
@@ -94,6 +112,9 @@ const NavBar = () => {
     setMenu(!isOpen);
   };
   const [isOpen, setMenu] = useState(false);
+  const handleAttachMethodClick = () => {
+    window.location.href = "/attachment#attachMethod";
+  };
 
   return (
     <Container>
@@ -123,8 +144,12 @@ const NavBar = () => {
                 </H1>
               </TopContent>
               <PageLink>
-                {isAnalyzedMessagesExist && <DashboardSideMenu />}
+                <Link to="/">메인</Link>
+                <Link onClick={handleAttachMethodClick} to={""}>
+                  첨부방법
+                </Link>
                 <Link to="/attachment">분석하기</Link>
+                {isAnalyzedMessagesExist && <DashboardSideMenu />}
                 {isAnalyzedMessagesExist && <Link to="/detail">결과화면</Link>}
               </PageLink>{" "}
             </MobileMenu>

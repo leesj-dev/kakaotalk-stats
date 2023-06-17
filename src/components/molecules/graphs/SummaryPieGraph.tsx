@@ -17,6 +17,9 @@ import { lightTheme } from "../../../style/Theme";
 import styled from "styled-components";
 import Icon from "../../atoms/Icon";
 import { setMostChattedTimes } from "../../../store/reducer/mostChattedTimes";
+import { BiLeftArrowCircle, BiRightArrowCircle } from "react-icons/bi";
+
+const SummaryBox = styled.div``;
 
 const ChatRoomIndexArrowBox = styled.div`
   position: absolute;
@@ -27,9 +30,8 @@ const ChatRoomIndexArrowBox = styled.div`
   justify-content: space-between;
   width: 98%;
   z-index: 1;
-
-  @media (max-width: 480px) {
-    width: 88%;
+  @media (max-width: 1024px) {
+    width: 80%;
   }
   > * {
     cursor: pointer;
@@ -173,8 +175,12 @@ const SummaryPieGraph = () => {
   return (
     <>
       <ChatRoomIndexArrowBox>
-        <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}>{"<"}</Icon>
-        <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)}>{">"}</Icon>
+        <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}>
+          <BiLeftArrowCircle />
+        </Icon>
+        <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)}>
+          <BiRightArrowCircle />
+        </Icon>
       </ChatRoomIndexArrowBox>
       <ResponsiveContainer width="100%" height={"100%"}>
         <PieChart>

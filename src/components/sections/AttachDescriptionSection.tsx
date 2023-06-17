@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BlueButton from "../atoms/BlueButton";
 import Paragraph from "../atoms/Paragraph";
@@ -69,8 +69,21 @@ const pcCardData = [
 
 const AttachmentDescriptionSection = () => {
   const [cardData, setCardData] = useState<CardData[]>(pcCardData);
+  useEffect(() => {
+    const handleScroll = () => {
+      const attachMethodElement = document.getElementById("attachMethod");
+      if (attachMethodElement) {
+        attachMethodElement.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+    window.addEventListener("load", handleScroll);
+
+    return () => {
+      window.removeEventListener("load", handleScroll);
+    };
+  }, []);
   return (
-    <AttachDescriptionBox>
+    <AttachDescriptionBox id="attachMethod">
       <Paragraph fontSize="24px">
         현재 실행하고 있는 기기에서 카카오톡 메시지 내보내기 방법 알아보기
       </Paragraph>

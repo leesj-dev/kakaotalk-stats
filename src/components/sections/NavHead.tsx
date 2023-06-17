@@ -34,6 +34,9 @@ const H1 = styled.h1`
     height: 30px;
     transform: translateY(-22px);
   }
+  @media (max-width: 768px) {
+    height: 30px;
+  }
 `;
 
 const MenuBox = styled.div`
