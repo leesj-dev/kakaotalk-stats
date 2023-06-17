@@ -14,13 +14,7 @@ import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
 const DashboardLayoutBox = styled.div`
-<<<<<<< HEAD
-  background-color: #ff0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   height: calc(100vh - 80px);
-=======
   position: sticky;
   top: 80px;
   left: 0;
@@ -31,7 +25,7 @@ const DashboardLayoutBox = styled.div`
   /* @media (max-width: 1024px) {
     display: none;
   } */
->>>>>>> 5bd5030 (feat: defaultTheme 생성 여기저기 css 달라짐)
+
   @media (max-width: 480px) {
     padding: 0;
     height: 100%;
