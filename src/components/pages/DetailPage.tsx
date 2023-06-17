@@ -87,7 +87,7 @@ const ContentBox = styled.div`
 
 const GraphBox = styled.div`
   margin: 15px;
-  height: 80vh;
+  height: 70vh;
   width: 100%;
   gap: 30px;
 

@@ -21,7 +21,7 @@ import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 >>>>>>> 2c82f53 (feat: 모달 좌우 이동 detail 페이지에서 나타나지 않게 하기)
 
 const ModalGraphBox = styled.div`
-  padding: 30px;
+  padding: 20px 20px 30px 20px;
   width: 100%;
   height: 100%;
   background: ${(props) => props.theme.modalBackground};
@@ -115,6 +115,7 @@ const PeriodBox = styled.div`
   padding: 10px 0;
   display: flex;
   flex-direction: column;
+  font-size: 16px;
   text-align: center;
   color: ${(props) => props.theme.mainText};
   border-top: 1px solid ${(props) => props.theme.mainGray};
@@ -203,10 +204,10 @@ const ResponsiveHeadBox = styled.div`
     > :nth-child(1) {
       justify-content: end;
       width: 100%;
-      margin-right: 7px;
+      margin-right: 12px;
       @media (max-width: 480px) {
-        margin-right: 17px;
         margin-bottom: 5px;
+        margin-right: 0;
       }
     }
     > :nth-child(2) {
