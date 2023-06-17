@@ -12,23 +12,8 @@ import { getDates } from "../../module/common/getProperties";
 import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
 import { graphContentData } from "../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-import H3 from "../atoms/H3";
-import Paragraph from "../atoms/Paragraph";
-import H2 from "../atoms/H2";
-=======
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
->>>>>>> 2c82f53 (feat: 모달 좌우 이동 detail 페이지에서 나타나지 않게 하기)
-=======
-
-=======
->>>>>>> e1740ce (충돌해결)
-import H3 from "../atoms/H3";
 import Paragraph from "../atoms/Paragraph";
-import H2 from "../atoms/H2";
->>>>>>> 3b718c5 (refactor:cardContent 해부)
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -81,22 +66,15 @@ const InfoContentBox = styled.div`
   gap: 5px;
 `;
 
-const SubjectBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const SubjectBox = styled(FlexCenterDiv)`
   justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-
-  > :nth-child(1) {
-    cursor: pointer;
-  }
-  > :nth-child(2) {
+  > * {
     display: flex;
     align-items: center;
     height: 40px;
   }
+
+  > :nth-child(1),
   > :nth-child(3) {
     cursor: pointer;
   }
@@ -139,20 +117,6 @@ const PeriodBox = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.mainGray};
   font-weight: 500;
 `;
-
-const CardContentBox = styled.div`
-  padding: 15px 0;
-  display: flex;
-  flex-direction: column;
-  text-align: start;
-  color: ${(props) => props.theme.mainText};
-
-  > :first-child {
-    > :nth-child(2) {
-      display: none;
-    }
-  }
-`;
 const Description = styled.div<{
   fontSize?: string;
 }>`
@@ -172,6 +136,20 @@ const Description = styled.div<{
     font-weight: 300;
   }
 `;
+const CardContentBox = styled.div`
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  color: ${(props) => props.theme.mainText};
+
+  > :first-child {
+    > :nth-child(2) {
+      display: none;
+    }
+  }
+`;
+
 const ResponsiveContentBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -366,7 +344,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
-                  <BsChevronLeft />
+                  {!isDetailPage && <BsChevronLeft />}
                 </Icon>
                 <Span fontSize="26px" fontWeight="500" textAlign="center">
                   {h2}
@@ -377,7 +355,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }
                 >
-                  <BsChevronRight />
+                  {!isDetailPage && <BsChevronRight />}
                 </Icon>
               </SubjectBox>
               {subject === "종합 비교" ? (
@@ -413,7 +391,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
-                  <BsChevronLeft />
+                  {!isDetailPage && <BsChevronLeft />}
                 </Icon>
                 <Span fontWeight="500" textAlign="center" fontSize="26px" responsiveFontSize="20px">
                   {h2}
@@ -423,10 +401,11 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }
                 >
-                  <BsChevronRight />
+                  {!isDetailPage && <BsChevronRight />}
                 </Icon>
               </SubjectBox>
             </ResponsiveSubjectBox>
+
             {subject === "종합 비교" ? (
               <SpeakerSelectBox></SpeakerSelectBox>
             ) : (
@@ -437,6 +416,9 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
             )}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
+          {/* <ResponsiveParagraphBox>
+            <Span fontSize="18px">{p}</Span>
+          </ResponsiveParagraphBox> */}
         </ResponsiveContentBox>
       )}
     </ModalGraphBox>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BlueButton from "../atoms/BlueButton";
 import Paragraph from "../atoms/Paragraph";
@@ -69,19 +69,7 @@ const pcCardData = [
 
 const AttachmentDescriptionSection = () => {
   const [cardData, setCardData] = useState<CardData[]>(pcCardData);
-  useEffect(() => {
-    const handleScroll = () => {
-      const attachMethodElement = document.getElementById("attachMethod");
-      if (attachMethodElement) {
-        attachMethodElement.scrollIntoView({ behavior: "smooth" });
-      }
-    };
-    window.addEventListener("load", handleScroll);
 
-    return () => {
-      window.removeEventListener("load", handleScroll);
-    };
-  }, []);
   return (
     <AttachDescriptionBox id="attachMethod">
       <Paragraph fontSize="24px">
