@@ -6,19 +6,22 @@ import { getSpeakers } from "../../module/common/getProperties";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 import Span from "../atoms/Span";
 
-const SpeakerSelectBox = styled.div<{
-  alignItems?: string;
-}>`
+const SpeakerSelectBox = styled.div<{ alignItems?: string }>`
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
   align-items: ${(props) => props.alignItems || "end"};
+  font-size: 12px;
 
   > :nth-child(1) {
     margin-bottom: 10px;
   }
 `;
+
+const Select = styled.select``;
+
+const Option = styled.option``;
 
 interface SpeakerSelectProps {
   alignItems?: string;
@@ -49,22 +52,22 @@ const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
   return (
     <SpeakerSelectBox alignItems={alignItems}>
       <Span color="#7e848a">강조할 대화자</Span>
-      <select
+      <Select
         value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
         onChange={handleChangeSpeaker}
       >
-        <option value="전체" key="전체">
+        <Option value="전체" key="전체">
           전체
-        </option>
+        </Option>
         {speakers[selectedChatRoomIndex]?.map((speaker, index) => {
           const displayName = speaker.length > 6 ? speaker.substring(0, 6) + "..." : speaker;
           return (
-            <option value={index} key={index}>
+            <Option value={index} key={index}>
               {displayName}
-            </option>
+            </Option>
           );
         })}
-      </select>
+      </Select>
       <Span fontSize="12px" color="#0D6EFD">
         *대화자 선택 가능
       </Span>

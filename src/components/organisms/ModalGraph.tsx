@@ -13,9 +13,10 @@ import { getDates } from "../../module/common/getProperties";
 import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
 import { graphContentData } from "../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 
 const ModalGraphBox = styled.div`
-  padding: 30px;
+  padding: 20px 20px 30px 20px;
   width: 100%;
   height: 100%;
   background: ${(props) => props.theme.modalBackground};
@@ -65,22 +66,15 @@ const InfoContentBox = styled.div`
   gap: 5px;
 `;
 
-const SubjectBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const SubjectBox = styled(FlexCenterDiv)`
   justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-
-  > :nth-child(1) {
-    cursor: pointer;
-  }
-  > :nth-child(2) {
+  > * {
     display: flex;
     align-items: center;
     height: 40px;
   }
+
+  > :nth-child(1),
   > :nth-child(3) {
     cursor: pointer;
   }
@@ -116,6 +110,7 @@ const PeriodBox = styled.div`
   padding: 10px 0;
   display: flex;
   flex-direction: column;
+  font-size: 16px;
   text-align: center;
   color: ${(props) => props.theme.mainText};
   border-top: 1px solid ${(props) => props.theme.mainGray};
@@ -164,10 +159,17 @@ const ResponsiveHeadBox = styled.div`
     height: 100%;
   }
   > :nth-child(1) {
+    align-items: start;
+    justify-content: center;
+    > :nth-child(1) {
+      @media (max-width: 480px) {
+        font-size: 16px;
+      }
+    }
     > :nth-child(2) {
       height: 60px;
       @media (max-width: 480px) {
-        height: 30px;
+        height: 22px;
       }
     }
   }
@@ -177,14 +179,28 @@ const ResponsiveHeadBox = styled.div`
     margin-left: auto;
 
     > :nth-child(1) {
-      margin-right: 7px;
+      justify-content: end;
+      width: 100%;
+      margin-right: 12px;
+      @media (max-width: 480px) {
+        margin-bottom: 5px;
+        margin-right: 0;
+      }
+    }
+    > :nth-child(2) {
+      justify-content: end;
+      align-items: end;
+      width: 100%;
+      margin-right: 19px;
+
+      @media (max-width: 480px) {
+        margin: 0 auto;
+      }
     }
     > * {
-      margin-left: auto;
       > * {
-        margin-left: auto;
         @media (max-width: 480px) {
-          margin: 0 auto;
+          margin-left: 0 auto;
         }
       }
       @media (max-width: 480px) {
@@ -192,15 +208,16 @@ const ResponsiveHeadBox = styled.div`
       }
     }
   }
-  @media (max-width: 480px) {
+  /* @media (max-width: 480px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-left: 0 auto;
-  }
+  } */
 `;
 
 const ResponsivePeriodBox = styled.div`
+  font-size: 16px;
   margin-bottom: 5px;
 `;
 
@@ -309,7 +326,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
-                  <BsChevronLeft />
+                  {!isDetailPage && <BsChevronLeft />}
                 </Icon>
                 <Span fontSize="26px" fontWeight="500" textAlign="center">
                   {h2}
@@ -320,7 +337,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }
                 >
-                  <BsChevronRight />
+                  {!isDetailPage && <BsChevronRight />}
                 </Icon>
               </SubjectBox>
               {subject === "종합 비교" ? (
@@ -354,9 +371,9 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
-                  <BsChevronLeft />
+                  {!isDetailPage && <BsChevronLeft />}
                 </Icon>
-                <Span fontWeight="500" textAlign="center">
+                <Span fontWeight="500" textAlign="center" fontSize="26px" responsiveFontSize="20px">
                   {h2}
                 </Span>
                 <Icon
@@ -364,7 +381,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }
                 >
-                  <BsChevronRight />
+                  {!isDetailPage && <BsChevronRight />}
                 </Icon>
               </SubjectBox>
             </ResponsiveSubjectBox>

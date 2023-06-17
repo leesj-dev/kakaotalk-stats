@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
@@ -7,11 +7,6 @@ import { setSelectedSpeakerIndex } from "../../../store/reducer/selectedSpeakerI
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 
 const RADIAN = Math.PI / 180;
-
-const cx = 50;
-const cy = 50;
-const iR = 25;
-const oR = 50;
 
 const needle = (
   value: number,
@@ -74,6 +69,22 @@ const ChatRatioWithArrowGraph = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
+
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+
+  let scale = 1;
+  if (screenWidth < 480) {
+    scale = 0.7;
+  }
+
+  const cx = 50 * scale,
+    cy = 50 * scale,
+    iR = 25 * scale,
+    oR = 50 * scale;
+
   const selectedChatRoomData = results[selectedChatRoomIndex];
   const speakerTotalChatCounts: Record<string, number> = {};
   Object.values(selectedChatRoomData).forEach((chatroom) => {
@@ -101,9 +112,16 @@ const ChatRatioWithArrowGraph = () => {
     dispatch(setSelectedSpeakerIndex(index));
   };
 
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div style={{ width: "100%", maxWidth: "300px" }}>
-      <PieChart width={110} height={60}>
+    <div style={{ width: "100%" }}>
+      <PieChart width={110 * scale} height={60 * scale}>
         <Tooltip />
         <Pie
           dataKey="value"
