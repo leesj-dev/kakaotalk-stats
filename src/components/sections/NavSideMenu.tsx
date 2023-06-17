@@ -112,9 +112,9 @@ const NavBar = () => {
     setMenu(!isOpen);
   };
   const [isOpen, setMenu] = useState(false);
-  const handleAttachMethodClick = () => {
-    window.location.href = "/attachment#attachMethod";
-  };
+  // const handleAttachMethodClick = () => {
+  //   window.location.href = "/attachment#attachMethod";
+  // };
 
   return (
     <Container>
@@ -144,13 +144,21 @@ const NavBar = () => {
                 </H1>
               </TopContent>
               <PageLink>
-                <Link to="/">메인</Link>
-                <Link onClick={handleAttachMethodClick} to={""}>
+                <Link to="/" onClick={closeMenu}>
+                  메인
+                </Link>
+                <Link to="/attachment" onClick={closeMenu}>
                   첨부방법
                 </Link>
-                <Link to="/attachment">분석하기</Link>
+                <Link to="/attachment" onClick={closeMenu}>
+                  분석하기
+                </Link>{" "}
+                {isAnalyzedMessagesExist && (
+                  <Link to="/detail" onClick={closeMenu}>
+                    결과화면
+                  </Link>
+                )}
                 {isAnalyzedMessagesExist && <DashboardSideMenu />}
-                {isAnalyzedMessagesExist && <Link to="/detail">결과화면</Link>}
               </PageLink>{" "}
             </MobileMenu>
             <MobileMenuShadow></MobileMenuShadow>
