@@ -13,9 +13,9 @@ const Container = styled.div``;
 
 const H1 = styled.h1`
   height: 40px;
+  transform: translateY(-28px);
   &.active {
     height: 30px;
-    transform: translateY(-22px);
   }
   @media (max-width: 768px) {
     height: 30px;
@@ -31,6 +31,7 @@ const MobileMenuIcon = styled.div`
   display: none;
   @media (max-width: 1024px) {
     display: flex;
+    transform: translateY(4px);
   }
 `;
 
@@ -50,6 +51,7 @@ const PageLink = styled.div`
     }
   }
 `;
+
 const slideInAnimation = keyframes`
   from {
     transform: translateX(-100%);
@@ -58,6 +60,7 @@ const slideInAnimation = keyframes`
     transform: translateX(0);
   }
 `;
+
 const MobileMenuBox = styled.div`
   &.active {
     display: block;
@@ -94,7 +97,7 @@ const MobileMenuShadow = styled.div`
   right: 0;
   width: 100%;
   height: 100vh;
-  opacity: 0.8;
+  opacity: 0.9;
   z-index: 800;
   background-color: ${(props) => props.theme.mainBlack};
 `;
@@ -106,7 +109,8 @@ const TopContent = styled.div`
   align-items: center;
   cursor: pointer;
 `;
-const IconBox = styled.div`
+
+const AnalysisBox = styled.div`
   padding: 15px 0;
   display: flex;
   justify-content: center;
@@ -159,10 +163,10 @@ const NavBar = () => {
               </TopContent>
               <PageLink>
                 <Link to="/attachment" onClick={closeMenu}>
-                  <IconBox>
+                  <AnalysisBox>
                     <Span fontWeight="700">분석하기</Span>
                     <BsFillArrowRightCircleFill />
-                  </IconBox>
+                  </AnalysisBox>
                 </Link>
                 <Link to="/" onClick={closeMenu}>
                   메인
@@ -176,7 +180,7 @@ const NavBar = () => {
                   </Link>
                 )}
                 {isAnalyzedMessagesExist && <DashboardSideMenu />}
-              </PageLink>{" "}
+              </PageLink>
             </MobileMenu>
             <MobileMenuShadow></MobileMenuShadow>
           </MobileMenuBox>

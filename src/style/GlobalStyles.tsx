@@ -21,7 +21,6 @@ html {
   /* outline: 1px solid #f00; */
 }
 
-
 body {
   font-family: "Pretendard";
   font-weight: normal;
@@ -30,7 +29,6 @@ body {
   line-height: 1;
   letter-spacing: -0.025em;
   color: #222222;
-
 }
 
 ul,
