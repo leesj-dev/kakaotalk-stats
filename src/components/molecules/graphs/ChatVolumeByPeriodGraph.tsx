@@ -128,7 +128,9 @@ const ChatVolumeByPeriodGraph = () => {
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
                 strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
                 fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-                fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
+                fillOpacity={
+                  selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
+                }
               />
             );
           })}
@@ -171,7 +173,7 @@ const ChatVolumeByPeriodGraph = () => {
                     strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
                     fill={colorsForGraphArray[index % colorsForGraphArray.length]}
                     fillOpacity={
-                      selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4
+                      selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
                     }
                     style={{ transition: "ease-in-out 0.7s" }}
                   />

@@ -129,7 +129,9 @@ const ChatRateGraph = () => {
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
                 fill={colorsForGraphArray[index % colorsForGraphArray.length]}
                 strokeWidth={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 0 : 0.3}
-                fillOpacity={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4}
+                fillOpacity={
+                  selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
+                }
               />
             );
           })}

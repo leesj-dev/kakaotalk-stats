@@ -222,7 +222,7 @@ const ReplySpeedGraph = () => {
 
           <Tooltip />
           {/* <Legend /> */}
-          <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" />
+          <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" fillOpacity={0.85} />
           <ReferenceLine
             y={getAverageReplyTime(displayData)}
             yAxisId="left"
