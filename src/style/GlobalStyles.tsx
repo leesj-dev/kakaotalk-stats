@@ -6,9 +6,6 @@ html {
   box-sizing: border-box;
   font-size: 10px;
   background: ${(props) => props.theme.mainBackground};
-  color:#f0f;
-  background:#f00;
-  
   @media (max-width: 768px) {
 	font-size: 8px;
   }
@@ -18,7 +15,6 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
-  /* outline: 1px solid #f00; */
 }
 
 body {
@@ -29,6 +25,7 @@ body {
   line-height: 1;
   letter-spacing: -0.025em;
   color: #222222;
+  
 }
 
 ul,

@@ -178,6 +178,7 @@ const SummaryPieGraph = () => {
         <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}>
           <BiLeftArrowCircle />
         </Icon>
+
         <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)}>
           <BiRightArrowCircle />
         </Icon>

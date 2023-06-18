@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
@@ -12,8 +12,11 @@ import Span from "../atoms/Span";
 const Container = styled.div``;
 
 const H1 = styled.h1`
+  position: absolute;
+  left: 50%;
+
   height: 40px;
-  transform: translateY(-28px);
+  transform: translate(-50%, -28px);
   &.active {
     height: 30px;
   }
@@ -76,10 +79,11 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
   width: 40%;
   height: 100vh;
   z-index: 999;
-  background-color: ${(props) => props.theme.mainWhite};
+  overflow: ${(props) => (props.isOpen ? "hidden" : "auto")};
   transform: ${(props) => (props.isOpen ? "translateX(0)" : "translateX(-100%)")};
   transition: transform 0.3s ease-in-out;
   animation: ${(props) => (props.isOpen ? slideInAnimation : "none")} 0.3s ease-in-out;
+  background-color: ${(props) => props.theme.mainWhite};
   @media (max-width: 768px) {
     width: 50%;
   }
@@ -133,6 +137,15 @@ const NavBar = () => {
   // const handleAttachMethodClick = () => {
   //   window.location.href = "/attachment#attachMethod";
   // };
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 스크롤 이벤트 제어
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
+
+    // 컴포넌트가 언마운트될 때 스크롤 이벤트 초기화
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   return (
     <Container>
