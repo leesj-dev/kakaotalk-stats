@@ -72,7 +72,7 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
       <OsList />
       {screenWidth > 769 ? (
         <TextContentBox>
-          <Span fontSize="18px">내보내기한 카카오톡 텍스트 파일을 드래그하여 끌어 놓거나</Span>
+          <Span fontSize="18px">카카오톡 텍스트 파일을 드래그하여 끌어 놓거나</Span>
           <AttachmentBox>
             <AttachmentButton onChange={handleChangeFile}>첨부하기</AttachmentButton>
             <Paragraph fontSize="18px">버튼을 클릭하세요.</Paragraph>
