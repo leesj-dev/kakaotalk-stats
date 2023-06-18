@@ -164,7 +164,7 @@ const NavBar = () => {
                     <HiMenu />
                   </Icon>
                 </MobileMenuIcon>
-                <H1 className="active">
+                <H1 className={isOpen ? "active" : ""}>
                   <Link to="/">
                     <Img
                       src={`${process.env.PUBLIC_URL}/images/logo/${

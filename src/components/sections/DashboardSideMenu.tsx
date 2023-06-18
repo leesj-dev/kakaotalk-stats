@@ -46,8 +46,15 @@ const ChatroomGraphBox = styled.div`
   position: relative;
   padding: 15px;
   display: flex;
+  height: 200px;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.mainBackground};
+  @media (max-width: 1100px) {
+    height: 100px;
+  }
+  @media (max-width: 1024px) {
+    height: 200px;
+  }
 `;
 
 const ChatroomListTitleBox = styled.div`
@@ -150,7 +157,7 @@ const DashboardSideMenu = () => {
   return (
     <DashboardLayoutBox>
       <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
-      <ChatroomGraphBox style={{ height: "200px" }}>
+      <ChatroomGraphBox>
         <SummaryPieGraph />
       </ChatroomGraphBox>
       <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
@@ -160,7 +167,12 @@ const DashboardSideMenu = () => {
             <ChatRoomBox
               key={index}
               className={`${selectedChatRoomIndex === index && "active"}`}
-              onClick={() => handleClickChatRoom(index)}
+              onClick={() => {
+                if (window.innerWidth < 1024) {
+                  window.location.href = `/detail/${index}`;
+                }
+                handleClickChatRoom(index);
+              }}
             >
               <ChatRoomHead>
                 <Paragraph fontWeight="500">

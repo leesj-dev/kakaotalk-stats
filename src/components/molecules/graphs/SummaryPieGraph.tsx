@@ -19,26 +19,31 @@ import Icon from "../../atoms/Icon";
 import { setMostChattedTimes } from "../../../store/reducer/mostChattedTimes";
 import { BiLeftArrowCircle, BiRightArrowCircle } from "react-icons/bi";
 
-const SummaryBox = styled.div``;
-
-const ChatRoomIndexArrowBox = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+const Contianer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 98%;
-  z-index: 1;
-  @media (max-width: 1024px) {
-    width: 80%;
-  }
-  > * {
-    cursor: pointer;
-    font-weight: 200;
-    font-size: 30px;
-  }
+  align-items: center;
+  width: 100%;
 `;
+
+// const ChatRoomIndexArrowBox = styled.div`
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   display: flex;
+//   justify-content: space-between;
+//   width: 98%;
+//   z-index: 1;
+//   @media (max-width: 1024px) {
+//     width: 80%;
+//   }
+//   > * {
+//     cursor: pointer;
+//     font-weight: 200;
+//     font-size: 30px;
+//   }
+// `;
 
 export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   let totalChatCounts: number[] = [];
@@ -173,16 +178,11 @@ const SummaryPieGraph = () => {
   // };
 
   return (
-    <>
-      <ChatRoomIndexArrowBox>
-        <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}>
-          <BiLeftArrowCircle />
-        </Icon>
-
-        <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)}>
-          <BiRightArrowCircle />
-        </Icon>
-      </ChatRoomIndexArrowBox>
+    <Contianer>
+      {/* <ChatRoomIndexArrowBox></ChatRoomIndexArrowBox> */}
+      <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)} fontSize="3rem">
+        <BiLeftArrowCircle />
+      </Icon>
       <ResponsiveContainer width="100%" height={"100%"}>
         <PieChart>
           <Pie
@@ -208,7 +208,10 @@ const SummaryPieGraph = () => {
           </Pie>
           <Tooltip />
         </PieChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer>{" "}
+      <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)} fontSize="3rem">
+        <BiRightArrowCircle />
+      </Icon>
       {/* 
       <ResponsiveContainer width="100%" height="100%">
         <BarChart layout="vertical" data={pieGraphData}>
@@ -225,7 +228,6 @@ const SummaryPieGraph = () => {
           </Bar>
         </BarChart>
       </ResponsiveContainer> */}
-
       {/* {selectedChatRoomData && (
         <div>
           <GraphInformation unit={"총 대화 수"} value={selectedChatRoomData.totalChatCount.toString()} />
@@ -248,7 +250,7 @@ const SummaryPieGraph = () => {
           })}
         </div>
       )} */}
-    </>
+    </Contianer>
   );
 };
 
