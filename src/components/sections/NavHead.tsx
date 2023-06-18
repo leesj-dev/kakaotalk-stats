@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Img from "../atoms/Img";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../../style/Theme";
@@ -10,6 +10,7 @@ import { HiMenu } from "react-icons/hi";
 import { CgClose } from "react-icons/cg";
 import Icon from "../atoms/Icon";
 import DashboardSideMenu from "./DashboardSideMenu";
+import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 
 const NavWrap = styled.div`
   position: fixed;
@@ -76,10 +77,12 @@ const DarkModeButton = styled.div`
   position: relative;
   width: 80px;
   height: 40px;
+  transition: 0.3s;
   cursor: pointer;
   > * {
     color: ${lightTheme.navBackground};
     background: ${darkTheme.navBackground};
+    pointer-events: none;
   }
   &.active {
     > * {
@@ -185,7 +188,22 @@ const TopContent = styled.div`
   cursor: pointer;
 `;
 
+const NoticeBox = styled(FlexCenterDiv)`
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  padding: 0px;
+  width: 220%;
+  height: 60%;
+  font-size: 14px;
+  font-weight: 500;
+  transform: translateX(-50%);
+`;
+
 const NavBar = () => {
+  const isDetailPage = useLocation().pathname.includes("detail");
+  const isDashboardPage = useLocation().pathname.includes("dashboard");
+
   const dispatch = useDispatch();
 
   const isAnalyzedMessagesExist = useSelector(
@@ -232,6 +250,9 @@ const NavBar = () => {
                   <BsFillBrightnessHighFill />
                   <BsFillMoonStarsFill />
                 </IconBox>
+                {(isDetailPage || isDashboardPage) && (
+                  <NoticeBox>다크모드로 볼 때 더 잘보여요.</NoticeBox>
+                )}
               </DarkModeButton>
             </PcMenu>
           </Menu>
