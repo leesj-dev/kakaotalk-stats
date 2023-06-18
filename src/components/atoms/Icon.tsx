@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const I = styled.i<{ fontSize?: string; color?: string; cursor?: string; fontWeight?: string }>`
   font-size: ${(props) => props.fontSize || "16px"};
-  color: ${(props) => props.theme.mainText || "mainWhite"};
+  color: ${(props) => props.color || "mainText"};
   cursor: ${(props) => props.cursor && "pointer"};
   font-weight: ${(props) => props.fontWeight || "300"};
 `;
