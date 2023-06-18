@@ -12,6 +12,7 @@ import Paragraph from "../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
+import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
 const DashboardLayoutBox = styled.div`
   height: calc(100vh - 80px);
@@ -153,7 +154,13 @@ const DashboardSideMenu = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const isSideMenuChatRoom = useSelector(
+    (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
+  );
 
+  const closeMenu = () => {
+    dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
+  };
   return (
     <DashboardLayoutBox>
       <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
@@ -168,9 +175,6 @@ const DashboardSideMenu = () => {
               key={index}
               className={`${selectedChatRoomIndex === index && "active"}`}
               onClick={() => {
-                if (window.innerWidth < 1024) {
-                  window.location.href = `/detail/${index}`;
-                }
                 handleClickChatRoom(index);
               }}
             >
@@ -180,11 +184,16 @@ const DashboardSideMenu = () => {
                 </Paragraph>
               </ChatRoomHead>
               <Span>{name}</Span>
-              {window.innerWidth > 1024 && (
-                <Span underline fontWeight="500">
+
+              <Span underline fontWeight="500">
+                {window.innerWidth > 1024 ? (
                   <Link to={`/detail`}>상세보기 {">"}</Link>
-                </Span>
-              )}
+                ) : (
+                  <Link to={`/detail`} onClick={closeMenu}>
+                    상세보기 {">"}
+                  </Link>
+                )}
+              </Span>
             </ChatRoomBox>
           );
         })}

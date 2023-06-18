@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../atoms/Img";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../atoms/Icon";
 import DashboardSideMenu from "./DashboardSideMenu";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import Span from "../atoms/Span";
+import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
 const Container = styled.div``;
 
@@ -70,7 +71,7 @@ const MobileMenuBox = styled.div`
   }
 `;
 
-const MobileMenu = styled.div<{ isOpen: boolean }>`
+const MobileMenu = styled.div<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -79,10 +80,10 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
   width: 40%;
   height: 100vh;
   z-index: 999;
-  overflow: ${(props) => (props.isOpen ? "hidden" : "auto")};
-  transform: ${(props) => (props.isOpen ? "translateX(0)" : "translateX(-100%)")};
+  overflow: ${(props) => (props.isSideMenuChatRoom ? "hidden" : "auto")};
+  transform: ${(props) => (props.isSideMenuChatRoom ? "translateX(0)" : "translateX(-100%)")};
   transition: transform 0.3s ease-in-out;
-  animation: ${(props) => (props.isOpen ? slideInAnimation : "none")} 0.3s ease-in-out;
+  animation: ${(props) => (props.isSideMenuChatRoom ? slideInAnimation : "none")} 0.3s ease-in-out;
   background-color: ${(props) => props.theme.mainWhite};
   @media (max-width: 768px) {
     width: 50%;
@@ -125,27 +126,37 @@ const AnalysisBox = styled.div`
 `;
 
 const NavBar = () => {
+  const dispatch = useDispatch();
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+  const isSideMenuChatRoom = useSelector(
+    (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
+  );
 
   const closeMenu = () => {
-    setMenu(!isOpen);
+    dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
   };
-  const [isOpen, setMenu] = useState(false);
-  // const handleAttachMethodClick = () => {
-  //   window.location.href = "/attachment#attachMethod";
-  // };
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때 스크롤 이벤트 제어
-    document.body.style.overflow = isOpen ? "hidden" : "auto";
 
-    // 컴포넌트가 언마운트될 때 스크롤 이벤트 초기화
-    return () => {
-      document.body.style.overflow = "auto";
+  useEffect(() => {
+    const handleScroll = () => {
+      // isSideMenuChatRoom이 true일 때만 스크롤 제어
+      if (isSideMenuChatRoom) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "auto";
+      }
     };
-  }, [isOpen]);
+
+    // 컴포넌트가 마운트될 때 스크롤 이벤트 리스너 등록
+    window.addEventListener("scroll", handleScroll);
+
+    // 컴포넌트가 언마운트될 때 스크롤 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isSideMenuChatRoom]);
 
   return (
     <Container>
@@ -155,16 +166,16 @@ const NavBar = () => {
         </Icon>
       </MobileMenuIcon>
       <MenuBox>
-        {isOpen ? (
+        {isSideMenuChatRoom && (
           <MobileMenuBox className={`${"active"}`}>
-            <MobileMenu isOpen={isOpen}>
+            <MobileMenu isSideMenuChatRoom>
               <TopContent>
                 <MobileMenuIcon onClick={closeMenu}>
                   <Icon fontSize="3rem">
                     <HiMenu />
                   </Icon>
                 </MobileMenuIcon>
-                <H1 className={isOpen ? "active" : ""}>
+                <H1>
                   <Link to="/">
                     <Img
                       src={`${process.env.PUBLIC_URL}/images/logo/${
@@ -197,7 +208,7 @@ const NavBar = () => {
             </MobileMenu>
             <MobileMenuShadow></MobileMenuShadow>
           </MobileMenuBox>
-        ) : null}
+        )}
       </MenuBox>
     </Container>
   );
