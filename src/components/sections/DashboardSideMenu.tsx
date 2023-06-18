@@ -73,9 +73,9 @@ const ChatroomListBox = styled.div`
   width: 100%;
   overflow-y: scroll;
   background-color: ${(props) => props.theme.mainBackground};
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     padding: 20px 20px;
-    height: 300px;
+    height: 200px;
     border-bottom: 1px solid ${(props) => props.theme.border};
   }
   &::-webkit-scrollbar {
@@ -168,7 +168,7 @@ const DashboardSideMenu = () => {
                 </Paragraph>
               </ChatRoomHead>
               <Span>{name}</Span>
-              {window.innerWidth > 480 && ( // 현재 윈도우의 가로 크기가 480보다 클 때만 렌더링
+              {window.innerWidth > 1024 && (
                 <Span underline fontWeight="500">
                   <Link to={`/detail`}>상세보기 {">"}</Link>
                 </Span>
