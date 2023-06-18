@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import FunctionCard from "../organisms/FunctionCard";
 import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
 import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
+import MainDescriptionSection from "../sections/MainDescriptionSection";
 
 const MainContainer = styled(FlexColumnCenterDiv)`
   padding: 100px 20px;
@@ -26,7 +26,7 @@ const MainPage = () => {
   return (
     <MainContainer>
       <MainVisual onMoveToFunctionCard={onMoveToFunctionCard} />
-      <FunctionCard moveScrollPosition={moveScrollPosition} />
+      <MainDescriptionSection moveScrollPosition={moveScrollPosition} />
     </MainContainer>
   );
 };
