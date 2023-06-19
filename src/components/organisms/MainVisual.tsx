@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../molecules/ScrollIndicator";
 import BlueButton from "../atoms/BlueButton";
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
+import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled(FlexCenterDiv)`
   width: 100%;
@@ -29,7 +30,7 @@ const MainVisualContainer = styled(FlexCenterDiv)`
 `;
 
 const AsideBox = styled.div`
-  width: 50%;
+  width: 40%;
   margin-right: 30px;
 
   @media (max-width: 768px) {
@@ -37,10 +38,10 @@ const AsideBox = styled.div`
     margin-right: 0;
     text-align: center;
   }
-  > :nth-child(2) {
+  > :nth-child(1) {
     margin-bottom: 30px;
   }
-  > :nth-child(3) {
+  > :nth-child(2) {
     display: inline-block;
     text-decoration: underline;
     text-underline-position: under;
@@ -55,7 +56,7 @@ const AsideBox = styled.div`
 `;
 
 const ArticleBox = styled.div`
-  width: 50%;
+  width: 60%;
   @media (max-width: 768px) {
     margin-bottom: 40px;
     width: 100%;
@@ -63,14 +64,21 @@ const ArticleBox = styled.div`
 `;
 
 const LogoBox = styled.div`
-  margin-bottom: 30px;
-  font-size: 3.6rem;
+  margin-bottom: 20px;
   font-weight: 700;
 `;
 
-const MainVisualImgBox = styled.div`
-  box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
+const MainTitle = styled(Paragraph)`
+  margin-bottom: 20px;
 `;
+
+const SubTitle = styled(Paragraph)`
+  margin-bottom: 20px;
+`;
+
+const ContentText = styled(Paragraph)``;
+
+const MainVisualImgBox = styled.div``;
 
 interface MainVisualProps {
   onMoveToFunctionCard: () => void;
@@ -79,23 +87,22 @@ interface MainVisualProps {
 const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
   const navigate = useNavigate();
 
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   return (
     <MainVisualContainer>
       <AsideBox>
         <LogoBox>
-          <Paragraph fontSize="3.6rem" fontWeight="100" lineHeight="1.5">
+          <MainTitle fontSize="4.8rem" fontWeight="700">
             카카오돋보기 2023
-          </Paragraph>
-          <Paragraph fontSize="2.8rem" lineHeight="1.5" fontWeight="900" color="#a6a6a6">
-            내가 좋아하는 사람을 내것으로 만들기 위한 필수
-            사이트⭐100%성공보장없음⭐즐겁다❗❗❗구독좋아요알림설정👍확률2배UP EVENT✅이 사이트는 무료로
-            해줍니다🥰원하다 당신의 관심이🙇‍♂️메시지 분석하러가기💯안전사이트비밀보장💯
-          </Paragraph>
+          </MainTitle>
+          <SubTitle fontSize="2.6rem">
+            콘솔, PC 또는 클라우드에서 수백 개의 고품질 게임을 즐기세요.
+          </SubTitle>
+          <ContentText fontSize="1.6rem">
+            구독은 Microsoft 계정을 통해 취소하지 않는 한 자동 연장됩니다.
+          </ContentText>
         </LogoBox>
-        <Paragraph fontSize="2.2rem" lineHeight="1.5">
-          카카오돋보기는 대화를 분석하여 인사이트를 제공하는 도구입니다. 대화의 양이나 시간대와 같은
-          정보를 통하여 재미보셈
-        </Paragraph>
         <BlueButton onClick={() => navigate("/attachment")}>GET STARTED</BlueButton>
         <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
           카카오 돋보기의 분석 기능
@@ -103,7 +110,13 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
       </AsideBox>
       <ArticleBox>
         <MainVisualImgBox>
-          <Img src={`${process.env.PUBLIC_URL}/images/main/mainVisual.png`} />
+          <Img
+            src={
+              isDarkMode
+                ? `${process.env.PUBLIC_URL}/images/main/dashboardDark.png`
+                : `${process.env.PUBLIC_URL}/images/main/dashboard.png`
+            }
+          />
         </MainVisualImgBox>
       </ArticleBox>
     </MainVisualContainer>

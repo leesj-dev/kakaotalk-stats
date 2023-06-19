@@ -228,7 +228,7 @@ const functionCardData = [
 ];
 
 interface Props {
-  moveScrollPosition: React.MutableRefObject<HTMLDivElement | null>;
+  moveScrollPosition?: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 const FunctionCard = ({ moveScrollPosition }: Props) => {

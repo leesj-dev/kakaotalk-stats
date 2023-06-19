@@ -26,6 +26,9 @@ const DropZone = styled(FlexColumnCenterDiv)`
   color: #fff;
   background: #00000081;
   z-index: 998;
+  > * {
+    pointer-events: none;
+  }
 `;
 
 const AttachmentPage = () => {

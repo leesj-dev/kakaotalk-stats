@@ -13,9 +13,9 @@ import { useLocation } from "react-router";
 const CloudBox = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  left: 5%;
+  width: 95%;
+  height: 95.5%;
   overflow: hidden;
   z-index: -1;
 `;
@@ -50,7 +50,7 @@ const KeywordChartGraph = () => {
 
   const containerRef = useRef<any>(null);
 
-  const [DISPLAY_KEYWORD_COUNT, setDISPLAY_KEYWORD_COUNT] = useState<number>(5);
+  const [DISPLAY_KEYWORD_COUNT, setDISPLAY_KEYWORD_COUNT] = useState<number>(10);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
 
   const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
@@ -134,7 +134,7 @@ const KeywordChartGraph = () => {
             tick={customTickColor(isDarkMode)}
           />
           <Tooltip />
-          <Bar dataKey="value" fill={setRotationColor(currentSpeakerIndex)} opacity={0.5} />
+          <Bar dataKey="value" fill={setRotationColor(currentSpeakerIndex)} opacity={0.85} />
         </BarChart>
       </ResponsiveContainer>
     </>
