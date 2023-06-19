@@ -3,7 +3,6 @@ import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./style/Theme";
 import MainPage from "./components/pages/MainPage";
 import { Routes, Route } from "react-router-dom";
-import NavHead from "./components/sections/NavHead";
 import AttachmentPage from "./components/pages/AttachmentPage";
 import DashboardPage from "./components/pages/DashboardPage";
 import Footer from "./components/sections/Footer";
@@ -12,10 +11,11 @@ import { useSelector } from "react-redux";
 import FloatingMenu from "./components/organisms/FloatingMenu";
 import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
+import NavHead from "./components/sections/NavHead";
+
 
 function App() {
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
-
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <GlobalStyle />

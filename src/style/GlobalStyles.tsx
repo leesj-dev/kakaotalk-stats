@@ -15,9 +15,6 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
-}
-
-
 body {
   font-family: "Pretendard";
   font-weight: normal;

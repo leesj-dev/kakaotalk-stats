@@ -5,7 +5,7 @@ const ParagraphComponent = styled.p<{ fontSize?: string; lineHeight?: string; fo
   flex-direction: column;
   font-size: ${(props) => props.fontSize || "16px"};
   font-weight: ${(props) => props.fontWeight || "300"};
-  color: ${(props) => props.color || props.theme.mainText};
+  color: ${(props) => props.color};
   line-height: ${(props) => props.lineHeight || "1"};
   letter-spacing: 0.01em;
 `;
