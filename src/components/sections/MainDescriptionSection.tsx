@@ -20,7 +20,7 @@ const Container = styled.div`
   }
 `;
 
-const CardBox = styled.div`
+const CardBox = styled.div<{ darkMode?: boolean }>`
   padding: 20px;
   width: calc((100% / 3) - (20 * 2px / 3));
   > * {
@@ -29,19 +29,14 @@ const CardBox = styled.div`
   }
   color: ${(props) => props.theme.mainText};
   background: ${(props) => props.theme.mainWhite};
-  box-shadow: 2px 0px 10px 0px #ddd;
   border-radius: 10px;
   transition: 0.3s;
-  &.dark {
-    box-shadow: none;
-  }
+  box-shadow: ${(props) => (props.darkMode ? `none` : `2px 0px 10px 0px #ddd`)};
+
   &:hover {
     transform: scale(1.02);
-    box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
-    &.dark {
-      box-shadow: none;
-      background: ${(props) => props.theme.modalContentBackground};
-    }
+    box-shadow: ${(props) => (props.darkMode ? `none` : `0px 0px 7px 1px   ${props.theme.mainBlue}`)};
+    background: ${(props) => props.darkMode && `${props.theme.modalContentBackground}`};
   }
 
   @media (max-width: 1200px) {
@@ -125,7 +120,7 @@ const MainDescriptionSection = ({ moveScrollPosition }: Props) => {
   return (
     <Container ref={moveScrollPosition}>
       {functionCardData.map((data, index) => (
-        <CardBox className={` ${isDarkMode ? "dark" : ""}`}>
+        <CardBox darkMode={isDarkMode}>
           <DescriptionBox>
             <Title subject>{data.subject}</Title>
             <SubTitle>{data.h3}</SubTitle>
