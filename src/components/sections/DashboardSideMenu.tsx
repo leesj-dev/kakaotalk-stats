@@ -22,7 +22,7 @@ const DashboardLayoutBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 15%;  
+  width: 15%;
   height: calc(100vh - 80px);
   @media (max-width: 1024px) {
     width: 100%;
@@ -179,6 +179,7 @@ const DashboardSideMenu = () => {
               onClick={() => {
                 handleClickChatRoom(index);
               }}
+            >
               <ChatRoomHead>
                 <Paragraph fontWeight="500">
                   채팅방{index + 1} ({totalChatCounts[index]})

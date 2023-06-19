@@ -127,21 +127,6 @@ const PageLink = styled.div`
   gap: 60px;
 `;
 
-const NavBar = () => {
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1024);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth > 1024);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
 const NoticeBox = styled(FlexCenterDiv)`
   display: none;
   position: absolute;
@@ -155,7 +140,7 @@ const NoticeBox = styled(FlexCenterDiv)`
   transform: translateX(-50%);
 `;
 
-const NavBar = () => {
+const NavHead = () => {
   const isDetailPage = useLocation().pathname.includes("detail");
   const isDashboardPage = useLocation().pathname.includes("dashboard");
 
@@ -216,4 +201,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default NavHead;
