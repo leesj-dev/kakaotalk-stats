@@ -141,23 +141,20 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // isSideMenuChatRoom이 true일 때만 스크롤 제어
       if (isSideMenuChatRoom) {
-        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
       } else {
-        document.body.style.overflow = "auto";
+        document.documentElement.style.overflow = "auto";
       }
     };
 
-    // 컴포넌트가 마운트될 때 스크롤 이벤트 리스너 등록
-    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // 초기 로드 시 스크롤 동작을 설정합니다.
 
-    // 컴포넌트가 언마운트될 때 스크롤 이벤트 리스너 제거
+    window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isSideMenuChatRoom]);
-
   return (
     <Container>
       <MobileMenuIcon onClick={closeMenu}>
