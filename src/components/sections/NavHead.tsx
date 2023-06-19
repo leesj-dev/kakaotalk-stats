@@ -69,7 +69,6 @@ const DarkModeButton = styled.div`
   position: relative;
   width: 80px;
   height: 40px;
-  transition: 0.3s;
   cursor: pointer;
   > * {
     color: ${lightTheme.navBackground};
@@ -140,10 +139,22 @@ const PageLink = styled.div`
 //   transform: translateX(-50%);
 // `;
 
-const NavHead = () => {
+const NavBar = () => {
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1024);
   // const isDetailPage = useLocation().pathname.includes("detail");
   // const isDashboardPage = useLocation().pathname.includes("dashboard");
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsWideScreen(window.innerWidth > 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const dispatch = useDispatch();
 
   const isAnalyzedMessagesExist = useSelector(
@@ -154,7 +165,6 @@ const NavHead = () => {
   const handleClickDarkModeButton = () => {
     dispatch(setIsDarkMode(!isDarkMode));
   };
-
   return (
     <NavWrap>
       <Container>
@@ -189,4 +199,4 @@ const NavHead = () => {
   );
 };
 
-export default NavHead;
+export default NavBar;
