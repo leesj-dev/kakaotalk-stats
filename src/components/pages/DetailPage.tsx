@@ -65,7 +65,8 @@ export const graphContentData = [
   },
 ];
 
-const DetailPageContainer = styled.div`
+
+const GraphDetailContainer = styled.div`
   position: relative;
   margin-top: 80px;
   display: flex;
@@ -91,7 +92,6 @@ const GraphBox = styled.div`
   height: 70vh;
   width: 100%;
   gap: 30px;
-
   > :nth-child(1) {
     background: ${(props) => props.theme.modalBackground};
   }
@@ -138,7 +138,7 @@ const DetailPage = () => {
   }, []);
 
   return (
-    <DetailPageContainer>
+    <GraphDetailContainer>
       {windowWidth > 1024 && <DashboardSideMenu />}
       <ContentBox>
         {isAnalyzedMessagesExist &&
@@ -150,7 +150,7 @@ const DetailPage = () => {
             );
           })}
       </ContentBox>
-    </DetailPageContainer>
+    </GraphDetailContainer>
   );
 };
 

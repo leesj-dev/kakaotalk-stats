@@ -13,6 +13,8 @@ import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexS
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
 
+import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
+
 const DashboardLayoutBox = styled.div`
   position: sticky;
   top: 80px;
@@ -20,15 +22,11 @@ const DashboardLayoutBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 15%;
-  /* @media (max-width: 1024px) {
-    display: none;
-  } */
+  width: 15%;  
   height: calc(100vh - 80px);
-  @media (max-width: 480px) {
-    padding: 0;
+  @media (max-width: 1024px) {
+    width: 100%;
     height: 100%;
-    text-align: center;
   }
 `;
 
@@ -41,7 +39,7 @@ const ChatroomMenuTitleBox = styled.div`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     padding: 0;
   }
 `;
@@ -50,10 +48,14 @@ const ChatroomGraphBox = styled.div`
   position: relative;
   padding: 15px;
   display: flex;
+  height: 200px;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.mainBackground};
-  @media (max-width: 480px) {
-    padding: 20px;
+  @media (max-width: 1100px) {
+    height: 100px;
+  }
+  @media (max-width: 1024px) {
+    height: 200px;
   }
 `;
 
@@ -66,7 +68,7 @@ const ChatroomListTitleBox = styled.div`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
@@ -80,9 +82,9 @@ const ChatroomListBox = styled.div`
   width: 100%;
   overflow-y: scroll;
   background-color: ${(props) => props.theme.mainBackground};
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     padding: 20px 20px;
-    height: 300px;
+    height: 200px;
     border-bottom: 1px solid ${(props) => props.theme.border};
   }
   &::-webkit-scrollbar {
@@ -100,7 +102,6 @@ const ChatroomListBox = styled.div`
 const ChatRoomBox = styled.div`
   padding: 10px;
   border-radius: 5px;
-
   border: 1px solid ${(props) => props.theme.border};
   cursor: pointer;
   background: ${(props) => props.theme.mainWhite};
@@ -155,10 +156,17 @@ const DashboardSideMenu = () => {
     };
   }, []);
 
+  const isSideMenuChatRoom = useSelector(
+    (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
+  );
+
+  const closeMenu = () => {
+    dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
+  };
   return (
     <DashboardLayoutBox>
       <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
-      <ChatroomGraphBox style={{ height: "200px" }}>
+      <ChatroomGraphBox>
         <SummaryPieGraph />
       </ChatroomGraphBox>
       <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
@@ -168,19 +176,24 @@ const DashboardSideMenu = () => {
             <ChatRoomBox
               key={index}
               className={`${selectedChatRoomIndex === index && "active"}`}
-              onClick={() => handleClickChatRoom(index)}
-            >
+              onClick={() => {
+                handleClickChatRoom(index);
+              }}
               <ChatRoomHead>
                 <Paragraph fontWeight="500">
                   채팅방{index + 1} ({totalChatCounts[index]})
                 </Paragraph>
               </ChatRoomHead>
               <Span>{name}</Span>
-              {window.innerWidth > 480 && ( // 현재 윈도우의 가로 크기가 480보다 클 때만 렌더링
-                <Span underline fontWeight="500">
+              <Span underline fontWeight="500">
+                {window.innerWidth > 1024 ? (
                   <Link to={`/detail`}>상세보기 {">"}</Link>
-                </Span>
-              )}
+                ) : (
+                  <Link to={`/detail`} onClick={closeMenu}>
+                    상세보기 {">"}
+                  </Link>
+                )}
+              </Span>
             </ChatRoomBox>
           );
         })}

@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import H2 from "../atoms/H2";
 import H3 from "../atoms/H3";
+import Icon from "../atoms/Icon";
 import Img from "../atoms/Img";
 import Paragraph from "../atoms/Paragraph";
-import CardContent from "../molecules/CardContent";
-import SlideBtn from "../molecules/SlideBtn";
 
+import { FiArrowUp, FiArrowDown } from "react-icons/fi";
 const Container = styled.div`
   padding: 100px 0px;
 
@@ -132,7 +132,25 @@ const MainSlide = styled.div`
     }
   }
 `;
-
+const Description = styled.div<{
+  fontSize?: string;
+}>`
+  width: 100%;
+  height: 100%;
+  > :first-child {
+    font-size: ${(props) => props.fontSize || "2.6em"};
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+  > :nth-child(2) {
+    font-size: ${(props) => props.fontSize || "1.8em"};
+    margin-bottom: 25px;
+  }
+  > :last-child {
+    font-size: ${(props) => props.fontSize || "1.6em"};
+    font-weight: 300;
+  }
+`;
 const SlideBox = styled.div`
   cursor: pointer;
   z-index: 100;
@@ -155,7 +173,7 @@ const SlideBox = styled.div`
   > :first-child {
     border-top-right-radius: 20%;
     border-bottom-right-radius: 20%;
-    transform: scaleY(-1) translateX(44px);
+    transform: translateX(44px);
   }
   > :last-child {
     border-top-left-radius: 20%;
@@ -217,7 +235,7 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const slideCount = 6; // 슬라이드 개수
 
-  const handleSlideChange = (direction: string) => {
+  const handleSlideChange = (direction: "next" | "prev") => {
     if (direction === "next") {
       setActiveSlideIndex((prevIndex) => (prevIndex + 1) % slideCount);
     } else if (direction === "prev") {
@@ -233,7 +251,7 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
         <SideSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
           {functionCardData.map((data) => (
             <SideContent>
-              <H2>{data.subject}</H2>{" "}
+              <H2>{data.subject}</H2>
               <H3 fontSize="24px" lineHeight="1.5">
                 {data.h3}
               </H3>
@@ -243,13 +261,21 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
           ))}
         </SideSlide>
         <MainSlide style={{ transform: `translateY(-${activeSlideIndex * 100}%)` }}>
-          {functionCardData.map((data, index) => (
-            <CardContent key={index} h2={data.subject} h3={data.h3} p={data.p} />
+          {functionCardData.map((data) => (
+            <Description>
+              <H2>{data.subject}</H2>
+              <H3 lineHeight="1.5">{data.h3}</H3>
+              <Paragraph lineHeight="1.5em">{data.p}</Paragraph>
+            </Description>
           ))}
         </MainSlide>
         <SlideBox>
-          <SlideBtn onClick={() => handleSlideChange("next")} direction={"down"} />
-          <SlideBtn onClick={() => handleSlideChange("prev")} direction={"up"} />
+          <Icon fontSize="24px" onClick={() => handleSlideChange("next")} direction="next">
+            <FiArrowDown />
+          </Icon>
+          <Icon fontSize="24px" onClick={() => handleSlideChange("prev")} direction="prev">
+            <FiArrowUp />
+          </Icon>
         </SlideBox>
       </Card>
     </Container>

@@ -4,6 +4,7 @@ import scrollToEvent from "../../module/common/scrollEvent";
 import Icon from "../atoms/Icon";
 import { FiArrowUp } from "react-icons/fi";
 import { BsShareFill } from "react-icons/bs";
+import { lightTheme } from "../../style/Theme";
 
 const FloatingMenuContainer = styled.div`
   position: fixed;
@@ -23,10 +24,9 @@ const FloatingMenuContainer = styled.div`
   > * {
     padding: 10px;
     transition: 0.3s;
-    background: ${(props) => props.theme.mainBlue};
     border-radius: 25%;
+    background: ${(props) => props.theme.mainBlue};
     cursor: pointer;
-
     &:hover {
       background: ${(props) => props.theme.mainBlueHover};
     }
@@ -73,12 +73,12 @@ const FloatingMenu = () => {
   return (
     <FloatingMenuContainer className={`${showFloatingButton && "show"}`}>
       <ShareButtonBox onClick={() => handleClickCShareButton()}>
-        <Icon fontSize="24px" color="#fff">
+        <Icon fontSize="24px" color={lightTheme.functionArrowWhite}>
           <BsShareFill />
         </Icon>
       </ShareButtonBox>
       <ScrollToTopButtonBox onClick={() => scrollToEvent(0, "smooth")}>
-        <Icon fontSize="24px" color="#fff">
+        <Icon fontSize="24px" color={lightTheme.functionArrowWhite}>
           <FiArrowUp />
         </Icon>
       </ScrollToTopButtonBox>

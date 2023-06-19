@@ -4,7 +4,6 @@ import Span from "../atoms/Span";
 import Icon from "../atoms/Icon";
 import ChatRatioWithArrowGraph from "../molecules/graphs/ChatRatioWithArrowGraph";
 import SpeakerSelect from "../molecules/SpeakerSelect";
-import CardContent from "../molecules/CardContent";
 import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +13,8 @@ import { setIsModalVisible } from "../../store/reducer/isModalVisibleSlice";
 import { graphContentData } from "../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
+import Paragraph from "../atoms/Paragraph";
+
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -117,7 +118,25 @@ const PeriodBox = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.mainGray};
   font-weight: 500;
 `;
-
+const Description = styled.div<{
+  fontSize?: string;
+}>`
+  width: 100%;
+  height: 100%;
+  > :first-child {
+    font-size: ${(props) => props.fontSize || "2.6em"};
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+  > :nth-child(2) {
+    font-size: ${(props) => props.fontSize || "1.8em"};
+    margin-bottom: 25px;
+  }
+  > :last-child {
+    font-size: ${(props) => props.fontSize || "1.6em"};
+    font-weight: 300;
+  }
+`;
 const CardContentBox = styled.div`
   padding: 15px 0;
   display: flex;
@@ -354,7 +373,9 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
               </PeriodBox>
             </InfoContentBox>
             <CardContentBox>
-              <CardContent h3={h3} p={p} />
+              <Description>
+                <Paragraph lineHeight="1.5em">{p}</Paragraph>
+              </Description>
             </CardContentBox>
           </DescriptionBox>
         </ContentBox>
