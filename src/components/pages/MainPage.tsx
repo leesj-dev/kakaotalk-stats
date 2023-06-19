@@ -15,7 +15,7 @@ const MainPage = () => {
 
   const onMoveToFunctionCard = () => {
     if (moveScrollPosition.current) {
-      scrollToEvent(moveScrollPosition.current.offsetTop, "smooth");
+      scrollToEvent(moveScrollPosition.current.offsetTop - 100, "smooth");
     }
   };
 
