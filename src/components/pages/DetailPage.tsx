@@ -7,6 +7,7 @@ import ModalGraph from "../organisms/ModalGraph";
 import ChatRoomCompareGraph from "../molecules/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../molecules/graphs/ChatVolumeByPeriodGraph";
 import ChatRateGraph from "../molecules/graphs/ChatRateGraph";
+import ReplyCountByHourlyGraph from "../molecules/graphs/ReplyCountByHourlyGraph";
 import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
@@ -64,6 +65,7 @@ export const graphContentData = [
   },
 ];
 
+
 const GraphDetailContainer = styled.div`
   position: relative;
   margin-top: 80px;
@@ -90,7 +92,6 @@ const GraphBox = styled.div`
   height: 70vh;
   width: 100%;
   gap: 30px;
-
   > :nth-child(1) {
     background: ${(props) => props.theme.modalBackground};
   }

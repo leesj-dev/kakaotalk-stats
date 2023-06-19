@@ -12,17 +12,18 @@ import Paragraph from "../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../store/reducer/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../store/reducer/selectedSpeakerIndexSlice";
+
 import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
 const DashboardLayoutBox = styled.div`
-  height: calc(100vh - 80px);
   position: sticky;
   top: 80px;
   left: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 15%;
+  width: 15%;  
+  height: calc(100vh - 80px);
   @media (max-width: 1024px) {
     width: 100%;
     height: 100%;
@@ -154,6 +155,7 @@ const DashboardSideMenu = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
@@ -177,14 +179,12 @@ const DashboardSideMenu = () => {
               onClick={() => {
                 handleClickChatRoom(index);
               }}
-            >
               <ChatRoomHead>
                 <Paragraph fontWeight="500">
                   채팅방{index + 1} ({totalChatCounts[index]})
                 </Paragraph>
               </ChatRoomHead>
               <Span>{name}</Span>
-
               <Span underline fontWeight="500">
                 {window.innerWidth > 1024 ? (
                   <Link to={`/detail`}>상세보기 {">"}</Link>

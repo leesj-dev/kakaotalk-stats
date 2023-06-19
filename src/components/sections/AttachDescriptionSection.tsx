@@ -69,7 +69,6 @@ const pcCardData = [
 
 const AttachmentDescriptionSection = () => {
   const [cardData, setCardData] = useState<CardData[]>(pcCardData);
-
   return (
     <AttachDescriptionBox id="attachMethod">
       <Paragraph fontSize="24px">

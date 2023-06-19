@@ -15,6 +15,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 import Paragraph from "../atoms/Paragraph";
 
+
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
   width: 100%;

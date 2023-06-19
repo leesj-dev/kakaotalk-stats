@@ -8,6 +8,7 @@ import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import NavSideMenu from "./NavSideMenu";
 
+
 const NavWrap = styled.div`
   position: fixed;
   top: 0;
@@ -82,7 +83,6 @@ const DarkModeButton = styled.div`
       }
     }
   }
-
   @media (max-width: 768px) {
     width: 60px;
     height: 30px;
@@ -135,6 +135,7 @@ const NavBar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   const dispatch = useDispatch();
 
   const isAnalyzedMessagesExist = useSelector(

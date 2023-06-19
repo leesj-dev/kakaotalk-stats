@@ -13,6 +13,7 @@ import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
 import NavHead from "./components/sections/NavHead";
 
+
 function App() {
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
   return (

@@ -15,9 +15,6 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
-  /* outline: 1px solid #f00; */
-}
-
 body {
   font-family: "Pretendard";
   font-weight: normal;
@@ -25,8 +22,6 @@ body {
   padding: 0;
   line-height: 1;
   letter-spacing: -0.025em;
-  color: #222222;
-  
 }
 
 ul,
@@ -77,7 +72,6 @@ input,
 textarea,
 button {
   font-size: inherit;
-  font-family: "Noto Sans KR";
   font-weight: inherit;
   margin: 0;
 }
