@@ -78,9 +78,7 @@ const SubTitle = styled(Paragraph)`
 
 const ContentText = styled(Paragraph)``;
 
-const MainVisualImgBox = styled.div`
-  box-shadow: 2px 2px 7px -2px ${(props) => props.theme.mainBlack};
-`;
+const MainVisualImgBox = styled.div``;
 
 interface MainVisualProps {
   onMoveToFunctionCard: () => void;

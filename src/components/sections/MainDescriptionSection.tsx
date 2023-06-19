@@ -38,6 +38,10 @@ const CardBox = styled.div`
   &:hover {
     transform: scale(1.02);
     box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
+    &.dark {
+      box-shadow: none;
+      background: ${(props) => props.theme.modalContentBackground};
+    }
   }
 
   @media (max-width: 1200px) {
