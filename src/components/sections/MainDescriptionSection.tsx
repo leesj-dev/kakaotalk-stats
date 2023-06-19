@@ -8,32 +8,32 @@ import Paragraph from "../atoms/Paragraph";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 
 const Container = styled.div`
-  padding: 100px 0px 0px 0px;
+  margin: 100px 0px 0px 0px;
   display: flex;
   flex-wrap: wrap;
   max-width: 1200px;
   gap: 20px;
 
   @media (max-width: 768px) {
-    padding: 50px 0px;
+    margin: 50px 0px;
     margin-top: 100px;
   }
 `;
 
 const CardBox = styled.div`
-  padding: 30px;
+  padding: 20px;
   width: calc((100% / 3) - (20 * 2px / 3));
   > * {
     align-items: start;
     text-align: start;
   }
+  color: ${(props) => props.theme.mainText};
   background: ${(props) => props.theme.mainWhite};
   box-shadow: 2px 0px 10px 0px #ddd;
   border-radius: 10px;
   transition: 0.3s;
   &.dark {
     box-shadow: none;
-    background: #eeeeee;
   }
   &:hover {
     transform: scale(1.02);
@@ -51,16 +51,18 @@ const CardBox = styled.div`
 const DescriptionBox = styled(FlexColumnCenterDiv)`
   width: 100%;
   height: 100%;
-  color: ${(props) => props.theme.mainBlack};
+  color: ${(props) => props.theme.mainText};
 `;
 
 const Title = styled(H2)`
-  font-size: 28px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  font-size: 26px;
+  font-weight: 500;
 `;
 
 const SubTitle = styled(H3)`
   font-size: 17px;
+  margin-bottom: 5px;
 `;
 
 const functionCardData = [
