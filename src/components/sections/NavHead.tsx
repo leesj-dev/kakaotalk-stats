@@ -127,22 +127,22 @@ const PageLink = styled.div`
   gap: 60px;
 `;
 
-const NoticeBox = styled(FlexCenterDiv)`
-  display: none;
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  padding: 0px;
-  width: 220%;
-  height: 60%;
-  font-size: 14px;
-  font-weight: 500;
-  transform: translateX(-50%);
-`;
+// const NoticeBox = styled(FlexCenterDiv)`
+//   display: none;
+//   position: absolute;
+//   top: 110%;
+//   left: 50%;
+//   padding: 0px;
+//   width: 220%;
+//   height: 60%;
+//   font-size: 14px;
+//   font-weight: 500;
+//   transform: translateX(-50%);
+// `;
 
 const NavHead = () => {
-  const isDetailPage = useLocation().pathname.includes("detail");
-  const isDashboardPage = useLocation().pathname.includes("dashboard");
+  // const isDetailPage = useLocation().pathname.includes("detail");
+  // const isDashboardPage = useLocation().pathname.includes("dashboard");
 
   const dispatch = useDispatch();
 
@@ -173,19 +173,6 @@ const NavHead = () => {
                 <Link to="/attachment">분석하기</Link>
                 {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
               </PageLink>
-              <DarkModeButton
-                className={`${isDarkMode && "active"}`}
-                onClick={handleClickDarkModeButton}
-              >
-                <ToggleCircle></ToggleCircle>
-                <IconBox>
-                  <BsFillBrightnessHighFill />
-                  <BsFillMoonStarsFill />
-                </IconBox>
-                {(isDetailPage || isDashboardPage) && (
-                  <NoticeBox>다크모드로 볼 때 더 잘보여요.</NoticeBox>
-                )}
-              </DarkModeButton>
             </PcMenu>
             <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
               <ToggleCircle></ToggleCircle>
@@ -193,6 +180,7 @@ const NavHead = () => {
                 <BsFillBrightnessHighFill />
                 <BsFillMoonStarsFill />
               </IconBox>
+              {/* {(isDetailPage || isDashboardPage) && <NoticeBox>다크모드로 볼 때 더 잘보여요.</NoticeBox>} */}
             </DarkModeButton>
           </Menu>
         </MenuBox>
