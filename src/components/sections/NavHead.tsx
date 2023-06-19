@@ -189,6 +189,7 @@ const TopContent = styled.div`
 `;
 
 const NoticeBox = styled(FlexCenterDiv)`
+  display: none;
   position: absolute;
   top: 110%;
   left: 50%;

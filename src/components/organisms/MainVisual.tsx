@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../molecules/ScrollIndicator";
 import BlueButton from "../atoms/BlueButton";
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
+import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled(FlexCenterDiv)`
   width: 100%;
@@ -88,6 +89,8 @@ interface MainVisualProps {
 const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
   const navigate = useNavigate();
 
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   return (
     <MainVisualContainer>
       <AsideBox>
@@ -109,7 +112,13 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
       </AsideBox>
       <ArticleBox>
         <MainVisualImgBox>
-          <Img src={`${process.env.PUBLIC_URL}/images/main/dashboard.png`} />
+          <Img
+            src={
+              isDarkMode
+                ? `${process.env.PUBLIC_URL}/images/main/dashboardDark.png`
+                : `${process.env.PUBLIC_URL}/images/main/dashboard.png`
+            }
+          />
         </MainVisualImgBox>
       </ArticleBox>
     </MainVisualContainer>
