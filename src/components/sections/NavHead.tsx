@@ -12,6 +12,7 @@ import Icon from "../atoms/Icon";
 import DashboardSideMenu from "./DashboardSideMenu";
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 import NavSideMenu from "./NavSideMenu";
+import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
 const NavWrap = styled.div`
   position: fixed;
@@ -31,28 +32,34 @@ const Container = styled.div`
   justify-content: space-between;
   font-weight: 500;
   line-height: 80px;
+
+  > * {
+    flex: 1;
+  }
+  @media (max-width: 1024px) {
+    line-height: 70px;
+  }
 `;
 
 const H1 = styled.h1`
+  display: flex;
+
   height: 40px;
   &.active {
-    height: 30px;
+    width: 120px;
     transform: translateY(-22px);
   }
-  @media (max-width: 768px) {
-    height: 30px;
+  @media (max-width: 1024px) {
+    justify-content: center;
+    width: 120px;
   }
 `;
 
 const MenuBox = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const Menu = styled.div`
-  display: flex;
+  justify-content: end;
   gap: 20px;
-  align-items: center;
 `;
 
 const PcMenu = styled.div`
@@ -70,6 +77,7 @@ const DarkModeButton = styled.div`
   width: 80px;
   height: 40px;
   cursor: pointer;
+
   > * {
     color: ${lightTheme.navBackground};
     background: ${darkTheme.navBackground};
@@ -83,14 +91,14 @@ const DarkModeButton = styled.div`
     > :nth-child(1) {
       left: 44px;
       background: ${darkTheme.navBackground};
-      @media (max-width: 768px) {
-        left: 34px;
+      @media (max-width: 1024px) {
+        left: 37px;
       }
     }
   }
-  @media (max-width: 768px) {
-    width: 60px;
-    height: 30px;
+  @media (max-width: 1024px) {
+    width: 66px;
+    height: 33px;
   }
 `;
 
@@ -139,11 +147,39 @@ const PageLink = styled.div`
 //   transform: translateX(-50%);
 // `;
 
+const MobileMenuBox = styled.div`
+  display: none;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    transform: translateY(4px);
+  }
+`;
+
+const MobileMenuShadow = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  opacity: 0.8;
+  z-index: 800;
+  background-color: ${(props) => props.theme.mainBlack};
+`;
+
 const NavBar = () => {
+  const dispatch = useDispatch();
+
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1024);
   // const isDetailPage = useLocation().pathname.includes("detail");
   // const isDashboardPage = useLocation().pathname.includes("dashboard");
 
+  const isSideMenuChatRoom = useSelector(
+    (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
+  );
+  const closeMenu = () => {
+    dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
+  };
   useEffect(() => {
     const handleResize = () => {
       setIsWideScreen(window.innerWidth > 1024);
@@ -155,7 +191,23 @@ const NavBar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isSideMenuChatRoom) {
+        document.documentElement.style.overflow = "hidden";
+      } else {
+        document.documentElement.style.overflow = "auto";
+      }
+    };
+
+    handleScroll(); // 초기 로드 시 스크롤 동작을 설정합니다.
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isSideMenuChatRoom]);
 
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
@@ -168,7 +220,11 @@ const NavBar = () => {
   return (
     <NavWrap>
       <Container>
-        {window.innerWidth < 1024 && <NavSideMenu />}
+        <MobileMenuBox>
+          <Icon cursor="pointer" fontSize="3rem" onClick={closeMenu}>
+            <HiMenu />
+          </Icon>
+        </MobileMenuBox>
         <H1>
           <Link to="/">
             <Img
@@ -177,24 +233,28 @@ const NavBar = () => {
           </Link>
         </H1>
         <MenuBox>
-          <Menu>
-            <PcMenu>
-              <PageLink>
-                <Link to="/attachment">분석하기</Link>
-                {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
-              </PageLink>
-            </PcMenu>
-            <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
-              <ToggleCircle></ToggleCircle>
-              <IconBox>
-                <BsFillBrightnessHighFill />
-                <BsFillMoonStarsFill />
-              </IconBox>
-              {/* {(isDetailPage || isDashboardPage) && <NoticeBox>다크모드로 볼 때 더 잘보여요.</NoticeBox>} */}
-            </DarkModeButton>
-          </Menu>
+          <PcMenu>
+            <PageLink>
+              <Link to="/attachment">분석하기</Link>
+              {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+            </PageLink>
+          </PcMenu>
+          <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
+            <ToggleCircle></ToggleCircle>
+            <IconBox>
+              <BsFillBrightnessHighFill />
+              <BsFillMoonStarsFill />
+            </IconBox>
+            {/* {(isDetailPage || isDashboardPage) && <NoticeBox>다크모드로 볼 때 더 잘보여요.</NoticeBox>} */}
+          </DarkModeButton>
         </MenuBox>
       </Container>
+      {window.innerWidth < 1024 && isSideMenuChatRoom && (
+        <>
+          <NavSideMenu />
+          <MobileMenuShadow onClick={closeMenu} />
+        </>
+      )}
     </NavWrap>
   );
 };

@@ -20,7 +20,7 @@ export const lightTheme: DefaultTheme = {
 export const darkTheme: DefaultTheme = {
   mainBlue: " #0d92ff",
   mainWhite: "#2b2b2b",
-  mainBlack: "#2b2b2b",
+  mainBlack: "#000000",
   mainGray: "#676767",
   mainText: "#ffffff",
   mainBlueHover: "#0066ff",
