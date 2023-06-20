@@ -73,7 +73,7 @@ const FloatingMenu = () => {
 
   return (
     <FloatingMenuContainer isFloatingMenuVisible={isFloatingMenuVisible}>
-      <ShareIcon onClick={() => handleClickCShareButton()}>
+      <ShareIcon onClick={() => handleClickCShareButton()} fontSize={"100px"}>
         <BsShareFill />
       </ShareIcon>
       <ScrollUpIcon onClick={() => scrollToEvent(0, "smooth")}>

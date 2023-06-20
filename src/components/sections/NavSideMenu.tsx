@@ -55,9 +55,11 @@ const TopContent = styled.div`
   line-height: 70px;
 `;
 
-const MobileMenuIcon = styled.div`
+const MobileMenuIcon = styled(Icon)`
   display: none;
   width: 50%;
+  font-size: 3rem;
+  cursor: pointer;
 
   @media (max-width: 1024px) {
     display: flex;
@@ -122,10 +124,8 @@ const NavBar = () => {
       {isSideMenuChatRoom && (
         <MobileMenuBox className={`${"active"}`} isSideMenuChatRoom>
           <TopContent>
-            <MobileMenuIcon>
-              <Icon fontSize="3rem" onClick={closeMenu} cursor="pointer">
-                <HiMenu />
-              </Icon>
+            <MobileMenuIcon onClick={closeMenu}>
+              <HiMenu />
             </MobileMenuIcon>
             <H1>
               <Link to="/" onClick={closeMenu}>

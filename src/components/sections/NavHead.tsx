@@ -156,6 +156,11 @@ const MobileMenuBox = styled.div`
   }
 `;
 
+const MobileMenuIcon = styled(Icon)`
+  font-size: 3rem;
+  cursor: pointer;
+`;
+
 const MobileMenuShadow = styled.div`
   position: absolute;
   top: 0;
@@ -221,9 +226,9 @@ const NavBar = () => {
     <NavWrap>
       <Container>
         <MobileMenuBox>
-          <Icon cursor="pointer" fontSize="3rem" onClick={closeMenu}>
+          <MobileMenuIcon onClick={closeMenu}>
             <HiMenu />
-          </Icon>
+          </MobileMenuIcon>
         </MobileMenuBox>
         <H1>
           <Link to="/">

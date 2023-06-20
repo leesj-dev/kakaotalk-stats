@@ -1,10 +1,9 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
 
-const Icon = styled.i<{ fontSize?: string; color?: string; cursor?: string; fontWeight?: string }>`
+const Icon = styled.i<{ fontSize?: string; color?: string; fontWeight?: string }>`
   font-size: ${(props) => props.fontSize || "16px"};
   color: ${(props) => props.color || "mainText"};
-  cursor: ${(props) => props.cursor && "pointer"};
   font-weight: ${(props) => props.fontWeight || "300"};
 `;
 

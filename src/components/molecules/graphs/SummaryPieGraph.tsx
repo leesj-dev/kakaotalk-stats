@@ -19,12 +19,14 @@ import Icon from "../../atoms/Icon";
 import { setMostChattedTimes } from "../../../store/reducer/mostChattedTimes";
 import { BiLeftArrowCircle, BiRightArrowCircle } from "react-icons/bi";
 
-const Contianer = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 `;
+
+const ArrowIcon = styled(Icon)``;
 
 // const ChatRoomIndexArrowBox = styled.div`
 //   position: absolute;
@@ -178,11 +180,14 @@ const SummaryPieGraph = () => {
   // };
 
   return (
-    <Contianer>
+    <Container>
       {/* <ChatRoomIndexArrowBox></ChatRoomIndexArrowBox> */}
-      <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)} fontSize="3rem">
+      <ArrowIcon
+        onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}
+        fontSize="3rem"
+      >
         <BiLeftArrowCircle />
-      </Icon>
+      </ArrowIcon>
       <ResponsiveContainer width="100%" height={"100%"}>
         <PieChart>
           <Pie
@@ -209,9 +214,12 @@ const SummaryPieGraph = () => {
           <Tooltip />
         </PieChart>
       </ResponsiveContainer>{" "}
-      <Icon onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)} fontSize="3rem">
+      <ArrowIcon
+        onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)}
+        fontSize="3rem"
+      >
         <BiRightArrowCircle />
-      </Icon>
+      </ArrowIcon>
       {/* 
       <ResponsiveContainer width="100%" height="100%">
         <BarChart layout="vertical" data={pieGraphData}>
@@ -250,7 +258,7 @@ const SummaryPieGraph = () => {
           })}
         </div>
       )} */}
-    </Contianer>
+    </Container>
   );
 };
 
