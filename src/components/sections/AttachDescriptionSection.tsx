@@ -7,6 +7,8 @@ import scrollToEvent from "../../module/common/scrollEvent";
 import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 
 const AttachDescriptionBox = styled(FlexColumnCenterDiv)`
+  padding: 80px 0;
+
   > * {
     margin-bottom: 30px;
     font-weight: 300;

@@ -54,9 +54,8 @@ const OsIconBox = styled.li<{ size?: string; color?: string; fontSize?: string }
     padding: 0.25rem;
   }
 
-  > :nth-child(2) {
-    font-size: 1.5rem;
-  }
+  /* > :nth-child(2) {
+  } */
 
   > :first-child {
     width: ${(props) => props.size || "6.5rem"};
@@ -99,6 +98,8 @@ const OsRowBox = styled.div`
     gap: 1.5rem;
   }
 `;
+
+const OsIcon = styled(Icon)``;
 
 const osData = [
   {
@@ -151,9 +152,9 @@ const OsList = ({ color }: OsListProps) => {
               color={color}
               onClick={() => dispatch(setSelectedOsIndex(data.id))}
             >
-              <Icon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
+              <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
                 {data.icon}
-              </Icon>
+              </OsIcon>
               <Span>{data.os}</Span>
             </OsIconBox>
           );
@@ -168,9 +169,9 @@ const OsList = ({ color }: OsListProps) => {
               color={color}
               onClick={() => dispatch(setSelectedOsIndex(data.id))}
             >
-              <Icon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
+              <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
                 {data.icon}
-              </Icon>
+              </OsIcon>
               <Span>{data.os}</Span>
             </OsIconBox>
           );

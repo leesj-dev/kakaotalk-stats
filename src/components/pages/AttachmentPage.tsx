@@ -10,11 +10,7 @@ import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlic
 import { VscNewFile } from "react-icons/vsc";
 import Span from "../atoms/Span";
 
-const AttachmentPageBox = styled.div`
-  > :nth-child(2) {
-    padding: 80px 0;
-  }
-`;
+const AttachmentPageBox = styled.div``;
 
 const DropZone = styled(FlexColumnCenterDiv)`
   position: fixed;
@@ -25,6 +21,7 @@ const DropZone = styled(FlexColumnCenterDiv)`
   font-size: 300px;
   color: #fff;
   background: #00000081;
+
   z-index: 998;
   > * {
     pointer-events: none;

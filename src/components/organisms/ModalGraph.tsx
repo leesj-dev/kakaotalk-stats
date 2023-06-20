@@ -15,7 +15,6 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 import Paragraph from "../atoms/Paragraph";
 
-
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
   width: 100%;
@@ -30,14 +29,13 @@ const ModalGraphBox = styled.div`
   }
 `;
 
-const CloseModalBox = styled.div`
+const CloseModalIcon = styled(Icon)`
   position: absolute;
   top: 5px;
   right: 5px;
+  font-size: 24px;
   color: ${(props) => props.theme.mainText};
-  > :nth-child(1) {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 const ContentBox = styled.div`
@@ -69,16 +67,17 @@ const InfoContentBox = styled.div`
 
 const SubjectBox = styled(FlexCenterDiv)`
   justify-content: space-between;
+  min-width: 177px;
   > * {
     display: flex;
     align-items: center;
     height: 40px;
   }
+`;
 
-  > :nth-child(1),
-  > :nth-child(3) {
-    cursor: pointer;
-  }
+const FlipModalGraphIcon = styled(Icon)`
+  font-size: 24px;
+  cursor: pointer;
 `;
 
 const SpeakerSelectBox = styled.div`
@@ -327,11 +326,9 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
   return (
     <ModalGraphBox className="GraphContentBox">
       {isDetailPage ? null : (
-        <CloseModalBox onClick={() => handleClickCloseModalButton()}>
-          <Icon fontSize="24px">
-            <MdClose />
-          </Icon>
-        </CloseModalBox>
+        <CloseModalIcon onClick={() => handleClickCloseModalButton()}>
+          <MdClose />
+        </CloseModalIcon>
       )}
       {screenWidth > 1200 ? (
         <ContentBox>
@@ -339,25 +336,24 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
           <DescriptionBox>
             <InfoContentBox>
               <SubjectBox>
-                <Icon
-                  fontSize="24px"
+                <FlipModalGraphIcon
                   onClick={() =>
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
                   {!isDetailPage && <BsChevronLeft />}
-                </Icon>
+                </FlipModalGraphIcon>
                 <Span fontSize="26px" fontWeight="500" textAlign="center">
                   {h2}
                 </Span>
-                <Icon
+                <FlipModalGraphIcon
                   fontSize="24px"
                   onClick={() =>
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }
                 >
                   {!isDetailPage && <BsChevronRight />}
-                </Icon>
+                </FlipModalGraphIcon>
               </SubjectBox>
               {subject === "종합 비교" ? (
                 <SpeakerSelectBox></SpeakerSelectBox>
@@ -387,23 +383,23 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </ResponsivePeriodBox>
               <SubjectBox>
-                <Icon
+                <FlipModalGraphIcon
                   onClick={() =>
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
                   }
                 >
                   {!isDetailPage && <BsChevronLeft />}
-                </Icon>
+                </FlipModalGraphIcon>
                 <Span fontWeight="500" textAlign="center" fontSize="26px" responsiveFontSize="20px">
                   {h2}
                 </Span>
-                <Icon
+                <FlipModalGraphIcon
                   onClick={() =>
                     currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
                   }
                 >
                   {!isDetailPage && <BsChevronRight />}
-                </Icon>
+                </FlipModalGraphIcon>
               </SubjectBox>
             </ResponsiveSubjectBox>
 

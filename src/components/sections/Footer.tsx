@@ -27,6 +27,10 @@ const IconContainer = styled.div`
   color: ${(props) => props.theme.mainText};
 `;
 
+const AnchorIcon = styled(Icon)`
+  font-size: 22px;
+`;
+
 const DeveloperBox = styled(FlexColumnCenterDiv)`
   margin-bottom: 30px;
   gap: 5px;
@@ -42,14 +46,14 @@ const Footer = () => {
           <DeveloperBox>
             <IconContainer>
               <Anchor href="https://github.com/youngentry">
-                <Icon fontSize="22px">
+                <AnchorIcon>
                   <BsGithub />
-                </Icon>
+                </AnchorIcon>
               </Anchor>
               <Anchor href="mailto:example@example.com">
-                <Icon fontSize="22px">
+                <AnchorIcon>
                   <BsEnvelope />
-                </Icon>
+                </AnchorIcon>
               </Anchor>
             </IconContainer>
 
@@ -58,14 +62,14 @@ const Footer = () => {
           <DeveloperBox>
             <IconContainer>
               <Anchor href="https://github.com/juhee067">
-                <Icon fontSize="22px">
+                <AnchorIcon>
                   <BsGithub />
-                </Icon>
+                </AnchorIcon>
               </Anchor>
               <Anchor href="mailto:juhee067@gmail.com">
-                <Icon fontSize="22px">
+                <AnchorIcon>
                   <BsEnvelope />
-                </Icon>
+                </AnchorIcon>
               </Anchor>
             </IconContainer>
             <Span fontSize="16px">juhee067</Span>

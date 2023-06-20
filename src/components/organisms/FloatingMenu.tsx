@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import scrollToEvent from "../../module/common/scrollEvent";
 import Icon from "../atoms/Icon";
 import { FiArrowUp } from "react-icons/fi";
 import { BsShareFill } from "react-icons/bs";
 import { lightTheme } from "../../style/Theme";
 
-const FloatingMenuContainer = styled.div`
+const FloatingMenuContainer = styled.div<{ isFloatingMenuVisible?: boolean }>`
   position: fixed;
   bottom: 30px;
   right: 30px;
@@ -16,15 +16,16 @@ const FloatingMenuContainer = styled.div`
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;
+  opacity: ${({ isFloatingMenuVisible }) => (isFloatingMenuVisible ? 1 : 0)};
+  visibility: ${({ isFloatingMenuVisible }) => (isFloatingMenuVisible ? "visible" : "hidden")};
   z-index: 900;
-  &.show {
-    opacity: 1;
-    visibility: visible;
-  }
+
   > * {
     padding: 10px;
     transition: 0.3s;
     border-radius: 25%;
+    font-size: 24px;
+    color: ${lightTheme.mainWhite};
     background: ${(props) => props.theme.mainBlue};
     cursor: pointer;
     &:hover {
@@ -33,9 +34,9 @@ const FloatingMenuContainer = styled.div`
   }
 `;
 
-const ScrollToTopButtonBox = styled.div``;
+const ShareIcon = styled(Icon)``;
 
-const ShareButtonBox = styled.div``;
+const ScrollUpIcon = styled(Icon)``;
 
 const copyClipBoard = async (text: string) => {
   try {
@@ -52,13 +53,13 @@ const handleClickCShareButton = () => {
 };
 
 const FloatingMenu = () => {
-  const [showFloatingButton, setShowFloatingButton] = useState(false);
+  const [isFloatingMenuVisible, setIsFloatingMenuVisible] = useState(false);
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
-      setShowFloatingButton(true);
+      setIsFloatingMenuVisible(true);
     } else {
-      setShowFloatingButton(false);
+      setIsFloatingMenuVisible(false);
     }
   };
 
@@ -71,17 +72,13 @@ const FloatingMenu = () => {
   }, []);
 
   return (
-    <FloatingMenuContainer className={`${showFloatingButton && "show"}`}>
-      <ShareButtonBox onClick={() => handleClickCShareButton()}>
-        <Icon fontSize="24px" color={lightTheme.functionArrowWhite}>
-          <BsShareFill />
-        </Icon>
-      </ShareButtonBox>
-      <ScrollToTopButtonBox onClick={() => scrollToEvent(0, "smooth")}>
-        <Icon fontSize="24px" color={lightTheme.functionArrowWhite}>
-          <FiArrowUp />
-        </Icon>
-      </ScrollToTopButtonBox>
+    <FloatingMenuContainer isFloatingMenuVisible={isFloatingMenuVisible}>
+      <ShareIcon onClick={() => handleClickCShareButton()}>
+        <BsShareFill />
+      </ShareIcon>
+      <ScrollUpIcon onClick={() => scrollToEvent(0, "smooth")}>
+        <FiArrowUp />
+      </ScrollUpIcon>
     </FloatingMenuContainer>
   );
 };
