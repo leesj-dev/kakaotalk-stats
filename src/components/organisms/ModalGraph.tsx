@@ -23,7 +23,6 @@ const ModalGraphBox = styled.div`
   backdrop-filter: blur(80px);
   box-shadow: 2px 2px 8px -3px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
-
   @media (max-width: 480px) {
     padding: 15px 10px 30px 10px;
   }
@@ -142,7 +141,6 @@ const CardContentBox = styled.div`
   flex-direction: column;
   text-align: start;
   color: ${(props) => props.theme.mainText};
-
   > :first-child {
     > :nth-child(2) {
       display: none;
@@ -155,9 +153,7 @@ const ResponsiveContentBox = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-
   gap: 15px;
-
   > :nth-child(1) {
     flex: 1;
   }
@@ -171,7 +167,6 @@ const ResponsiveHeadBox = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
-
   > * {
     flex: 1;
     height: 100%;
