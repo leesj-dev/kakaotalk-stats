@@ -132,9 +132,8 @@ const MainSlide = styled.div`
     }
   }
 `;
-const Description = styled.div<{
-  fontSize?: string;
-}>`
+
+const Description = styled.div<{ fontSize?: string }>`
   width: 100%;
   height: 100%;
   > :first-child {
@@ -151,7 +150,8 @@ const Description = styled.div<{
     font-weight: 300;
   }
 `;
-const SlideBox = styled.div`
+
+const SlideIconBox = styled.div`
   cursor: pointer;
   z-index: 100;
 
@@ -170,15 +170,17 @@ const SlideBox = styled.div`
       background: ${(props) => props.theme.mainBlueHover};
     }
   }
-  > :first-child {
-    border-top-right-radius: 20%;
-    border-bottom-right-radius: 20%;
-    transform: translateX(44px);
-  }
-  > :last-child {
-    border-top-left-radius: 20%;
-    border-bottom-left-radius: 20%;
-  }
+`;
+
+const SlideDownIcon = styled(Icon)`
+  border-top-right-radius: 20%;
+  border-bottom-right-radius: 20%;
+  transform: translateX(44px);
+`;
+
+const SlideUpIcon = styled(Icon)`
+  border-top-left-radius: 20%;
+  border-bottom-left-radius: 20%;
 `;
 
 const functionCardData = [
@@ -269,14 +271,14 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
             </Description>
           ))}
         </MainSlide>
-        <SlideBox>
-          <Icon fontSize="24px" onClick={() => handleSlideChange("next")} direction="next">
+        <SlideIconBox>
+          <SlideDownIcon fontSize="24px" onClick={() => handleSlideChange("next")}>
             <FiArrowDown />
-          </Icon>
-          <Icon fontSize="24px" onClick={() => handleSlideChange("prev")} direction="prev">
+          </SlideDownIcon>
+          <SlideUpIcon fontSize="24px" onClick={() => handleSlideChange("prev")}>
             <FiArrowUp />
-          </Icon>
-        </SlideBox>
+          </SlideUpIcon>
+        </SlideIconBox>
       </Card>
     </Container>
   );

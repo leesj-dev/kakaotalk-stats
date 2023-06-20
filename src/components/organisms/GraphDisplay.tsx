@@ -93,11 +93,10 @@ const GraphDisplayBox = styled(FlexColumnCenterDiv)`
   background: ${(props) => props.theme.mainWhite};
 `;
 
-const IconBox = styled.div`
+const ExpandIcon = styled(Icon)`
   position: absolute;
   top: 10px;
   right: 10px;
-  color: ${(props) => props.theme.mainText};
   cursor: pointer;
 `;
 
@@ -134,11 +133,9 @@ const GraphBox = ({
   return (
     <GraphDisplayBox key={id}>
       {id !== 0 && (
-        <IconBox onClick={() => handleClickOpenModalButton()}>
-          <Icon>
-            <CgMaximize />
-          </Icon>
-        </IconBox>
+        <ExpandIcon onClick={() => handleClickOpenModalButton()}>
+          <CgMaximize />
+        </ExpandIcon>
       )}
       <Span fontWeight="500" padding="0 0 1vh 0">
         {subject}

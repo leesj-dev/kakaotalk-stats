@@ -16,10 +16,11 @@ const FileList = styled.li`
   align-items: center;
   justify-content: space-between;
   padding: 10px;
+`;
 
-  > :nth-child(2) {
-    cursor: pointer;
-  }
+const CloseIcon = styled(Icon)`
+  font-size: 22px;
+  cursor: pointer;
 `;
 
 const AttachedFileList = () => {
@@ -42,9 +43,9 @@ const AttachedFileList = () => {
                 </Paragraph>
               );
             })}
-            <Icon fontSize="22px" onClick={() => dispatch(deleteAttachedFileArray(fileArrayIndex))}>
+            <CloseIcon onClick={() => dispatch(deleteAttachedFileArray(fileArrayIndex))}>
               <MdClose />
-            </Icon>
+            </CloseIcon>
           </FileList>
         );
       })}
