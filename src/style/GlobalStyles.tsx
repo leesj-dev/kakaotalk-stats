@@ -16,6 +16,7 @@ html {
 *:after {
   box-sizing: inherit;
 }
+
 body {
   font-family: "Pretendard";
   font-weight: normal;
@@ -60,6 +61,7 @@ img {
   vertical-align: middle;
   font-size: 0;
   max-width: 100%;
+  user-select: none;
 }
 
 table {
@@ -81,6 +83,7 @@ select,
 input,
 button {
   vertical-align: middle;
+  user-select: none;
 }
 
 b,
