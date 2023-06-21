@@ -7,10 +7,7 @@ import { darkTheme, lightTheme } from "../../style/Theme";
 import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
-import { CgClose } from "react-icons/cg";
 import Icon from "../atoms/Icon";
-import DashboardSideMenu from "./DashboardSideMenu";
-import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 import NavSideMenu from "./NavSideMenu";
 import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
@@ -21,6 +18,7 @@ const NavWrap = styled.div`
   color: ${(props) => props.theme.mainText};
   border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
   z-index: 999;
+  user-select: none;
   background: ${(props) => props.theme.navBackground};
 `;
 
@@ -43,7 +41,6 @@ const Container = styled.div`
 
 const H1 = styled.h1`
   display: flex;
-
   height: 40px;
   &.active {
     width: 120px;
@@ -161,7 +158,7 @@ const MobileMenuIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-const MobileMenuShadow = styled.div`
+const MobileMenuShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
   position: absolute;
   top: 0;
   right: 0;
@@ -170,6 +167,9 @@ const MobileMenuShadow = styled.div`
   opacity: 0.8;
   z-index: 800;
   background-color: ${(props) => props.theme.mainBlack};
+  visibility: ${(props) => (props.isSideMenuVisible ? "visible" : "hidden")};
+  opacity: ${(props) => (props.isSideMenuVisible ? "0.6" : "0")};
+  transition: 0.2s;
 `;
 
 const NavBar = () => {
@@ -183,9 +183,21 @@ const NavBar = () => {
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
 
+  const isAnalyzedMessagesExist = useSelector(
+    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
+  );
+
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   const closeMenu = () => {
     dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
   };
+
+  const handleClickDarkModeButton = () => {
+    dispatch(setIsDarkMode(!isDarkMode));
+  };
+
+  const isSideMenuVisible = !isWideScreen && isSideMenuChatRoom;
 
   useEffect(() => {
     const handleResize = () => {
@@ -207,23 +219,13 @@ const NavBar = () => {
   //       document.documentElement.style.overflow = "auto";
   //     }
   //   };
-
   //   handleScroll(); // 초기 로드 시 스크롤 동작을 설정합니다.
-
   //   window.addEventListener("scroll", handleScroll);
   //   return () => {
   //     window.removeEventListener("scroll", handleScroll);
   //   };
   // }, [isSideMenuChatRoom]);
 
-  const isAnalyzedMessagesExist = useSelector(
-    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
-  );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
-
-  const handleClickDarkModeButton = () => {
-    dispatch(setIsDarkMode(!isDarkMode));
-  };
   return (
     <NavWrap>
       <Container>
@@ -256,12 +258,8 @@ const NavBar = () => {
           </DarkModeButton>
         </MenuBox>
       </Container>
-      {window.innerWidth < 1024 && isSideMenuChatRoom && (
-        <>
-          <NavSideMenu />
-          <MobileMenuShadow onClick={closeMenu} />
-        </>
-      )}
+      <NavSideMenu />
+      <MobileMenuShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
     </NavWrap>
   );
 };
