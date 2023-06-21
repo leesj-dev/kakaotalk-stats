@@ -7,10 +7,7 @@ import { darkTheme, lightTheme } from "../../style/Theme";
 import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
-import { CgClose } from "react-icons/cg";
 import Icon from "../atoms/Icon";
-import DashboardSideMenu from "./DashboardSideMenu";
-import { FlexCenterDiv } from "../styleComponents/FlexDiv";
 import NavSideMenu from "./NavSideMenu";
 import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
