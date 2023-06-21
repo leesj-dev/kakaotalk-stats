@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import React, { useEffect } from "react";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Img from "../atoms/Img";
-import { useDispatch, useSelector } from "react-redux";
+import Img from "../../atoms/Img";
 import { HiMenu } from "react-icons/hi";
-import Icon from "../atoms/Icon";
-import DashboardSideMenu from "./DashboardSideMenu";
+import Icon from "../../atoms/Icon";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
-import Span from "../atoms/Span";
-import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
+import Span from "../../atoms/Span";
+import DashboardSideMenu from "../../sections/DashboardSideMenu";
+import { useSelector } from "react-redux";
+import { NavProps } from "../../sections/Navigation";
 
 const NavSideBox = styled.div<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
@@ -95,25 +95,41 @@ const AnalysisBox = styled.div`
   gap: 10px;
 `;
 
-const NavSide = ({ isWideScreen }: { isWideScreen: boolean }) => {
-  const dispatch = useDispatch();
+const NavSideContainer = styled.div<{ isWideScreen?: Boolean }>`
+  display: ${(props) => (props.isWideScreen ? "none" : "block")};
+`;
 
-  const isAnalyzedMessagesExist = useSelector(
-    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
-  );
+const NavSideShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  opacity: 0.8;
+  z-index: 800;
+  background-color: ${(props) => props.theme.mainBlack};
+  visibility: ${(props) => (props.isSideMenuVisible ? "visible" : "hidden")};
+  opacity: ${(props) => (props.isSideMenuVisible ? "0.6" : "0")};
+  transition: 0.2s;
+`;
 
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+interface NavSideMenuProps extends NavProps {
+  isWideScreen: boolean;
+}
 
+const NavSide: React.FC<NavSideMenuProps> = ({
+  closeMenu,
+  isWideScreen,
+  isDarkMode,
+  isAnalyzedMessagesExist,
+}) => {
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
 
-  const closeMenu = () => {
-    dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
-  };
-
   const scrollY = window.scrollY;
   const bodyStyle = document.body.style;
+
   useEffect(() => {
     if (isSideMenuChatRoom) {
       bodyStyle.position = "fixed";
@@ -132,8 +148,10 @@ const NavSide = ({ isWideScreen }: { isWideScreen: boolean }) => {
     }
   }, [isSideMenuChatRoom, isWideScreen]);
 
+  const isSideMenuVisible = !isWideScreen && isSideMenuChatRoom;
+
   return (
-    <>
+    <NavSideContainer isWideScreen={isWideScreen}>
       <NavSideBox isSideMenuChatRoom={isSideMenuChatRoom}>
         <TopContent>
           <NavMenuIcon>
@@ -170,7 +188,8 @@ const NavSide = ({ isWideScreen }: { isWideScreen: boolean }) => {
           {isAnalyzedMessagesExist && <DashboardSideMenu />}
         </PageLink>
       </NavSideBox>
-    </>
+      <NavSideShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
+    </NavSideContainer>
   );
 };
 
