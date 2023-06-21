@@ -18,6 +18,14 @@ const slideInAnimation = keyframes`
     transform: translateX(0);
   }
 `;
+const slideOutAnimation = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+`;
 
 const MobileMenuBox = styled.div<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
@@ -30,13 +38,9 @@ const MobileMenuBox = styled.div<{ isSideMenuChatRoom: boolean }>`
   z-index: 999;
   background: ${(props) => props.theme.mainWhite};
   overflow: ${(props) => (props.isSideMenuChatRoom ? "hidden" : "auto")};
-  transform: ${(props) => (props.isSideMenuChatRoom ? "translateX(0)" : "translateX(-100%)")};
-  transition: transform 0.3s ease-in-out;
-  animation: ${(props) => (props.isSideMenuChatRoom ? slideInAnimation : "none")} 0.3s ease-in-out;
+  animation: ${(props) => (props.isSideMenuChatRoom ? slideInAnimation : slideOutAnimation)} 0.5s
+    ease-in-out;
 
-  &.active {
-    display: block;
-  }
   @media (max-width: 768px) {
     width: 50%;
   }
@@ -113,7 +117,9 @@ const NavBar = () => {
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
   );
+
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
@@ -140,7 +146,10 @@ const NavBar = () => {
   return (
     <>
       {isSideMenuChatRoom && (
-        <MobileMenuBox className={`${"active"}`} isSideMenuChatRoom>
+        <MobileMenuBox
+          // className={isSideMenuChatRoom ? "active" : ""}
+          isSideMenuChatRoom={isSideMenuChatRoom}
+        >
           <TopContent>
             <MobileMenuIcon>
               <HiMenu onClick={closeMenu} />

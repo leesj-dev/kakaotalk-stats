@@ -43,7 +43,6 @@ const Container = styled.div`
 
 const H1 = styled.h1`
   display: flex;
-
   height: 40px;
   &.active {
     width: 120px;
@@ -171,6 +170,7 @@ const MobileMenuShadow = styled.div`
   z-index: 800;
   background-color: ${(props) => props.theme.mainBlack};
 `;
+const SideMenuBox = styled.div``;
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -183,8 +183,18 @@ const NavBar = () => {
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
 
+  const isAnalyzedMessagesExist = useSelector(
+    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
+  );
+
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   const closeMenu = () => {
     dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
+  };
+
+  const handleClickDarkModeButton = () => {
+    dispatch(setIsDarkMode(!isDarkMode));
   };
 
   useEffect(() => {
@@ -207,23 +217,13 @@ const NavBar = () => {
   //       document.documentElement.style.overflow = "auto";
   //     }
   //   };
-
   //   handleScroll(); // 초기 로드 시 스크롤 동작을 설정합니다.
-
   //   window.addEventListener("scroll", handleScroll);
   //   return () => {
   //     window.removeEventListener("scroll", handleScroll);
   //   };
   // }, [isSideMenuChatRoom]);
 
-  const isAnalyzedMessagesExist = useSelector(
-    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
-  );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
-
-  const handleClickDarkModeButton = () => {
-    dispatch(setIsDarkMode(!isDarkMode));
-  };
   return (
     <NavWrap>
       <Container>
@@ -257,10 +257,10 @@ const NavBar = () => {
         </MenuBox>
       </Container>
       {window.innerWidth < 1024 && isSideMenuChatRoom && (
-        <>
+        <SideMenuBox>
           <NavSideMenu />
           <MobileMenuShadow onClick={closeMenu} />
-        </>
+        </SideMenuBox>
       )}
     </NavWrap>
   );
