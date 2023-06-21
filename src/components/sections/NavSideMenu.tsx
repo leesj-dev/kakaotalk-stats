@@ -18,10 +18,10 @@ const MobileMenuBox = styled.div<{ isSideMenuChatRoom: boolean }>`
   flex-direction: column;
   width: 40%;
   height: 100vh;
-  z-index: 999;
-  overflow: ${(props) => (props.isSideMenuChatRoom ? "hidden" : "auto")};
-  transition: left 0.5s;
   background: ${(props) => props.theme.mainWhite};
+  overflow: ${(props) => (props.isSideMenuChatRoom ? "hidden" : "auto")};
+  transition: left 0.3s;
+  z-index: 999;
 
   @media (max-width: 768px) {
     width: 50%;

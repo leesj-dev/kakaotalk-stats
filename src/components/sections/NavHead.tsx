@@ -157,7 +157,7 @@ const MobileMenuIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-const MobileMenuShadow = styled.div`
+const MobileMenuShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
   position: absolute;
   top: 0;
   right: 0;
@@ -166,8 +166,10 @@ const MobileMenuShadow = styled.div`
   opacity: 0.8;
   z-index: 800;
   background-color: ${(props) => props.theme.mainBlack};
+  visibility: ${(props) => (props.isSideMenuVisible ? "visible" : "hidden")};
+  opacity: ${(props) => (props.isSideMenuVisible ? "0.6" : "0")};
+  transition: 0.2s;
 `;
-const SideMenuBox = styled.div``;
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -193,6 +195,8 @@ const NavBar = () => {
   const handleClickDarkModeButton = () => {
     dispatch(setIsDarkMode(!isDarkMode));
   };
+
+  const isSideMenuVisible = !isWideScreen && isSideMenuChatRoom;
 
   useEffect(() => {
     const handleResize = () => {
@@ -253,12 +257,8 @@ const NavBar = () => {
           </DarkModeButton>
         </MenuBox>
       </Container>
-      {window.innerWidth < 1024 && isSideMenuChatRoom && (
-        <SideMenuBox>
-          <NavSideMenu />
-          <MobileMenuShadow onClick={closeMenu} />
-        </SideMenuBox>
-      )}
+      <NavSideMenu />
+      <MobileMenuShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
     </NavWrap>
   );
 };
