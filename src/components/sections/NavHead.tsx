@@ -158,8 +158,8 @@ const MobileMenuIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-const SideMenuBox = styled.div<{ isSideMenuVisible?: Boolean }>`
-  display: ${(props) => (props.isSideMenuVisible ? "block" : "none")};
+const SideMenuBox = styled.div<{ isWideScreen?: Boolean }>`
+  display: ${(props) => (props.isWideScreen ? "none" : "block")};
 `;
 
 const MobileMenuShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
@@ -262,7 +262,7 @@ const NavBar = () => {
           </DarkModeButton>
         </MenuBox>
       </Container>
-      <SideMenuBox isSideMenuVisible={isSideMenuVisible}>
+      <SideMenuBox isWideScreen={isWideScreen}>
         <NavSideMenu />
         <MobileMenuShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
       </SideMenuBox>
