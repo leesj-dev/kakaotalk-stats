@@ -56,7 +56,7 @@ const MenuBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 20px;
+  gap: 60px;
 `;
 
 const PcMenu = styled.div`

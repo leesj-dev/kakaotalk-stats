@@ -48,7 +48,7 @@ const ButtonBox = styled.div`
   margin-bottom: 50px;
 
   > :first-child {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 `;
 

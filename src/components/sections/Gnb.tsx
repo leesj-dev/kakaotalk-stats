@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import NavHead from "./NavHead";
 import NavSideMenu from "./NavSideMenu";
+
 const Gnb = () => {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1024);
 

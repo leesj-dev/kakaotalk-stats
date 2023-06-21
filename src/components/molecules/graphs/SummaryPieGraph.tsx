@@ -26,9 +26,11 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const ArrowIcon = styled(Icon)``;
+const ArrowIcon = styled(Icon)`
+  cursor: pointer;
 
-// const ChatRoomIndexArrowBox = styled.div`
+  // const ChatRoomIndexArrowBox = styled.div
+`;
 //   position: absolute;
 //   top: 50%;
 //   left: 50%;

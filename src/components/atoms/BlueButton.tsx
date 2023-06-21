@@ -17,6 +17,7 @@ const BlueButtonStyle = styled.button`
   transition: 0.3s;
   border: none;
   cursor: pointer;
+
   @media (max-width: 480px) {
     width: 170px;
     font-size: 12px;

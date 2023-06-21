@@ -112,20 +112,20 @@ const NavBar = () => {
     dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
   };
 
-  useEffect(() => {
-    const scrollY = window.scrollY;
-    const bodyStyle = document.body.style;
+  // useEffect(() => {
+  //   const scrollY = window.scrollY;
+  //   const bodyStyle = document.body.style;
 
-    bodyStyle.position = "fixed";
-    bodyStyle.top = `-${scrollY}px`;
-    bodyStyle.overflowY = "scroll";
-    bodyStyle.width = "100%";
+  //   bodyStyle.position = "fixed";
+  //   bodyStyle.top = `-${scrollY}px`;
+  //   bodyStyle.overflowY = "scroll";
+  //   bodyStyle.width = "100%";
 
-    return () => {
-      bodyStyle.cssText = "";
-      window.scrollTo(0, scrollY);
-    };
-  }, []);
+  //   return () => {
+  //     bodyStyle.cssText = "";
+  //     window.scrollTo(0, scrollY);
+  //   };
+  // }, []);
 
   return (
     <>

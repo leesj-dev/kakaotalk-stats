@@ -144,6 +144,7 @@ const DashboardSideMenu = () => {
   };
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
