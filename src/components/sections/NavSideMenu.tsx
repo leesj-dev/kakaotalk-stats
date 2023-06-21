@@ -117,9 +117,26 @@ const NavBar = () => {
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
+
   const closeMenu = () => {
     dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
   };
+
+  useEffect(() => {
+    const scrollY = window.scrollY;
+    const bodyStyle = document.body.style;
+
+    bodyStyle.position = "fixed";
+    bodyStyle.top = `-${scrollY}px`;
+    bodyStyle.overflowY = "scroll";
+    bodyStyle.width = "100%";
+
+    return () => {
+      bodyStyle.cssText = "";
+      window.scrollTo(0, scrollY);
+    };
+  }, []);
+
   return (
     <>
       {isSideMenuChatRoom && (

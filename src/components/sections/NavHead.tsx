@@ -182,9 +182,11 @@ const NavBar = () => {
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
+
   const closeMenu = () => {
     dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
   };
+
   useEffect(() => {
     const handleResize = () => {
       setIsWideScreen(window.innerWidth > 1024);
@@ -197,22 +199,22 @@ const NavBar = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isSideMenuChatRoom) {
-        document.documentElement.style.overflow = "hidden";
-      } else {
-        document.documentElement.style.overflow = "auto";
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (isSideMenuChatRoom) {
+  //       document.documentElement.style.overflow = "hidden";
+  //     } else {
+  //       document.documentElement.style.overflow = "auto";
+  //     }
+  //   };
 
-    handleScroll(); // 초기 로드 시 스크롤 동작을 설정합니다.
+  //   handleScroll(); // 초기 로드 시 스크롤 동작을 설정합니다.
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isSideMenuChatRoom]);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [isSideMenuChatRoom]);
 
   const isAnalyzedMessagesExist = useSelector(
     (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
