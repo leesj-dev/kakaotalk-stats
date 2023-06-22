@@ -10,27 +10,24 @@ const AttachDescriptionBox = styled(FlexColumnCenterDiv)`
   padding: 80px 0;
 
   > * {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-weight: 300;
   }
-  > :nth-child(1) {
-    padding: 0 20px;
-    @media (max-width: 480px) {
-      font-size: 1.2em;
-    }
-  }
-  > :nth-child(2) {
-    margin-bottom: 60px;
-  }
+`;
 
-  > :last-child {
-    margin-bottom: 0;
+const WayParagraph = styled(Paragraph)`
+  margin-bottom: 60px;
+
+  @media (max-width: 480px) {
+    font-size: 1.5em;
   }
 `;
 
 const ButtonBox = styled.div`
+  padding-bottom: 60px;
   display: flex;
-  gap: 10px;
+  gap: 30px;
+
   > * {
     @media (max-width: 480px) {
       padding: 15px 0;
@@ -73,9 +70,9 @@ const AttachmentDescriptionSection = () => {
   const [cardData, setCardData] = useState<CardData[]>(pcCardData);
   return (
     <AttachDescriptionBox id="attachMethod">
-      <Paragraph fontSize="24px">
+      <WayParagraph fontSize="24px">
         현재 실행하고 있는 기기에서 카카오톡 메시지 내보내기 방법 알아보기
-      </Paragraph>
+      </WayParagraph>
       <ButtonBox>
         <BlueButton onClick={() => setCardData(pcCardData)}>PC</BlueButton>
         <BlueButton onClick={() => setCardData(mobileCardData)}>모바일</BlueButton>

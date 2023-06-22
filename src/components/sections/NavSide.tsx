@@ -10,6 +10,7 @@ import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import Span from "../atoms/Span";
 import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
+
 const NavSideBox = styled.div<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
   top: 0;
@@ -42,6 +43,7 @@ const TopContent = styled.div`
   align-items: center;
   line-height: 70px;
 `;
+
 
 const NavMenuIcon = styled(Icon)`
   display: none;
@@ -95,6 +97,7 @@ const AnalysisBox = styled.div`
   gap: 10px;
 `;
 
+
 const NavSide = ({ isWideScreen }: { isWideScreen: boolean }) => {
   const dispatch = useDispatch();
 
@@ -111,6 +114,7 @@ const NavSide = ({ isWideScreen }: { isWideScreen: boolean }) => {
   const closeMenu = () => {
     dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
   };
+
 
   const scrollY = window.scrollY;
   const bodyStyle = document.body.style;
@@ -175,3 +179,4 @@ const NavSide = ({ isWideScreen }: { isWideScreen: boolean }) => {
 };
 
 export default NavSide;
+

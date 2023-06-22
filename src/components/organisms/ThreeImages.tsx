@@ -3,14 +3,15 @@ import styled from "styled-components";
 import ImageCard from "../molecules/ImageCard";
 
 const ThreeImagesBox = styled.div`
+  padding: 0 10px;
+  margin-bottom: 50px;
   display: flex;
+  gap: 30px;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 0 10px;
   max-width: 1220px;
   height: 100%;
-  gap: 30px;
+  text-align: center;
   > * {
     justify-content: center;
   }

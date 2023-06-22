@@ -12,6 +12,7 @@ import NavSide from "./NavSide";
 import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
 const NavWrapper = styled.div`
+
   position: fixed;
   top: 0;
   width: 100%;
@@ -21,6 +22,7 @@ const NavWrapper = styled.div`
   user-select: none;
   background: ${(props) => props.theme.navBackground};
 `;
+
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;
@@ -56,7 +58,7 @@ const MenuBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 20px;
+  gap: 60px;
 `;
 
 const PcMenu = styled.div`
@@ -158,6 +160,7 @@ const MobileMenuIcon = styled(Icon)`
   cursor: pointer;
 `;
 
+
 const NavSideContainer = styled.div<{ isWideScreen?: Boolean }>`
   display: ${(props) => (props.isWideScreen ? "none" : "block")};
 `;
@@ -231,6 +234,7 @@ const Nav = () => {
   // }, [isSideMenuChatRoom]);
 
   return (
+
     <NavWrapper>
       <NavHeadContainer>
         <MobileMenuBox>
@@ -271,3 +275,4 @@ const Nav = () => {
 };
 
 export default Nav;
+
