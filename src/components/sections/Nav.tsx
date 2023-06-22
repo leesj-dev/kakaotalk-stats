@@ -8,7 +8,7 @@ import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../atoms/Icon";
-import NavSideMenu from "./NavSideMenu";
+import NavSideMenu from "./NavSide";
 import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
 const NavWrap = styled.div`
