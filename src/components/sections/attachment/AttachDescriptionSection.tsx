@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import BlueButton from "../atoms/BlueButton";
-import Paragraph from "../atoms/Paragraph";
-import ThreeImages, { CardData } from "../organisms/ThreeImages";
-import scrollToEvent from "../../module/common/scrollToEvent";
-import { FlexCenterDiv, FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
+import BlueButton from "../../atoms/BlueButton";
+import Paragraph from "../../atoms/Paragraph";
+import ThreeImages, { CardData } from "../../organisms/attachment/ThreeImages";
+import scrollToEvent from "../../../module/common/scrollToEvent";
+import { FlexCenterDiv, FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
 import { useLocation } from "react-router";
 
 const AttachDescriptionBox = styled(FlexColumnCenterDiv)`
