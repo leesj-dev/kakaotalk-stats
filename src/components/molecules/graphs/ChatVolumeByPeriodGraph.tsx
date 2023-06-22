@@ -14,7 +14,7 @@ import {
 import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
-import NavigatorContainer from "../NavigatorContainer";
+import NavigatorContainer from "../dashboard/GraphNavigatorContainer";
 
 type StackBarData = {
   name: string;
@@ -117,7 +117,7 @@ const ChatVolumeByPeriodGraph = () => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
           <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
-          <Tooltip />
+          <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
           {/* <Legend /> */}
           {chatSpeakers.map((speaker: string, index: number) => {
             return (

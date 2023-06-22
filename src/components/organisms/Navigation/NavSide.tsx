@@ -6,9 +6,9 @@ import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import Span from "../../atoms/Span";
-import DashboardSideMenu from "../../sections/DashboardSideMenu";
+import DashboardSideMenu from "../../sections/dashboard/DashboardSideMenu";
 import { useSelector } from "react-redux";
-import { NavProps } from "../../sections/Navigation";
+import { NavProps } from "../../sections/navigation/Navigation";
 
 const NavSideBox = styled.div<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
@@ -130,6 +130,10 @@ const NavSide: React.FC<NavSideMenuProps> = ({
   const scrollY = window.scrollY;
   const bodyStyle = document.body.style;
 
+  const handleClickGoToDescription = () => {
+    closeMenu();
+  };
+
   useEffect(() => {
     if (isSideMenuChatRoom) {
       bodyStyle.position = "fixed";
@@ -177,7 +181,7 @@ const NavSide: React.FC<NavSideMenuProps> = ({
           <Link to="/" onClick={closeMenu}>
             메인
           </Link>
-          <Link to="/attachment" onClick={closeMenu}>
+          <Link to={`/attachment#description`} onClick={handleClickGoToDescription}>
             첨부방법
           </Link>
           {isAnalyzedMessagesExist && (

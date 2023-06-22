@@ -18,7 +18,7 @@ import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/get
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
-import NavigatorContainer from "../NavigatorContainer";
+import NavigatorContainer from "../dashboard/GraphNavigatorContainer";
 
 type LineGraphData = {
   name: string;
@@ -220,7 +220,7 @@ const ReplySpeedGraph = () => {
           <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
           <YAxis yAxisId="right" orientation="right" fontSize={12} tick={customTickColor(isDarkMode)} />
 
-          <Tooltip />
+          <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
           {/* <Legend /> */}
           <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" fillOpacity={0.85} />
           <ReferenceLine

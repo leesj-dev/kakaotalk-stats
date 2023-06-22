@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import AttachmentButton from "../atoms/AttachmentButton";
-import Paragraph from "../atoms/Paragraph";
-import Span from "../atoms/Span";
+import AttachmentButton from "../../atoms/AttachmentButton";
+import Paragraph from "../../atoms/Paragraph";
+import Span from "../../atoms/Span";
 import OsList from "./OsList";
 import { useDispatch } from "react-redux";
-import { pushNewlyAttachedFiles } from "../../store/reducer/attachedFileListSlice";
-import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
+import { pushNewlyAttachedFiles } from "../../../store/reducer/attachment/attachedFileListSlice";
+import { FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
 
 const DropBox = styled(FlexColumnCenterDiv)`
   position: relative;
@@ -33,12 +33,16 @@ const DropBox = styled(FlexColumnCenterDiv)`
 `;
 
 const AttachmentBox = styled.div`
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   display: flex;
   gap: 5px;
 `;
 
 const TextContentBox = styled(FlexColumnCenterDiv)``;
+
+const AttachGuide = styled(FlexColumnCenterDiv)`
+  margin-bottom: 1.5rem;
+`;
 
 const DragFile = styled(FlexColumnCenterDiv)`
   /* position: absolute; */
@@ -72,17 +76,22 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
       <OsList />
       {screenWidth > 769 ? (
         <TextContentBox>
-          <Span fontSize="18px">카카오톡 텍스트 파일을 드래그하여 끌어 놓거나</Span>
+          <AttachGuide>
+            <Paragraph>카카오톡 텍스트 파일을 드래그하여 끌어 놓거나,</Paragraph>
+            <Paragraph>아래의 파일 첨부하기 버튼을 눌러 카카오톡 대화 파일을 첨부해주세요.</Paragraph>
+          </AttachGuide>
+
           <AttachmentBox>
-            <AttachmentButton onChange={handleChangeFile}>첨부하기</AttachmentButton>
-            <Paragraph fontSize="18px">버튼을 클릭하세요.</Paragraph>
+            <AttachmentButton onChange={handleChangeFile}>파일 첨부하기</AttachmentButton>
           </AttachmentBox>
         </TextContentBox>
       ) : (
         <TextContentBox>
-          <Span fontSize="18px">카카오톡 텍스트 파일</Span>
+          <AttachGuide>
+            <Paragraph>아래의 파일 첨부하기 버튼을 눌러 카카오톡 대화 파일을 첨부해주세요.</Paragraph>
+          </AttachGuide>
           <AttachmentBox>
-            <AttachmentButton onChange={handleChangeFile}>첨부하기</AttachmentButton>
+            <AttachmentButton onChange={handleChangeFile}>파일 첨부하기</AttachmentButton>
           </AttachmentBox>
         </TextContentBox>
       )}

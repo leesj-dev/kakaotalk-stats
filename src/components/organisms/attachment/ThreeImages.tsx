@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import ImageCard from "../molecules/ImageCard";
+import ImageCard from "../../molecules/attachment/ImageCard";
 
 const ThreeImagesBox = styled.div`
   padding: 0 10px;
-  margin-bottom: 50px;
   display: flex;
   gap: 30px;
   justify-content: center;

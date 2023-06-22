@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import scrollToEvent from "../../module/common/scrollEvent";
-import DashboardSideMenu from "../sections/DashboardSideMenu";
-import ModalGraph from "../organisms/ModalGraph";
+import scrollToEvent from "../../module/common/scrollToEvent";
+import DashboardSideMenu from "../sections/dashboard/DashboardSideMenu";
+import ModalGraph from "../organisms/dashboard/ModalGraph";
 import ChatRoomCompareGraph from "../molecules/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../molecules/graphs/ChatVolumeByPeriodGraph";
 import ChatRateGraph from "../molecules/graphs/ChatRateGraph";
@@ -65,7 +65,6 @@ export const graphContentData = [
   },
 ];
 
-
 const GraphDetailContainer = styled.div`
   position: relative;
   margin-top: 80px;
@@ -109,6 +108,12 @@ const DetailPage = () => {
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    scrollToEvent(0, "auto");
+  }, []);
+
   useEffect(() => {
     if (modalRef?.current?.offsetHeight) {
       dispatch(
@@ -120,11 +125,6 @@ const DetailPage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    scrollToEvent(0, "auto");
-  }, []);
-
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
