@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import MainVisual from "../organisms/MainVisual";
 import styled from "styled-components";
-import scrollToEvent from "../../module/common/scrollEvent";
+import scrollToEvent from "../../module/common/scrollToEvent";
 import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
 import MainDescriptionSection from "../sections/MainDescriptionSection";
 
