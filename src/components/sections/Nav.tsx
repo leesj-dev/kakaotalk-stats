@@ -8,10 +8,11 @@ import { setIsDarkMode } from "../../store/reducer/isDarkModeSlice";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../atoms/Icon";
-import NavSideMenu from "./NavSide";
+import NavSide from "./NavSide";
 import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
-const NavWrap = styled.div`
+const NavWrapper = styled.div`
+
   position: fixed;
   top: 0;
   width: 100%;
@@ -22,7 +23,8 @@ const NavWrap = styled.div`
   background: ${(props) => props.theme.navBackground};
 `;
 
-const Container = styled.div`
+
+const NavHeadContainer = styled.div`
   margin: 0 auto;
   padding: 0 20px;
   max-width: 1240px;
@@ -158,7 +160,12 @@ const MobileMenuIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-const MobileMenuShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
+
+const NavSideContainer = styled.div<{ isWideScreen?: Boolean }>`
+  display: ${(props) => (props.isWideScreen ? "none" : "block")};
+`;
+
+const NavSideShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
   position: absolute;
   top: 0;
   right: 0;
@@ -172,7 +179,7 @@ const MobileMenuShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
   transition: 0.2s;
 `;
 
-const NavBar = () => {
+const Nav = () => {
   const dispatch = useDispatch();
 
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1024);
@@ -227,8 +234,9 @@ const NavBar = () => {
   // }, [isSideMenuChatRoom]);
 
   return (
-    <NavWrap>
-      <Container>
+
+    <NavWrapper>
+      <NavHeadContainer>
         <MobileMenuBox>
           <MobileMenuIcon onClick={closeMenu}>
             <HiMenu />
@@ -257,11 +265,14 @@ const NavBar = () => {
             {/* {(isDetailPage || isDashboardPage) && <NoticeBox>다크모드로 볼 때 더 잘보여요.</NoticeBox>} */}
           </DarkModeButton>
         </MenuBox>
-      </Container>
-      <NavSideMenu />
-      <MobileMenuShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
-    </NavWrap>
+      </NavHeadContainer>
+      <NavSideContainer isWideScreen={isWideScreen}>
+        <NavSide isWideScreen={isWideScreen} />
+        <NavSideShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
+      </NavSideContainer>
+    </NavWrapper>
   );
 };
 
-export default NavBar;
+export default Nav;
+

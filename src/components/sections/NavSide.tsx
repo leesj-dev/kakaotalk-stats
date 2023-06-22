@@ -10,7 +10,8 @@ import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import Span from "../atoms/Span";
 import { setIsSideMenuChatRoom } from "../../store/reducer/isSideMenuChatRoomSelectSlice";
 
-const MobileMenuBox = styled.div<{ isSideMenuChatRoom: boolean }>`
+
+const NavSideBox = styled.div<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
   top: 0;
   left: ${(props) => (props.isSideMenuChatRoom ? "0" : "-100%")};
@@ -43,7 +44,8 @@ const TopContent = styled.div`
   line-height: 70px;
 `;
 
-const MobileMenuIcon = styled(Icon)`
+
+const NavMenuIcon = styled(Icon)`
   display: none;
   width: 50%;
   font-size: 3rem;
@@ -95,7 +97,8 @@ const AnalysisBox = styled.div`
   gap: 10px;
 `;
 
-const NavBar = () => {
+
+const NavSide = ({ isWideScreen }: { isWideScreen: boolean }) => {
   const dispatch = useDispatch();
 
   const isAnalyzedMessagesExist = useSelector(
@@ -112,28 +115,34 @@ const NavBar = () => {
     dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
   };
 
-  // useEffect(() => {
-  //   const scrollY = window.scrollY;
-  //   const bodyStyle = document.body.style;
 
-  //   bodyStyle.position = "fixed";
-  //   bodyStyle.top = `-${scrollY}px`;
-  //   bodyStyle.overflowY = "scroll";
-  //   bodyStyle.width = "100%";
+  const scrollY = window.scrollY;
+  const bodyStyle = document.body.style;
+  useEffect(() => {
+    if (isSideMenuChatRoom) {
+      bodyStyle.position = "fixed";
+      bodyStyle.top = `-${scrollY}px`;
+      bodyStyle.overflowY = "scroll";
+      bodyStyle.width = "100%";
 
-  //   return () => {
-  //     bodyStyle.cssText = "";
-  //     window.scrollTo(0, scrollY);
-  //   };
-  // }, []);
+      if (isWideScreen) {
+        bodyStyle.cssText = "";
+      }
+
+      return () => {
+        bodyStyle.cssText = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isSideMenuChatRoom, isWideScreen]);
 
   return (
     <>
-      <MobileMenuBox isSideMenuChatRoom={isSideMenuChatRoom}>
+      <NavSideBox isSideMenuChatRoom={isSideMenuChatRoom}>
         <TopContent>
-          <MobileMenuIcon>
+          <NavMenuIcon>
             <HiMenu onClick={closeMenu} />
-          </MobileMenuIcon>
+          </NavMenuIcon>
           <H1>
             <Link to="/" onClick={closeMenu}>
               <Img
@@ -164,9 +173,10 @@ const NavBar = () => {
           )}
           {isAnalyzedMessagesExist && <DashboardSideMenu />}
         </PageLink>
-      </MobileMenuBox>
+      </NavSideBox>
     </>
   );
 };
 
-export default NavBar;
+export default NavSide;
+
