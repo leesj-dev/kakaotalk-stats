@@ -6,14 +6,13 @@ import { FileObject } from "../../../@types/index.d";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAttachedFileArray } from "../../../store/reducer/attachment/attachedFileListSlice";
 import { MdClose } from "react-icons/md";
+import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
 
 const FileUlBox = styled.ul`
   width: 50%;
 `;
 
-const FileList = styled.li`
-  display: flex;
-  align-items: center;
+const FileList = styled(FlexCenterDiv)`
   justify-content: space-between;
   padding: 10px;
 `;
@@ -34,7 +33,7 @@ const AttachedFileList = () => {
     <FileUlBox>
       {attachedFileList.map((files: FileObject[], fileArrayIndex: number) => {
         return (
-          <FileList key={fileArrayIndex}>
+          <FileList as="li" key={fileArrayIndex}>
             {files.map((file, fileIndex) => {
               return (
                 <Paragraph key={fileIndex}>

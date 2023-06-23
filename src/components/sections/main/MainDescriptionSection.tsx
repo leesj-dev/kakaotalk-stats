@@ -5,7 +5,7 @@ import H2 from "../../atoms/H2";
 import H3 from "../../atoms/H3";
 import Img from "../../atoms/Img";
 import Paragraph from "../../atoms/Paragraph";
-import { FlexCenterDiv, FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
+import { FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
 
 const Container = styled.div`
   margin: 100px 0px 0px 0px;
