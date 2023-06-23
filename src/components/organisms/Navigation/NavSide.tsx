@@ -9,13 +9,12 @@ import Span from "../../atoms/Span";
 import DashboardSideMenu from "../../sections/dashboard/DashboardSideMenu";
 import { useSelector } from "react-redux";
 import { NavProps } from "../../sections/navigation/Navigation";
+import { FlexCenterDiv, FlexColumnDiv } from "../../styleComponents/FlexDiv";
 
-const NavSideBox = styled.div<{ isSideMenuChatRoom: boolean }>`
+const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
   top: 0;
   left: ${(props) => (props.isSideMenuChatRoom ? "0" : "-100%")};
-  display: flex;
-  flex-direction: column;
   width: 40%;
   height: 100vh;
   background: ${(props) => props.theme.mainWhite};
@@ -56,10 +55,7 @@ const NavMenuIcon = styled(Icon)`
   }
 `;
 
-const H1 = styled.h1`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const H2 = styled(FlexCenterDiv)`
   width: 120px;
   transform: translateX(-50%);
 `;
@@ -87,11 +83,8 @@ const PageLink = styled.div`
   }
 `;
 
-const AnalysisBox = styled.div`
+const AnalysisBox = styled(FlexCenterDiv)`
   padding: 15px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
 `;
 
@@ -161,7 +154,7 @@ const NavSide: React.FC<NavSideMenuProps> = ({
           <NavMenuIcon>
             <HiMenu onClick={closeMenu} />
           </NavMenuIcon>
-          <H1>
+          <H2 as="h2">
             <Link to="/" onClick={closeMenu}>
               <Img
                 src={`${process.env.PUBLIC_URL}/images/logo/${
@@ -169,7 +162,7 @@ const NavSide: React.FC<NavSideMenuProps> = ({
                 }.png`}
               />
             </Link>
-          </H1>
+          </H2>
         </TopContent>
         <PageLink>
           <Link to="/attachment" onClick={closeMenu}>

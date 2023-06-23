@@ -106,29 +106,25 @@ const PeriodBox = styled(FlexColumnCenterDiv)`
   border-bottom: 1px solid ${(props) => props.theme.mainGray};
   font-weight: 500;
 `;
-const Description = styled.div<{
-  fontSize?: string;
-}>`
+const Description = styled.div`
   width: 100%;
   height: 100%;
   > :first-child {
-    font-size: ${(props) => props.fontSize || "2.6em"};
+    font-size: 2.6em;
     margin-bottom: 15px;
     font-weight: 500;
   }
   > :nth-child(2) {
-    font-size: ${(props) => props.fontSize || "1.8em"};
+    font-size: 1.8em;
     margin-bottom: 25px;
   }
   > :last-child {
-    font-size: ${(props) => props.fontSize || "1.6em"};
+    font-size: 1.6em;
     font-weight: 300;
   }
 `;
-const CardContentBox = styled.div`
+const CardContentBox = styled(FlexColumnDiv)`
   padding: 15px 0;
-  display: flex;
-  flex-direction: column;
   text-align: start;
   color: ${(props) => props.theme.mainText};
   > :first-child {
@@ -138,9 +134,7 @@ const CardContentBox = styled.div`
   }
 `;
 
-const ResponsiveContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const ResponsiveContentBox = styled(FlexColumnDiv)`
   width: 100%;
   height: 100%;
   gap: 15px;
@@ -152,10 +146,8 @@ const ResponsiveContentBox = styled.div`
   }
 `;
 
-const ResponsiveHeadBox = styled.div`
+const ResponsiveHeadBox = styled(FlexCenterDiv)`
   padding: 0 12px;
-  display: flex;
-  align-items: center;
   height: 100%;
   > * {
     flex: 1;
@@ -224,10 +216,9 @@ const ResponsivePeriodBox = styled.div`
   margin-bottom: 5px;
 `;
 
-const ResponsiveSubjectBox = styled.div`
+const ResponsiveSubjectBox = styled(FlexColumnDiv)`
   margin-left: 10px;
-  display: flex;
-  flex-direction: column;
+
   @media (max-width: 480px) {
     align-items: center;
   }

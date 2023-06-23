@@ -12,15 +12,13 @@ import Paragraph from "../../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../../store/reducer/dashboard/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
-
 import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMenuChatRoomSelectSlice";
+import { FlexColumnDiv } from "../../styleComponents/FlexDiv";
 
-const DashboardLayoutBox = styled.div`
+const DashboardLayoutBox = styled(FlexColumnDiv)`
   position: sticky;
   top: 80px;
   left: 0;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
   width: 15%;
   height: calc(100vh - 80px);
@@ -30,10 +28,8 @@ const DashboardLayoutBox = styled.div`
   }
 `;
 
-const ChatroomMenuTitleBox = styled.div`
+const ChatroomMenuTitleBox = styled(FlexColumnDiv)`
   padding: 15px;
-  display: flex;
-  flex-direction: column;
   font-size: 18px;
   color: ${(props) => props.theme.mainText};
   letter-spacing: 0.05rem;
@@ -59,10 +55,8 @@ const ChatroomGraphBox = styled.div`
   }
 `;
 
-const ChatroomListTitleBox = styled.div`
+const ChatroomListTitleBox = styled(FlexColumnDiv)`
   padding: 15px;
-  display: flex;
-  flex-direction: column;
   font-size: 18px;
   color: ${(props) => props.theme.mainText};
   letter-spacing: 0.05rem;
@@ -73,10 +67,8 @@ const ChatroomListTitleBox = styled.div`
   }
 `;
 
-const ChatroomListBox = styled.div`
+const ChatroomListBox = styled(FlexColumnDiv)`
   padding: 15px;
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   height: 100%;
   width: 100%;

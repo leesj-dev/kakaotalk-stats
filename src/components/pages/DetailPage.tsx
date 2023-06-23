@@ -12,6 +12,7 @@ import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
 import { setVolumeHourlyBoxSize } from "../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
+import { FlexColumnDiv } from "../styleComponents/FlexDiv";
 
 export const graphContentData = [
   {
@@ -76,9 +77,7 @@ const GraphDetailContainer = styled.div`
   }
 `;
 
-const ContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const ContentBox = styled(FlexColumnDiv)`
   width: calc(85% - 30px);
 
   @media (max-width: 1024px) {

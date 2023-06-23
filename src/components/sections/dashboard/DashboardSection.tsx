@@ -11,22 +11,17 @@ import DashboardHeaderContent from "../../molecules/dashboard/DashboardHeaderCon
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
 import SpeakerSelect from "../../molecules/dashboard/SpeakerSelect";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
+import { FlexCenterDiv, FlexColumnDiv } from "../../styleComponents/FlexDiv";
 
-const DashboardSectionContainer = styled.div`
+const DashboardSectionContainer = styled(FlexCenterDiv)`
   padding: 10px;
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  text-align: center;
   gap: 10px;
   height: calc(100vh - 80px);
   width: 100%;
   background: ${(props) => props.theme.dashboardBackground};
 `;
 
-const AsideBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const AsideBox = styled(FlexColumnDiv)`
   height: 100%;
   width: 25%;
   gap: 10px;
@@ -36,11 +31,9 @@ const AsideBox = styled.div`
   }
 `;
 
-const ArticleBox = styled.div`
+const ArticleBox = styled(FlexColumnDiv)`
   height: 100%;
   width: calc(100% - 25% - 10px);
-  display: flex;
-  flex-direction: column;
   gap: 10px;
 
   /* <HeadBox> */
@@ -79,17 +72,13 @@ const HeadBox = styled.div`
   }
 `;
 
-const DashboardContainer = styled.div`
+const DashboardContainer = styled(FlexColumnDiv)`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
   gap: 15px;
 `;
 
-const BodyBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const BodyBox = styled(FlexColumnDiv)`
   gap: 10px;
 
   > * {
@@ -110,9 +99,7 @@ const VerticalBox = styled.div`
   gap: 10px;
 `;
 
-const HorizontalBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const HorizontalBox = styled(FlexColumnDiv)`
   gap: 10px;
 `;
 
