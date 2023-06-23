@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
 import AttachmentSection from "../sections/attachment/AttachmentSection";
 import AttachmentDescriptionSection from "../sections/attachment/AttachDescriptionSection";
 import scrollToEvent from "../../module/common/scrollToEvent";
-import { FlexColumnCenterDiv } from "../styleComponents/FlexDiv";
+import { FlexColumnCenterDiv } from "../atoms/FlexDiv";
 import { useDispatch } from "react-redux";
 import { pushNewlyAttachedFiles } from "../../store/reducer/attachment/attachedFileListSlice";
 import { VscNewFile } from "react-icons/vsc";
