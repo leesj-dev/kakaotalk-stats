@@ -5,13 +5,12 @@ import Icon from "../../atoms/Icon";
 import { FiArrowUp } from "react-icons/fi";
 import { BsShareFill } from "react-icons/bs";
 import { lightTheme } from "../../../style/Theme";
+import { FlexColumnDiv } from "../../styleComponents/FlexDiv";
 
-const FloatingMenuContainer = styled.div<{ isFloatingMenuVisible?: boolean }>`
+const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: boolean }>`
   position: fixed;
   bottom: 30px;
   right: 30px;
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   opacity: 0;
   visibility: hidden;

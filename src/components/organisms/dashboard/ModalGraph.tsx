@@ -12,7 +12,7 @@ import { getDates } from "../../../module/common/getProperties";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import { graphContentData } from "../../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
+import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../styleComponents/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 
 const ModalGraphBox = styled.div`
@@ -50,17 +50,13 @@ const GraphContentBox = styled.div`
   height: 100%;
 `;
 
-const DescriptionBox = styled.div`
+const DescriptionBox = styled(FlexColumnDiv)`
+  padding: 10px 0px 10px 15px;
   width: 25%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 0px 10px 15px;
 `;
 
-const InfoContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const InfoContentBox = styled(FlexColumnDiv)`
   gap: 5px;
 `;
 
@@ -79,11 +75,8 @@ const FlipModalGraphIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-const SpeakerSelectBox = styled.div`
+const SpeakerSelectBox = styled(FlexCenterDiv)`
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
   width: 100%;
   height: 100%;
@@ -104,13 +97,10 @@ const SpeakerSelectBox = styled.div`
   }
 `;
 
-const PeriodBox = styled.div`
+const PeriodBox = styled(FlexColumnCenterDiv)`
   margin-bottom: 10px;
   padding: 10px 0;
-  display: flex;
-  flex-direction: column;
   font-size: 16px;
-  text-align: center;
   color: ${(props) => props.theme.mainText};
   border-top: 1px solid ${(props) => props.theme.mainGray};
   border-bottom: 1px solid ${(props) => props.theme.mainGray};

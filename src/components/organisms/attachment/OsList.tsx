@@ -7,13 +7,10 @@ import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
 import { SiIos } from "react-icons/si";
 import Icon from "../../atoms/Icon";
 import { lightTheme } from "../../../style/Theme";
+import { FlexCenterDiv, FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
 
-const OsListBox = styled.ul`
+const OsListBox = styled(FlexCenterDiv)`
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   gap: 2.5rem;
 
   @media (max-width: 1200px) {
@@ -26,26 +23,10 @@ const OsListBox = styled.ul`
     max-width: 480px;
     gap: 1.5rem;
   }
-
-  /* > :nth-child(2) {
-    > :first-child {
-      transform: scale(98%) translateY(-3px);
-    }
-  }
-  > :nth-child(3) {
-    > :first-child {
-      transform: scale(96%);
-    }
-  } */
 `;
 
-const OsIconBox = styled.li<{ size?: string; color?: string; fontSize?: string }>`
+const OsIconBox = styled(FlexColumnCenterDiv)`
   padding: 1rem;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
   border-radius: 5px;
   transition: 0.2s;
   cursor: pointer;
@@ -54,15 +35,12 @@ const OsIconBox = styled.li<{ size?: string; color?: string; fontSize?: string }
     padding: 0.25rem;
   }
 
-  /* > :nth-child(2) {
-  } */
-
   > :first-child {
-    width: ${(props) => props.size || "6.5rem"};
-    font-size: ${(props) => props.fontSize || "6rem"};
+    width: 6.5rem;
+    font-size: 6rem;
     @media (max-width: 520px) {
-      width: ${(props) => props.size || "6.5rem"};
-      font-size: ${(props) => props.fontSize || "5rem"};
+      width: 6.5rem;
+      font-size: 5rem;
     }
   }
 
@@ -129,11 +107,7 @@ interface OsData {
   os: string;
 }
 
-type OsListProps = {
-  color?: string;
-};
-
-const OsList = ({ color }: OsListProps) => {
+const OsList = () => {
   const dispatch = useDispatch();
 
   const selectedOsIndex = useSelector(
@@ -143,13 +117,13 @@ const OsList = ({ color }: OsListProps) => {
 
   return (
     <OsListBox>
-      <OsRowBox>
+      <OsRowBox as="ul">
         {osData.slice(0, 2).map((data: OsData) => {
           return (
             <OsIconBox
+              as="li"
               key={data.id}
               className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
-              color={color}
               onClick={() => dispatch(setSelectedOsIndex(data.id))}
             >
               <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
@@ -160,13 +134,13 @@ const OsList = ({ color }: OsListProps) => {
           );
         })}
       </OsRowBox>
-      <OsRowBox>
+      <OsRowBox as="ul">
         {osData.slice(2, 4).map((data: OsData) => {
           return (
             <OsIconBox
+              as="li"
               key={data.id}
               className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
-              color={color}
               onClick={() => dispatch(setSelectedOsIndex(data.id))}
             >
               <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>

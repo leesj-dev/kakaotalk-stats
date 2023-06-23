@@ -3,9 +3,9 @@ import styled, { keyframes } from "styled-components";
 import Paragraph from "../../atoms/Paragraph";
 import { lightTheme } from "../../../style/Theme";
 import Icon from "../../atoms/Icon";
+import { FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
 
-const IndicatorBox = styled.div`
-  text-align: center;
+const IndicatorBox = styled(FlexColumnCenterDiv)`
   margin: 0 auto;
   width: 300px;
   cursor: pointer;
