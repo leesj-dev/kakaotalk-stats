@@ -9,15 +9,16 @@ import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled(FlexCenterDiv)`
+  position: relative;
   width: 100%;
   max-width: 1200px;
-  position: relative;
-  padding: 100px 0px;
+  height: calc(100vh - 70px);
   text-align: start;
 
   @media (max-width: 768px) {
+    padding: 50px 0 0;
     max-width: 808px;
-    padding: 50px 0px 0;
+    height: auto;
     flex-direction: column;
   }
   @media (max-width: 480px) {
@@ -39,7 +40,7 @@ const AsideBox = styled.div`
     text-align: center;
   }
   > :nth-child(1) {
-    margin-bottom: 30px;
+    margin-bottom: 80px;
   }
   > :nth-child(2) {
     display: inline-block;
