@@ -5,19 +5,20 @@ import Img from "../../atoms/Img";
 import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../../molecules/common/ScrollIndicator";
 import BlueButton from "../../atoms/BlueButton";
-import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
+import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled(FlexCenterDiv)`
+  position: relative;
   width: 100%;
   max-width: 1200px;
-  position: relative;
-  padding: 100px 0px;
+  height: calc(100vh - 70px);
   text-align: start;
 
   @media (max-width: 768px) {
+    padding: 50px 0 0;
     max-width: 808px;
-    padding: 50px 0px 0;
+    height: auto;
     flex-direction: column;
   }
   @media (max-width: 480px) {
@@ -39,7 +40,7 @@ const AsideBox = styled.div`
     text-align: center;
   }
   > :nth-child(1) {
-    margin-bottom: 30px;
+    margin-bottom: 80px;
   }
   > :nth-child(2) {
     display: inline-block;
@@ -96,13 +97,11 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
       <AsideBox>
         <LogoBox>
           <MainTitle fontSize="4.8rem" fontWeight="700">
-            카카오돋보기 2023
+            카카오돋보기 2080
           </MainTitle>
-          <SubTitle fontSize="2.6rem">
-            콘솔, PC 또는 클라우드에서 수백 개의 고품질 게임을 즐기세요.
-          </SubTitle>
+          <SubTitle fontSize="2.6rem">20대 카톡 80대까지 간다</SubTitle>
           <ContentText fontSize="1.6rem">
-            구독은 Microsoft 계정을 통해 취소하지 않는 한 자동 연장됩니다.
+            분석된 정보는 시각적으로 나타내어지며 그래프, 차트 등의 형태로 사용자에게 제공됩니다.
           </ContentText>
         </LogoBox>
         <BlueButton onClick={() => navigate("/attachment")}>GET STARTED</BlueButton>

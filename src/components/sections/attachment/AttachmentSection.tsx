@@ -28,8 +28,8 @@ import scrollToEvent from "../../../module/common/scrollToEvent";
 import { pushNewlyAttachedFiles } from "../../../store/reducer/attachment/attachedFileListSlice";
 import { setIsAnalyzedMessagesExist } from "../../../store/reducer/dashboard/isAnalyzedMessagesExistSlice";
 import Paragraph from "../../atoms/Paragraph";
-import { FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
 import OsList from "../../organisms/attachment/OsList";
+import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   margin: 80px auto 0 auto;
