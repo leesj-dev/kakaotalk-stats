@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Paragraph from "../../atoms/Paragraph";
 import Img from "../../atoms/Img";
 import { useNavigate } from "react-router-dom";
-import ScrollIndicator from "../../molecules/ScrollIndicator";
+import ScrollIndicator from "../../molecules/common/ScrollIndicator";
 import BlueButton from "../../atoms/BlueButton";
 import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
 import { useSelector } from "react-redux";

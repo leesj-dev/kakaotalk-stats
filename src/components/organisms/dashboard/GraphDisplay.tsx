@@ -12,7 +12,7 @@ import KeywordChartGraph from "../../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../../molecules/graphs/ChatVolumeByHourlyGraph";
 import { CgMaximize } from "react-icons/cg";
-import { setIsModalVisible } from "../../../store/reducer/isModalVisibleSlice";
+import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import { FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
 
 const graphContentData = [
