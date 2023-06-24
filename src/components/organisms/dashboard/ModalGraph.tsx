@@ -292,6 +292,10 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
     }
   };
 
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+
   useEffect(() => {
     if (modalRef?.current?.offsetHeight) {
       dispatch(
@@ -301,13 +305,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
         ])
       );
     }
-  }, [screenWidth]);
 
-  const handleResize = () => {
-    setScreenWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);

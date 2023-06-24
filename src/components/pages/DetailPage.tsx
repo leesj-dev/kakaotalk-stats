@@ -7,7 +7,6 @@ import ModalGraph from "../organisms/dashboard/ModalGraph";
 import ChatRoomCompareGraph from "../molecules/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../molecules/graphs/ChatVolumeByPeriodGraph";
 import ChatRateGraph from "../molecules/graphs/ChatRateGraph";
-import ReplyCountByHourlyGraph from "../molecules/graphs/ReplyCountByHourlyGraph";
 import KeywordChartGraph from "../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
