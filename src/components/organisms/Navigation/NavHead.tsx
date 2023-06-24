@@ -45,12 +45,12 @@ const MenuBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 20px;
+  gap: 50px;
 `;
 
-const PcMenu = styled(FlexCenterDiv)`
-  gap: 60px;
+const Menus = styled(FlexCenterDiv)`
   font-size: 2.2rem;
+  gap: 50px;
   @media (max-width: 1024px) {
     display: none;
   }
@@ -111,11 +111,6 @@ const IconBox = styled(FlexCenterDiv)`
   }
 `;
 
-const PageLink = styled.div`
-  display: flex;
-  gap: 60px;
-`;
-
 // const NoticeBox = styled(FlexCenterDiv)`
 //   display: none;
 //   position: absolute;
@@ -169,12 +164,10 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
         </Link>
       </H1>
       <MenuBox>
-        <PcMenu>
-          <PageLink>
-            <Link to="/attachment">분석하기</Link>
-            {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
-          </PageLink>
-        </PcMenu>
+        <Menus>
+          <Link to="/attachment">분석하기</Link>
+          {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+        </Menus>
         <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
           <ToggleCircle></ToggleCircle>
           <IconBox>
