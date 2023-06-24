@@ -27,7 +27,6 @@ const Card = styled.div`
   border-radius: 10px;
   box-shadow: 2px 0px 10px 0px #ddd;
   overflow: hidden;
-
   @media (max-width: 768px) {
     flex-direction: column;
     margin-top: 100px;

@@ -5,10 +5,9 @@ import { AnalyzedMessage } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import Span from "../../atoms/Span";
+import { FlexColumnDiv } from "../../styleComponents/FlexDiv";
 
-const SpeakerSelectBox = styled.div<{ alignItems?: string }>`
-  display: flex;
-  flex-direction: column;
+const SpeakerSelectBox = styled(FlexColumnDiv)<{ alignItems?: string }>`
   gap: 5px;
   width: 100%;
   align-items: ${(props) => props.alignItems || "end"};

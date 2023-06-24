@@ -9,6 +9,7 @@ import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
 import { NavProps } from "../../sections/navigation/Navigation";
+import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;
@@ -47,10 +48,8 @@ const MenuBox = styled.div`
   gap: 20px;
 `;
 
-const PcMenu = styled.div`
-  display: flex;
+const PcMenu = styled(FlexCenterDiv)`
   gap: 60px;
-  align-items: center;
   font-size: 2.2rem;
   @media (max-width: 1024px) {
     display: none;
@@ -98,13 +97,11 @@ const ToggleCircle = styled.div`
   background: #fff;
 `;
 
-const IconBox = styled.div`
+const IconBox = styled(FlexCenterDiv)`
   position: absolute;
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  display: flex;
-  align-items: center;
   width: 100%;
   height: 100%;
   border-radius: 25px;

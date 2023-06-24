@@ -1,4 +1,4 @@
-import { DefaultTheme } from "styled-components";
+import { DefaultTheme, css } from "styled-components";
 
 export const lightTheme: DefaultTheme = {
   mainBlue: "#2da0fa",
@@ -33,4 +33,16 @@ export const darkTheme: DefaultTheme = {
   modalBackground: "#44444440",
   modalContentBackground: "#60606070",
   functionArrowWhite: "#fff",
+};
+
+export const StyledSpan = {
+  size22: css`
+    font-size: 22px;
+    font-weight: 400;
+    color: #f00;
+  `,
+  size20: css`
+    font-size: 20px;
+    font-weight: 300;
+  `,
 };

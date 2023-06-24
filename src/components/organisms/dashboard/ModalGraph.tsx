@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Span from "../../atoms/Span";
 import Icon from "../../atoms/Icon";
@@ -12,8 +12,9 @@ import { getDates } from "../../../module/common/getProperties";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import { graphContentData } from "../../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import { FlexCenterDiv } from "../../atoms/FlexDiv";
+import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
+import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -50,17 +51,13 @@ const GraphContentBox = styled.div`
   height: 100%;
 `;
 
-const DescriptionBox = styled.div`
+const DescriptionBox = styled(FlexColumnDiv)`
+  padding: 10px 0px 10px 15px;
   width: 25%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 0px 10px 15px;
 `;
 
-const InfoContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const InfoContentBox = styled(FlexColumnDiv)`
   gap: 5px;
 `;
 
@@ -79,11 +76,8 @@ const FlipModalGraphIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-const SpeakerSelectBox = styled.div`
+const SpeakerSelectBox = styled(FlexCenterDiv)`
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
   width: 100%;
   height: 100%;
@@ -104,41 +98,34 @@ const SpeakerSelectBox = styled.div`
   }
 `;
 
-const PeriodBox = styled.div`
+const PeriodBox = styled(FlexColumnCenterDiv)`
   margin-bottom: 10px;
   padding: 10px 0;
-  display: flex;
-  flex-direction: column;
   font-size: 16px;
-  text-align: center;
   color: ${(props) => props.theme.mainText};
   border-top: 1px solid ${(props) => props.theme.mainGray};
   border-bottom: 1px solid ${(props) => props.theme.mainGray};
   font-weight: 500;
 `;
-const Description = styled.div<{
-  fontSize?: string;
-}>`
+const Description = styled.div`
   width: 100%;
   height: 100%;
   > :first-child {
-    font-size: ${(props) => props.fontSize || "2.6em"};
+    font-size: 2.6em;
     margin-bottom: 15px;
     font-weight: 500;
   }
   > :nth-child(2) {
-    font-size: ${(props) => props.fontSize || "1.8em"};
+    font-size: 1.8em;
     margin-bottom: 25px;
   }
   > :last-child {
-    font-size: ${(props) => props.fontSize || "1.6em"};
+    font-size: 1.6em;
     font-weight: 300;
   }
 `;
-const CardContentBox = styled.div`
+const CardContentBox = styled(FlexColumnDiv)`
   padding: 15px 0;
-  display: flex;
-  flex-direction: column;
   text-align: start;
   color: ${(props) => props.theme.mainText};
   > :first-child {
@@ -148,9 +135,7 @@ const CardContentBox = styled.div`
   }
 `;
 
-const ResponsiveContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const ResponsiveContentBox = styled(FlexColumnDiv)`
   width: 100%;
   height: 100%;
   gap: 15px;
@@ -162,10 +147,8 @@ const ResponsiveContentBox = styled.div`
   }
 `;
 
-const ResponsiveHeadBox = styled.div`
+const ResponsiveHeadBox = styled(FlexCenterDiv)`
   padding: 0 12px;
-  display: flex;
-  align-items: center;
   height: 100%;
   > * {
     flex: 1;
@@ -234,20 +217,19 @@ const ResponsivePeriodBox = styled.div`
   margin-bottom: 5px;
 `;
 
-const ResponsiveSubjectBox = styled.div`
+const ResponsiveSubjectBox = styled(FlexColumnDiv)`
   margin-left: 10px;
-  display: flex;
-  flex-direction: column;
+
   @media (max-width: 480px) {
     align-items: center;
   }
 `;
 
-const ResponsiveParagraphBox = styled.div`
-  margin-left: 10px;
-  padding: 0 12px;
-  text-align: start;
-`;
+// const ResponsiveParagraphBox = styled.div`
+//   margin-left: 10px;
+//   padding: 0 12px;
+//   text-align: start;
+// `;
 
 const ResponsiveGraphContentBox = styled.div`
   position: relative;
@@ -273,7 +255,9 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
 
   const dispatch = useDispatch();
 
-  const { subject, graph, h2, h3, p } = currentModalData;
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  const { subject, graph, h2, p } = currentModalData;
 
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -281,25 +265,15 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
+
   const chatDates = getDates(results)[selectedChatRoomIndex];
   const datePickerPeriodData = [chatDates.flat()[0], chatDates.flat().slice(-1)[0]];
 
   const handleClickCloseModalButton = () => {
     setIsModalVisible && dispatch(setIsModalVisible(false));
   };
-
-  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
-
-  const handleResize = () => {
-    setScreenWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const findModalDataById = (id: number) => {
     if (id === 0) {
@@ -318,8 +292,28 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
     }
   };
 
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    if (modalRef?.current?.offsetHeight) {
+      dispatch(
+        setVolumeHourlyBoxSize([
+          (modalRef?.current?.offsetWidth * 3) / 4,
+          modalRef?.current?.offsetHeight,
+        ])
+      );
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [screenWidth]);
+
   return (
-    <ModalGraphBox className="GraphContentBox">
+    <ModalGraphBox className="GraphContentBox" ref={modalRef}>
       {isDetailPage ? null : (
         <CloseModalIcon onClick={() => handleClickCloseModalButton()}>
           <MdClose />

@@ -1,19 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import ImageCard from "../../molecules/attachment/ImageCard";
+import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
 
-const ThreeImagesBox = styled.div`
+const ThreeImagesBox = styled(FlexCenterDiv)`
   padding: 0 10px;
-  display: flex;
   gap: 30px;
-  justify-content: center;
-  align-items: center;
   max-width: 1220px;
   height: 100%;
-  text-align: center;
-  > * {
-    justify-content: center;
-  }
+
   @media (max-width: 1024px) {
     flex-direction: column;
   }

@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Span from "../../atoms/Span";
+import { FlexColumnDiv } from "../../styleComponents/FlexDiv";
 
-const HeaderContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const HeaderContentBox = styled(FlexColumnDiv)`
   height: 100%;
   > :nth-child(2) {
     margin-top: 12px;
