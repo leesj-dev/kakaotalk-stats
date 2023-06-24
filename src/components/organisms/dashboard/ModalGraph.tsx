@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Span from "../../atoms/Span";
 import Icon from "../../atoms/Icon";
@@ -14,6 +14,7 @@ import { graphContentData } from "../../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../styleComponents/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
+import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -254,6 +255,8 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
 
   const dispatch = useDispatch();
 
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
   const { subject, graph, h2, h3, p } = currentModalData;
 
   const results = useSelector(
@@ -262,25 +265,15 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
   const selectedChatRoomIndex = useSelector(
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
+
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
+
   const chatDates = getDates(results)[selectedChatRoomIndex];
   const datePickerPeriodData = [chatDates.flat()[0], chatDates.flat().slice(-1)[0]];
 
   const handleClickCloseModalButton = () => {
     setIsModalVisible && dispatch(setIsModalVisible(false));
   };
-
-  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
-
-  const handleResize = () => {
-    setScreenWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const findModalDataById = (id: number) => {
     if (id === 0) {
@@ -299,8 +292,30 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
     }
   };
 
+  useEffect(() => {
+    if (modalRef?.current?.offsetHeight) {
+      dispatch(
+        setVolumeHourlyBoxSize([
+          (modalRef?.current?.offsetWidth * 3) / 4,
+          modalRef?.current?.offsetHeight,
+        ])
+      );
+    }
+  }, [screenWidth]);
+
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [screenWidth]);
+
   return (
-    <ModalGraphBox className="GraphContentBox">
+    <ModalGraphBox className="GraphContentBox" ref={modalRef}>
       {isDetailPage ? null : (
         <CloseModalIcon onClick={() => handleClickCloseModalButton()}>
           <MdClose />

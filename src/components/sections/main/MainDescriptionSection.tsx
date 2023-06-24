@@ -6,6 +6,7 @@ import H3 from "../../atoms/H3";
 import Img from "../../atoms/Img";
 import Paragraph from "../../atoms/Paragraph";
 import { FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
+import { StyledSpan } from "../../../style/Theme";
 
 const Container = styled.div`
   margin: 100px 0px 0px 0px;
