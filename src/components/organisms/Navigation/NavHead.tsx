@@ -9,7 +9,7 @@ import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
 import { NavProps } from "../../sections/navigation/Navigation";
-import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
+import { FlexCenterDiv } from "../../atoms/FlexDiv";
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;

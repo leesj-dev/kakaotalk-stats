@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ImageCard from "../../molecules/attachment/ImageCard";
-import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
+import { FlexCenterDiv } from "../../atoms/FlexDiv";
 
 const ThreeImagesBox = styled(FlexCenterDiv)`
   padding: 0 10px;

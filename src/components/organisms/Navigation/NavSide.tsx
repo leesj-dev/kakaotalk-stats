@@ -9,7 +9,7 @@ import Span from "../../atoms/Span";
 import DashboardSideMenu from "../../sections/dashboard/DashboardSideMenu";
 import { useSelector } from "react-redux";
 import { NavProps } from "../../sections/navigation/Navigation";
-import { FlexCenterDiv, FlexColumnDiv } from "../../styleComponents/FlexDiv";
+import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   position: absolute;

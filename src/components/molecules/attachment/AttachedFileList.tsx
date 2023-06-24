@@ -6,7 +6,7 @@ import { FileObject } from "../../../@types/index.d";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAttachedFileArray } from "../../../store/reducer/attachment/attachedFileListSlice";
 import { MdClose } from "react-icons/md";
-import { FlexCenterDiv } from "../../styleComponents/FlexDiv";
+import { FlexCenterDiv } from "../../atoms/FlexDiv";
 
 const FileUlBox = styled.ul`
   width: 50%;

@@ -7,7 +7,7 @@ import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
 import { SiIos } from "react-icons/si";
 import Icon from "../../atoms/Icon";
 import { lightTheme } from "../../../style/Theme";
-import { FlexCenterDiv, FlexColumnCenterDiv } from "../../styleComponents/FlexDiv";
+import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const OsListBox = styled(FlexCenterDiv)`
   margin: 0 auto;

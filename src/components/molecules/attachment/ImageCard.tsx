@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 import Img from "../../atoms/Img";
 import Paragraph from "../../atoms/Paragraph";
-import { FlexColumnDiv } from "../../styleComponents/FlexDiv";
+import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const ImageCardBox = styled(FlexColumnDiv)`
   flex: 1;

@@ -5,7 +5,7 @@ import Icon from "../../atoms/Icon";
 import { FiArrowUp } from "react-icons/fi";
 import { BsShareFill } from "react-icons/bs";
 import { lightTheme } from "../../../style/Theme";
-import { FlexColumnDiv } from "../../styleComponents/FlexDiv";
+import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: boolean }>`
   position: fixed;

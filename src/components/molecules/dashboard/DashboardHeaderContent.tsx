@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Span from "../../atoms/Span";
-import { FlexColumnDiv } from "../../styleComponents/FlexDiv";
+import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const HeaderContentBox = styled(FlexColumnDiv)`
   height: 100%;

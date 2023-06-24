@@ -11,7 +11,7 @@ import DashboardHeaderContent from "../../molecules/dashboard/DashboardHeaderCon
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
 import SpeakerSelect from "../../molecules/dashboard/SpeakerSelect";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
-import { FlexCenterDiv, FlexColumnDiv } from "../../styleComponents/FlexDiv";
+import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const DashboardSectionContainer = styled(FlexCenterDiv)`
   padding: 10px;

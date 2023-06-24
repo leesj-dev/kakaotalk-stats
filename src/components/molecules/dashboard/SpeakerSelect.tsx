@@ -5,7 +5,7 @@ import { AnalyzedMessage } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import Span from "../../atoms/Span";
-import { FlexColumnDiv } from "../../styleComponents/FlexDiv";
+import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const SpeakerSelectBox = styled(FlexColumnDiv)<{ alignItems?: string }>`
   gap: 5px;
