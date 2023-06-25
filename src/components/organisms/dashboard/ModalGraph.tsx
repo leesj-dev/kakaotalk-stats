@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Span from "../../atoms/Span";
 import Icon from "../../atoms/Icon";
+import ChatRatioWithArrowGraph from "../../molecules/graphs/ChatRatioWithArrowGraph";
+import SpeakerSelect from "../../molecules/dashboard/SpeakerSelect";
 import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +15,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
-import SpeakerSelector from "./SpeackerSelector";
+import SpeackerSelectContent from "./SpeackerSelectContent";
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -297,7 +299,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                   {!isDetailPage && <BsChevronRight />}
                 </FlipModalGraphIcon>
               </SubjectBox>
-              {subject === "종합 비교" ? null : <SpeakerSelector />}
+              {subject === "종합 비교" ? null : <SpeackerSelectContent />}
               <PeriodBox>
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </PeriodBox>
@@ -326,7 +328,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                 </FlipModalGraphIcon>
               </SubjectBox>
             </ResponsiveSubjectBox>
-            {subject === "종합 비교" ? null : <SpeakerSelector />}
+            {subject === "종합 비교" ? null : <SpeackerSelectContent />}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
         </ResponsiveContentBox>
