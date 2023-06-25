@@ -8,9 +8,16 @@ import Span from "../../atoms/Span";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const SpeakerSelectBox = styled(FlexColumnDiv)<{ alignItems?: string }>`
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  align-items: ${(props) => props.alignItems || "end"};
   font-size: 12px;
+
+  @media (max-width: 1200px) {
+    margin-bottom: 5px;
+    align-items: end;
+    justify-content: end;
+  }
 `;
 
 const SelectNotice = styled(Span)`

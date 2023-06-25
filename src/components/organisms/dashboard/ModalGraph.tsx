@@ -13,7 +13,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
-import SpeakerSelectContent from "./SpeackerSelectContent";
+import SpeakerSelectContent from "./SpeakerSelectContent";
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -61,12 +61,18 @@ const InfoContentBox = styled(FlexColumnDiv)`
 `;
 
 const SubjectBox = styled(FlexCenterDiv)`
+  margin-bottom: 10px;
   justify-content: space-between;
   min-width: 177px;
   > * {
     display: flex;
     align-items: center;
     height: 40px;
+  }
+
+  @media (max-width: 480px) {
+    height: 22px;
+    justify-content: start;
   }
 `;
 
@@ -111,69 +117,16 @@ const ResponsiveHeadBox = styled(FlexCenterDiv)`
     flex: 1;
     height: 100%;
   }
-  > :nth-child(1) {
-    align-items: start;
-    justify-content: center;
-    > :nth-child(1) {
-      @media (max-width: 480px) {
-        font-size: 16px;
-      }
-    }
-    > :nth-child(2) {
-      height: 60px;
-      @media (max-width: 480px) {
-        height: 22px;
-      }
-    }
-  }
-  > :nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-
-    > :nth-child(1) {
-      justify-content: end;
-      width: 100%;
-      margin-right: 12px;
-      @media (max-width: 480px) {
-        margin-bottom: 5px;
-        margin-right: 0;
-      }
-    }
-    > :nth-child(2) {
-      justify-content: end;
-      align-items: end;
-      width: 100%;
-      margin-right: 19px;
-
-      @media (max-width: 480px) {
-        margin: 0 auto;
-      }
-    }
-    > * {
-      > * {
-        @media (max-width: 480px) {
-          margin-left: 0 auto;
-        }
-      }
-      @media (max-width: 480px) {
-        margin: 0 auto;
-      }
-    }
-  }
 `;
 
 const ResponsivePeriodBox = styled.div`
   font-size: 16px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 
 const ResponsiveSubjectBox = styled(FlexColumnDiv)`
-  margin-left: 10px;
-
-  @media (max-width: 480px) {
-    align-items: center;
-  }
+  align-items: start;
+  justify-content: center;
 `;
 
 const ResponsiveGraphContentBox = styled.div`
