@@ -17,7 +17,7 @@ const SpeakerSelectBox = styled(FlexCenterDiv)`
     flex: 1;
   }
 `;
-const SpeackerSelectContent = () => {
+const SpeakerSelectContent = () => {
   return (
     <SpeakerSelectBox>
       <ChatRatioWithArrowGraph />
@@ -26,4 +26,4 @@ const SpeackerSelectContent = () => {
   );
 };
 
-export default SpeackerSelectContent;
+export default SpeakerSelectContent;
