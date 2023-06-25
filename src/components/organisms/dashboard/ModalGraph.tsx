@@ -15,6 +15,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
+import SpeackerSelectContent from "./SpeackerSelectContent";
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -82,19 +83,19 @@ const FlipModalGraphIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-const SpeakerSelectBox = styled(FlexCenterDiv)`
-  margin: 0 auto;
-  flex-wrap: wrap;
-  width: 100%;
-  height: 100%;
+// const SpeakerSelectBox = styled(FlexCenterDiv)`
+//   margin: 0 auto;
+//   flex-wrap: wrap;
+//   width: 100%;
+//   height: 100%;
 
-  > * {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-  }
-`;
+//   > * {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     flex: 1;
+//   }
+// `;
 
 const PeriodBox = styled(FlexColumnCenterDiv)`
   margin-bottom: 10px;
@@ -298,15 +299,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                   {!isDetailPage && <BsChevronRight />}
                 </FlipModalGraphIcon>
               </SubjectBox>
-              {subject === "종합 비교" ? (
-                <SpeakerSelectBox></SpeakerSelectBox>
-              ) : (
-                <SpeakerSelectBox>
-                  <ChatRatioWithArrowGraph />
-                  <SpeakerSelect />
-                </SpeakerSelectBox>
-              )}
-
+              {subject === "종합 비교" ? null : <SpeackerSelectContent />}
               <PeriodBox>
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </PeriodBox>
@@ -335,15 +328,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                 </FlipModalGraphIcon>
               </SubjectBox>
             </ResponsiveSubjectBox>
-
-            {subject === "종합 비교" ? (
-              <SpeakerSelectBox></SpeakerSelectBox>
-            ) : (
-              <SpeakerSelectBox>
-                <ChatRatioWithArrowGraph />
-                <SpeakerSelect />
-              </SpeakerSelectBox>
-            )}
+            {subject === "종합 비교" ? null : <SpeackerSelectContent />}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
         </ResponsiveContentBox>
