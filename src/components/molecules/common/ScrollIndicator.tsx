@@ -5,8 +5,8 @@ import { lightTheme } from "../../../style/Theme";
 import Icon from "../../atoms/Icon";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
-const IndicatorBox = styled(FlexColumnCenterDiv)`
-  position: absolute;
+const IndicatorBox = styled(FlexColumnCenterDiv)<{ position?: string }>`
+  position: ${(props) => (props.position ? "relative" : "absolute")};
   bottom: 0px;
   margin: 0 auto;
   width: 300px;
@@ -42,11 +42,12 @@ const AnimatedIcon = styled(Icon)`
 interface ScrollIndicatorProps {
   children: ReactNode;
   onClick: () => void; // 클릭 이벤트 핸들러 타입 정의
+  position?: string;
 }
 
-const ScrollIndicator = ({ children, onClick }: ScrollIndicatorProps) => {
+const ScrollIndicator = ({ children, onClick, position }: ScrollIndicatorProps) => {
   return (
-    <IndicatorBox onClick={onClick}>
+    <IndicatorBox onClick={onClick} position="absolute">
       <Paragraph color={lightTheme.mainGray}>{children}</Paragraph>
       <MotionBox>
         <AnimatedIcon>V</AnimatedIcon>
