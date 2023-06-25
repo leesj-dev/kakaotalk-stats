@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
-import SpeakerSelect from "../../molecules/dashboard/SpeakerSelect";
 import ChatRatioWithArrowGraph from "../../molecules/graphs/ChatRatioWithArrowGraph";
 
-const SpeakerSelectBox = styled(FlexCenterDiv)`
+const SelectSpeakerBox = styled(FlexCenterDiv)`
   margin: 0 auto;
   flex-wrap: wrap;
   width: 100%;
@@ -17,13 +16,13 @@ const SpeakerSelectBox = styled(FlexCenterDiv)`
     flex: 1;
   }
 `;
-const SpeackerSelectContent = () => {
+const SpeakerSelector = () => {
   return (
-    <SpeakerSelectBox>
+    <SelectSpeakerBox>
       <ChatRatioWithArrowGraph />
-      <SpeakerSelect />
-    </SpeakerSelectBox>
+      <SpeakerSelector />
+    </SelectSpeakerBox>
   );
 };
 
-export default SpeackerSelectContent;
+export default SpeakerSelector;
