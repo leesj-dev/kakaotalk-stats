@@ -1,33 +1,35 @@
-import React from "react";
+import React, { Children } from "react";
 import styled from "styled-components";
 import Span from "../../atoms/Span";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const HeadContentBox = styled(FlexColumnDiv)`
+  width: 100%;
   height: 100%;
-  > :nth-child(2) {
-    margin-top: 12px;
-  }
 `;
 
-const HeadSubject = styled(Span)`
+const HeadSubject = styled(Span)<{ alignRight?: boolean }>`
+  text-align: ${({ alignRight }) => (alignRight ? "right" : "left")};
   color: #7e848a;
 `;
+
 const HeadContent = styled(Span)`
+  margin-top: 12px;
   font-size: 24px;
   font-weight: 700;
   text-align: right;
 `;
 
 type headerContentProps = {
+  id: string;
   headerTitle: string;
-  headerContent: string;
+  headerContent: string | JSX.Element;
 };
 
 const DashboardHeaderContent = ({ data }: { data: headerContentProps }) => {
   return (
     <HeadContentBox>
-      <HeadSubject>{data.headerTitle}</HeadSubject>
+      <HeadSubject alignRight={data.id === "selectSpeaker"}>{data.headerTitle}</HeadSubject>
       <HeadContent>{data.headerContent}</HeadContent>
     </HeadContentBox>
   );

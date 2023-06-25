@@ -141,6 +141,11 @@ const DashboardSection = () => {
 
   const HeaderData = [
     {
+      id: "selectSpeaker",
+      headerTitle: "강조할 대화자",
+      headerContent: <SpeakerSelect />,
+    },
+    {
       id: "speakerCount",
       headerTitle: "대화자 수",
       headerContent: ` ${speakers[selectedChatRoomIndex]?.length || 0}`,
@@ -188,13 +193,16 @@ const DashboardSection = () => {
       </AsideBox>
       <ArticleBox>
         <HeadBox>
-          <DashboardContainer>
-            <GraphDisplay displaySubject={"채팅방 대화 비율"} modalSetProps={modalSetProps} zIndex={1} />
-            <SpeakerSelect />
-          </DashboardContainer>
           {HeaderData.map((data) => {
             return (
               <DashboardContainer key={data.id}>
+                {data.id === "selectSpeaker" && (
+                  <GraphDisplay
+                    displaySubject={"채팅방 대화 비율"}
+                    modalSetProps={modalSetProps}
+                    zIndex={1}
+                  />
+                )}
                 <DashboardHeaderContent data={data} key={data.id} />
               </DashboardContainer>
             );
