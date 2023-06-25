@@ -13,11 +13,6 @@ const SpeakerSelectBox = styled(FlexColumnDiv)<{ alignItems?: string }>`
   font-size: 12px;
 `;
 
-// const CurrentSpeaker = styled(Span)`
-//   color: #7e848a;
-//   margin-bottom: 15px;
-// `;
-
 const SelectNotice = styled(Span)`
   font-size: 15px;
   font-weight: 400;
@@ -58,7 +53,6 @@ const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
 
   return (
     <SpeakerSelectBox alignItems={alignItems}>
-      {/* <CurrentSpeaker>강조할 대화자</CurrentSpeaker> */}
       <Select
         value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
         onChange={handleChangeSpeaker}

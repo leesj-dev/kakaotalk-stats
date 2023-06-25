@@ -81,20 +81,6 @@ const FlipModalGraphIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-// const SpeakerSelectBox = styled(FlexCenterDiv)`
-//   margin: 0 auto;
-//   flex-wrap: wrap;
-//   width: 100%;
-//   height: 100%;
-
-//   > * {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     flex: 1;
-//   }
-// `;
-
 const PeriodBox = styled(FlexColumnCenterDiv)`
   margin-bottom: 10px;
   padding: 10px 0;
