@@ -6,18 +6,21 @@ import Icon from "../../atoms/Icon";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const IndicatorBox = styled(FlexColumnCenterDiv)`
-  position: absolute;
-  bottom: 0px;
-  margin: 0 auto;
+  text-align: center;
   width: 300px;
   cursor: pointer;
-  text-align: center;
-  > :first-child {
-    margin-bottom: 5px;
+
+  > * {
+    color: ${lightTheme.mainGray};
   }
+
   @media (max-width: 768px) {
-    margin-bottom: -50px;
+    margin-bottom: -100px;
   }
+`;
+
+const Description = styled(Paragraph)`
+  margin-bottom: 5px;
 `;
 
 const MotionBox = styled.div`
@@ -47,7 +50,7 @@ interface ScrollIndicatorProps {
 const ScrollIndicator = ({ children, onClick }: ScrollIndicatorProps) => {
   return (
     <IndicatorBox onClick={onClick}>
-      <Paragraph color={lightTheme.mainGray}>{children}</Paragraph>
+      <Description>{children}</Description>
       <MotionBox>
         <AnimatedIcon>V</AnimatedIcon>
       </MotionBox>

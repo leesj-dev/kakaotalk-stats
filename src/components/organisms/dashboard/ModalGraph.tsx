@@ -60,30 +60,32 @@ const InfoContentBox = styled(FlexColumnDiv)`
   gap: 5px;
 `;
 
-const SubjectBox = styled(FlexCenterDiv)`
-  margin-bottom: 10px;
+const SubjectBox = styled(FlexCenterDiv)<{ isDetailPage?: boolean }>`
   justify-content: space-between;
-  min-width: 177px;
+  min-height: 60px;
   > * {
     display: flex;
     align-items: center;
     height: 40px;
   }
 
+  @media (max-width: 1200px) {
+    width: 220px;
+    justify-content: ${(props) => props.isDetailPage && "start"};
+  }
   @media (max-width: 480px) {
+    width: 100%;
     height: 22px;
-    justify-content: start;
   }
 `;
 
 const SubjectSpan = styled(Span)`
   font-weight: 500;
-  text-align: center;
-  font-size: 26px;
+  font-size: 2.6rem;
 `;
 
 const FlipModalGraphIcon = styled(Icon)`
-  font-size: 24px;
+  font-size: 2.4rem;
   cursor: pointer;
 `;
 
@@ -98,9 +100,12 @@ const PeriodBox = styled(FlexColumnCenterDiv)`
 `;
 
 const DescriptionParagraph = styled(Paragraph)`
+  text-align: start;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  word-break: keep-all;
   width: 100%;
   height: 100%;
-  text-align: start;
 `;
 
 const ResponsiveContentBox = styled(FlexColumnDiv)`
@@ -110,7 +115,7 @@ const ResponsiveContentBox = styled(FlexColumnDiv)`
 `;
 
 const ResponsiveHeadBox = styled(FlexCenterDiv)`
-  padding: 0 12px;
+  padding: 0 10px;
   flex: 1;
   height: 100%;
   > * {
@@ -223,7 +228,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
           <GraphContentBox className="GraphContentBox">{graph}</GraphContentBox>
           <DescriptionBox>
             <InfoContentBox>
-              <SubjectBox>
+              <SubjectBox isDetailPage={isDetailPage}>
                 <FlipModalGraphIcon
                   onClick={() => currentModalData.id && handleClickFlipIcon(currentModalData.id - 1)}
                 >
@@ -251,7 +256,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
               <ResponsivePeriodBox>
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </ResponsivePeriodBox>
-              <SubjectBox>
+              <SubjectBox isDetailPage={isDetailPage}>
                 <FlipModalGraphIcon
                   onClick={() => currentModalData.id && handleClickFlipIcon(currentModalData.id - 1)}
                 >

@@ -7,7 +7,7 @@ html {
   font-size: 10px;
   background: ${(props) => props.theme.mainBackground};
   @media (max-width: 768px) {
-	font-size: 8px;
+	font-size: 9px;
   }
 }
 

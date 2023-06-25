@@ -9,7 +9,7 @@ import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 const DropBox = styled(FlexColumnCenterDiv)`
   position: relative;
   width: 80%;
-  padding: 8rem 0;
+  padding: 8rem 2rem;
   margin: 0 auto;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
@@ -35,7 +35,7 @@ const AttachmentBox = styled.div`
   gap: 5px;
 `;
 
-const NoticeSpan = styled(Span)`
+const Notice = styled(Paragraph)`
   font-size: 15px;
   font-weight: 400;
   color: ${(props) => props.theme.mainBlueHover};
@@ -85,7 +85,7 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
           </AttachmentBox>
         </TextContentBox>
       )}
-      <NoticeSpan>* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</NoticeSpan>
+      <Notice>* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Notice>
     </DropBox>
   );
 };
