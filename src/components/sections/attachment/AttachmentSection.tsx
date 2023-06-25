@@ -52,7 +52,7 @@ const ButtonBox = styled.div`
   }
 `;
 
-const OsListBox = styled.div`
+const OsContentBox = styled.div`
   margin: 0 auto;
   padding: 10rem 20px;
   width: 80%;
@@ -62,21 +62,20 @@ const OsListBox = styled.div`
   @media (max-width: 480px) {
     padding: 50px 20px;
   }
-  > :nth-child(1) {
-    margin-bottom: 30px;
-    @media (max-width: 768px) {
-      font-size: 1.3em;
-    }
-    @media (max-width: 480px) {
-      font-size: 1.2em;
-    }
-  }
-  > :nth-child(2) {
-    margin-bottom: 30px;
-  }
-  > :nth-child(3) {
-    color: ${(props) => props.theme.mainGray};
-  }
+`;
+
+const OsContentTitle = styled(Paragraph)`
+  margin-bottom: 30px;
+  font-size: 2.4rem;
+`;
+
+const OsListBox = styled.div`
+  margin-bottom: 30px;
+`;
+
+const OsNotice = styled(Span)`
+  font-size: 1.5rem;
+  color: ${(props) => props.theme.mainBlueHover};
 `;
 
 /**
@@ -211,11 +210,13 @@ const AttachmentSection = () => {
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
       {!selectedOsIndex ? (
-        <OsListBox>
-          <Paragraph fontSize="24px">자신의 운영체제 아이콘을 선택해 주세요.</Paragraph>
-          <OsList />
-          <Span fontSize="15px">* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Span>
-        </OsListBox>
+        <OsContentBox>
+          <OsContentTitle>자신의 운영체제 아이콘을 선택해 주세요.</OsContentTitle>
+          <OsListBox>
+            <OsList />
+          </OsListBox>
+          <OsNotice>* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</OsNotice>
+        </OsContentBox>
       ) : (
         <>
           <FileDrop handleChangeFile={handleChangeFile}></FileDrop>
@@ -224,7 +225,7 @@ const AttachmentSection = () => {
             <BlueButton onClick={handleClickAnalyzeButton} disabled={!attachedFileList.length}>
               분석하기
             </BlueButton>
-            {!attachedFileList.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
+            {!attachedFileList.length && <OsNotice>* 파일을 첨부해 주세요</OsNotice>}
           </ButtonBox>
           <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
         </>

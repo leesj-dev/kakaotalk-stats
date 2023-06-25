@@ -13,14 +13,9 @@ const DropBox = styled(FlexColumnCenterDiv)`
   margin: 0 auto;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
-
   > * {
     margin-bottom: 10px;
     font-weight: 300;
-  }
-
-  @media (max-width: 768px) {
-    padding: 4rem 3rem;
   }
 `;
 
