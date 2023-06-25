@@ -12,7 +12,7 @@ const IndicatorBox = styled(FlexColumnCenterDiv)<{ position?: string }>`
   width: 300px;
   cursor: pointer;
   text-align: center;
-  > :first-child {
+  ${Paragraph} {
     margin-bottom: 5px;
   }
   @media (max-width: 768px) {

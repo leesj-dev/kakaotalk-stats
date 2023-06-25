@@ -62,7 +62,7 @@ const OsListBox = styled.div`
   @media (max-width: 480px) {
     padding: 50px 20px;
   }
-  > :nth-child(1) {
+  ${Paragraph} {
     margin-bottom: 30px;
     @media (max-width: 768px) {
       font-size: 1.3em;
@@ -74,7 +74,7 @@ const OsListBox = styled.div`
   > :nth-child(2) {
     margin-bottom: 30px;
   }
-  > :nth-child(3) {
+  ${Span} {
     color: ${(props) => props.theme.mainGray};
   }
 `;
