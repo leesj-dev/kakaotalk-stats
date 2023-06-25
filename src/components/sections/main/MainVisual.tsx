@@ -10,11 +10,12 @@ import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled(FlexCenterDiv)`
   position: relative;
+  margin-bottom: 100px;
+  display: flex;
   width: 100%;
   max-width: 1200px;
-  height: calc(100vh - 70px);
+  height: calc(800px - 70px);
   text-align: start;
-
   @media (max-width: 768px) {
     padding: 50px 0 0;
     max-width: 808px;
@@ -40,7 +41,7 @@ const AsideBox = styled.div`
     text-align: center;
   }
   > :nth-child(1) {
-    margin-bottom: 80px;
+    margin-bottom: 30px;
   }
   > :nth-child(2) {
     display: inline-block;
@@ -115,7 +116,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
             src={
               isDarkMode
                 ? `${process.env.PUBLIC_URL}/images/main/dashboardDark.png`
-                : `${process.env.PUBLIC_URL}/images/main/dashboard.png`
+                : `${process.env.PUBLIC_URL}/images/main/2023-06-25.png`
             }
           />
         </MainVisualImgBox>

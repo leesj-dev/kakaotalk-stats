@@ -9,7 +9,6 @@ import Paragraph from "../../atoms/Paragraph";
 import { StyledSpan } from "../../../style/Theme";
 
 const Container = styled.div`
-  margin: 100px 0px 0px 0px;
   display: flex;
   flex-wrap: wrap;
   max-width: 1200px;

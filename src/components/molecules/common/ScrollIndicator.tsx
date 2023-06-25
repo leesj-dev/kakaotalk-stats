@@ -7,7 +7,7 @@ import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const IndicatorBox = styled(FlexColumnCenterDiv)`
   position: absolute;
-  bottom: 50px;
+  bottom: 0px;
   margin: 0 auto;
   width: 300px;
   cursor: pointer;
