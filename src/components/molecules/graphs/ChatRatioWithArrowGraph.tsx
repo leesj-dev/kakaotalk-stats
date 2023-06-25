@@ -5,6 +5,17 @@ import { AnalyzedMessage } from "../../../@types/index.d";
 import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
+import styled from "styled-components";
+
+const ChatRatioWithArrowGraphBox = styled.div<{ justifyContent?: string }>`
+  display: flex;
+  justify-content: ${(props) => props.justifyContent || "start"};
+  width: 100%;
+
+  @media (max-width: 1200px) {
+    margin-bottom: 5px;
+  }
+`;
 
 const RADIAN = Math.PI / 180;
 
@@ -56,7 +67,11 @@ const getValueForAngle = (data: any, selectedSpeakerIndex: number) => {
   return -1;
 };
 
-const ChatRatioWithArrowGraph = () => {
+interface ChatRatioWithArrowGraphProps {
+  justifyContent?: string;
+}
+
+const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProps) => {
   const dispatch = useDispatch();
 
   const results = useSelector(
@@ -120,7 +135,7 @@ const ChatRatioWithArrowGraph = () => {
   }, []);
 
   return (
-    <div style={{ width: "100%" }}>
+    <ChatRatioWithArrowGraphBox justifyContent={justifyContent}>
       <PieChart width={110 * scale} height={60 * scale}>
         <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
         <Pie
@@ -150,7 +165,7 @@ const ChatRatioWithArrowGraph = () => {
 
         {needle(angle, data, cx, cy, iR, oR, "#FF414D")}
       </PieChart>
-    </div>
+    </ChatRatioWithArrowGraphBox>
   );
 };
 

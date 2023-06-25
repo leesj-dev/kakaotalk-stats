@@ -3,11 +3,20 @@ import styled from "styled-components";
 import Span from "../../atoms/Span";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
-const HeaderContentBox = styled(FlexColumnDiv)`
+const HeadContentBox = styled(FlexColumnDiv)`
   height: 100%;
   > :nth-child(2) {
     margin-top: 12px;
   }
+`;
+
+const HeadSubject = styled(Span)`
+  color: #7e848a;
+`;
+const HeadContent = styled(Span)`
+  font-size: 24px;
+  font-weight: 700;
+  text-align: right;
 `;
 
 type headerContentProps = {
@@ -17,12 +26,10 @@ type headerContentProps = {
 
 const DashboardHeaderContent = ({ data }: { data: headerContentProps }) => {
   return (
-    <HeaderContentBox>
-      <Span color="#7e848a">{data.headerTitle}</Span>
-      <Span fontSize="24px" fontWeight="700" textAlign="right">
-        {data.headerContent}
-      </Span>
-    </HeaderContentBox>
+    <HeadContentBox>
+      <HeadSubject>{data.headerTitle}</HeadSubject>
+      <HeadContent>{data.headerContent}</HeadContent>
+    </HeadContentBox>
   );
 };
 

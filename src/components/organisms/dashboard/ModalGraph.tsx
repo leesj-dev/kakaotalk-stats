@@ -71,6 +71,12 @@ const SubjectBox = styled(FlexCenterDiv)`
   }
 `;
 
+const SubjectSpan = styled(Span)`
+  font-weight: 500;
+  text-align: center;
+  font-size: 26px;
+`;
+
 const FlipModalGraphIcon = styled(Icon)`
   font-size: 24px;
   cursor: pointer;
@@ -84,17 +90,9 @@ const SpeakerSelectBox = styled(FlexCenterDiv)`
 
   > * {
     display: flex;
-    flex: 1;
     align-items: center;
     justify-content: center;
-  }
-  > :nth-child(1) {
-    margin-bottom: 5px;
-  }
-  > :nth-child(2) {
-    > :nth-child(1) {
-      display: none;
-    }
+    flex: 1;
   }
 `;
 
@@ -107,48 +105,22 @@ const PeriodBox = styled(FlexColumnCenterDiv)`
   border-bottom: 1px solid ${(props) => props.theme.mainGray};
   font-weight: 500;
 `;
-const Description = styled.div`
+
+const DescriptionParagraph = styled(Paragraph)`
   width: 100%;
   height: 100%;
-  > :first-child {
-    font-size: 2.6em;
-    margin-bottom: 15px;
-    font-weight: 500;
-  }
-  > :nth-child(2) {
-    font-size: 1.8em;
-    margin-bottom: 25px;
-  }
-  > :last-child {
-    font-size: 1.6em;
-    font-weight: 300;
-  }
-`;
-const CardContentBox = styled(FlexColumnDiv)`
-  padding: 15px 0;
   text-align: start;
-  color: ${(props) => props.theme.mainText};
-  > :first-child {
-    > :nth-child(2) {
-      display: none;
-    }
-  }
 `;
 
 const ResponsiveContentBox = styled(FlexColumnDiv)`
   width: 100%;
   height: 100%;
   gap: 15px;
-  > :nth-child(1) {
-    flex: 1;
-  }
-  > :nth-child(2) {
-    flex: 6;
-  }
 `;
 
 const ResponsiveHeadBox = styled(FlexCenterDiv)`
   padding: 0 12px;
+  flex: 1;
   height: 100%;
   > * {
     flex: 1;
@@ -204,12 +176,6 @@ const ResponsiveHeadBox = styled(FlexCenterDiv)`
       }
     }
   }
-  /* @media (max-width: 480px) {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 0 auto;
-  } */
 `;
 
 const ResponsivePeriodBox = styled.div`
@@ -225,14 +191,9 @@ const ResponsiveSubjectBox = styled(FlexColumnDiv)`
   }
 `;
 
-// const ResponsiveParagraphBox = styled.div`
-//   margin-left: 10px;
-//   padding: 0 12px;
-//   text-align: start;
-// `;
-
 const ResponsiveGraphContentBox = styled.div`
   position: relative;
+  flex: 6;
   height: calc(100% - 119px);
   width: 100%;
 `;
@@ -285,7 +246,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
     }
   };
 
-  const handleClickFlipGraphButton = (nextId: number) => {
+  const handleClickFlipIcon = (nextId: number) => {
     const toFlipModalData = findModalDataById(nextId);
     if (modalSetProps && toFlipModalData) {
       modalSetProps(toFlipModalData);
@@ -314,7 +275,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
 
   return (
     <ModalGraphBox className="GraphContentBox" ref={modalRef}>
-      {isDetailPage ? null : (
+      {!isDetailPage && (
         <CloseModalIcon onClick={() => handleClickCloseModalButton()}>
           <MdClose />
         </CloseModalIcon>
@@ -326,20 +287,13 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
             <InfoContentBox>
               <SubjectBox>
                 <FlipModalGraphIcon
-                  onClick={() =>
-                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
-                  }
+                  onClick={() => currentModalData.id && handleClickFlipIcon(currentModalData.id - 1)}
                 >
                   {!isDetailPage && <BsChevronLeft />}
                 </FlipModalGraphIcon>
-                <Span fontSize="26px" fontWeight="500" textAlign="center">
-                  {h2}
-                </Span>
+                <SubjectSpan>{h2}</SubjectSpan>
                 <FlipModalGraphIcon
-                  fontSize="24px"
-                  onClick={() =>
-                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
-                  }
+                  onClick={() => currentModalData.id && handleClickFlipIcon(currentModalData.id + 1)}
                 >
                   {!isDetailPage && <BsChevronRight />}
                 </FlipModalGraphIcon>
@@ -357,11 +311,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </PeriodBox>
             </InfoContentBox>
-            <CardContentBox>
-              <Description>
-                <Paragraph lineHeight="1.5em">{p}</Paragraph>
-              </Description>
-            </CardContentBox>
+            <DescriptionParagraph>{p}</DescriptionParagraph>
           </DescriptionBox>
         </ContentBox>
       ) : (
@@ -373,19 +323,13 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
               </ResponsivePeriodBox>
               <SubjectBox>
                 <FlipModalGraphIcon
-                  onClick={() =>
-                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id - 1)
-                  }
+                  onClick={() => currentModalData.id && handleClickFlipIcon(currentModalData.id - 1)}
                 >
                   {!isDetailPage && <BsChevronLeft />}
                 </FlipModalGraphIcon>
-                <Span fontWeight="500" textAlign="center" fontSize="26px" responsiveFontSize="20px">
-                  {h2}
-                </Span>
+                <SubjectSpan>{h2}</SubjectSpan>
                 <FlipModalGraphIcon
-                  onClick={() =>
-                    currentModalData.id && handleClickFlipGraphButton(currentModalData.id + 1)
-                  }
+                  onClick={() => currentModalData.id && handleClickFlipIcon(currentModalData.id + 1)}
                 >
                   {!isDetailPage && <BsChevronRight />}
                 </FlipModalGraphIcon>
@@ -402,9 +346,6 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
             )}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
-          {/* <ResponsiveParagraphBox>
-            <Span fontSize="18px">{p}</Span>
-          </ResponsiveParagraphBox> */}
         </ResponsiveContentBox>
       )}
     </ModalGraphBox>

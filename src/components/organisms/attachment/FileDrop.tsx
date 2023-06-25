@@ -4,8 +4,6 @@ import AttachmentButton from "../../atoms/AttachmentButton";
 import Paragraph from "../../atoms/Paragraph";
 import Span from "../../atoms/Span";
 import OsList from "./OsList";
-import { useDispatch } from "react-redux";
-import { pushNewlyAttachedFiles } from "../../../store/reducer/attachment/attachedFileListSlice";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const DropBox = styled(FlexColumnCenterDiv)`
@@ -20,22 +18,14 @@ const DropBox = styled(FlexColumnCenterDiv)`
     margin-bottom: 10px;
     font-weight: 300;
   }
-  > :nth-child(1) {
-    margin-bottom: 3rem;
-  }
-  > :last-child {
-    color: ${(props) => props.theme.mainGray};
-    margin-bottom: 0px;
-  }
+
   @media (max-width: 768px) {
     padding: 4rem 3rem;
   }
 `;
 
-const AttachmentBox = styled.div`
-  margin-bottom: 1rem;
-  display: flex;
-  gap: 5px;
+const OsListBox = styled.div`
+  margin-bottom: 3rem;
 `;
 
 const TextContentBox = styled(FlexColumnCenterDiv)``;
@@ -44,12 +34,16 @@ const AttachGuide = styled(FlexColumnCenterDiv)`
   margin-bottom: 1.5rem;
 `;
 
-const DragFile = styled(FlexColumnCenterDiv)`
-  /* position: absolute; */
+const AttachmentBox = styled.div`
+  margin-bottom: 1rem;
   display: flex;
-  width: 100%;
-  height: 100%;
-  gap: 20px;
+  gap: 5px;
+`;
+
+const NoticeSpan = styled(Span)`
+  font-size: 15px;
+  font-weight: 400;
+  color: ${(props) => props.theme.mainBlueHover};
 `;
 
 type DropZoneProps = {
@@ -72,7 +66,9 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
 
   return (
     <DropBox>
-      <OsList />
+      <OsListBox>
+        <OsList />
+      </OsListBox>
       {screenWidth > 769 ? (
         <TextContentBox>
           <AttachGuide>
@@ -94,7 +90,7 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
           </AttachmentBox>
         </TextContentBox>
       )}
-      <Span fontSize="15px">* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Span>
+      <NoticeSpan>* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</NoticeSpan>
     </DropBox>
   );
 };

@@ -15,6 +15,28 @@ import { CgMaximize } from "react-icons/cg";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
+const GraphDisplayBox = styled(FlexColumnCenterDiv)`
+  position: relative;
+  padding: 10px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  background: ${(props) => props.theme.mainWhite};
+`;
+
+const Subject = styled(Span)`
+  margin-bottom: 1rem;
+  font-weight: 500;
+`;
+
+const ExpandIcon = styled(Icon)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+`;
+
 const graphContentData = [
   {
     id: 0,
@@ -83,23 +105,6 @@ const graphContentData = [
   },
 ];
 
-const GraphDisplayBox = styled(FlexColumnCenterDiv)`
-  position: relative;
-  padding: 10px;
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  background: ${(props) => props.theme.mainWhite};
-`;
-
-const ExpandIcon = styled(Icon)`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-`;
-
 const GraphBox = ({
   displaySubject,
   modalSetProps,
@@ -137,9 +142,7 @@ const GraphBox = ({
           <CgMaximize />
         </ExpandIcon>
       )}
-      <Span fontWeight="500" padding="0 0 1vh 0">
-        {subject}
-      </Span>
+      <Subject>{subject}</Subject>
       {isAnalyzedMessagesExist && graph}
     </GraphDisplayBox>
   );

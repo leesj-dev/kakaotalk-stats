@@ -8,17 +8,25 @@ import Span from "../../atoms/Span";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const SpeakerSelectBox = styled(FlexColumnDiv)<{ alignItems?: string }>`
-  gap: 5px;
   width: 100%;
   align-items: ${(props) => props.alignItems || "end"};
   font-size: 12px;
-
-  > :nth-child(1) {
-    margin-bottom: 10px;
-  }
 `;
 
-const Select = styled.select``;
+const CurrentSpeaker = styled(Span)`
+  color: #7e848a;
+  margin-bottom: 15px;
+`;
+
+const SelectNotice = styled(Span)`
+  font-size: 15px;
+  font-weight: 400;
+  color: ${(props) => props.theme.mainBlueHover};
+`;
+
+const Select = styled.select`
+  margin-bottom: 5px;
+`;
 
 const Option = styled.option``;
 
@@ -50,7 +58,7 @@ const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
 
   return (
     <SpeakerSelectBox alignItems={alignItems}>
-      <Span color="#7e848a">강조할 대화자</Span>
+      <CurrentSpeaker>강조할 대화자</CurrentSpeaker>
       <Select
         value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
         onChange={handleChangeSpeaker}
@@ -67,9 +75,7 @@ const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
           );
         })}
       </Select>
-      <Span fontSize="12px" color="#0D6EFD">
-        *대화자 선택 가능
-      </Span>
+      <SelectNotice>*대화자 선택</SelectNotice>
     </SpeakerSelectBox>
   );
 };

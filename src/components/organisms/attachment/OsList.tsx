@@ -79,6 +79,8 @@ const OsRowBox = styled.div`
 
 const OsIcon = styled(Icon)``;
 
+const OsIconName = styled(Span)``;
+
 const osData = [
   {
     id: 1,
@@ -129,7 +131,7 @@ const OsList = () => {
               <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
                 {data.icon}
               </OsIcon>
-              <Span>{data.os}</Span>
+              <OsIconName>{data.os}</OsIconName>
             </OsIconBox>
           );
         })}
@@ -146,7 +148,7 @@ const OsList = () => {
               <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
                 {data.icon}
               </OsIcon>
-              <Span>{data.os}</Span>
+              <OsIconName>{data.os}</OsIconName>
             </OsIconBox>
           );
         })}
