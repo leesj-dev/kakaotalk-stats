@@ -117,8 +117,8 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
           <Img
             src={
               isDarkMode
-                ? `${process.env.PUBLIC_URL}/images/main/dashboardDark.png`
-                : `${process.env.PUBLIC_URL}/images/main/2023-06-25.png`
+                ? `${process.env.PUBLIC_URL}/images/main/mainVisualDark.png`
+                : `${process.env.PUBLIC_URL}/images/main/mainVisual.png`
             }
           />
         </MainVisualImgBox>
