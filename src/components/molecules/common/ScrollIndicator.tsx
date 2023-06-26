@@ -6,12 +6,14 @@ import Icon from "../../atoms/Icon";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import { BsChevronDown } from "react-icons/bs";
 
+
 const IndicatorBox = styled(FlexColumnCenterDiv)`
   text-align: center;
   width: 300px;
   cursor: pointer;
   > * {
     color: ${lightTheme.mainGray};
+
   }
   @media (max-width: 768px) {
     margin-bottom: -100px;
@@ -44,9 +46,10 @@ const AnimatedIcon = styled(Icon)`
 interface ScrollIndicatorProps {
   children: ReactNode;
   onClick: () => void; // 클릭 이벤트 핸들러 타입 정의
+  position?: string;
 }
 
-const ScrollIndicator = ({ children, onClick }: ScrollIndicatorProps) => {
+const ScrollIndicator = ({ children, onClick, position }: ScrollIndicatorProps) => {
   return (
     <IndicatorBox onClick={onClick}>
       <Description>{children}</Description>
