@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import scrollToEvent from "../../../module/common/scrollToEvent";
 import Icon from "../../atoms/Icon";
 import { FiArrowUp } from "react-icons/fi";
@@ -33,9 +33,7 @@ const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: bo
   }
 `;
 
-const ShareIcon = styled(Icon)``;
-
-const ScrollUpIcon = styled(Icon)``;
+const FloatingMenuItem = styled(Icon)``;
 
 const copyClipBoard = async (text: string) => {
   try {
@@ -50,6 +48,17 @@ const handleClickCShareButton = () => {
   const url = "쥬희무쩅이넹~ㅇㅅㅇ~";
   copyClipBoard(url);
 };
+
+const menuItems = [
+  {
+    onClick: () => handleClickCShareButton(),
+    icon: <BsShareFill />,
+  },
+  {
+    onClick: () => scrollToEvent(0, "smooth"),
+    icon: <FiArrowUp />,
+  },
+];
 
 const FloatingMenu = () => {
   const [isFloatingMenuVisible, setIsFloatingMenuVisible] = useState(false);
@@ -72,12 +81,11 @@ const FloatingMenu = () => {
 
   return (
     <FloatingMenuContainer isFloatingMenuVisible={isFloatingMenuVisible}>
-      <ShareIcon onClick={() => handleClickCShareButton()} fontSize={"100px"}>
-        <BsShareFill />
-      </ShareIcon>
-      <ScrollUpIcon onClick={() => scrollToEvent(0, "smooth")}>
-        <FiArrowUp />
-      </ScrollUpIcon>
+      {menuItems.map((menuItem, index) => (
+        <FloatingMenuItem key={index} onClick={menuItem.onClick}>
+          {menuItem.icon}
+        </FloatingMenuItem>
+      ))}
     </FloatingMenuContainer>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import SummaryPieGraph, {
   getTotalChatCounts,
@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import Span from "../../atoms/Span";
-import Paragraph from "../../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../../store/reducer/dashboard/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
@@ -73,7 +72,7 @@ const ChatroomListBox = styled(FlexColumnDiv)`
   height: 100%;
   width: 100%;
   overflow-y: scroll;
-  background-color: ${(props) => props.theme.mainBackground};
+  background: ${(props) => props.theme.mainBackground};
   @media (max-width: 1024px) {
     padding: 20px 20px;
     height: 200px;
@@ -111,9 +110,22 @@ const ChatRoomBox = styled.div`
   }
 `;
 
-const ChatRoomHead = styled.div`
-  display: flex;
-  justify-content: space-between;
+const ChatRoomHead = styled(Span)`
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+  font-weight: 500;
+`;
+
+const ChatroomName = styled(Span)`
+  margin-bottom: 5px;
+`;
+
+const ToDetailLink = styled(Span)`
+  font-weight: 700;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const DashboardSideMenu = () => {
@@ -135,26 +147,8 @@ const DashboardSideMenu = () => {
     dispatch(setSelectedSpeakerIndex(-1));
   };
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const isSideMenuChatRoom = useSelector(
-    (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
-  );
-
   const closeMenu = () => {
-    dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
+    dispatch(setIsSideMenuChatRoom(false));
   };
   return (
     <DashboardLayoutBox>
@@ -174,20 +168,14 @@ const DashboardSideMenu = () => {
               }}
             >
               <ChatRoomHead>
-                <Paragraph fontWeight="500">
-                  채팅방{index + 1} ({totalChatCounts[index]})
-                </Paragraph>
+                채팅방{index + 1} ({totalChatCounts[index]})
               </ChatRoomHead>
-              <Span>{name}</Span>
-              <Span underline fontWeight="500">
-                {window.innerWidth > 1024 ? (
-                  <Link to={`/detail`}>상세보기 {">"}</Link>
-                ) : (
-                  <Link to={`/detail`} onClick={closeMenu}>
-                    상세보기 {">"}
-                  </Link>
-                )}
-              </Span>
+              <ChatroomName>{name}</ChatroomName>
+              <ToDetailLink>
+                <Link to={`/detail`} onClick={closeMenu}>
+                  상세보기 {">"}
+                </Link>
+              </ToDetailLink>
             </ChatRoomBox>
           );
         })}

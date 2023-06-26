@@ -5,11 +5,11 @@ import Img from "../../atoms/Img";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
-import Span from "../../atoms/Span";
 import DashboardSideMenu from "../../sections/dashboard/DashboardSideMenu";
 import { useSelector } from "react-redux";
 import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
+import Paragraph from "../../atoms/Paragraph";
 
 const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
@@ -86,6 +86,11 @@ const PageLink = styled.div`
 const AnalysisBox = styled(FlexCenterDiv)`
   padding: 15px 0;
   gap: 10px;
+`;
+
+const AnalysisMenu = styled(Paragraph)`
+  font-weight: 700;
+  font-size: 2.2rem;
 `;
 
 const NavSideContainer = styled.div<{ isWideScreen?: Boolean }>`
@@ -167,9 +172,7 @@ const NavSide: React.FC<NavSideMenuProps> = ({
         <PageLink>
           <Link to="/attachment" onClick={closeMenu}>
             <AnalysisBox>
-              <Span fontWeight="700" fontSize="2.2rem">
-                분석하기
-              </Span>
+              <AnalysisMenu>분석하기</AnalysisMenu>
               <BsFillArrowRightCircleFill />
             </AnalysisBox>
           </Link>

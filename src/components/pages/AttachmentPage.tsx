@@ -27,6 +27,8 @@ const DropZone = styled(FlexColumnCenterDiv)`
   }
 `;
 
+const DropNotice = styled(Span)``;
+
 const AttachmentPage = () => {
   const dispatch = useDispatch();
 
@@ -77,9 +79,7 @@ const AttachmentPage = () => {
       {screenWidth > 769 && dragging && (
         <DropZone onDragEnd={handleDragEnd} onDragLeave={handleDragLeave} onDrop={handleDrop}>
           <VscNewFile size={60} />
-          <Span fontSize="20px" color="#fff">
-            Drop Files Here
-          </Span>
+          <DropNotice>Drop Files Here</DropNotice>
         </DropZone>
       )}
       <AttachmentSection />

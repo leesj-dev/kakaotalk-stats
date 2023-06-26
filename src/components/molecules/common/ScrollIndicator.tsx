@@ -4,20 +4,24 @@ import Paragraph from "../../atoms/Paragraph";
 import { lightTheme } from "../../../style/Theme";
 import Icon from "../../atoms/Icon";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { BsChevronDown } from "react-icons/bs";
 
-const IndicatorBox = styled(FlexColumnCenterDiv)<{ position?: string }>`
-  position: ${(props) => (props.position ? "relative" : "absolute")};
-  bottom: 0px;
-  margin: 0 auto;
+
+const IndicatorBox = styled(FlexColumnCenterDiv)`
+  text-align: center;
   width: 300px;
   cursor: pointer;
-  text-align: center;
-  ${Paragraph} {
-    margin-bottom: 5px;
+  > * {
+    color: ${lightTheme.mainGray};
+
   }
   @media (max-width: 768px) {
-    margin-bottom: -50px;
+    margin-bottom: -100px;
   }
+`;
+
+const Description = styled(Paragraph)`
+  margin-bottom: 5px;
 `;
 
 const MotionBox = styled.div`
@@ -47,10 +51,12 @@ interface ScrollIndicatorProps {
 
 const ScrollIndicator = ({ children, onClick, position }: ScrollIndicatorProps) => {
   return (
-    <IndicatorBox onClick={onClick} position="absolute">
-      <Paragraph color={lightTheme.mainGray}>{children}</Paragraph>
+    <IndicatorBox onClick={onClick}>
+      <Description>{children}</Description>
       <MotionBox>
-        <AnimatedIcon>V</AnimatedIcon>
+        <AnimatedIcon>
+          <BsChevronDown />
+        </AnimatedIcon>
       </MotionBox>
     </IndicatorBox>
   );

@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Span from "../../atoms/Span";
 import Icon from "../../atoms/Icon";
-import ChatRatioWithArrowGraph from "../../molecules/graphs/ChatRatioWithArrowGraph";
-import SpeakerSelect from "../../molecules/dashboard/SpeakerSelect";
 import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +13,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
-import SpeackerSelectContent from "./SpeackerSelectContent";
+import SpeakerSelectContent from "./SpeakerSelectContent";
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -62,40 +60,34 @@ const InfoContentBox = styled(FlexColumnDiv)`
   gap: 5px;
 `;
 
-const SubjectBox = styled(FlexCenterDiv)`
+const SubjectBox = styled(FlexCenterDiv)<{ isDetailPage?: boolean }>`
   justify-content: space-between;
-  min-width: 177px;
+  min-height: 60px;
   > * {
     display: flex;
     align-items: center;
     height: 40px;
   }
+
+  @media (max-width: 1200px) {
+    width: 220px;
+    justify-content: ${(props) => props.isDetailPage && "start"};
+  }
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 22px;
+  }
 `;
 
 const SubjectSpan = styled(Span)`
   font-weight: 500;
-  text-align: center;
-  font-size: 26px;
+  font-size: 2.6rem;
 `;
 
 const FlipModalGraphIcon = styled(Icon)`
-  font-size: 24px;
+  font-size: 2.4rem;
   cursor: pointer;
 `;
-
-// const SpeakerSelectBox = styled(FlexCenterDiv)`
-//   margin: 0 auto;
-//   flex-wrap: wrap;
-//   width: 100%;
-//   height: 100%;
-
-//   > * {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     flex: 1;
-//   }
-// `;
 
 const PeriodBox = styled(FlexColumnCenterDiv)`
   margin-bottom: 10px;
@@ -108,9 +100,12 @@ const PeriodBox = styled(FlexColumnCenterDiv)`
 `;
 
 const DescriptionParagraph = styled(Paragraph)`
+  text-align: start;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  word-break: keep-all;
   width: 100%;
   height: 100%;
-  text-align: start;
 `;
 
 const ResponsiveContentBox = styled(FlexColumnDiv)`
@@ -120,76 +115,23 @@ const ResponsiveContentBox = styled(FlexColumnDiv)`
 `;
 
 const ResponsiveHeadBox = styled(FlexCenterDiv)`
-  padding: 0 12px;
+  padding: 0 10px;
   flex: 1;
   height: 100%;
   > * {
     flex: 1;
     height: 100%;
   }
-  > :nth-child(1) {
-    align-items: start;
-    justify-content: center;
-    > :nth-child(1) {
-      @media (max-width: 480px) {
-        font-size: 16px;
-      }
-    }
-    > :nth-child(2) {
-      height: 60px;
-      @media (max-width: 480px) {
-        height: 22px;
-      }
-    }
-  }
-  > :nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-
-    > :nth-child(1) {
-      justify-content: end;
-      width: 100%;
-      margin-right: 12px;
-      @media (max-width: 480px) {
-        margin-bottom: 5px;
-        margin-right: 0;
-      }
-    }
-    > :nth-child(2) {
-      justify-content: end;
-      align-items: end;
-      width: 100%;
-      margin-right: 19px;
-
-      @media (max-width: 480px) {
-        margin: 0 auto;
-      }
-    }
-    > * {
-      > * {
-        @media (max-width: 480px) {
-          margin-left: 0 auto;
-        }
-      }
-      @media (max-width: 480px) {
-        margin: 0 auto;
-      }
-    }
-  }
 `;
 
 const ResponsivePeriodBox = styled.div`
   font-size: 16px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 
 const ResponsiveSubjectBox = styled(FlexColumnDiv)`
-  margin-left: 10px;
-
-  @media (max-width: 480px) {
-    align-items: center;
-  }
+  align-items: start;
+  justify-content: center;
 `;
 
 const ResponsiveGraphContentBox = styled.div`
@@ -286,7 +228,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
           <GraphContentBox className="GraphContentBox">{graph}</GraphContentBox>
           <DescriptionBox>
             <InfoContentBox>
-              <SubjectBox>
+              <SubjectBox isDetailPage={isDetailPage}>
                 <FlipModalGraphIcon
                   onClick={() => currentModalData.id && handleClickFlipIcon(currentModalData.id - 1)}
                 >
@@ -299,7 +241,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                   {!isDetailPage && <BsChevronRight />}
                 </FlipModalGraphIcon>
               </SubjectBox>
-              {subject === "종합 비교" ? null : <SpeackerSelectContent />}
+              {subject === "종합 비교" ? null : <SpeakerSelectContent />}
               <PeriodBox>
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </PeriodBox>
@@ -314,7 +256,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
               <ResponsivePeriodBox>
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </ResponsivePeriodBox>
-              <SubjectBox>
+              <SubjectBox isDetailPage={isDetailPage}>
                 <FlipModalGraphIcon
                   onClick={() => currentModalData.id && handleClickFlipIcon(currentModalData.id - 1)}
                 >
@@ -328,7 +270,7 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
                 </FlipModalGraphIcon>
               </SubjectBox>
             </ResponsiveSubjectBox>
-            {subject === "종합 비교" ? null : <SpeackerSelectContent />}
+            {subject === "종합 비교" ? null : <SpeakerSelectContent />}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
         </ResponsiveContentBox>

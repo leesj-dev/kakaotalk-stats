@@ -6,18 +6,15 @@ import ChatRatioWithArrowGraph from "../../molecules/graphs/ChatRatioWithArrowGr
 
 const SpeakerSelectBox = styled(FlexCenterDiv)`
   margin: 0 auto;
-  flex-wrap: wrap;
   width: 100%;
   height: 100%;
 
-  > * {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
+  @media (max-width: 1200px) {
+    flex-direction: column;
   }
 `;
-const SpeackerSelectContent = () => {
+
+const SpeakerSelectContent = () => {
   return (
     <SpeakerSelectBox>
       <ChatRatioWithArrowGraph />
@@ -26,4 +23,4 @@ const SpeackerSelectContent = () => {
   );
 };
 
-export default SpeackerSelectContent;
+export default SpeakerSelectContent;

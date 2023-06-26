@@ -22,7 +22,6 @@ import {
 import { getMessageData } from "../../../module/core/getMessageData";
 import { useDispatch, useSelector } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/dashboard/analyzedMessagesSlice";
-import Span from "../../atoms/Span";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../../module/common/scrollToEvent";
 import { pushNewlyAttachedFiles } from "../../../store/reducer/attachment/attachedFileListSlice";
@@ -32,29 +31,29 @@ import OsList from "../../organisms/attachment/OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
-  margin: 80px auto 0 auto;
-  padding: 80px 0;
+  position: relative;
+  margin: 8rem auto 0 auto;
+  padding: 8rem 0;
   max-width: 1220px;
 
   > * + * {
     margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
   }
   @media (max-width: 768px) {
-    margin: 60px auto 0 auto;
+    margin: 6rem auto 0 auto;
   }
 `;
 
 const ButtonBox = styled.div`
-  margin-bottom: 50px;
-
+  margin-bottom: 30px;
   > :first-child {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 `;
 
-const OsListBox = styled.div`
+const OsContentBox = styled.div`
   margin: 0 auto;
-  padding: 10rem 20px;
+  padding: 10rem 2rem;
   width: 80%;
   max-width: 970px;
   border: 3px dashed ${(props) => props.theme.mainGray};
@@ -62,21 +61,29 @@ const OsListBox = styled.div`
   @media (max-width: 480px) {
     padding: 50px 20px;
   }
-  ${Paragraph} {
-    margin-bottom: 30px;
-    @media (max-width: 768px) {
-      font-size: 1.3em;
-    }
-    @media (max-width: 480px) {
-      font-size: 1.2em;
-    }
-  }
-  > :nth-child(2) {
-    margin-bottom: 30px;
-  }
-  ${Span} {
-    color: ${(props) => props.theme.mainGray};
-  }
+`;
+
+const OsContentTitle = styled(Paragraph)`
+  margin-bottom: 3rem;
+  font-size: 2.4rem;
+`;
+
+const OsListBox = styled.div`
+  margin-bottom: 3rem;
+`;
+
+const OsNotice = styled(Paragraph)`
+  font-size: 1.5rem;
+  color: ${(props) => props.theme.mainBlueHover};
+  text-align: center;
+`;
+
+const ScrollIndicatorBox = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
 `;
 
 /**
@@ -211,11 +218,13 @@ const AttachmentSection = () => {
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
       {!selectedOsIndex ? (
-        <OsListBox>
-          <Paragraph fontSize="24px">자신의 운영체제 아이콘을 선택해 주세요.</Paragraph>
-          <OsList />
-          <Span fontSize="15px">* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Span>
-        </OsListBox>
+        <OsContentBox>
+          <OsContentTitle>자신의 운영체제 아이콘을 선택해 주세요.</OsContentTitle>
+          <OsListBox>
+            <OsList />
+          </OsListBox>
+          <OsNotice>* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</OsNotice>
+        </OsContentBox>
       ) : (
         <>
           <FileDrop handleChangeFile={handleChangeFile}></FileDrop>
@@ -224,9 +233,13 @@ const AttachmentSection = () => {
             <BlueButton onClick={handleClickAnalyzeButton} disabled={!attachedFileList.length}>
               분석하기
             </BlueButton>
-            {!attachedFileList.length && <Span fontSize="14px">* 파일을 첨부해 주세요</Span>}
+            {!attachedFileList.length && <OsNotice>* 파일을 첨부해 주세요</OsNotice>}
           </ButtonBox>
-          <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
+          <ScrollIndicatorBox>
+            <ScrollIndicator onClick={handleScrollDown}>
+              카카오톡 메시지 내보내기 방법은?
+            </ScrollIndicator>
+          </ScrollIndicatorBox>
         </>
       )}
     </AttachmentSectionBox>

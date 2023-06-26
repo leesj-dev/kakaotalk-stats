@@ -10,8 +10,8 @@ interface ParagraphProps {
 const Paragraph = styled.p<ParagraphProps>`
   display: flex;
   flex-direction: column;
-  font-size: ${(props) => props.fontSize || "16px"};
-  font-weight: ${(props) => props.fontWeight || "300"};
+  font-size: ${(props) => props.fontSize || "1.6rem"};
+  font-weight: ${(props) => props.fontWeight || "400"};
   line-height: ${(props) => props.lineHeight || "1.1"};
   color: ${(props) => props.color || props.theme.mainText};
   letter-spacing: 0.01em;

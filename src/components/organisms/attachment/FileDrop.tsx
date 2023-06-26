@@ -2,30 +2,31 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import AttachmentButton from "../../atoms/AttachmentButton";
 import Paragraph from "../../atoms/Paragraph";
-import Span from "../../atoms/Span";
 import OsList from "./OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const DropBox = styled(FlexColumnCenterDiv)`
   position: relative;
   width: 80%;
-  padding: 8rem 0;
+  padding: 8rem 2rem;
   margin: 0 auto;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
-
+  transition: 0.3s;
   > * {
     margin-bottom: 10px;
     font-weight: 300;
   }
-
-  @media (max-width: 768px) {
-    padding: 4rem 3rem;
+  @media (max-width: 520px) {
+    padding: 4rem 2rem;
   }
 `;
 
 const OsListBox = styled.div`
   margin-bottom: 3rem;
+  @media (max-width: 520px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const TextContentBox = styled(FlexColumnCenterDiv)``;
@@ -40,8 +41,8 @@ const AttachmentBox = styled.div`
   gap: 5px;
 `;
 
-const NoticeSpan = styled(Span)`
-  font-size: 15px;
+const Notice = styled(Paragraph)`
+  font-size: 1.5rem;
   font-weight: 400;
   color: ${(props) => props.theme.mainBlueHover};
 `;
@@ -90,7 +91,7 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
           </AttachmentBox>
         </TextContentBox>
       )}
-      <NoticeSpan>* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</NoticeSpan>
+      <Notice>* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Notice>
     </DropBox>
   );
 };

@@ -14,7 +14,7 @@ const MainVisualContainer = styled(FlexCenterDiv)`
   display: flex;
   width: 100%;
   max-width: 1200px;
-  height: calc(800px - 70px);
+  height: calc(850px - 70px);
   text-align: start;
   @media (max-width: 768px) {
     padding: 50px 0 0;
@@ -40,23 +40,6 @@ const AsideBox = styled.div`
     margin-right: 0;
     text-align: center;
   }
-  > :nth-child(1) {
-    margin-bottom: 30px;
-  }
-  > :nth-child(2) {
-    display: inline-block;
-    text-decoration: underline;
-    text-underline-position: under;
-    margin-bottom: 30px;
-  }
-  > :last-child {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    @media (max-width: 768px) {
-      bottom: 0px;
-    }
-  }
 `;
 
 const ArticleBox = styled.div`
@@ -68,7 +51,7 @@ const ArticleBox = styled.div`
 `;
 
 const LogoBox = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   font-weight: 700;
 `;
 
@@ -81,6 +64,21 @@ const SubTitle = styled(Paragraph)`
 `;
 
 const ContentText = styled(Paragraph)``;
+
+const ButtonBox = styled.div`
+  margin-bottom: 30px;
+  display: inline-block;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-position: under;
+`;
+
+const ScrollIndicatorBox = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+`;
 
 const MainVisualImgBox = styled.div``;
 
@@ -105,18 +103,22 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
             분석된 정보는 시각적으로 나타내어지며 그래프, 차트 등의 형태로 사용자에게 제공됩니다.
           </ContentText>
         </LogoBox>
-        <BlueButton onClick={() => navigate("/attachment")}>GET STARTED</BlueButton>
-        <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
-          카카오 돋보기의 분석 기능
-        </ScrollIndicator>
+        <ButtonBox>
+          <BlueButton onClick={() => navigate("/attachment")}>GET STARTED</BlueButton>
+        </ButtonBox>
+        <ScrollIndicatorBox>
+          <ScrollIndicator onClick={() => onMoveToFunctionCard()}>
+            카카오 돋보기의 분석 기능
+          </ScrollIndicator>
+        </ScrollIndicatorBox>
       </AsideBox>
       <ArticleBox>
         <MainVisualImgBox>
           <Img
             src={
               isDarkMode
-                ? `${process.env.PUBLIC_URL}/images/main/dashboardDark.png`
-                : `${process.env.PUBLIC_URL}/images/main/2023-06-25.png`
+                ? `${process.env.PUBLIC_URL}/images/main/mainVisualDark.png`
+                : `${process.env.PUBLIC_URL}/images/main/mainVisual.png`
             }
           />
         </MainVisualImgBox>
