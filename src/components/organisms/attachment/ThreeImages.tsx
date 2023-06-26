@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import ImageCard from "../../molecules/attachment/ImageCard";
-import { FlexCenterDiv } from "../../atoms/FlexDiv";
+import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
+import Img from "../../atoms/Img";
+import Paragraph from "../../atoms/Paragraph";
 
 const ThreeImagesBox = styled(FlexCenterDiv)`
   padding: 0 10px;
@@ -12,6 +13,24 @@ const ThreeImagesBox = styled(FlexCenterDiv)`
   @media (max-width: 1024px) {
     flex-direction: column;
   }
+`;
+
+const ImageCardBox = styled(FlexColumnDiv)`
+  flex: 1;
+  height: 100%;
+
+  @media (max-width: 1024px) {
+    height: 500px;
+  }
+`;
+
+const Image = styled(Img)`
+  margin-bottom: 10px;
+  border: 1px solid ${(props) => props.theme.border};
+`;
+
+const Description = styled(Paragraph)`
+  margin-bottom: 10px;
 `;
 
 export interface CardData {
@@ -27,7 +46,12 @@ const ThreeImages = ({ srcAndText }: ThreeImagesProps) => {
   return (
     <ThreeImagesBox>
       {srcAndText.map((item) => {
-        return <ImageCard src={item.src}>{item.text}</ImageCard>;
+        return (
+          <ImageCardBox>
+            <Image src={item.src} />
+            <Description>{item.text}</Description>
+          </ImageCardBox>
+        );
       })}
     </ThreeImagesBox>
   );

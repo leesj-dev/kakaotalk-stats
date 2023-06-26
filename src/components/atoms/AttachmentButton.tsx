@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import BlueButton from "./BlueButton";
 
 const AttachmentButtonBox = styled.div`
   display: inline-block;
