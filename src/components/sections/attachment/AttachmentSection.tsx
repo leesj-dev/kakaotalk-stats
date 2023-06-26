@@ -22,7 +22,6 @@ import {
 import { getMessageData } from "../../../module/core/getMessageData";
 import { useDispatch, useSelector } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/dashboard/analyzedMessagesSlice";
-import Span from "../../atoms/Span";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../../module/common/scrollToEvent";
 import { pushNewlyAttachedFiles } from "../../../store/reducer/attachment/attachedFileListSlice";
@@ -33,15 +32,15 @@ import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   position: relative;
-  margin: 80px auto 0 auto;
-  padding: 80px 0;
+  margin: 8rem auto 0 auto;
+  padding: 8rem 0;
   max-width: 1220px;
 
   > * + * {
     margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
   }
   @media (max-width: 768px) {
-    margin: 60px auto 0 auto;
+    margin: 6rem auto 0 auto;
   }
 `;
 
@@ -54,7 +53,7 @@ const ButtonBox = styled.div`
 
 const OsContentBox = styled.div`
   margin: 0 auto;
-  padding: 10rem 20px;
+  padding: 10rem 2rem;
   width: 80%;
   max-width: 970px;
   border: 3px dashed ${(props) => props.theme.mainGray};
@@ -65,12 +64,12 @@ const OsContentBox = styled.div`
 `;
 
 const OsContentTitle = styled(Paragraph)`
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
   font-size: 2.4rem;
 `;
 
 const OsListBox = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 `;
 
 const OsNotice = styled(Paragraph)`

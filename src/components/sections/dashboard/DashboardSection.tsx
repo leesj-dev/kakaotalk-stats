@@ -133,7 +133,6 @@ const DashboardSection = () => {
   );
 
   const [currentModalData, modalSetProps] = useState<any>();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);

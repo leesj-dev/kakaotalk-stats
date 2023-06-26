@@ -14,7 +14,7 @@ const FileInput = styled.input`
 `;
 
 const UnderlineP = styled.p`
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 500;
   color: #fff;
   background: ${(props) => props.theme.mainBlue};

@@ -19,8 +19,6 @@ const OsListBox = styled(FlexCenterDiv)`
   @media (max-width: 520px) {
     flex-wrap: wrap;
     margin: 0 auto;
-    width: 80%;
-    max-width: 480px;
     gap: 1.5rem;
   }
 `;
@@ -31,36 +29,24 @@ const OsIconBox = styled(FlexColumnCenterDiv)`
   transition: 0.2s;
   cursor: pointer;
 
-  @media (max-width: 520px) {
-    padding: 0.25rem;
-  }
-
-  > :first-child {
-    width: 6.5rem;
-    font-size: 6rem;
-    @media (max-width: 520px) {
-      width: 6.5rem;
-      font-size: 5rem;
-    }
-  }
-
   &:hover {
-    color: ${(props) => props.theme.mainBlueHover};
+    > * {
+      color: ${(props) => props.theme.mainBlueHover};
+    }
     box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
   }
-
   &.active {
-    color: ${(props) => props.theme.mainBlue};
+    > * {
+      color: ${(props) => props.theme.mainBlue};
+    }
     box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
   }
-
   &.dark {
     &:hover {
       box-shadow: none;
       color: #fff;
       background: #888888;
     }
-
     &.active {
       box-shadow: none;
       color: #fff;
@@ -72,12 +58,16 @@ const OsIconBox = styled(FlexColumnCenterDiv)`
 const OsRowBox = styled.div`
   display: flex;
   gap: 2.5rem;
-  @media (max-width: 520px) {
-    gap: 1.5rem;
-  }
 `;
 
-const OsIcon = styled(Icon)``;
+const OsIcon = styled(Icon)`
+  width: 6.5rem;
+  font-size: 6rem;
+  @media (max-width: 520px) {
+    width: 6.5rem;
+    font-size: 5rem;
+  }
+`;
 
 const OsIconName = styled(Span)``;
 
@@ -103,6 +93,7 @@ const osData = [
     os: "IOS",
   },
 ];
+
 interface OsData {
   id: number;
   icon: JSX.Element;
@@ -111,48 +102,33 @@ interface OsData {
 
 const OsList = () => {
   const dispatch = useDispatch();
-
   const selectedOsIndex = useSelector(
     (state: { selectedOsIndexSlice: number }) => state.selectedOsIndexSlice
   );
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
+  const handleClickOsIcon = (id: number) => {
+    dispatch(setSelectedOsIndex(id));
+  };
+
+  const renderOsIcons = (start: number, end: number) => {
+    return osData.slice(start, end).map((data: OsData) => (
+      <OsIconBox
+        as="li"
+        key={data.id}
+        className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
+        onClick={() => handleClickOsIcon(data.id)}
+      >
+        <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>{data.icon}</OsIcon>
+        <OsIconName>{data.os}</OsIconName>
+      </OsIconBox>
+    ));
+  };
+
   return (
     <OsListBox>
-      <OsRowBox as="ul">
-        {osData.slice(0, 2).map((data: OsData) => {
-          return (
-            <OsIconBox
-              as="li"
-              key={data.id}
-              className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
-              onClick={() => dispatch(setSelectedOsIndex(data.id))}
-            >
-              <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
-                {data.icon}
-              </OsIcon>
-              <OsIconName>{data.os}</OsIconName>
-            </OsIconBox>
-          );
-        })}
-      </OsRowBox>
-      <OsRowBox as="ul">
-        {osData.slice(2, 4).map((data: OsData) => {
-          return (
-            <OsIconBox
-              as="li"
-              key={data.id}
-              className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
-              onClick={() => dispatch(setSelectedOsIndex(data.id))}
-            >
-              <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>
-                {data.icon}
-              </OsIcon>
-              <OsIconName>{data.os}</OsIconName>
-            </OsIconBox>
-          );
-        })}
-      </OsRowBox>
+      <OsRowBox as="ul">{renderOsIcons(0, 2)}</OsRowBox>
+      <OsRowBox as="ul">{renderOsIcons(2, 4)}</OsRowBox>
     </OsListBox>
   );
 };

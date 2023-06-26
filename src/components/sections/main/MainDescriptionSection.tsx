@@ -5,8 +5,6 @@ import H2 from "../../atoms/H2";
 import H3 from "../../atoms/H3";
 import Img from "../../atoms/Img";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
-import Paragraph from "../../atoms/Paragraph";
-import { StyledSpan } from "../../../style/Theme";
 
 const Container = styled.div`
   display: flex;
