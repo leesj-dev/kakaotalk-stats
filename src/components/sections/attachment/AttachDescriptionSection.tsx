@@ -7,6 +7,28 @@ import scrollToEvent from "../../../module/common/scrollToEvent";
 import { useLocation } from "react-router";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
+const AttachDescriptionBox = styled(FlexColumnCenterDiv)`
+  padding: 80px 0;
+`;
+
+const OsButtonBox = styled(FlexCenterDiv)`
+  gap: 30px;
+  margin-bottom: 30px;
+  @media (max-width: 480px) {
+    width: calc(100% - 20px);
+    gap: 10px;
+  }
+`;
+
+const TitleParagraph = styled(Paragraph)`
+  margin-bottom: 30px;
+  padding: 0 10px;
+`;
+
+const ThreeImagesBox = styled.div`
+  margin-bottom: 15px;
+`;
+
 const mobileCardData = [
   {
     src: process.env.PUBLIC_URL + "/images/attachmentMethod/android_method01.png",
@@ -36,28 +58,6 @@ const pcCardData = [
     text: "대화 내보내기 완료를 확인합니다.",
   },
 ];
-
-const AttachDescriptionBox = styled(FlexColumnCenterDiv)`
-  padding: 80px 0;
-`;
-
-const OsButtonBox = styled(FlexCenterDiv)`
-  gap: 30px;
-  margin-bottom: 30px;
-  @media (max-width: 480px) {
-    width: calc(100% - 20px);
-    gap: 10px;
-  }
-`;
-
-const TitleParagraph = styled(Paragraph)`
-  margin-bottom: 30px;
-  padding: 0 10px;
-`;
-
-const ThreeImagesBox = styled.div`
-  margin-bottom: 15px;
-`;
 
 const AttachmentDescriptionSection = () => {
   const [cardData, setCardData] = useState<CardData[]>(pcCardData);

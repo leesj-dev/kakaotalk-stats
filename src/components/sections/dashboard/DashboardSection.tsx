@@ -35,19 +35,11 @@ const ArticleBox = styled(FlexColumnDiv)`
   height: 100%;
   width: calc(100% - 25% - 10px);
   gap: 10px;
-
-  /* <HeadBox> */
-  > :first-child {
-    height: calc((100% - 10px) * 0.15);
-  }
-  /*  <BodyBox> */
-  > :last-child {
-    height: calc((100% - 10px) * 0.85);
-  }
 `;
 
 const HeadBox = styled.div`
   display: flex;
+  height: calc((100% - 10px) * 0.15);
   gap: 10px;
 
   > * {
@@ -60,14 +52,13 @@ const HeadBox = styled.div`
   > :nth-child(1) {
     flex: 1.3;
     flex-direction: row;
+
     > :nth-child(1) {
       padding: 0;
     }
     /* 대화자 선택 그래프 */
-    > :nth-child(1) {
-      display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
+    > :nth-child(2) {
+      align-items: end;
     }
   }
 `;
@@ -80,27 +71,30 @@ const DashboardContainer = styled(FlexColumnDiv)`
 
 const BodyBox = styled(FlexColumnDiv)`
   gap: 10px;
-
-  > * {
-    height: calc((100% - 10px) / 2);
-  }
-  > :nth-child(2) {
-    > :nth-child(1) {
-      width: 60%;
-    }
-    > :nth-child(2) {
-      width: calc(100% - 60% - 10px);
-    }
-  }
+  height: calc((100% - 10px) * 0.85);
 `;
 
 const VerticalBox = styled.div`
   display: flex;
   gap: 10px;
+  height: calc((100% - 10px) / 2);
+`;
+
+const ReplySpeedGraphBox = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 const HorizontalBox = styled(FlexColumnDiv)`
   gap: 10px;
+`;
+
+const ReplyCountByHourlyGraphBox = styled(HorizontalBox)`
+  width: 60%;
+`;
+
+const KeywordGraphBox = styled(HorizontalBox)`
+  width: calc(100% - 60% - 10px);
 `;
 
 const ModalBox = styled.div`
@@ -133,7 +127,6 @@ const DashboardSection = () => {
   );
 
   const [currentModalData, modalSetProps] = useState<any>();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
@@ -210,19 +203,21 @@ const DashboardSection = () => {
         </HeadBox>
         <BodyBox>
           <VerticalBox>
-            <GraphDisplay displaySubject={"답장속도"} modalSetProps={modalSetProps} zIndex={3} />
+            <ReplySpeedGraphBox>
+              <GraphDisplay displaySubject={"답장속도"} modalSetProps={modalSetProps} zIndex={3} />
+            </ReplySpeedGraphBox>
           </VerticalBox>
           <VerticalBox>
-            <HorizontalBox ref={containerRef}>
+            <ReplyCountByHourlyGraphBox ref={containerRef}>
               <GraphDisplay
                 displaySubject={"시간대별 대화량"}
                 zIndex={1}
                 modalSetProps={modalSetProps}
               />
-            </HorizontalBox>
-            <HorizontalBox>
+            </ReplyCountByHourlyGraphBox>
+            <KeywordGraphBox>
               <GraphDisplay displaySubject={"키워드"} modalSetProps={modalSetProps} zIndex={1} />
-            </HorizontalBox>
+            </KeywordGraphBox>
           </VerticalBox>
         </BodyBox>
       </ArticleBox>

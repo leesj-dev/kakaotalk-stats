@@ -10,6 +10,7 @@ import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
 import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
+import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;
@@ -111,19 +112,6 @@ const IconBox = styled(FlexCenterDiv)`
   }
 `;
 
-// const NoticeBox = styled(FlexCenterDiv)`
-//   display: none;
-//   position: absolute;
-//   top: 110%;
-//   left: 50%;
-//   padding: 0px;
-//   width: 220%;
-//   height: 60%;
-//   font-size: 14px;
-//   font-weight: 500;
-//   transform: translateX(-50%);
-// `;
-
 const MobileMenuBox = styled.div`
   display: none;
 
@@ -142,17 +130,20 @@ interface NavHeadProps extends NavProps {}
 
 const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMessagesExist }) => {
   const dispatch = useDispatch();
-  // const isDetailPage = useLocation().pathname.includes("detail");
-  // const isDashboardPage = useLocation().pathname.includes("dashboard");
 
   const handleClickDarkModeButton = () => {
     dispatch(setIsDarkMode(!isDarkMode));
   };
 
+  const handleClickMenu = () => {
+    dispatch(setIsModalVisible(false));
+    closeMenu();
+  };
+
   return (
     <NavHeadContainer>
       <MobileMenuBox>
-        <MobileMenuIcon onClick={closeMenu}>
+        <MobileMenuIcon onClick={handleClickMenu}>
           <HiMenu />
         </MobileMenuIcon>
       </MobileMenuBox>
@@ -174,7 +165,6 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
             <BsFillBrightnessHighFill />
             <BsFillMoonStarsFill />
           </IconBox>
-          {/* {(isDetailPage || isDashboardPage) && <NoticeBox>다크모드로 볼 때 더 잘보여요.</NoticeBox>} */}
         </DarkModeButton>
       </MenuBox>
     </NavHeadContainer>

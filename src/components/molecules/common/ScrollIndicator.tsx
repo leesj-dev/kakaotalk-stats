@@ -4,16 +4,15 @@ import Paragraph from "../../atoms/Paragraph";
 import { lightTheme } from "../../../style/Theme";
 import Icon from "../../atoms/Icon";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { BsChevronDown } from "react-icons/bs";
 
 const IndicatorBox = styled(FlexColumnCenterDiv)`
   text-align: center;
   width: 300px;
   cursor: pointer;
-
   > * {
     color: ${lightTheme.mainGray};
   }
-
   @media (max-width: 768px) {
     margin-bottom: -100px;
   }
@@ -52,7 +51,9 @@ const ScrollIndicator = ({ children, onClick }: ScrollIndicatorProps) => {
     <IndicatorBox onClick={onClick}>
       <Description>{children}</Description>
       <MotionBox>
-        <AnimatedIcon>V</AnimatedIcon>
+        <AnimatedIcon>
+          <BsChevronDown />
+        </AnimatedIcon>
       </MotionBox>
     </IndicatorBox>
   );

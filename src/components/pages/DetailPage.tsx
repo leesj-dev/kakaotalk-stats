@@ -13,6 +13,38 @@ import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph
 import { setVolumeHourlyBoxSize } from "../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
 import { FlexColumnDiv } from "../atoms/FlexDiv";
 
+const GraphDetailContainer = styled.div`
+  position: relative;
+  margin-top: 80px;
+  display: flex;
+  width: 100%;
+  background: ${(props) => props.theme.mainBackground};
+  @media (max-width: 768px) {
+    margin-top: 60px;
+  }
+`;
+
+const ContentBox = styled(FlexColumnDiv)`
+  width: calc(85% - 30px);
+
+  @media (max-width: 1024px) {
+    width: calc(100% - 30px);
+  }
+`;
+
+const GraphBox = styled.div`
+  margin: 15px;
+  height: 70vh;
+  width: 100%;
+  gap: 30px;
+  > :nth-child(1) {
+    background: ${(props) => props.theme.modalBackground};
+  }
+  @media (max-width: 768px) {
+    height: 70vh;
+  }
+`;
+
 export const graphContentData = [
   {
     id: 1,
@@ -64,38 +96,6 @@ export const graphContentData = [
     p: "대화가 발생한 시간대를 나타냅니다. 이를 통해 대화가 활발히 이루어지는 시간대, 그리고 상대방과의 대화 타이밍을 파악할 수 있습니다.",
   },
 ];
-
-const GraphDetailContainer = styled.div`
-  position: relative;
-  margin-top: 80px;
-  display: flex;
-  width: 100%;
-  background: ${(props) => props.theme.mainBackground};
-  @media (max-width: 768px) {
-    margin-top: 60px;
-  }
-`;
-
-const ContentBox = styled(FlexColumnDiv)`
-  width: calc(85% - 30px);
-
-  @media (max-width: 1024px) {
-    width: calc(100% - 30px);
-  }
-`;
-
-const GraphBox = styled.div`
-  margin: 15px;
-  height: 70vh;
-  width: 100%;
-  gap: 30px;
-  > :nth-child(1) {
-    background: ${(props) => props.theme.modalBackground};
-  }
-  @media (max-width: 768px) {
-    height: 70vh;
-  }
-`;
 
 const DetailPage = () => {
   const isAnalyzedMessagesExist = useSelector(

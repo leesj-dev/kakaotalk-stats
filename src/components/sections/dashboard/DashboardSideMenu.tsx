@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import SummaryPieGraph, {
   getTotalChatCounts,
@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import Span from "../../atoms/Span";
-import Paragraph from "../../atoms/Paragraph";
 import { setSelectedChatRoomIndex } from "../../../store/reducer/dashboard/selectedRoomIndexSlice";
 import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
