@@ -9,11 +9,17 @@ import styled from "styled-components";
 
 const ChatRatioWithArrowGraphBox = styled.div<{ justifyContent?: string }>`
   display: flex;
-  justify-content: ${(props) => props.justifyContent || "start"};
+  align-items: center;
+  justify-content: center;
   width: 100%;
 
   @media (max-width: 1200px) {
     margin-bottom: 5px;
+    align-items: end;
+    justify-content: end;
+  }
+  @media (max-width: 480px) {
+    margin-right: 0;
   }
 `;
 
@@ -92,7 +98,7 @@ const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProp
 
   let scale = 1;
   if (screenWidth < 480) {
-    scale = 0.7;
+    scale = 0.8;
   }
 
   const cx = 50 * scale,

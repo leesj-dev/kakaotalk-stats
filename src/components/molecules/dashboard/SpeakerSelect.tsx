@@ -8,15 +8,17 @@ import Span from "../../atoms/Span";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
 const SpeakerSelectBox = styled(FlexColumnDiv)<{ alignItems?: string }>`
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  align-items: ${(props) => props.alignItems || "end"};
   font-size: 12px;
-`;
 
-// const CurrentSpeaker = styled(Span)`
-//   color: #7e848a;
-//   margin-bottom: 15px;
-// `;
+  @media (max-width: 1200px) {
+    margin-bottom: 5px;
+    align-items: end;
+    justify-content: end;
+  }
+`;
 
 const SelectNotice = styled(Span)`
   font-size: 15px;
@@ -58,7 +60,6 @@ const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
 
   return (
     <SpeakerSelectBox alignItems={alignItems}>
-      {/* <CurrentSpeaker>강조할 대화자</CurrentSpeaker> */}
       <Select
         value={selectedSpeakerIndex === -1 ? "전체" : selectedSpeakerIndex}
         onChange={handleChangeSpeaker}

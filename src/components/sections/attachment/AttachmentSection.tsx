@@ -32,6 +32,7 @@ import OsList from "../../organisms/attachment/OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
+  position: relative;
   margin: 80px auto 0 auto;
   padding: 80px 0;
   max-width: 1220px;
@@ -45,10 +46,9 @@ const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
 `;
 
 const ButtonBox = styled.div`
-  margin-bottom: 50px;
-
+  margin-bottom: 30px;
   > :first-child {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -73,9 +73,17 @@ const OsListBox = styled.div`
   margin-bottom: 30px;
 `;
 
-const OsNotice = styled(Span)`
+const OsNotice = styled(Paragraph)`
   font-size: 1.5rem;
   color: ${(props) => props.theme.mainBlueHover};
+  text-align: center;
+`;
+
+const ScrollIndicatorBox = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 /**
@@ -227,7 +235,11 @@ const AttachmentSection = () => {
             </BlueButton>
             {!attachedFileList.length && <OsNotice>* 파일을 첨부해 주세요</OsNotice>}
           </ButtonBox>
-          <ScrollIndicator onClick={handleScrollDown}>카카오톡 메시지 내보내기 방법은?</ScrollIndicator>
+          <ScrollIndicatorBox>
+            <ScrollIndicator onClick={handleScrollDown}>
+              카카오톡 메시지 내보내기 방법은?
+            </ScrollIndicator>
+          </ScrollIndicatorBox>
         </>
       )}
     </AttachmentSectionBox>
