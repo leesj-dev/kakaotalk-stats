@@ -52,14 +52,6 @@ const HeadBox = styled.div`
   > :nth-child(1) {
     flex: 1.3;
     flex-direction: row;
-
-    > :nth-child(1) {
-      padding: 0;
-    }
-    /* 대화자 선택 그래프 */
-    > :nth-child(2) {
-      align-items: end;
-    }
   }
 `;
 
@@ -136,7 +128,7 @@ const DashboardSection = () => {
     {
       id: "selectSpeaker",
       headerTitle: "강조할 대화자",
-      headerContent: <SpeakerSelect />,
+      headerContent: <SpeakerSelect alignItems="end" />,
     },
     {
       id: "speakerCount",
