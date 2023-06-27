@@ -19,6 +19,9 @@ const DashboardSectionContainer = styled(FlexCenterDiv)`
   height: calc(100vh - 80px);
   width: 100%;
   background: ${(props) => props.theme.dashboardBackground};
+  @media (max-width: 1200px) {
+    height: calc(100vh - 70px);
+  }
 `;
 
 const AsideBox = styled(FlexColumnDiv)`

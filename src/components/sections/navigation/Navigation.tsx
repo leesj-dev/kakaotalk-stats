@@ -34,7 +34,7 @@ const Navigation = () => {
   );
   const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1024);
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1200);
 
   const closeMenu = () => {
     dispatch(setIsSideMenuChatRoom(!isSideMenuChatRoom));
@@ -42,7 +42,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsWideScreen(window.innerWidth > 1024);
+      setIsWideScreen(window.innerWidth > 1200);
     };
 
     window.addEventListener("resize", handleResize);

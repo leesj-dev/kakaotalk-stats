@@ -27,7 +27,7 @@ const GraphDetailContainer = styled.div`
 const ContentBox = styled(FlexColumnDiv)`
   width: calc(85% - 30px);
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     width: calc(100% - 30px);
   }
 `;
@@ -137,7 +137,7 @@ const DetailPage = () => {
 
   return (
     <GraphDetailContainer>
-      {windowWidth > 1024 && <DashboardSideMenu />}
+      {windowWidth > 1200 && <DashboardSideMenu />}
       <ContentBox>
         {isAnalyzedMessagesExist &&
           graphContentData.map((item) => {

@@ -23,10 +23,6 @@ const UnderlineP = styled.p`
   transition: 0.3s;
   cursor: pointer;
 
-  @media (max-width: 1024px) {
-    padding: 1.5rem 3rem;
-  }
-
   &:hover {
     background: ${(props) => props.theme.mainBlueHover};
   }

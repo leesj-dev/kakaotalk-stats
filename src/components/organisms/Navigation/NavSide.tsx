@@ -50,7 +50,7 @@ const NavMenuIcon = styled(Icon)`
   > * {
     cursor: pointer;
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     display: flex;
   }
 `;
@@ -64,7 +64,7 @@ const PageLink = styled.div`
   display: flex;
   gap: 60px;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     width: 100%;
     flex-direction: column;
     gap: 0;

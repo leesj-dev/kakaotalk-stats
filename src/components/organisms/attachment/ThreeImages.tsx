@@ -10,7 +10,8 @@ const ThreeImagesBox = styled(FlexCenterDiv)`
   max-width: 1220px;
   height: 100%;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
+    transition: 0.3s;
     flex-direction: column;
   }
 `;
@@ -19,7 +20,7 @@ const ImageCardBox = styled(FlexColumnDiv)`
   flex: 1;
   height: 100%;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     height: 500px;
   }
 `;

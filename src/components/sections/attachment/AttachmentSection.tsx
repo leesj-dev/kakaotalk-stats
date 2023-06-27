@@ -83,7 +83,6 @@ const ScrollIndicatorBox = styled.div`
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-
 `;
 
 /**
@@ -199,7 +198,7 @@ const AttachmentSection = () => {
   const handleClickAnalyzeButton = () => {
     dispatchAnalyzedMessages(attachedFileList);
     const windowWidth = window.innerWidth;
-    if (windowWidth > 1024) {
+    if (windowWidth > 1200) {
       navigate("/dashboard");
     } else {
       navigate("/detail");

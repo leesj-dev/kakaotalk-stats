@@ -15,6 +15,12 @@ const DashboardBox = styled.div`
   > :nth-child(2) {
     width: 85%;
   }
+  @media (max-width: 1200px) {
+    margin-top: 70px;
+    > :nth-child(2) {
+      width: 100%;
+    }
+  }
 `;
 
 const DashboardPage = () => {

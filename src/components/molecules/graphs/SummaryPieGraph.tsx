@@ -39,7 +39,7 @@ const ArrowIcon = styled(Icon)`
 //   justify-content: space-between;
 //   width: 98%;
 //   z-index: 1;
-//   @media (max-width: 1024px) {
+//   @media (max-width: 1200px) {
 //     width: 80%;
 //   }
 //   > * {

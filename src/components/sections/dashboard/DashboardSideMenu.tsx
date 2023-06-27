@@ -21,9 +21,11 @@ const DashboardLayoutBox = styled(FlexColumnDiv)`
   justify-content: space-between;
   width: 15%;
   height: calc(100vh - 80px);
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
+    display: none;
     width: 100%;
     height: 100%;
+    background: #f00;
   }
 `;
 
@@ -34,7 +36,7 @@ const ChatroomMenuTitleBox = styled(FlexColumnDiv)`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     padding: 0;
   }
 `;
@@ -46,10 +48,10 @@ const ChatroomGraphBox = styled.div`
   height: 200px;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.mainBackground};
-  @media (max-width: 1100px) {
+  @media (max-width: 1200px) {
     height: 100px;
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     height: 200px;
   }
 `;
@@ -61,7 +63,7 @@ const ChatroomListTitleBox = styled(FlexColumnDiv)`
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     display: none;
   }
 `;
@@ -73,7 +75,7 @@ const ChatroomListBox = styled(FlexColumnDiv)`
   width: 100%;
   overflow-y: scroll;
   background: ${(props) => props.theme.mainBackground};
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     padding: 20px 20px;
     height: 200px;
     border-bottom: 1px solid ${(props) => props.theme.border};

@@ -24,7 +24,7 @@ const NavHeadContainer = styled.div`
   > * {
     flex: 1;
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     line-height: 70px;
   }
 `;
@@ -36,7 +36,7 @@ const H1 = styled.h1`
     width: 120px;
     transform: translateY(-22px);
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     justify-content: center;
     width: 120px;
   }
@@ -52,7 +52,7 @@ const MenuBox = styled.div`
 const Menus = styled(FlexCenterDiv)`
   font-size: 2.2rem;
   gap: 50px;
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     display: none;
   }
 `;
@@ -76,12 +76,12 @@ const DarkModeButton = styled.div`
     > :nth-child(1) {
       left: 44px;
       background: ${darkTheme.navBackground};
-      @media (max-width: 1024px) {
+      @media (max-width: 1200px) {
         left: 37px;
       }
     }
   }
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     width: 66px;
     height: 33px;
   }
@@ -115,7 +115,7 @@ const IconBox = styled(FlexCenterDiv)`
 const MobileMenuBox = styled.div`
   display: none;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     display: flex;
     transform: translateY(4px);
   }
