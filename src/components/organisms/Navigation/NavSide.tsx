@@ -170,7 +170,7 @@ const NavSide: React.FC<NavSideMenuProps> = ({
           </H2>
         </TopContent>
         <PageLink>
-          <Link to="/attachment" onClick={closeMenu}>
+          <Link to="/attachment#analysis" onClick={closeMenu}>
             <AnalysisBox>
               <AnalysisMenu>분석하기</AnalysisMenu>
               <BsFillArrowRightCircleFill />
@@ -183,8 +183,13 @@ const NavSide: React.FC<NavSideMenuProps> = ({
             첨부방법
           </Link>
           {isAnalyzedMessagesExist && (
+            <Link to="/dashboard" onClick={closeMenu}>
+              대시보드
+            </Link>
+          )}
+          {isAnalyzedMessagesExist && (
             <Link to="/detail" onClick={closeMenu}>
-              결과화면
+              상세보기
             </Link>
           )}
           {isAnalyzedMessagesExist && <DashboardSideMenu />}

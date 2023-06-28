@@ -13,7 +13,9 @@ import ReplySpeedGraph from "../../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../../molecules/graphs/ChatVolumeByHourlyGraph";
 import { CgMaximize } from "react-icons/cg";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
-import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { FlexColumnCenterDiv, FlexRowDiv } from "../../atoms/FlexDiv";
+import { AiFillInfoCircle } from "react-icons/ai";
+import Tooltip from "../../atoms/Tooltip";
 
 const GraphDisplayBox = styled(FlexColumnCenterDiv)`
   position: relative;
@@ -23,6 +25,18 @@ const GraphDisplayBox = styled(FlexColumnCenterDiv)`
   height: 100%;
   border-radius: 15px;
   background: ${(props) => props.theme.mainWhite};
+`;
+
+const SubjectBox = styled(FlexRowDiv)`
+  position: relative;
+`;
+
+const NoticeIcon = styled.div`
+  position: absolute;
+  top: 1px;
+  right: -19px;
+  font-size: 1.5rem;
+  color: ${(props) => props.theme.mainGray};
 `;
 
 const Subject = styled(Span)`
@@ -142,7 +156,19 @@ const GraphBox = ({
           <CgMaximize />
         </ExpandIcon>
       )}
-      <Subject>{subject}</Subject>
+      <SubjectBox>
+        <Subject>{subject}</Subject>
+        {subject === "답장속도" && (
+          <NoticeIcon>
+            <Tooltip
+              message="일단 내용을 이것 저것 넣는다
+            그리고 이것 저것 이렇궁 저렇궁 해서 나온 결과"
+            >
+              <AiFillInfoCircle />
+            </Tooltip>
+          </NoticeIcon>
+        )}
+      </SubjectBox>
       {isAnalyzedMessagesExist && graph}
     </GraphDisplayBox>
   );

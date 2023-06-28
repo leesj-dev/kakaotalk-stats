@@ -157,7 +157,8 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
       <MenuBox>
         <Menus>
           <Link to="/attachment">분석하기</Link>
-          {isAnalyzedMessagesExist && <Link to="/dashboard">결과화면</Link>}
+          {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
+          {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
         </Menus>
         <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
           <ToggleCircle></ToggleCircle>
