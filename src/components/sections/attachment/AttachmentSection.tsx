@@ -59,7 +59,7 @@ const OsContentBox = styled.div`
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
   @media (max-width: 480px) {
-    padding: 50px 20px;
+    padding: 6rem 2rem;
   }
 `;
 

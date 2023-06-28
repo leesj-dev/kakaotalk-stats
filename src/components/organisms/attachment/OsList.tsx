@@ -12,15 +12,8 @@ import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 const OsListBox = styled(FlexCenterDiv)`
   margin: 0 auto;
   gap: 2.5rem;
-
-  @media (max-width: 1200px) {
-    flex-wrap: nowrap;
-  }
-  @media (max-width: 520px) {
-    flex-wrap: wrap;
-    margin: 0 auto;
-    gap: 1.5rem;
-  }
+  transition: 0.3s;
+  flex-wrap: wrap;
 `;
 
 const OsIconBox = styled(FlexColumnCenterDiv)`
@@ -64,7 +57,6 @@ const OsIcon = styled(Icon)`
   width: 6.5rem;
   font-size: 6rem;
   @media (max-width: 520px) {
-    width: 6.5rem;
     font-size: 5rem;
   }
 `;

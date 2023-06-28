@@ -20,7 +20,7 @@ const GraphDetailContainer = styled.div`
   width: 100%;
   background: ${(props) => props.theme.mainBackground};
   @media (max-width: 768px) {
-    margin-top: 60px;
+    margin-top: 70px;
   }
 `;
 

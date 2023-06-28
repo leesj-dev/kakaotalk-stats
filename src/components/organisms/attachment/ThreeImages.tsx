@@ -11,7 +11,6 @@ const ThreeImagesBox = styled(FlexCenterDiv)`
   height: 100%;
 
   @media (max-width: 1200px) {
-    transition: 0.3s;
     flex-direction: column;
   }
 `;

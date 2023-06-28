@@ -15,7 +15,6 @@ const OsButtonBox = styled(FlexCenterDiv)`
   gap: 30px;
   margin-bottom: 30px;
   @media (max-width: 480px) {
-    width: calc(100% - 20px);
     gap: 10px;
   }
 `;

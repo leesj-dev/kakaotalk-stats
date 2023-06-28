@@ -23,9 +23,6 @@ const ModalGraphBox = styled.div`
   backdrop-filter: blur(80px);
   box-shadow: 2px 2px 8px -3px ${(props) => props.theme.mainBlack};
   border-radius: 15px;
-  @media (max-width: 480px) {
-    padding: 15px 10px 30px 10px;
-  }
 `;
 
 const CloseModalIcon = styled(Icon)`

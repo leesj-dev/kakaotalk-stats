@@ -21,9 +21,6 @@ const Span = styled.span<SpanProps>`
   &:hover {
     text-decoration: ${(props) => (props.underline ? "underline" : "none")};
   }
-  @media (max-width: 1200px) {
-    line-height: 1.3;
-  }
 `;
 
 export default Span;

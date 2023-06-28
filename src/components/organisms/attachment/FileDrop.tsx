@@ -18,15 +18,12 @@ const DropBox = styled(FlexColumnCenterDiv)`
     font-weight: 300;
   }
   @media (max-width: 520px) {
-    padding: 4rem 2rem;
+    padding: 6rem 2rem;
   }
 `;
 
 const OsListBox = styled.div`
   margin-bottom: 3rem;
-  @media (max-width: 520px) {
-    margin-bottom: 1rem;
-  }
 `;
 
 const TextContentBox = styled(FlexColumnCenterDiv)``;

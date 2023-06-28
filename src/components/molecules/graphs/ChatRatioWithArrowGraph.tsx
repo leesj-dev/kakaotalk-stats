@@ -18,9 +18,6 @@ const ChatRatioWithArrowGraphBox = styled.div<{ justifyContent?: string }>`
     align-items: end;
     justify-content: end;
   }
-  @media (max-width: 480px) {
-    margin-right: 0;
-  }
 `;
 
 const RADIAN = Math.PI / 180;

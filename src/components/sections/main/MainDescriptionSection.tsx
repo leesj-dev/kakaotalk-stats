@@ -11,11 +11,6 @@ const Container = styled.div`
   flex-wrap: wrap;
   max-width: 1200px;
   gap: 25px;
-
-  @media (max-width: 768px) {
-    margin: 50px 0px;
-    margin-top: 100px;
-  }
 `;
 
 const CardBox = styled.div<{ darkMode?: boolean }>`

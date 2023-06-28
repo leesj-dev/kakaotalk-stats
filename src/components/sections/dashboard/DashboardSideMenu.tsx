@@ -14,31 +14,29 @@ import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/select
 import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMenuChatRoomSelectSlice";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
 
-const DashboardLayoutBox = styled(FlexColumnDiv)`
+const DashboardLayoutBox = styled(FlexColumnDiv)<{ isSideMenu?: Boolean }>`
   position: sticky;
   top: 80px;
   left: 0;
-  justify-content: space-between;
   width: 15%;
   height: calc(100vh - 80px);
+  background: ${(props) => props.theme.mainBackground};
+
   @media (max-width: 1200px) {
-    display: none;
+    display: ${(props) => !props.isSideMenu && "none"};
     width: 100%;
     height: 100%;
-    background: #f00;
   }
 `;
 
 const ChatroomMenuTitleBox = styled(FlexColumnDiv)`
   padding: 15px;
+  text-align: center;
   font-size: 18px;
   color: ${(props) => props.theme.mainText};
   letter-spacing: 0.05rem;
   border-bottom: 1px solid ${(props) => props.theme.border};
   background: ${(props) => props.theme.dashboardMenuBackground};
-  @media (max-width: 1200px) {
-    padding: 0;
-  }
 `;
 
 const ChatroomGraphBox = styled.div`
@@ -47,24 +45,8 @@ const ChatroomGraphBox = styled.div`
   display: flex;
   height: 200px;
   border-bottom: 1px solid ${(props) => props.theme.border};
-  background: ${(props) => props.theme.mainBackground};
-  @media (max-width: 1200px) {
-    height: 100px;
-  }
-  @media (max-width: 1200px) {
-    height: 200px;
-  }
-`;
-
-const ChatroomListTitleBox = styled(FlexColumnDiv)`
-  padding: 15px;
-  font-size: 18px;
-  color: ${(props) => props.theme.mainText};
-  letter-spacing: 0.05rem;
-  border-bottom: 1px solid ${(props) => props.theme.border};
-  background: ${(props) => props.theme.dashboardMenuBackground};
-  @media (max-width: 1200px) {
-    display: none;
+  @media (max-width: 768px) {
+    height: 150px;
   }
 `;
 
@@ -74,7 +56,6 @@ const ChatroomListBox = styled(FlexColumnDiv)`
   height: 100%;
   width: 100%;
   overflow-y: scroll;
-  background: ${(props) => props.theme.mainBackground};
   @media (max-width: 1200px) {
     padding: 20px 20px;
     height: 200px;
@@ -130,7 +111,11 @@ const ToDetailLink = styled(Span)`
   }
 `;
 
-const DashboardSideMenu = () => {
+interface DashboardSideMenuProps {
+  isSideMenu?: Boolean;
+}
+
+const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({ isSideMenu }) => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -153,12 +138,11 @@ const DashboardSideMenu = () => {
     dispatch(setIsSideMenuChatRoom(false));
   };
   return (
-    <DashboardLayoutBox>
+    <DashboardLayoutBox isSideMenu={isSideMenu}>
       <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
       <ChatroomGraphBox>
         <SummaryPieGraph />
       </ChatroomGraphBox>
-      <ChatroomListTitleBox>채팅방 목록</ChatroomListTitleBox>
       <ChatroomListBox>
         {chatRoomNames.map((name, index) => {
           return (

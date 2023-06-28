@@ -6,14 +6,12 @@ import Icon from "../../atoms/Icon";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import { BsChevronDown } from "react-icons/bs";
 
-
 const IndicatorBox = styled(FlexColumnCenterDiv)`
   text-align: center;
   width: 300px;
   cursor: pointer;
   > * {
     color: ${lightTheme.mainGray};
-
   }
   @media (max-width: 768px) {
     margin-bottom: -100px;

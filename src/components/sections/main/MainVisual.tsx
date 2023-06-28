@@ -17,21 +17,13 @@ const MainVisualContainer = styled(FlexCenterDiv)`
   height: calc(850px - 70px);
   text-align: start;
   @media (max-width: 768px) {
-    padding: 50px 0 0;
-    max-width: 808px;
+    padding-top: 50px;
     height: auto;
     flex-direction: column;
   }
-  @media (max-width: 480px) {
-    max-width: 520px;
-  }
-  @media (max-width: 320px) {
-    max-width: 360px;
-    padding: 30px 0 0;
-  }
 `;
 
-const AsideBox = styled.div`
+const TextBox = styled.div`
   width: 40%;
   margin-right: 30px;
 
@@ -42,7 +34,7 @@ const AsideBox = styled.div`
   }
 `;
 
-const ArticleBox = styled.div`
+const ImageBox = styled.div`
   width: 60%;
   @media (max-width: 768px) {
     margin-bottom: 40px;
@@ -93,7 +85,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
 
   return (
     <MainVisualContainer>
-      <AsideBox>
+      <TextBox>
         <LogoBox>
           <MainTitle fontSize="4.8rem" fontWeight="700">
             카카오돋보기 2080
@@ -111,8 +103,8 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
             카카오 돋보기의 분석 기능
           </ScrollIndicator>
         </ScrollIndicatorBox>
-      </AsideBox>
-      <ArticleBox>
+      </TextBox>
+      <ImageBox>
         <MainVisualImgBox>
           <Img
             src={
@@ -122,7 +114,7 @@ const MainVisual = ({ onMoveToFunctionCard }: MainVisualProps) => {
             }
           />
         </MainVisualImgBox>
-      </ArticleBox>
+      </ImageBox>
     </MainVisualContainer>
   );
 };
