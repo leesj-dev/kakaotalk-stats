@@ -167,6 +167,16 @@ const GraphBox = ({
               <AiFillInfoCircle />
             </Tooltip>
           </NoticeIcon>
+          // <NoticeBox>
+          //   <NoticeIcon>
+          //     <AiFillInfoCircle />
+          //   </NoticeIcon>
+          //   <Tooltip
+          //     message="일단 내용을 이것 저것 넣는다
+          //   그리고 이것 저것 이렇궁 저렇궁 해서 나온 결과"
+          //   >
+          //   </Tooltip>
+          // </NoticeBox>
         )}
       </SubjectBox>
       {isAnalyzedMessagesExist && graph}

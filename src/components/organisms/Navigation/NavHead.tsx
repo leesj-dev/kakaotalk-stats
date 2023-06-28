@@ -45,12 +45,12 @@ const MenuBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 50px;
+  gap: 4.5rem;
 `;
 
 const Menus = styled(FlexCenterDiv)`
   font-size: 2.2rem;
-  gap: 50px;
+  gap: 4.5rem;
   @media (max-width: 1200px) {
     display: none;
   }
