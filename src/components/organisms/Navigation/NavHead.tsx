@@ -38,7 +38,6 @@ const H1 = styled.h1`
   }
   @media (max-width: 1200px) {
     justify-content: center;
-    width: 120px;
   }
 `;
 

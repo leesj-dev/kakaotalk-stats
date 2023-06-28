@@ -15,31 +15,21 @@ const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
   top: 0;
   left: ${(props) => (props.isSideMenuChatRoom ? "0" : "-100%")};
-  width: 40%;
+  width: 30%;
+  min-width: 260px;
   height: 100vh;
   background: ${(props) => props.theme.mainWhite};
   overflow: ${(props) => (props.isSideMenuChatRoom ? "hidden" : "auto")};
   transition: left 0.3s;
   z-index: 999;
-
-  @media (max-width: 768px) {
-    width: 50%;
-  }
-
-  @media (max-width: 480px) {
-    width: 70%;
-  }
-
-  @media (max-width: 320px) {
-    width: 80%;
-  }
 `;
 
 const TopContent = styled.div`
   padding: 0 20px 0 20px;
   display: flex;
   align-items: center;
-  line-height: 70px;
+  line-height: 7rem;
+  border-bottom: 1px solid ${(props) => props.theme.border};
 `;
 
 const NavMenuIcon = styled(Icon)`
@@ -55,31 +45,25 @@ const NavMenuIcon = styled(Icon)`
   }
 `;
 
-const H2 = styled(FlexCenterDiv)`
+const H2 = styled.div`
   width: 120px;
   transform: translateX(-50%);
 `;
 
-const PageLink = styled.div`
-  display: flex;
-  gap: 60px;
+const PageLink = styled(FlexColumnDiv)`
+  width: 100%;
+  font-size: 2rem;
+  text-align: center;
+  line-height: 5rem;
 
-  @media (max-width: 1200px) {
-    width: 100%;
-    flex-direction: column;
-    gap: 0;
-    font-size: 2rem;
-    text-align: center;
-    > * {
-      line-height: 3em;
-      border-bottom: 1px solid ${(props) => props.theme.border};
-      &:hover {
-        background: ${(props) => props.theme.border};
-      }
+  > * {
+    border-bottom: 1px solid ${(props) => props.theme.border};
+    &:hover {
+      background: ${(props) => props.theme.border};
     }
-    > :first-child {
-      border-top: 1px solid ${(props) => props.theme.border};
-    }
+  }
+  @media (max-width: 768px) {
+    line-height: 5rem;
   }
 `;
 
@@ -192,8 +176,8 @@ const NavSide: React.FC<NavSideMenuProps> = ({
               상세보기
             </Link>
           )}
-          {isAnalyzedMessagesExist && <DashboardSideMenu />}
         </PageLink>
+        {isAnalyzedMessagesExist && <DashboardSideMenu isSideMenu />}
       </NavSideBox>
       <NavSideShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
     </NavSideContainer>
