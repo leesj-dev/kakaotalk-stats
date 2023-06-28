@@ -4,7 +4,7 @@ export const lightTheme: DefaultTheme = {
   mainBlue: "#2da0fa",
   mainWhite: "#ffffff",
   mainBlack: "#191F28",
-  mainGray: "#B0B8C1",
+  mainGray: "#a5aeb7",
   mainText: "#191F28",
   mainBlueHover: "#0d6efd",
   border: "#e1e1e1",
