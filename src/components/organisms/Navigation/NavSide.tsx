@@ -170,7 +170,7 @@ const NavSide: React.FC<NavSideMenuProps> = ({
           </H2>
         </TopContent>
         <PageLink>
-          <Link to="/attachment" onClick={closeMenu}>
+          <Link to="/attachment#analysis" onClick={closeMenu}>
             <AnalysisBox>
               <AnalysisMenu>분석하기</AnalysisMenu>
               <BsFillArrowRightCircleFill />

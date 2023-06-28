@@ -64,7 +64,7 @@ const AttachmentDescriptionSection = () => {
 
   const location = useLocation();
   const isDescriptionIndex = location.hash.includes("description");
-
+  const isAnalysisIndex = location.hash.includes("analysis");
   const AttachDescriptionBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,7 +73,12 @@ const AttachmentDescriptionSection = () => {
         scrollToEvent(AttachDescriptionBoxRef.current!.offsetTop - 50, "smooth");
       }, 10);
     }
-  }, [location, isDescriptionIndex]);
+    if (isAnalysisIndex) {
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 10);
+    }
+  }, [location, isDescriptionIndex, isAnalysisIndex]);
 
   return (
     <AttachDescriptionBox id="attachMethod" ref={AttachDescriptionBoxRef}>
