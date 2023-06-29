@@ -26,7 +26,6 @@ const GraphDetailContainer = styled.div`
 
 const ContentBox = styled(FlexColumnDiv)`
   width: calc(85% - 30px);
-
   @media (max-width: 1200px) {
     width: calc(100% - 30px);
   }
@@ -112,17 +111,6 @@ const DetailPage = () => {
     scrollToEvent(0, "auto");
   }, []);
 
-  useEffect(() => {
-    if (modalRef?.current?.offsetHeight) {
-      dispatch(
-        setVolumeHourlyBoxSize([
-          (modalRef?.current?.offsetWidth * 3) / 4,
-          modalRef?.current?.offsetHeight,
-        ])
-      );
-    }
-  }, []);
-
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
@@ -133,6 +121,27 @@ const DetailPage = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  const dispatchVolumeHourlyBoxSize = () => {
+    if (!modalRef?.current?.offsetHeight) {
+      return;
+    }
+    if (windowWidth > 1200) {
+      return dispatch(
+        setVolumeHourlyBoxSize([
+          (modalRef?.current?.offsetWidth * 3) / 4,
+          modalRef?.current?.offsetHeight,
+        ])
+      );
+    }
+    return dispatch(
+      setVolumeHourlyBoxSize([modalRef?.current?.offsetWidth, modalRef?.current?.offsetHeight])
+    );
+  };
+
+  useEffect(() => {
+    dispatchVolumeHourlyBoxSize();
   }, []);
 
   return (
