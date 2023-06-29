@@ -21,6 +21,7 @@ const DashboardSectionContainer = styled(FlexCenterDiv)`
   background: ${(props) => props.theme.dashboardBackground};
   @media (max-width: 1200px) {
     height: calc(100vh - 70px);
+    min-width: calc(1180px);
   }
 `;
 
@@ -150,6 +151,8 @@ const DashboardSection = () => {
     },
   ];
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   if (!isModalVisible && containerRef?.current?.offsetHeight) {
     dispatch(
       setVolumeHourlyBoxSize([containerRef?.current?.offsetWidth, containerRef?.current?.offsetHeight])
@@ -159,6 +162,18 @@ const DashboardSection = () => {
   useEffect(() => {
     dispatch(setIsModalVisible(false));
     scrollToEvent(0, "auto");
+  }, []);
+
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
