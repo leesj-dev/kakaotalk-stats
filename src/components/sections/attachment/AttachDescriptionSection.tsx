@@ -6,6 +6,7 @@ import ThreeImages, { CardData } from "../../organisms/attachment/ThreeImages";
 import scrollToEvent from "../../../module/common/scrollToEvent";
 import { useLocation } from "react-router";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { useSelector } from "react-redux";
 
 const AttachDescriptionBox = styled(FlexColumnCenterDiv)`
   padding: 80px 0;
@@ -59,12 +60,19 @@ const pcCardData = [
 ];
 
 const AttachmentDescriptionSection = () => {
-  const [cardData, setCardData] = useState<CardData[]>(pcCardData);
-
   const location = useLocation();
   const isDescriptionIndex = location.hash.includes("description");
   const isAnalysisIndex = location.hash.includes("analysis");
   const AttachDescriptionBoxRef = useRef<HTMLDivElement>(null);
+
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
+  const [cardData, setCardData] = useState<CardData[]>(pcCardData);
+
+  const osData = [
+    { label: "PC", data: pcCardData },
+    { label: "모바일", data: mobileCardData },
+  ];
 
   useEffect(() => {
     if (isDescriptionIndex && AttachDescriptionBoxRef.current) {
@@ -85,8 +93,16 @@ const AttachmentDescriptionSection = () => {
         현재 실행하고 있는 기기에서 카카오톡 메시지 내보내기 방법 알아보기
       </TitleParagraph>
       <OsButtonBox>
-        <BlueButton onClick={() => setCardData(pcCardData)}>PC</BlueButton>
-        <BlueButton onClick={() => setCardData(mobileCardData)}>모바일</BlueButton>
+        {osData.map((item) => (
+          <BlueButton
+            key={item.label}
+            inactive={cardData !== item.data}
+            darkMode={isDarkMode}
+            onClick={() => setCardData(item.data)}
+          >
+            {item.label}
+          </BlueButton>
+        ))}
       </OsButtonBox>
       <ThreeImagesBox>
         <ThreeImages srcAndText={cardData} />
