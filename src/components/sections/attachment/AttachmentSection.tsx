@@ -183,25 +183,31 @@ const AttachmentSection = () => {
   };
 
   const dispatchAnalyzedMessages = async (attachedFileList: FileObject[][]) => {
-    try {
-      const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(
-        attachedFileList,
-        selectedOsIndex
-      );
+    const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(
+      attachedFileList,
+      selectedOsIndex
+    );
+
+    const isValidMessageData = analyzedMessage[0].length;
+    if (isValidMessageData) {
       dispatch(setAnalyzedMessages(analyzedMessage));
       dispatch(setIsAnalyzedMessagesExist(true));
-    } catch (error) {
-      console.error(error);
+    } else {
+      throw Error;
     }
   };
 
-  const handleClickAnalyzeButton = () => {
-    dispatchAnalyzedMessages(attachedFileList);
-    const windowWidth = window.innerWidth;
-    if (windowWidth > 1200) {
-      navigate("/dashboard");
-    } else {
-      navigate("/detail");
+  const handleClickAnalyzeButton = async () => {
+    try {
+      await dispatchAnalyzedMessages(attachedFileList);
+      const windowWidth = window.innerWidth;
+      if (windowWidth > 1200) {
+        navigate("/dashboard");
+      } else {
+        navigate("/detail");
+      }
+    } catch {
+      alert("파일 분석에 실패하였습니다. 대화 파일의 운영체제가 올바르게 선택되었는지 확인해주세요.");
     }
   };
 
