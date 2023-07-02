@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import AttachedFileList from "../../molecules/attachment/AttachedFileList";
 import BlueButton from "../../atoms/BlueButton";
@@ -29,6 +29,7 @@ import { setIsAnalyzedMessagesExist } from "../../../store/reducer/dashboard/isA
 import Paragraph from "../../atoms/Paragraph";
 import OsList from "../../organisms/attachment/OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import Loading from "../../molecules/common/Loading";
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   position: relative;
@@ -36,9 +37,6 @@ const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   padding: 8rem 0;
   max-width: 1220px;
 
-  > * + * {
-    margin-top: 30px; /* 첫 번째 자식 컴포넌트를 제외한 나머지 자식 컴포넌트에 적용될 간격 */
-  }
   @media (max-width: 768px) {
     margin: 6rem auto 0 auto;
   }
@@ -52,7 +50,7 @@ const ButtonBox = styled.div`
 `;
 
 const OsContentBox = styled.div`
-  margin: 0 auto;
+  margin: 0 auto 30px auto;
   padding: 10rem 2rem;
   width: 80%;
   max-width: 970px;
@@ -141,20 +139,6 @@ const transformIntoTableForm = (analyzedMessages: any[]) => {
   return analyzedMessageData;
 };
 
-/**
- * 메시지를 분석합니다.
- * @param {any[]} attachedFileList - 첨부된 파일 배열
- * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
- */
-const analyzeMessage = async (attachedFileList: FileObject[][], osIndex: number | null) => {
-  const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(
-    attachedFileList,
-    osIndex
-  );
-  const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
-  return analyzedMessageData;
-};
-
 // 파일 확장자 허용 타입
 export const isAllowedFileType = (file: File): boolean => {
   const allowedExtensions = [".txt", ".csv"];
@@ -172,6 +156,8 @@ const AttachmentSection = () => {
   const attachedFileList = useSelector(
     (state: { attachedFileListSlice: FileObject[][] }) => state.attachedFileListSlice
   );
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const attachmentSectionRef = useRef<HTMLDivElement | null>(null);
 
@@ -201,6 +187,8 @@ const AttachmentSection = () => {
     try {
       await dispatchAnalyzedMessages(attachedFileList);
       const windowWidth = window.innerWidth;
+      setIsLoading(false);
+
       if (windowWidth > 1200) {
         navigate("/dashboard");
       } else {
@@ -220,8 +208,24 @@ const AttachmentSection = () => {
     }
   };
 
+  /**
+   * 메시지를 분석합니다.
+   * @param {any[]} attachedFileList - 첨부된 파일 배열
+   * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
+   */
+  const analyzeMessage = async (attachedFileList: FileObject[][], osIndex: number | null) => {
+    setIsLoading(true);
+    const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(
+      attachedFileList,
+      osIndex
+    );
+    const analyzedMessageData: AnalyzedMessage[][][] = transformIntoTableForm(analyzedMessages);
+    return analyzedMessageData;
+  };
+
   return (
     <AttachmentSectionBox ref={attachmentSectionRef}>
+      {isLoading && <Loading />}
       {!selectedOsIndex ? (
         <OsContentBox>
           <OsContentTitle>자신의 운영체제 아이콘을 선택해 주세요.</OsContentTitle>

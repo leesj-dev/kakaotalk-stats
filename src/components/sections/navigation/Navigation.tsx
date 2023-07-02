@@ -12,7 +12,7 @@ const NavigationContainer = styled.div`
   width: 100%;
   color: ${(props) => props.theme.mainText};
   border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
-  z-index: 999;
+  z-index: 9999;
   user-select: none;
   background: ${(props) => props.theme.navBackground};
 `;

@@ -9,6 +9,7 @@ import { MdClose } from "react-icons/md";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
 
 const FileUlBox = styled.ul`
+  margin-bottom: 30px;
   width: 50%;
 `;
 

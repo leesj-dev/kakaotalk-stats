@@ -19,7 +19,6 @@ const OsListBox = styled(FlexCenterDiv)`
 const OsIconBox = styled(FlexColumnCenterDiv)`
   padding: 1rem;
   border-radius: 5px;
-  transition: 0.2s;
   cursor: pointer;
 
   &:hover {
