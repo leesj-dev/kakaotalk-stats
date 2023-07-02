@@ -21,7 +21,8 @@ const DashboardSectionContainer = styled(FlexCenterDiv)`
   background: ${(props) => props.theme.dashboardBackground};
   @media (max-width: 1200px) {
     height: calc(100vh - 70px);
-    min-width: calc(1180px);
+    min-width: 1180px;
+    min-height: 750px;
   }
 `;
 
