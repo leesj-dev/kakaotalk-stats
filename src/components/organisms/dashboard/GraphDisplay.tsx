@@ -160,23 +160,10 @@ const GraphBox = ({
         <Subject>{subject}</Subject>
         {subject === "답장속도" && (
           <NoticeIcon>
-            <Tooltip
-              message="일단 내용을 이것 저것 넣는다
-            그리고 이것 저것 이렇궁 저렇궁 해서 나온 결과"
-            >
+            <Tooltip message="답장 시간이 빠를 수록 좌측 높은 점수가 부여됩니다. ">
               <AiFillInfoCircle />
             </Tooltip>
           </NoticeIcon>
-          // <NoticeBox>
-          //   <NoticeIcon>
-          //     <AiFillInfoCircle />
-          //   </NoticeIcon>
-          //   <Tooltip
-          //     message="일단 내용을 이것 저것 넣는다
-          //   그리고 이것 저것 이렇궁 저렇궁 해서 나온 결과"
-          //   >
-          //   </Tooltip>
-          // </NoticeBox>
         )}
       </SubjectBox>
       {isAnalyzedMessagesExist && graph}
