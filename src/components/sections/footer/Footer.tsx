@@ -7,8 +7,10 @@ import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import Span from "../../atoms/Span";
 
 const FooterContainer = styled.div`
+  position: relative;
   background: ${(props) => props.theme.footerBackground};
   padding: 6rem 0;
+  z-index: 9999;
 `;
 
 const ContentBox = styled(FlexColumnCenterDiv)`
