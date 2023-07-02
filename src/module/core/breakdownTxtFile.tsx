@@ -49,8 +49,14 @@ const getDataObjectFromLines = (filteredMessageLineArray: string[]): OriginMessa
  * @returns {string} UTF-8로 디코딩된 string.
  */
 export const utf8Decode = (base64String: string) => {
-  const bytes = atob(base64String.replace(/^data:.*?;base64,/, ""));
-  return decodeURIComponent(escape(bytes));
+  const decodedBytes = new Uint8Array(
+    atob(base64String.replace(/^data:.*?;base64,/, ""))
+      .split("")
+      .map((c) => c.charCodeAt(0))
+  );
+  const decoder = new TextDecoder("utf-8");
+  const decodedString = decoder.decode(decodedBytes);
+  return decodedString;
 };
 
 /**
