@@ -52,7 +52,12 @@ const ButtonBox = styled.div`
 const OsContentBox = styled.div`
   margin: 0 auto 30px auto;
   padding: 10rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3rem;
   width: 80%;
+  height: 400px;
   max-width: 970px;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
@@ -62,13 +67,10 @@ const OsContentBox = styled.div`
 `;
 
 const OsContentTitle = styled(Paragraph)`
-  margin-bottom: 3rem;
   font-size: 2.4rem;
 `;
 
-const OsListBox = styled.div`
-  margin-bottom: 3rem;
-`;
+const OsListBox = styled.div``;
 
 const OsNotice = styled(Paragraph)`
   font-size: 1.5rem;
