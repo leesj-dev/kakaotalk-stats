@@ -1,23 +1,25 @@
 import { OriginMessageData } from "../../@types/index.d";
 import { padToTwoDigits } from "../common/padToTwoDigits";
 
-const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
+const regexForIOS = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2},/;
 const regexForWindow = /(.+?)\] \[(오후|오전) \d{1,2}:\d{1,2}] /;
-const regexForMacOS = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},"(.+?)",/;
-const regexForAndroid = /^\d{2}년 \d{1,2}월 \d{1,2}일 (오후|오전) \d{1,2}:\d{2}, (.+?) : /;
+const regexForMacOS = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},"/;
+const regexForAndroid = /^\d{2}년 \d{1,2}월 \d{1,2}일 (오후|오전) \d{1,2}:\d{2},/;
 
 /**
- * txt파일에서 추출한 string 중에서 유효한 라인을 반환합니다.
- * @param {string} line - 추출한 문자열
- * @return {string|boolean} - 라인을 담은 배열 또는 false (라인이 유효하지 않은 경우)
+ * 주어진 정규식을 사용하여 라인을 필터링합니다.
+ * @param line - 필터링할 입력 라인입니다.
+ * @param regex - 필터링에 사용할 정규식입니다.
+ * @param startIndex - 라인을 자르기 위한 slice 시작 인덱스입니다 (기본값: 0).
+ * @param endIndex - 라인을 자르기 위한 slice의 마지막 인덱스입니다.
+ * @returns 정규식과 일치하는 경우 필터링된 라인을 반환하고, 그렇지 않은 경우 false를 반환합니다.
  */
-const filterMessageLine = (line: string) => {
-  line = line.trim();
-  if (!regex.test(line)) {
-    return false;
-  }
-  return line;
-};
+const filterLineByRegEx = (
+  line: string,
+  regex: RegExp,
+  startIndex: number = 0,
+  endIndex: number
+): string | false => (regex.test(line.slice(startIndex, endIndex)) ? line : false);
 
 /**
  * 라인 배열에서 데이터를 추출합니다.
@@ -69,7 +71,9 @@ export const breakdownTxtFileIOS = (base64: string) => {
   const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n20");
-    const filteredMessageLineArray = allLineArray.filter((line) => filterMessageLine(line));
+    const filteredMessageLineArray = allLineArray.filter((line) =>
+      filterLineByRegEx(line, regexForIOS, 0, 23)
+    );
 
     allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
   } catch (error) {
@@ -82,15 +86,14 @@ export const breakdownTxtFileIOS = (base64: string) => {
 export const breakdownTxtFileWindow = (base64: string) => {
   const allMessageData = [];
   const decodedTextFile = utf8Decode(base64.toString());
+  const earlyFilterWord = "요일 ---------------\r\n[";
   try {
     const allLineArray = decodedTextFile.split("\n--------------- 20");
     // 여기서 라인확인
-    const filteredMessageLineArray = allLineArray.filter((line) => {
-      return line.includes("요일 ---------------\r\n[");
-    });
-    const dateMessagePair = filteredMessageLineArray.map((item: string) =>
-      item.split("요일 ---------------\r\n[")
+    const filteredMessageLineArray = allLineArray.filter((line) =>
+      line.slice(0, 34).includes(earlyFilterWord)
     );
+    const dateMessagePair = filteredMessageLineArray.map((item: string) => item.split(earlyFilterWord));
     const dateMessageObject = dateMessagePair.map((pair: string[]) => {
       // 여기서 스플릿할 때 문제가 생김
       return {
@@ -130,7 +133,7 @@ export const breakdownTxtFileMacOS = (base64: string) => {
     const allLineArray = decodedTextFile.split("\n");
     const filteredMessageLineArray: string[] = [];
     allLineArray.forEach((line: string) => {
-      if (regexForMacOS.test(line)) {
+      if (filterLineByRegEx(line, regexForMacOS, 0, 21)) {
         filteredMessageLineArray.push(line);
       } else {
         filteredMessageLineArray[filteredMessageLineArray.length - 1] += line;
@@ -173,7 +176,9 @@ export const breakdownTxtFileAndroid = (base64: string) => {
   const decodedTextFile = utf8Decode(base64.toString());
   try {
     const allLineArray = decodedTextFile.split("\n20");
-    const filteredMessageLineArray = allLineArray.filter((line) => regexForAndroid.test(line));
+    const filteredMessageLineArray = allLineArray.filter((line) =>
+      filterLineByRegEx(line, regexForAndroid, 0, 24)
+    );
     const transformedMessageLineArray = filteredMessageLineArray.map((item) => {
       const transformedItem = item.replace("년", ".").replace("월", ".").replace("일", ".");
       return transformedItem;
