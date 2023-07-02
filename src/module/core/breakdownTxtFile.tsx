@@ -1,4 +1,5 @@
 import { OriginMessageData } from "../../@types/index.d";
+import { padToTwoDigits } from "../common/padToTwoDigits";
 
 const regex = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2}, (.+?) : /;
 const regexForWindow = /(.+?)\] \[(오후|오전) \d{1,2}:\d{1,2}] /;
@@ -6,7 +7,7 @@ const regexForMacOS = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},"(.+?)",/;
 const regexForAndroid = /^\d{2}년 \d{1,2}월 \d{1,2}일 (오후|오전) \d{1,2}:\d{2}, (.+?) : /;
 
 /**
- * txt파일에서 추출한 str을 넣으면 라인을 담은 배열 반환합니다.
+ * txt파일에서 추출한 string 중에서 유효한 라인을 반환합니다.
  * @param {string} line - 추출한 문자열
  * @return {string|boolean} - 라인을 담은 배열 또는 false (라인이 유효하지 않은 경우)
  */
@@ -21,31 +22,25 @@ const filterMessageLine = (line: string) => {
 /**
  * 라인 배열에서 데이터를 추출합니다.
  * @param {string[]} filteredMessageLineArray - 필터링된 라인 배열입니다.
- * @returns {Array<object>} - 라인 배열에서 추출된 데이터 객체의 배열입니다.
+ * @returns {OriginMessageData[]} - 라인 배열에서 추출된 데이터 객체의 배열입니다.
  */
-const getDataObjectFromLines = (filteredMessageLineArray: string[]) => {
-  const originMessageData: OriginMessageData[] = [];
-  for (const line of filteredMessageLineArray) {
+const getDataObjectFromLines = (filteredMessageLineArray: string[]): OriginMessageData[] => {
+  return filteredMessageLineArray.map((line) => {
     const [dateTime, content] = line.split(", ", 2);
     const [year, month, day, time] = dateTime.split(". ");
     const [fullHour, minute] = time.split(":");
     const [meridiem, hour] = fullHour.split(" ");
-    const hour12 = hour === "12" ? "0" : hour;
+    const hour12 = hour === "12" ? 0 : Number(hour);
     const [speaker, message] = content.split(" : ");
     const keywords = message.split(" ").map((word) => word.trim());
-    originMessageData.push({
-      date: `${year.slice(-2)}${formatValue(month)}${formatValue(day)}`,
-      hour: meridiem === "오전" ? formatValue(parseInt(hour12)) : (parseInt(hour12) + 12).toString(),
-      minute: formatValue(minute),
+    return {
+      date: `${year.slice(-2)}${padToTwoDigits(month)}${padToTwoDigits(day)}`,
+      hour: meridiem === "오전" ? padToTwoDigits(hour12) : (hour12 + 12).toString(),
+      minute: padToTwoDigits(minute),
       speaker,
       keywords,
-    });
-  }
-  return originMessageData;
-};
-
-const formatValue = (value: String | Number) => {
-  return value.toString().padStart(2, "0");
+    };
+  });
 };
 
 /**
