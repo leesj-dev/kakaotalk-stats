@@ -6,6 +6,7 @@ import { getSpeakers } from "../../../module/common/getProperties";
 import { customTickColor, setRotationColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
 import ReplyCountByHourlyGraph from "./ReplyCountByHourlyGraph";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const TooltipBox = styled.div`
   border: 1px solid #ddd;
@@ -142,7 +143,7 @@ const ChatVolumeByHourlyGraph = () => {
       const data = payload[0]?.payload;
 
       return (
-        <TooltipBox style={{ fontSize: "1.6rem" }}>
+        <TooltipBox style={graphTooltipStyle}>
           <p>
             {data.hour}
             <span>시</span>

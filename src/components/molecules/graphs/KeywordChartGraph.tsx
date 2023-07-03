@@ -10,6 +10,7 @@ import { getHighKeywords } from "./KeywordCloud";
 import WordCloud from "react-d3-cloud";
 import { useLocation } from "react-router";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const CloudBox = styled.div`
   position: absolute;
@@ -134,7 +135,7 @@ const KeywordChartGraph = () => {
             fontSize={12}
             tick={customTickColor(isDarkMode)}
           />
-          <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
+          <Tooltip contentStyle={graphTooltipStyle} />
           <Bar dataKey="value" fill={setRotationColor(currentSpeakerIndex)} opacity={0.85} />
         </BarChart>
       </ResponsiveContainer>

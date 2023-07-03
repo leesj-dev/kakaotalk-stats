@@ -18,6 +18,7 @@ import styled from "styled-components";
 import Icon from "../../atoms/Icon";
 import { setMostChattedTimes } from "../../../store/reducer/dashboard/mostChattedTimes";
 import { BiLeftArrowCircle, BiRightArrowCircle } from "react-icons/bi";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const Container = styled.div`
   display: flex;
@@ -213,7 +214,7 @@ const SummaryPieGraph = () => {
               );
             })}
           </Pie>
-          <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
+          <Tooltip contentStyle={graphTooltipStyle} />
         </PieChart>
       </ResponsiveContainer>{" "}
       <ArrowIcon

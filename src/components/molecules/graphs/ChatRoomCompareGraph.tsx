@@ -22,6 +22,7 @@ import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import { lightTheme } from "../../../style/Theme";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const radarSubjects = ["카톡 양", "답장속도", "인원", "기간", "이모티콘사진"];
 
@@ -192,7 +193,7 @@ const ChatRoomCompareGraph = () => {
           );
         })}
         {/* <Legend iconType="line" /> */}
-        <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
+        <Tooltip contentStyle={graphTooltipStyle} />
       </RadarChart>
     </ResponsiveContainer>
   );

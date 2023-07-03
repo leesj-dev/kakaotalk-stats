@@ -4,6 +4,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const getSumTimeCount = (speaker: ChatTimes[]) => {
   const sumTimeCount: ChatTimes = {};
@@ -70,7 +71,7 @@ const ReplyCountByHourlyGraph = () => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
           <YAxis width={60} fontSize={12} tick={customTickColor(isDarkMode)} />
-          <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
+          <Tooltip contentStyle={graphTooltipStyle} />
           {speakers.map((speaker: string, index: number) => {
             return (
               <Area

@@ -19,6 +19,7 @@ import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import NavigatorContainer from "../dashboard/GraphNavigatorContainer";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 type LineGraphData = {
   name: string;
@@ -219,8 +220,7 @@ const ReplySpeedGraph = () => {
           <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
           <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
           <YAxis yAxisId="right" orientation="right" fontSize={12} tick={customTickColor(isDarkMode)} />
-
-          <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
+          <Tooltip contentStyle={graphTooltipStyle} />
           {/* <Legend /> */}
           <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" fillOpacity={0.85} />
           <ReferenceLine

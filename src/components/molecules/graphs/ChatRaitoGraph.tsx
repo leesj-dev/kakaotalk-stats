@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const COLORS = ["#FF414D", "#FF8991", "#F7ABB1"];
 
@@ -53,7 +54,7 @@ const ChatRatioGraph = () => {
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip contentStyle={graphTooltipStyle} />
           {/* <Legend layout="horizontal" /> */}
         </PieChart>
       </ResponsiveContainer>

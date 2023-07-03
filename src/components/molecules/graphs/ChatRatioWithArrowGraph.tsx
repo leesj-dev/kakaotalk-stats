@@ -6,6 +6,7 @@ import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray"
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import styled from "styled-components";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const ChatRatioWithArrowGraphBox = styled.div<{ justifyContent?: string }>`
   display: flex;
@@ -140,7 +141,7 @@ const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProp
   return (
     <ChatRatioWithArrowGraphBox justifyContent={justifyContent}>
       <PieChart width={110 * scale} height={60 * scale}>
-        <Tooltip contentStyle={{ fontSize: "1.6rem" }} />
+        <Tooltip contentStyle={graphTooltipStyle} />
         <Pie
           dataKey="value"
           startAngle={180}
