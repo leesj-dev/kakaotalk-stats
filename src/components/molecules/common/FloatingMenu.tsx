@@ -6,6 +6,7 @@ import { FiArrowUp } from "react-icons/fi";
 import { BsShareFill } from "react-icons/bs";
 import { lightTheme } from "../../../style/Theme";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
+import { borderRadius } from "../../../style/css/borderRadius";
 
 const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: boolean }>`
   position: fixed;
@@ -17,12 +18,12 @@ const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: bo
   transition: 0.3s;
   opacity: ${({ isFloatingMenuVisible }) => (isFloatingMenuVisible ? 1 : 0)};
   visibility: ${({ isFloatingMenuVisible }) => (isFloatingMenuVisible ? "visible" : "hidden")};
-  z-index: 900;
+  z-index: 99999;
 
   > * {
     padding: 10px;
     transition: 0.3s;
-    border-radius: 25%;
+    border-radius: ${borderRadius.medium};
     font-size: 24px;
     color: ${lightTheme.mainWhite};
     background: ${(props) => props.theme.mainBlue};

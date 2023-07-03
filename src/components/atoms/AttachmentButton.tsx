@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { borderRadius } from "../../style/css/borderRadius";
 
 const AttachmentButtonBox = styled.div`
   display: inline-block;
 `;
 
-const Label = styled.label`
-  border-radius: 30px;
-`;
+const Label = styled.label``;
 
 const FileInput = styled.input`
   display: none;
@@ -19,7 +18,7 @@ const UnderlineP = styled.p`
   color: #fff;
   background: ${(props) => props.theme.mainBlue};
   padding: 1.5rem 4rem;
-  border-radius: 5px;
+  border-radius: ${borderRadius.weak};
   transition: 0.3s;
   cursor: pointer;
 

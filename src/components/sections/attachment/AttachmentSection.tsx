@@ -30,6 +30,7 @@ import Paragraph from "../../atoms/Paragraph";
 import OsList from "../../organisms/attachment/OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import Loading from "../../molecules/common/Loading";
+import { borderRadius } from "../../../style/css/borderRadius";
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   position: relative;
@@ -60,7 +61,7 @@ const OsContentBox = styled.div`
   height: 420px;
   max-width: 970px;
   border: 2px dashed ${(props) => props.theme.mainGray};
-  border-radius: 2rem;
+  border-radius: ${borderRadius.strong};
   @media (max-width: 480px) {
     padding: 6rem 2rem;
   }

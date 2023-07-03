@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteAttachedFileArray } from "../../../store/reducer/attachment/attachedFileListSlice";
 import { MdClose } from "react-icons/md";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
+import { borderRadius } from "../../../style/css/borderRadius";
 
 const FileUlBox = styled.ul`
   margin-bottom: 2rem;
@@ -18,7 +19,7 @@ const FileListBox = styled(FlexCenterDiv)`
   padding: 2rem;
   justify-content: space-between;
   border: 1px solid ${(props) => props.theme.border};
-  border-radius: 1rem;
+  border-radius: ${borderRadius.medium};
 `;
 
 const FileList = styled.div`

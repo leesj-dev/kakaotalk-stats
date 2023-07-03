@@ -8,6 +8,7 @@ import { SiIos } from "react-icons/si";
 import Icon from "../../atoms/Icon";
 import { lightTheme } from "../../../style/Theme";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { borderRadius } from "../../../style/css/borderRadius";
 
 const OsListBox = styled(FlexCenterDiv)`
   margin: 0 auto;
@@ -21,7 +22,7 @@ const OsListBox = styled(FlexCenterDiv)`
 
 const OsIconBox = styled(FlexColumnCenterDiv)`
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: ${borderRadius.weak};
   cursor: pointer;
 
   &:hover {

@@ -8,6 +8,7 @@ import Img from "../../atoms/Img";
 import Paragraph from "../../atoms/Paragraph";
 
 import { FiArrowUp, FiArrowDown } from "react-icons/fi";
+import { borderRadius } from "../../../style/css/borderRadius";
 const Container = styled.div`
   padding: 100px 0px;
 
@@ -24,7 +25,7 @@ const Card = styled.div`
   max-width: 1200px;
   height: 500px;
   background: ${(props) => props.theme.mainWhite};
-  border-radius: 10px;
+  border-radius: ${borderRadius.medium};
   box-shadow: 2px 0px 10px 0px #ddd;
   overflow: hidden;
   @media (max-width: 768px) {
