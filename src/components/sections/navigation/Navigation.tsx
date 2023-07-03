@@ -5,6 +5,7 @@ import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMe
 import NavHead from "../../organisms/navigation/NavHead";
 import NavSideMenu from "../../organisms/navigation/NavSide";
 import { darkTheme } from "../../../style/Theme";
+import { zIndex } from "../../../style/specifiedCss/zIndex";
 
 const NavigationContainer = styled.div`
   position: fixed;
@@ -12,7 +13,7 @@ const NavigationContainer = styled.div`
   width: 100%;
   color: ${(props) => props.theme.mainText};
   border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
-  z-index: 9999;
+  z-index: ${zIndex.navigationContainer};
   user-select: none;
   background: ${(props) => props.theme.navBackground};
 `;

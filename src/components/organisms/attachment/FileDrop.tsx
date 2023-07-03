@@ -4,7 +4,7 @@ import AttachmentButton from "../../atoms/AttachmentButton";
 import Paragraph from "../../atoms/Paragraph";
 import OsList from "./OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const DropBox = styled(FlexColumnCenterDiv)`
   position: relative;

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { borderRadius } from "../../style/css/borderRadius";
+import { borderRadius } from "../../style/specifiedCss/borderRadius";
 
 const AttachmentButtonBox = styled.div`
   display: inline-block;

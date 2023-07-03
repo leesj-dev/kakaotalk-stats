@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { zIndex } from "../../style/specifiedCss/zIndex";
 const Container = styled.div`
   position: relative;
   width: fit-content;
@@ -17,9 +18,9 @@ const Content = styled.div`
   position: absolute;
   width: 200px;
   left: 10px;
-  z-index: 200;
   border: 1px solid ${(props) => props.theme.mainGray};
   background-color: ${(props) => props.theme.mainWhite};
+  z-index: ${zIndex.graphTooltip};
 
   @media (max-width: 700px) {
     right: 10px;

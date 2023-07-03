@@ -8,7 +8,7 @@ import { SiIos } from "react-icons/si";
 import Icon from "../../atoms/Icon";
 import { lightTheme } from "../../../style/Theme";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const OsListBox = styled(FlexCenterDiv)`
   margin: 0 auto;

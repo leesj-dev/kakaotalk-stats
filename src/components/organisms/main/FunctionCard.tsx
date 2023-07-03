@@ -8,7 +8,8 @@ import Img from "../../atoms/Img";
 import Paragraph from "../../atoms/Paragraph";
 
 import { FiArrowUp, FiArrowDown } from "react-icons/fi";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
+import { zIndex } from "../../../style/specifiedCss/zIndex";
 const Container = styled.div`
   padding: 100px 0px;
 
@@ -153,7 +154,7 @@ const Description = styled.div<{ fontSize?: string }>`
 
 const SlideIconBox = styled.div`
   cursor: pointer;
-  z-index: 100;
+  z-index: ${zIndex.functionCardSlideIcon};
 
   > * {
     padding: 10px;

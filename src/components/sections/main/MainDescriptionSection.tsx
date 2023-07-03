@@ -5,7 +5,7 @@ import H2 from "../../atoms/H2";
 import H3 from "../../atoms/H3";
 import Img from "../../atoms/Img";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const Container = styled.div`
   display: flex;

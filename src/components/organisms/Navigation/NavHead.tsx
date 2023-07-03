@@ -11,7 +11,7 @@ import Icon from "../../atoms/Icon";
 import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;
@@ -73,7 +73,7 @@ const DarkModeButton = styled.div`
       color: ${darkTheme.navBackground};
       background: ${lightTheme.navBackground};
     }
-    > :nth-child(1) {
+    > :nth-child(2) {
       left: 44px;
       background: ${darkTheme.navBackground};
       @media (max-width: 1200px) {
@@ -94,7 +94,6 @@ const ToggleCircle = styled.div`
   left: 5px;
   width: calc(50% - 8px);
   border-radius: ${borderRadius.round};
-  z-index: 1;
   background: #fff;
 `;
 
@@ -161,11 +160,11 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
         </Menus>
         <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
-          <ToggleCircle></ToggleCircle>
           <IconBox>
             <BsFillBrightnessHighFill />
             <BsFillMoonStarsFill />
           </IconBox>
+          <ToggleCircle />
         </DarkModeButton>
       </MenuBox>
     </NavHeadContainer>

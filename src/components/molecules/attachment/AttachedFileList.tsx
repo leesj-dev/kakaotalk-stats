@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteAttachedFileArray } from "../../../store/reducer/attachment/attachedFileListSlice";
 import { MdClose } from "react-icons/md";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const FileUlBox = styled.ul`
   margin-bottom: 2rem;

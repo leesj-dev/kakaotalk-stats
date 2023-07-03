@@ -14,7 +14,7 @@ import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../atoms/F
 import Paragraph from "../../atoms/Paragraph";
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
 import SpeakerSelectContent from "./SpeakerSelectContent";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;

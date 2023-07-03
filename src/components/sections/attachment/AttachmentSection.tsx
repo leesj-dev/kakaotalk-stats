@@ -30,7 +30,7 @@ import Paragraph from "../../atoms/Paragraph";
 import OsList from "../../organisms/attachment/OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import Loading from "../../molecules/common/Loading";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   position: relative;

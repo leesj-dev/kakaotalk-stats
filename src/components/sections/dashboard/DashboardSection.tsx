@@ -12,7 +12,8 @@ import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeH
 import SpeakerSelect from "../../molecules/dashboard/SpeakerSelect";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
+import { zIndex } from "../../../style/specifiedCss/zIndex";
 
 const DashboardSectionContainer = styled(FlexCenterDiv)`
   padding: 10px;
@@ -101,7 +102,7 @@ const ModalBox = styled.div`
   bottom: 10%;
   left: 21%;
   right: 5.5%;
-  z-index: 999;
+  z-index: ${zIndex.graphModal};
   display: flex;
 `;
 

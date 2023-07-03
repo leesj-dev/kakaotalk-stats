@@ -9,6 +9,7 @@ import { getHighKeywords } from "./KeywordCloud";
 
 import WordCloud from "react-d3-cloud";
 import { useLocation } from "react-router";
+import { zIndex } from "../../../style/specifiedCss/zIndex";
 
 const CloudBox = styled.div`
   position: absolute;
@@ -17,7 +18,7 @@ const CloudBox = styled.div`
   width: 95%;
   height: 95.5%;
   overflow: hidden;
-  z-index: -1;
+  z-index: ${zIndex.wordCloud};
 `;
 
 const getAllKeywordData = (keywordData: ValueCountPair[]) => {

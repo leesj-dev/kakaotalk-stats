@@ -16,7 +16,7 @@ import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisib
 import { FlexColumnCenterDiv, FlexRowDiv } from "../../atoms/FlexDiv";
 import { AiFillInfoCircle } from "react-icons/ai";
 import Tooltip from "../../atoms/Tooltip";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const GraphDisplayBox = styled(FlexColumnCenterDiv)`
   position: relative;

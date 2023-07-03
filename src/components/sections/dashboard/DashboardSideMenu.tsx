@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMenuChatRoomSelectSlice";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
-import { borderRadius } from "../../../style/css/borderRadius";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const DashboardLayoutBox = styled(FlexColumnDiv)<{ isSideMenu?: Boolean }>`
   position: sticky;

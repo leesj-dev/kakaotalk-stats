@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
+import { zIndex } from "../../../style/specifiedCss/zIndex";
 
 const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
@@ -21,7 +22,7 @@ const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   background: ${(props) => props.theme.mainWhite};
   overflow: ${(props) => (props.isSideMenuChatRoom ? "hidden" : "auto")};
   transition: left 0.3s;
-  z-index: 999;
+  z-index: ${zIndex.navSide};
 `;
 
 const TopContent = styled.div`
@@ -88,11 +89,11 @@ const NavSideShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
   width: 100%;
   height: 100vh;
   opacity: 0.8;
-  z-index: 800;
   background-color: ${(props) => props.theme.mainBlack};
   visibility: ${(props) => (props.isSideMenuVisible ? "visible" : "hidden")};
   opacity: ${(props) => (props.isSideMenuVisible ? "0.6" : "0")};
   transition: 0.2s;
+  z-index: ${zIndex.navSideShadow};
 `;
 
 interface NavSideMenuProps extends NavProps {
