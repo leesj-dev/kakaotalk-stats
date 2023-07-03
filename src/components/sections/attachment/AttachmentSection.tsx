@@ -199,6 +199,7 @@ const AttachmentSection = () => {
       }
     } catch {
       alert("파일 분석에 실패하였습니다. 대화 파일의 운영체제가 올바르게 선택되었는지 확인해주세요.");
+      setIsLoading(false);
     }
   };
 
