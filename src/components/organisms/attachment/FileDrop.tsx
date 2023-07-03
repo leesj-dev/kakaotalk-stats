@@ -15,7 +15,6 @@ const DropBox = styled(FlexColumnCenterDiv)`
   width: 80%;
   border: 2px dashed ${(props) => props.theme.mainGray};
   border-radius: ${borderRadius.strong};
-  transition: 0.3s;
 
   > * {
     margin-bottom: 10px;

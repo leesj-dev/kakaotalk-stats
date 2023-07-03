@@ -23,7 +23,7 @@ export const darkTheme: DefaultTheme = {
   mainBlack: "#000000",
   mainGray: "#676767",
   mainText: "#ffffff",
-  mainBlueHover: "#0066ff",
+  mainBlueHover: "#accdff",
   border: "#515151",
   mainBackground: "#171717",
   footerBackground: "#202020",
