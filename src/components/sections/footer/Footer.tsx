@@ -68,7 +68,7 @@ const Footer = () => {
         <DeveloperDescriptionBox>
           {DeveloperData.map((developer) => {
             return (
-              <DeveloperBox>
+              <DeveloperBox key={developer.name}>
                 <IconContainer>
                   <Anchor href={developer.github}>
                     <AnchorIcon>

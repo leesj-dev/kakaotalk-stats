@@ -119,8 +119,8 @@ const MainDescriptionSection = ({ moveScrollPosition }: Props) => {
 
   return (
     <Container ref={moveScrollPosition}>
-      {functionCardData.map((data, index) => (
-        <CardBox darkMode={isDarkMode}>
+      {functionCardData.map((data) => (
+        <CardBox key={data.id} darkMode={isDarkMode}>
           <DescriptionBox>
             <Title subject>{data.subject}</Title>
             <SubTitle>{data.h3}</SubTitle>
