@@ -17,7 +17,7 @@ const FileListBox = styled(FlexCenterDiv)`
   margin-bottom: 1rem;
   padding: 2rem;
   justify-content: space-between;
-  border: 1px solid ${(props) => props.theme.mainGray};
+  border: 1px solid ${(props) => props.theme.border};
   border-radius: 1rem;
 `;
 

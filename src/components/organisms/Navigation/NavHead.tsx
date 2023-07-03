@@ -104,7 +104,7 @@ const IconBox = styled(FlexCenterDiv)`
   transform: translateY(-50%);
   width: 100%;
   height: 100%;
-  border-radius: 25px;
+  border-radius: 2rem;
   font-size: 2rem;
   > * {
     flex: 1;

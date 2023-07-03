@@ -57,10 +57,10 @@ const OsContentBox = styled.div`
   justify-content: center;
   gap: 3rem;
   width: 80%;
-  height: 400px;
+  height: 420px;
   max-width: 970px;
-  border: 3px dashed ${(props) => props.theme.mainGray};
-  border-radius: 30px;
+  border: 2px dashed ${(props) => props.theme.mainGray};
+  border-radius: 2rem;
   @media (max-width: 480px) {
     padding: 6rem 2rem;
   }
