@@ -1,10 +1,10 @@
 import { OriginMessageData } from "../../@types/index.d";
 import { padToTwoDigits } from "../common/padToTwoDigits";
 
-const regexForIOS = /^\d{2,4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2},/;
+const regexForIOS = /(\n(?!\d{4}\. \d{1,2}\. \d{1,2}\. (오후|오전) \d{1,2}:\d{1,2},))/g;
 const regexForWindow = /(.+?)\] \[(오후|오전) \d{1,2}:\d{1,2}] /;
-const regexForMacOS = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},"/;
-const regexForAndroid = /^\d{2}년 \d{1,2}월 \d{1,2}일 (오후|오전) \d{1,2}:\d{2},/;
+const regexForMacOS = /(\n(?!\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},"))/g;
+const regexForAndroid = /(\n(?!\d{4}년 \d{1,2}월 \d{1,2}일 (오후|오전) \d{1,2}:\d{2},))/g;
 
 /**
  * 주어진 정규식을 사용하여 라인을 필터링합니다.
@@ -70,10 +70,7 @@ export const breakdownTxtFileIOS = (base64: string) => {
   const allMessageData = [];
   const decodedTextFile = utf8Decode(base64.toString());
   try {
-    const allLineArray = decodedTextFile.split("\n20");
-    const filteredMessageLineArray = allLineArray.filter((line) =>
-      filterLineByRegEx(line, regexForIOS, 0, 23)
-    );
+    const filteredMessageLineArray = decodedTextFile.replace(regexForIOS, " ").split("\n").slice(1);
 
     allMessageData.push(getDataObjectFromLines(filteredMessageLineArray));
   } catch (error) {
@@ -130,15 +127,7 @@ export const breakdownTxtFileMacOS = (base64: string) => {
   const allMessageData = [];
   const decodedTextFile = utf8Decode(base64.toString());
   try {
-    const allLineArray = decodedTextFile.split("\n");
-    const filteredMessageLineArray: string[] = [];
-    allLineArray.forEach((line: string) => {
-      if (filterLineByRegEx(line, regexForMacOS, 0, 21)) {
-        filteredMessageLineArray.push(line);
-      } else {
-        filteredMessageLineArray[filteredMessageLineArray.length - 1] += line;
-      }
-    });
+    const filteredMessageLineArray = decodedTextFile.replace(regexForMacOS, " ").split("\n").slice(1);
 
     const transformedMessageLineArray = filteredMessageLineArray.map((line) => {
       let [dateTime, speaker, message] = line.split(",", 3);
@@ -175,10 +164,8 @@ export const breakdownTxtFileAndroid = (base64: string) => {
   const allMessageData = [];
   const decodedTextFile = utf8Decode(base64.toString());
   try {
-    const allLineArray = decodedTextFile.split("\n20");
-    const filteredMessageLineArray = allLineArray.filter((line) =>
-      filterLineByRegEx(line, regexForAndroid, 0, 24)
-    );
+    const filteredMessageLineArray = decodedTextFile.replace(regexForAndroid, " ").split("\n").slice(1);
+
     const transformedMessageLineArray = filteredMessageLineArray.map((item) => {
       const transformedItem = item.replace("년", ".").replace("월", ".").replace("일", ".");
       return transformedItem;

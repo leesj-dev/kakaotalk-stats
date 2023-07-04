@@ -36,7 +36,6 @@ const ToggleCircle = styled.div<{ isDarkMode: boolean }>`
     props.isDarkMode &&
     css`
       left: 44px;
-      background: ;
       @media (max-width: 1200px) {
         left: 37px;
       }
