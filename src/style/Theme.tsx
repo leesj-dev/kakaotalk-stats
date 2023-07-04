@@ -15,7 +15,7 @@ export const lightTheme: DefaultTheme = {
   dashboardMenuBackground: "#acdbff",
   modalBackground: "#fafafa5f",
   modalContentBackground: "#ffffff9d",
-  functionArrowWhite: "#fff",
+  bothWhite: "#fff",
 };
 export const darkTheme: DefaultTheme = {
   mainBlue: " #0d92ff",
@@ -32,7 +32,7 @@ export const darkTheme: DefaultTheme = {
   dashboardMenuBackground: "#151515",
   modalBackground: "#44444440",
   modalContentBackground: "#60606070",
-  functionArrowWhite: "#fff",
+  bothWhite: "#fff",
 };
 
 export const StyledSpan = {

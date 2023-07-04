@@ -4,7 +4,7 @@ import AttachmentSection from "../sections/attachment/AttachmentSection";
 import AttachmentDescriptionSection from "../sections/attachment/AttachDescriptionSection";
 import scrollToEvent from "../../module/common/scrollToEvent";
 import { FlexColumnCenterDiv } from "../atoms/FlexDiv";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { pushNewlyAttachedFiles } from "../../store/reducer/attachment/attachedFileListSlice";
 import { VscNewFile } from "react-icons/vsc";
 import Span from "../atoms/Span";
@@ -27,7 +27,9 @@ const DropZone = styled(FlexColumnCenterDiv)`
   }
 `;
 
-const DropNotice = styled(Span)``;
+const DropNotice = styled(Span)`
+  color: ${(props) => props.theme.bothWhite};
+`;
 
 const AttachmentPage = () => {
   const dispatch = useDispatch();
@@ -37,6 +39,9 @@ const AttachmentPage = () => {
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
+    if (!selectedOsIndex) {
+      return;
+    }
     setDragging(true);
   };
 
@@ -54,10 +59,15 @@ const AttachmentPage = () => {
     e.preventDefault();
     setDragging(false);
     const files: any = Array.prototype.slice.call(e.dataTransfer.files);
+
     if (files && files.length) {
       dispatch(pushNewlyAttachedFiles(files));
     }
   };
+
+  const selectedOsIndex = useSelector(
+    (state: { selectedOsIndexSlice: number }) => state.selectedOsIndexSlice
+  );
 
   const handleResize = () => {
     setScreenWidth(window.innerWidth);

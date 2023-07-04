@@ -7,6 +7,7 @@ import FileDrop from "../../organisms/attachment/FileDrop";
 import {
   AnalyzedMessage,
   Chatroom,
+  ChatTimes,
   FileObject,
   MessageInfo,
   OriginMessageData,
@@ -30,6 +31,7 @@ import Paragraph from "../../atoms/Paragraph";
 import OsList from "../../organisms/attachment/OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import Loading from "../../molecules/common/Loading";
+
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   position: relative;
@@ -61,6 +63,7 @@ const OsContentBox = styled.div`
   max-width: 970px;
   border: 3px dashed ${(props) => props.theme.mainGray};
   border-radius: 30px;
+
   @media (max-width: 480px) {
     padding: 6rem 2rem;
   }
@@ -171,6 +174,7 @@ const AttachmentSection = () => {
   };
 
   const dispatchAnalyzedMessages = async (attachedFileList: FileObject[][]) => {
+
     const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(
       attachedFileList,
       selectedOsIndex
@@ -182,10 +186,12 @@ const AttachmentSection = () => {
       dispatch(setIsAnalyzedMessagesExist(true));
     } else {
       throw Error;
+
     }
   };
 
   const handleClickAnalyzeButton = async () => {
+
     try {
       await dispatchAnalyzedMessages(attachedFileList);
       const windowWidth = window.innerWidth;
@@ -196,6 +202,7 @@ const AttachmentSection = () => {
       } else {
         navigate("/detail");
       }
+
     } catch {
       alert("파일 분석에 실패하였습니다. 대화 파일의 운영체제가 올바르게 선택되었는지 확인해주세요.");
     }
