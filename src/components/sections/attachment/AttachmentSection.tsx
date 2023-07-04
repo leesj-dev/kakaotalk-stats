@@ -32,7 +32,6 @@ import OsList from "../../organisms/attachment/OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import Loading from "../../molecules/common/Loading";
 
-
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   position: relative;
   margin: 8rem auto 0 auto;
@@ -174,37 +173,34 @@ const AttachmentSection = () => {
   };
 
   const dispatchAnalyzedMessages = async (attachedFileList: FileObject[][]) => {
-
     const analyzedMessage: AnalyzedMessage[][][] = await analyzeMessage(
       attachedFileList,
       selectedOsIndex
     );
-
-    const isValidMessageData = analyzedMessage[0].length;
-    if (isValidMessageData) {
-      dispatch(setAnalyzedMessages(analyzedMessage));
-      dispatch(setIsAnalyzedMessagesExist(true));
-    } else {
-      throw Error;
-
+    if (analyzedMessage.some((messages) => messages.length === 0)) {
+      alert("대화 파일의 운영체제가 올바르게 선택됐는지 확인하거나 파일을 변경하세요.");
+      return false;
     }
+
+    dispatch(setAnalyzedMessages(analyzedMessage));
+    dispatch(setIsAnalyzedMessagesExist(true));
+    return true;
   };
 
   const handleClickAnalyzeButton = async () => {
-
     try {
-      await dispatchAnalyzedMessages(attachedFileList);
+      const analysisSuccess = await dispatchAnalyzedMessages(attachedFileList);
       const windowWidth = window.innerWidth;
       setIsLoading(false);
-
-      if (windowWidth > 1200) {
-        navigate("/dashboard");
-      } else {
-        navigate("/detail");
+      if (analysisSuccess) {
+        if (windowWidth > 1200) {
+          navigate("/dashboard");
+        } else {
+          navigate("/detail");
+        }
       }
-
-    } catch {
-      alert("파일 분석에 실패하였습니다. 대화 파일의 운영체제가 올바르게 선택되었는지 확인해주세요.");
+    } catch (error) {
+      console.error(error);
     }
   };
 
