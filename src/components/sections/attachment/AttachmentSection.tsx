@@ -7,6 +7,7 @@ import FileDrop from "../../organisms/attachment/FileDrop";
 import {
   AnalyzedMessage,
   Chatroom,
+  ChatTimes,
   FileObject,
   MessageInfo,
   OriginMessageData,
@@ -29,6 +30,8 @@ import { setIsAnalyzedMessagesExist } from "../../../store/reducer/dashboard/isA
 import Paragraph from "../../atoms/Paragraph";
 import OsList from "../../organisms/attachment/OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { getTotalChatCounts } from "../../molecules/graphs/SummaryPieGraph";
+import { getChatTimes } from "../../../module/common/getProperties";
 
 const AttachmentSectionBox = styled(FlexColumnCenterDiv)`
   position: relative;
@@ -191,6 +194,11 @@ const AttachmentSection = () => {
         attachedFileList,
         selectedOsIndex
       );
+
+      if (analyzedMessage.some((messages) => messages.length === 0)) {
+        alert("분석할 수 없는 파일이 포함되어 있습니다.");
+        return;
+      }
       dispatch(setAnalyzedMessages(analyzedMessage));
       dispatch(setIsAnalyzedMessagesExist(true));
     } catch (error) {
