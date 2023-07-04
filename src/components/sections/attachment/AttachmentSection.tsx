@@ -12,13 +12,7 @@ import {
   OriginMessageData,
 } from "../../../@types/index.d";
 
-import {
-  breakdownTxtFileAndroid,
-  breakdownTxtFileIOS,
-  breakdownTxtFileMacOS,
-  breakdownTxtFileWindow,
-  readAsDataURL,
-} from "../../../module/core/breakdownTxtFile";
+import { decodeTextFile, readAsDataURL } from "../../../module/core/breakdownTxtFile";
 import { getMessageData } from "../../../module/core/getMessageData";
 import { useDispatch, useSelector } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/dashboard/analyzedMessagesSlice";
@@ -91,26 +85,13 @@ const ScrollIndicatorBox = styled.div`
  * @param {any[]} attachedFileList - 첨부된 파일 배열
  * @returns {Promise<any[]>} - 디코딩된 메시지 데이터 배열을 포함하는 프로미스 객체
  */
-const decodeTxtFileIntoMessageData = async (attachedFileList: any[], osIndex: number | null) => {
+const decodeTxtFileToMessageData = async (attachedFileList: any[], osIndex: number | null) => {
   const analyzedMessages: MessageInfo[][] = [];
   for (const fileGroup of attachedFileList) {
     const filteredMessages: OriginMessageData[][] = await Promise.all(
       fileGroup.map(async (file: File) => {
         const base64 = await readAsDataURL(file);
-        // 여기서 분기점
-        // return base64 && breakdownTxtFile(base64);
-        if (osIndex === 1) {
-          return base64 && breakdownTxtFileWindow(base64);
-        }
-        if (osIndex === 2) {
-          return base64 && breakdownTxtFileMacOS(base64);
-        }
-        if (osIndex === 3) {
-          return base64 && breakdownTxtFileAndroid(base64);
-        }
-        if (osIndex === 4) {
-          return base64 && breakdownTxtFileIOS(base64);
-        }
+        return osIndex && base64 && decodeTextFile(base64, osIndex);
       })
     );
     const messageData = getMessageData(filteredMessages.flat());
@@ -186,12 +167,16 @@ const AttachmentSection = () => {
     }
   };
 
+  let timeStart: any;
+  let timeFinish: any;
+
   const handleClickAnalyzeButton = async () => {
     try {
       await dispatchAnalyzedMessages(attachedFileList);
       const windowWidth = window.innerWidth;
       setIsLoading(false);
-
+      timeFinish = new Date();
+      console.log(timeStart - timeFinish);
       if (windowWidth > 1200) {
         navigate("/dashboard");
       } else {
@@ -218,8 +203,9 @@ const AttachmentSection = () => {
    * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
    */
   const analyzeMessage = async (attachedFileList: FileObject[][], osIndex: number | null) => {
+    timeStart = new Date();
     setIsLoading(true);
-    const analyzedMessages: MessageInfo[][] = await decodeTxtFileIntoMessageData(
+    const analyzedMessages: MessageInfo[][] = await decodeTxtFileToMessageData(
       attachedFileList,
       osIndex
     );
