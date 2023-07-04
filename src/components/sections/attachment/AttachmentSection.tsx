@@ -203,7 +203,6 @@ const AttachmentSection = () => {
       dispatch(setAnalyzedMessages(analyzedMessage));
       dispatch(setIsAnalyzedMessagesExist(true));
       return true;
-      
     } catch (error) {
       console.error(error);
       return false;
