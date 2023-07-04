@@ -199,6 +199,7 @@ const AttachmentSection = () => {
         alert("분석할 수 없는 파일이 포함되어 있습니다.");
         return;
       }
+
       dispatch(setAnalyzedMessages(analyzedMessage));
       dispatch(setIsAnalyzedMessagesExist(true));
     } catch (error) {

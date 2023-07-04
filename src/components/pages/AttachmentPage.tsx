@@ -27,7 +27,9 @@ const DropZone = styled(FlexColumnCenterDiv)`
   }
 `;
 
-const DropNotice = styled(Span)``;
+const DropNotice = styled(Span)`
+  color: ${(props) => props.theme.bothWhite};
+`;
 
 const AttachmentPage = () => {
   const dispatch = useDispatch();

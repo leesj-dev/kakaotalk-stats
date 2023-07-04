@@ -16,6 +16,6 @@ declare module "styled-components" {
     dashboardMenuBackground: string;
     modalBackground: string;
     modalContentBackground: string;
-    functionArrowWhite: string;
+    bothWhite: string;
   }
 }
