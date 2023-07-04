@@ -197,23 +197,27 @@ const AttachmentSection = () => {
 
       if (analyzedMessage.some((messages) => messages.length === 0)) {
         alert("분석할 수 없는 파일이 포함되어 있습니다.");
-        return;
+        return false;
       }
 
       dispatch(setAnalyzedMessages(analyzedMessage));
       dispatch(setIsAnalyzedMessagesExist(true));
+      return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
 
-  const handleClickAnalyzeButton = () => {
-    dispatchAnalyzedMessages(attachedFileList);
-    const windowWidth = window.innerWidth;
-    if (windowWidth > 1200) {
-      navigate("/dashboard");
-    } else {
-      navigate("/detail");
+  const handleClickAnalyzeButton = async () => {
+    const analysisSuccess = await dispatchAnalyzedMessages(attachedFileList);
+    if (analysisSuccess) {
+      const windowWidth = window.innerWidth;
+      if (windowWidth > 1200) {
+        navigate("/dashboard");
+      } else {
+        navigate("/detail");
+      }
     }
   };
 
