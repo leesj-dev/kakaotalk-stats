@@ -7,19 +7,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteAttachedFileArray } from "../../../store/reducer/attachment/attachedFileListSlice";
 import { MdClose } from "react-icons/md";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const FileUlBox = styled.ul`
-  margin-bottom: 30px;
-  width: 50%;
+  margin-bottom: 2rem;
+  width: 80%;
 `;
 
-const FileList = styled(FlexCenterDiv)`
+const FileListBox = styled(FlexCenterDiv)`
+  margin-bottom: 1rem;
+  padding: 2rem;
   justify-content: space-between;
-  padding: 10px;
+  border: 1px solid ${(props) => props.theme.border};
+  border-radius: ${borderRadius.medium};
+`;
+
+const FileList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
 `;
 
 const CloseIcon = styled(Icon)`
-  font-size: 22px;
+  font-size: 3rem;
+  color: ${(props) => props.theme.mainText};
   cursor: pointer;
 `;
 
@@ -34,19 +45,21 @@ const AttachedFileList = () => {
     <FileUlBox>
       {attachedFileList.map((files: FileObject[], fileArrayIndex: number) => {
         return (
-          <FileList as="li" key={fileArrayIndex}>
-            {files.map((file, fileIndex) => {
-              return (
-                <Paragraph key={fileIndex}>
-                  📄 {file.name}
-                  {fileIndex !== files.length - 1 && ","}
-                </Paragraph>
-              );
-            })}
+          <FileListBox as="li" key={fileArrayIndex}>
+            <FileList>
+              {files.map((file, fileIndex) => {
+                return (
+                  <Paragraph key={fileIndex}>
+                    📄 {file.name}
+                    {fileIndex !== files.length - 1 && ","}
+                  </Paragraph>
+                );
+              })}
+            </FileList>
             <CloseIcon onClick={() => dispatch(deleteAttachedFileArray(fileArrayIndex))}>
               <MdClose />
             </CloseIcon>
-          </FileList>
+          </FileListBox>
         );
       })}
     </FileUlBox>

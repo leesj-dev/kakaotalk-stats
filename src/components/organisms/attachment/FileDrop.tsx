@@ -4,24 +4,21 @@ import AttachmentButton from "../../atoms/AttachmentButton";
 import Paragraph from "../../atoms/Paragraph";
 import OsList from "./OsList";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const DropBox = styled(FlexColumnCenterDiv)`
   position: relative;
   width: 80%;
-  height: 400px;
+  height: 420px;
   padding: 8rem 2rem;
   margin: 0 auto 30px auto;
   width: 80%;
-  border: 3px dashed ${(props) => props.theme.mainGray};
-  border-radius: 30px;
-  transition: 0.3s;
+  border: 2px dashed ${(props) => props.theme.mainGray};
+  border-radius: ${borderRadius.strong};
 
   > * {
     margin-bottom: 10px;
     font-weight: 300;
-  }
-  @media (max-width: 520px) {
-    padding: 6rem 2rem;
   }
 `;
 

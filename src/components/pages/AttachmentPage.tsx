@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { pushNewlyAttachedFiles } from "../../store/reducer/attachment/attachedFileListSlice";
 import { VscNewFile } from "react-icons/vsc";
 import Span from "../atoms/Span";
+import { zIndex } from "../../style/specifiedCss/zIndex";
 
 const AttachmentPageBox = styled.div``;
 
@@ -20,8 +21,7 @@ const DropZone = styled(FlexColumnCenterDiv)`
   font-size: 300px;
   color: #fff;
   background: #00000081;
-
-  z-index: 998;
+  z-index: ${zIndex.dropZone};
   > * {
     pointer-events: none;
   }

@@ -34,6 +34,7 @@ const Description = styled(Paragraph)`
 `;
 
 export interface CardData {
+  id: number;
   src: string;
   text: string;
 }
@@ -47,7 +48,7 @@ const ThreeImages = ({ srcAndText }: ThreeImagesProps) => {
     <ThreeImagesBox>
       {srcAndText.map((item) => {
         return (
-          <ImageCardBox>
+          <ImageCardBox key={item.id}>
             <Image src={item.src} />
             <Description>{item.text}</Description>
           </ImageCardBox>

@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import { zIndex } from "../../../style/specifiedCss/zIndex";
 
 const LoadingBox = styled.div`
   position: fixed;
@@ -8,9 +9,9 @@ const LoadingBox = styled.div`
   height: 100vh;
   width: 100vw;
   background: #00000080;
-  z-index: 1000;
   font-size: 0;
   line-height: 0;
+  z-index: ${zIndex.loading};
 `;
 
 const loaderAnimation = keyframes`

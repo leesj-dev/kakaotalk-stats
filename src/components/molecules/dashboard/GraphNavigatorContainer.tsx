@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { zIndex } from "../../../style/specifiedCss/zIndex";
 
 const NavigatorContainerStyle = styled.div`
   position: absolute;
@@ -8,7 +9,7 @@ const NavigatorContainerStyle = styled.div`
   align-items: end;
   height: 100%;
   width: 100%;
-  z-index: -1;
+  z-index: ${zIndex.graphNavigator};
 `;
 
 const NavigatorContainer = ({ children }: { children: React.ReactNode }) => {

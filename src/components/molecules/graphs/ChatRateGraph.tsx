@@ -16,6 +16,7 @@ import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
 import NavigatorContainer from "../dashboard/GraphNavigatorContainer";
+import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const TooltipBox = styled.div`
   border: 1px solid #ddd;
@@ -60,7 +61,7 @@ const renderTooltipContent = (o: any) => {
   const { payload, label } = o;
   const total = payload.reduce((result: any, entry: { value: any }) => result + entry.value, 0);
   return (
-    <TooltipBox className="customized-tooltip-content" style={{ fontSize: "1.6rem" }}>
+    <TooltipBox className="customized-tooltip-content" style={graphTooltipStyle}>
       <p className="total">{`${label} (Total: ${total})`}</p>
       <ul className="list">
         {payload.map((entry: { color: any; name: any; value: number }, index: any) => (

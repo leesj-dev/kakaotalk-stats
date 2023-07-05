@@ -5,12 +5,13 @@ import Icon from "../../atoms/Icon";
 import Anchor from "../../atoms/Anchor";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import Span from "../../atoms/Span";
+import { zIndex } from "../../../style/specifiedCss/zIndex";
 
 const FooterContainer = styled.div`
   position: relative;
   background: ${(props) => props.theme.footerBackground};
   padding: 6rem 0;
-  z-index: 9999;
+  z-index: ${zIndex.footer};
 `;
 
 const ContentBox = styled(FlexColumnCenterDiv)`
@@ -67,7 +68,7 @@ const Footer = () => {
         <DeveloperDescriptionBox>
           {DeveloperData.map((developer) => {
             return (
-              <DeveloperBox>
+              <DeveloperBox key={developer.name}>
                 <IconContainer>
                   <Anchor href={developer.github}>
                     <AnchorIcon>

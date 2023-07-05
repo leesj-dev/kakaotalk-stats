@@ -5,6 +5,7 @@ import H2 from "../../atoms/H2";
 import H3 from "../../atoms/H3";
 import Img from "../../atoms/Img";
 import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const Container = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ const CardBox = styled.div<{ darkMode?: boolean }>`
   }
   color: ${(props) => props.theme.mainText};
   background: ${(props) => props.theme.modalBackground};
-  border-radius: 10px;
+  border-radius: ${borderRadius.medium};
   transition: 0.3s;
   box-shadow: ${(props) => (props.darkMode ? `none` : `2px 0px 10px 0px #ddd`)};
 
@@ -118,8 +119,8 @@ const MainDescriptionSection = ({ moveScrollPosition }: Props) => {
 
   return (
     <Container ref={moveScrollPosition}>
-      {functionCardData.map((data, index) => (
-        <CardBox darkMode={isDarkMode}>
+      {functionCardData.map((data) => (
+        <CardBox key={data.id} darkMode={isDarkMode}>
           <DescriptionBox>
             <Title subject>{data.subject}</Title>
             <SubTitle>{data.h3}</SubTitle>

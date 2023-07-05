@@ -11,6 +11,8 @@ import Icon from "../../atoms/Icon";
 import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
+import DarkModeButton from "../../molecules/navigation/DarkModeButton";
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;
@@ -56,61 +58,6 @@ const Menus = styled(FlexCenterDiv)`
   }
 `;
 
-const DarkModeButton = styled.div`
-  position: relative;
-  width: 80px;
-  height: 40px;
-  cursor: pointer;
-
-  > * {
-    color: ${lightTheme.navBackground};
-    background: ${darkTheme.navBackground};
-    pointer-events: none;
-  }
-  &.active {
-    > * {
-      color: ${darkTheme.navBackground};
-      background: ${lightTheme.navBackground};
-    }
-    > :nth-child(1) {
-      left: 44px;
-      background: ${darkTheme.navBackground};
-      @media (max-width: 1200px) {
-        left: 37px;
-      }
-    }
-  }
-  @media (max-width: 1200px) {
-    width: 66px;
-    height: 33px;
-  }
-`;
-
-const ToggleCircle = styled.div`
-  position: absolute;
-  top: 4px;
-  bottom: 4px;
-  left: 5px;
-  width: calc(50% - 8px);
-  border-radius: 50%;
-  z-index: 1;
-  background: #fff;
-`;
-
-const IconBox = styled(FlexCenterDiv)`
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 100%;
-  border-radius: 25px;
-  font-size: 2rem;
-  > * {
-    flex: 1;
-  }
-`;
-
 const MobileMenuBox = styled.div`
   display: none;
 
@@ -130,13 +77,13 @@ interface NavHeadProps extends NavProps {}
 const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMessagesExist }) => {
   const dispatch = useDispatch();
 
-  const handleClickDarkModeButton = () => {
-    dispatch(setIsDarkMode(!isDarkMode));
-  };
-
   const handleClickMenu = () => {
     dispatch(setIsModalVisible(false));
     closeMenu();
+  };
+
+  const handleClickDarkModeButton = () => {
+    dispatch(setIsDarkMode(!isDarkMode));
   };
 
   return (
@@ -159,13 +106,7 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
           {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
         </Menus>
-        <DarkModeButton className={`${isDarkMode && "active"}`} onClick={handleClickDarkModeButton}>
-          <ToggleCircle></ToggleCircle>
-          <IconBox>
-            <BsFillBrightnessHighFill />
-            <BsFillMoonStarsFill />
-          </IconBox>
-        </DarkModeButton>
+        <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
       </MenuBox>
     </NavHeadContainer>
   );

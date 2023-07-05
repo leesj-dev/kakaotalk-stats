@@ -8,22 +8,26 @@ import { SiIos } from "react-icons/si";
 import Icon from "../../atoms/Icon";
 import { lightTheme } from "../../../style/Theme";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const OsListBox = styled(FlexCenterDiv)`
   margin: 0 auto;
   gap: 2.5rem;
-  transition: 0.3s;
   flex-wrap: wrap;
+  @media (max-width: 540px) {
+    gap: 2rem;
+  }
 `;
 
 const OsIconBox = styled(FlexColumnCenterDiv)`
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: ${borderRadius.weak};
   cursor: pointer;
+  transition: 0.3s;
 
   &:hover {
     > * {
-      color: ${(props) => props.theme.mainBlueHover};
+      color: ${(props) => props.theme.mainText};
     }
     box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
   }
@@ -45,17 +49,23 @@ const OsIconBox = styled(FlexColumnCenterDiv)`
       background: #555555;
     }
   }
+  @media (max-width: 540px) {
+    padding: 0.5rem;
+  }
 `;
 
 const OsRowBox = styled.div`
   display: flex;
   gap: 2.5rem;
+  @media (max-width: 540px) {
+    gap: 2rem;
+  }
 `;
 
 const OsIcon = styled(Icon)`
   width: 6.5rem;
   font-size: 6rem;
-  @media (max-width: 520px) {
+  @media (max-width: 540px) {
     font-size: 5rem;
   }
 `;

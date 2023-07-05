@@ -151,7 +151,7 @@ const DetailPage = () => {
         {isAnalyzedMessagesExist &&
           graphContentData.map((item) => {
             return (
-              <GraphBox ref={modalRef}>
+              <GraphBox key={item.id} ref={modalRef}>
                 <ModalGraph currentModalData={item} />
               </GraphBox>
             );

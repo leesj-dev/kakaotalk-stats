@@ -31,14 +31,17 @@ const ThreeImagesBox = styled.div`
 
 const mobileCardData = [
   {
+    id: 1,
     src: process.env.PUBLIC_URL + "/images/attachmentMethod/android_method01.png",
     text: "메뉴의 톱니바퀴를 클릭합니다.",
   },
   {
+    id: 2,
     src: process.env.PUBLIC_URL + "/images/attachmentMethod/android_method02.png",
     text: "대화내용 내보내기를 눌러 저장을 합니다.",
   },
   {
+    id: 3,
     src: process.env.PUBLIC_URL + "/images/attachmentMethod/android_method03.png",
     text: "파일에서 kakao를 검색하여 찾을 수 있습니다.",
   },
@@ -46,14 +49,17 @@ const mobileCardData = [
 
 const pcCardData = [
   {
+    id: 4,
     src: process.env.PUBLIC_URL + "/images/attachmentMethod/pc_method01.png",
     text: "Mac OS: 메뉴 - 채팅방 설정 - 대화 내용 저장",
   },
   {
+    id: 5,
     src: process.env.PUBLIC_URL + "/images/attachmentMethod/pc_method02.png",
     text: "Window : 메뉴 - 대화내용 - 내보내기",
   },
   {
+    id: 6,
     src: process.env.PUBLIC_URL + "/images/attachmentMethod/pc_method03.png",
     text: "대화 내보내기 완료를 확인합니다.",
   },

@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMenuChatRoomSelectSlice";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
+import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 
 const DashboardLayoutBox = styled(FlexColumnDiv)<{ isSideMenu?: Boolean }>`
   position: sticky;
@@ -65,7 +66,7 @@ const ChatroomListBox = styled(FlexColumnDiv)`
     width: 6px; /* 스크롤바의 너비 */
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+    border-radius: ${borderRadius.medium};
     background: ${(props) => props.theme.mainGray}; /* 스크롤바의 색상 */
   }
   &::-webkit-scrollbar-track {
@@ -75,7 +76,7 @@ const ChatroomListBox = styled(FlexColumnDiv)`
 
 const ChatRoomBox = styled.div`
   padding: 10px;
-  border-radius: 5px;
+  border-radius: ${borderRadius.weak};
   border: 1px solid ${(props) => props.theme.border};
   cursor: pointer;
   background: ${(props) => props.theme.mainWhite};
