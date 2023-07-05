@@ -7,6 +7,7 @@ import FileDrop from "../../organisms/attachment/FileDrop";
 import {
   AnalyzedMessage,
   Chatroom,
+  ChatTimes,
   FileObject,
   MessageInfo,
   OriginMessageData,
@@ -56,6 +57,7 @@ const OsContentBox = styled.div`
   max-width: 970px;
   border: 2px dashed ${(props) => props.theme.mainGray};
   border-radius: ${borderRadius.strong};
+
   @media (max-width: 480px) {
     padding: 6rem 2rem;
   }
@@ -157,14 +159,14 @@ const AttachmentSection = () => {
       attachedFileList,
       selectedOsIndex
     );
-
-    const isValidMessageData = analyzedMessage[0].length;
-    if (isValidMessageData) {
-      dispatch(setAnalyzedMessages(analyzedMessage));
-      dispatch(setIsAnalyzedMessagesExist(true));
-    } else {
-      throw Error;
+    if (analyzedMessage.some((messages) => messages.length === 0)) {
+      alert("대화 파일의 운영체제가 올바르게 선택됐는지 확인하거나 파일을 변경하세요.");
+      return false;
     }
+
+    dispatch(setAnalyzedMessages(analyzedMessage));
+    dispatch(setIsAnalyzedMessagesExist(true));
+    return true;
   };
 
   let timeStart: any;
@@ -172,11 +174,9 @@ const AttachmentSection = () => {
 
   const handleClickAnalyzeButton = async () => {
     try {
-      await dispatchAnalyzedMessages(attachedFileList);
+      const analysisSuccess = await dispatchAnalyzedMessages(attachedFileList);
       const windowWidth = window.innerWidth;
       setIsLoading(false);
-      timeFinish = new Date();
-      console.log(timeStart - timeFinish);
       if (windowWidth > 1200) {
         navigate("/dashboard");
       } else {

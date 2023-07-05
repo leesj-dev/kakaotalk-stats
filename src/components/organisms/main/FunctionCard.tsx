@@ -60,7 +60,7 @@ const SideContent = styled.div`
   border-right: 1px solid ${(props) => props.theme.mainGray};
 
   @media (max-width: 1200px) {
-    background: ${(props) => props.theme.functionArrowWhite};
+    background: ${(props) => props.theme.bothWhite};
   }
   @media (max-width: 768px) {
     padding: 30px 20px;
@@ -158,7 +158,7 @@ const SlideIconBox = styled.div`
 
   > * {
     padding: 10px;
-    color: ${(props) => props.theme.functionArrowWhite};
+    color: ${(props) => props.theme.bothWhite};
     position: absolute;
     right: 50%;
     bottom: 5%;
