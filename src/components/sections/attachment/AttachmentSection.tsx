@@ -19,7 +19,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/dashboard/analyzedMessagesSlice";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../../module/common/scrollToEvent";
-import { pushNewlyAttachedFiles } from "../../../store/reducer/attachment/attachedFileListSlice";
+import {
+  pushNewlyAttachedFiles,
+  setAttachedFileList,
+} from "../../../store/reducer/attachment/attachedFileListSlice";
 import { setIsAnalyzedMessagesExist } from "../../../store/reducer/dashboard/isAnalyzedMessagesExistSlice";
 import Paragraph from "../../atoms/Paragraph";
 import OsList from "../../organisms/attachment/OsList";
@@ -159,13 +162,23 @@ const AttachmentSection = () => {
       attachedFileList,
       selectedOsIndex
     );
-    if (analyzedMessage.some((messages) => messages.length === 0)) {
+
+    const filteredMessage = analyzedMessage.filter((messages) => messages.length !== 0);
+
+    const filteredAttachedFileList = attachedFileList.filter(
+      (_, index) => filteredMessage[index].length !== 0
+    );
+
+    if (filteredMessage.length !== analyzedMessage.length) {
       alert("대화 파일의 운영체제가 올바르게 선택됐는지 확인하거나 파일을 변경하세요.");
+
       return false;
     }
 
-    dispatch(setAnalyzedMessages(analyzedMessage));
+    dispatch(setAnalyzedMessages(filteredMessage));
     dispatch(setIsAnalyzedMessagesExist(true));
+    dispatch(setAttachedFileList(filteredAttachedFileList));
+
     return true;
   };
 
@@ -177,10 +190,12 @@ const AttachmentSection = () => {
       const analysisSuccess = await dispatchAnalyzedMessages(attachedFileList);
       const windowWidth = window.innerWidth;
       setIsLoading(false);
-      if (windowWidth > 1200) {
-        navigate("/dashboard");
-      } else {
-        navigate("/detail");
+      if (analysisSuccess) {
+        if (windowWidth > 1200) {
+          navigate("/dashboard");
+        } else {
+          navigate("/detail");
+        }
       }
     } catch {
       alert("파일 분석에 실패하였습니다. 대화 파일의 운영체제가 올바르게 선택되었는지 확인해주세요.");
