@@ -163,21 +163,43 @@ const AttachmentSection = () => {
       selectedOsIndex
     );
 
-    const filteredMessage = analyzedMessage.filter((messages) => messages.length !== 0);
+    let indexesToFilterAttackedFile: number[] = [];
+    const filteredMessage = analyzedMessage.filter((messages, index) => {
+      if (messages.length !== 0) {
+        indexesToFilterAttackedFile.push(1);
+        return true;
+      } else {
+        indexesToFilterAttackedFile.push(0);
+        return false;
+      }
+    });
 
-    const filteredAttachedFileList = attachedFileList.filter(
-      (_, index) => filteredMessage[index].length !== 0
-    );
+    const filteredAttackedFileList: FileObject[][] = [];
+    indexesToFilterAttackedFile.forEach((ableFileIndex, index) => {
+      ableFileIndex && filteredAttackedFileList.push(attachedFileList[index]);
+    });
+
+    const removedChatroomIndex = indexesToFilterAttackedFile.map((n, index) => {
+      return n === 0 && index + 1;
+    });
 
     if (filteredMessage.length !== analyzedMessage.length) {
-      alert("대화 파일의 운영체제가 올바르게 선택됐는지 확인하거나 파일을 변경하세요.");
+      alert(
+        `${removedChatroomIndex
+          .filter((filterIndex) => filterIndex)
+          .join(
+            ", "
+          )}번째 채팅방은 분석이 불가능하여 제외되었습니다. 파일의 형식 또는 내용이 올바른 파일인지 다시 확인해 주세요.`
+      );
+    }
 
+    dispatch(setAttachedFileList(filteredAttackedFileList));
+    if (filteredMessage.length === 0) {
       return false;
     }
 
     dispatch(setAnalyzedMessages(filteredMessage));
     dispatch(setIsAnalyzedMessagesExist(true));
-    dispatch(setAttachedFileList(filteredAttachedFileList));
 
     return true;
   };
