@@ -55,7 +55,7 @@ const OsContentBox = styled.div`
   width: 80%;
   height: 420px;
   max-width: 970px;
-  border: 2px dashed ${(props) => props.theme.mainGray};
+  border: 2px dashed var(--mainGray);
   border-radius: ${borderRadius.strong};
 
   @media (max-width: 480px) {
@@ -71,7 +71,7 @@ const OsListBox = styled.div``;
 
 const OsNotice = styled(Paragraph)`
   font-size: 1.5rem;
-  color: ${(props) => props.theme.mainBlueHover};
+  color: var(--mainBlueHover);
   text-align: center;
 `;
 

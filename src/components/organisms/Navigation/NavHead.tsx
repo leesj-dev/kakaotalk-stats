@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../../atoms/Img";
@@ -22,6 +22,7 @@ const NavHeadContainer = styled.div`
   justify-content: space-between;
   font-weight: 500;
   line-height: 80px;
+  border-bottom: 1px solid var(--border);
 
   > * {
     flex: 1;
@@ -82,9 +83,17 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
     closeMenu();
   };
 
+  const [theme, setTheme] = useState("light");
+  const switchTheme = "light" === theme ? "dark" : "light";
+
   const handleClickDarkModeButton = () => {
+    setTheme(switchTheme);
     dispatch(setIsDarkMode(!isDarkMode));
   };
+
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
 
   return (
     <NavHeadContainer>

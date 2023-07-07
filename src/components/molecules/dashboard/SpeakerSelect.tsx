@@ -23,7 +23,7 @@ const SpeakerSelectBox = styled(FlexColumnDiv)<{ alignItems?: string }>`
 const SelectNotice = styled(Span)`
   font-size: 15px;
   font-weight: 400;
-  color: ${(props) => props.theme.mainBlueHover};
+  color: var(--mainBlueHover);
 `;
 
 const Select = styled.select`

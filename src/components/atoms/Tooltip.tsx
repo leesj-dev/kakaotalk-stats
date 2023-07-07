@@ -18,8 +18,8 @@ const Content = styled.div`
   position: absolute;
   width: 200px;
   left: 10px;
-  border: 1px solid ${(props) => props.theme.mainGray};
-  background-color: ${(props) => props.theme.mainWhite};
+  border: 1px solid var(--mainGray);
+  background-color: var(--mainWhite);
   z-index: ${zIndex.graphTooltip};
 
   @media (max-width: 700px) {

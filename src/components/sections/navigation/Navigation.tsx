@@ -11,11 +11,11 @@ const NavigationContainer = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  color: ${(props) => props.theme.mainText};
+  color: var(--mainText);
   border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
   z-index: ${zIndex.navigationContainer};
   user-select: none;
-  background: ${(props) => props.theme.navBackground};
+  background: var(--navBackground);
 `;
 
 export interface NavProps {

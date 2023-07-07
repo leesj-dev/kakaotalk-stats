@@ -100,7 +100,6 @@ const ChatRoomCompareGraph = () => {
   const nfKeywordCounts = useSelector(
     (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
   );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
@@ -168,12 +167,12 @@ const ChatRoomCompareGraph = () => {
         }}
       >
         <PolarGrid />
-        <PolarAngleAxis dataKey="subject" fontSize="1.8vh" tick={customTickColor(isDarkMode)} />
+        <PolarAngleAxis dataKey="subject" fontSize="1.8vh" tick={customTickColor} />
         <PolarRadiusAxis
           fontSize={10}
           angle={60}
           domain={[0, Object.keys(radarRankData[0]).length - 2]}
-          tick={customTickColor(isDarkMode)}
+          tick={customTickColor}
         />
         {chatRoomNames.map((el: any, index: number) => {
           return (

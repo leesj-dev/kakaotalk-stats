@@ -27,10 +27,10 @@ const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: bo
     border-radius: ${borderRadius.medium};
     font-size: 24px;
     color: ${lightTheme.mainWhite};
-    background: ${(props) => props.theme.mainBlue};
+    background: var(--mainBlue);
     cursor: pointer;
     &:hover {
-      background: ${(props) => props.theme.mainBlueHover};
+      background: var(--mainBlueHover);
     }
   }
 `;

@@ -1,5 +1,5 @@
-import React from "react";
-import { ThemeProvider } from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./style/Theme";
 import MainPage from "./components/pages/MainPage";
 import { Routes, Route } from "react-router-dom";
@@ -13,10 +13,20 @@ import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
 import Navigation from "./components/sections/navigation/Navigation";
 
+// const ThemeToggler = () => {
+//   const [theme, setTheme] = useState("light");
+//   const switchTheme = "light" === theme ? "dark" : "light";
+
+//   useEffect(() => {
+//     document.body.dataset.theme = theme;
+//   }, [theme]);
+
+//   return <Dddd onClick={() => setTheme(switchTheme)}>테마 변경</Dddd>;
+// };
+
 function App() {
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
   return (
-    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+    <>
       <GlobalStyle />
       <Wrapper>
         <FloatingMenu />
@@ -31,7 +41,7 @@ function App() {
         </Routes>
         <Footer />
       </Wrapper>
-    </ThemeProvider>
+    </>
   );
 }
 
