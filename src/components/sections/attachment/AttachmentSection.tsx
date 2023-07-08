@@ -19,7 +19,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAnalyzedMessages } from "../../../store/reducer/dashboard/analyzedMessagesSlice";
 import { useNavigate } from "react-router";
 import scrollToEvent from "../../../module/common/scrollToEvent";
-import { pushNewlyAttachedFiles } from "../../../store/reducer/attachment/attachedFileListSlice";
+import {
+  pushNewlyAttachedFiles,
+  setAttachedFileList,
+} from "../../../store/reducer/attachment/attachedFileListSlice";
 import { setIsAnalyzedMessagesExist } from "../../../store/reducer/dashboard/isAnalyzedMessagesExistSlice";
 import Paragraph from "../../atoms/Paragraph";
 import OsList from "../../organisms/attachment/OsList";
@@ -55,7 +58,7 @@ const OsContentBox = styled.div`
   width: 80%;
   height: 420px;
   max-width: 970px;
-  border: 2px dashed ${(props) => props.theme.mainGray};
+  border: 2px dashed var(--mainGray);
   border-radius: ${borderRadius.strong};
 
   @media (max-width: 480px) {
@@ -71,8 +74,9 @@ const OsListBox = styled.div``;
 
 const OsNotice = styled(Paragraph)`
   font-size: 1.5rem;
-  color: ${(props) => props.theme.mainBlueHover};
+  color: var(--mainBlueHover);
   text-align: center;
+  transition: color 0.3s;
 `;
 
 const ScrollIndicatorBox = styled.div`
@@ -159,13 +163,45 @@ const AttachmentSection = () => {
       attachedFileList,
       selectedOsIndex
     );
-    if (analyzedMessage.some((messages) => messages.length === 0)) {
-      alert("대화 파일의 운영체제가 올바르게 선택됐는지 확인하거나 파일을 변경하세요.");
+
+    let indexesToFilterAttackedFile: number[] = [];
+    const filteredMessage = analyzedMessage.filter((messages, index) => {
+      if (messages.length !== 0) {
+        indexesToFilterAttackedFile.push(1);
+        return true;
+      } else {
+        indexesToFilterAttackedFile.push(0);
+        return false;
+      }
+    });
+
+    const filteredAttackedFileList: FileObject[][] = [];
+    indexesToFilterAttackedFile.forEach((ableFileIndex, index) => {
+      ableFileIndex && filteredAttackedFileList.push(attachedFileList[index]);
+    });
+
+    const removedChatroomIndex = indexesToFilterAttackedFile.map((n, index) => {
+      return n === 0 && index + 1;
+    });
+
+    if (filteredMessage.length !== analyzedMessage.length) {
+      alert(
+        `${removedChatroomIndex
+          .filter((filterIndex) => filterIndex)
+          .join(
+            ", "
+          )}번째 채팅방은 분석이 불가능하여 제외되었습니다. 파일의 형식 또는 내용이 올바른 파일인지 다시 확인해 주세요.`
+      );
+    }
+
+    dispatch(setAttachedFileList(filteredAttackedFileList));
+    if (filteredMessage.length === 0) {
       return false;
     }
 
-    dispatch(setAnalyzedMessages(analyzedMessage));
+    dispatch(setAnalyzedMessages(filteredMessage));
     dispatch(setIsAnalyzedMessagesExist(true));
+
     return true;
   };
 
@@ -177,10 +213,12 @@ const AttachmentSection = () => {
       const analysisSuccess = await dispatchAnalyzedMessages(attachedFileList);
       const windowWidth = window.innerWidth;
       setIsLoading(false);
-      if (windowWidth > 1200) {
-        navigate("/dashboard");
-      } else {
-        navigate("/detail");
+      if (analysisSuccess) {
+        if (windowWidth > 1200) {
+          navigate("/dashboard");
+        } else {
+          navigate("/detail");
+        }
       }
     } catch {
       alert("파일 분석에 실패하였습니다. 대화 파일의 운영체제가 올바르게 선택되었는지 확인해주세요.");

@@ -25,7 +25,8 @@ const GraphDisplayBox = styled(FlexColumnCenterDiv)`
   width: 100%;
   height: 100%;
   border-radius: ${borderRadius.medium};
-  background: ${(props) => props.theme.mainWhite};
+  background: var(--mainWhite);
+  transition: background 0.3s;
 `;
 
 const SubjectBox = styled(FlexRowDiv)`
@@ -37,7 +38,7 @@ const NoticeIcon = styled.div`
   top: 1px;
   right: -19px;
   font-size: 1.5rem;
-  color: ${(props) => props.theme.mainGray};
+  color: var(--mainGray);
 `;
 
 const Subject = styled(Span)`

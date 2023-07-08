@@ -16,14 +16,13 @@ const UnderlineP = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
   color: #fff;
-  background: ${(props) => props.theme.mainBlue};
+  background: var(--mainBlue);
   padding: 1.5rem 4rem;
   border-radius: ${borderRadius.weak};
-  transition: 0.3s;
   cursor: pointer;
 
   &:hover {
-    background: ${(props) => props.theme.mainBlueHover};
+    background: var(--mainBlueHover);
   }
 `;
 

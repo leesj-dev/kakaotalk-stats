@@ -23,19 +23,19 @@ const OsIconBox = styled(FlexColumnCenterDiv)`
   padding: 1rem;
   border-radius: ${borderRadius.weak};
   cursor: pointer;
-  transition: 0.3s;
+  transition: box-shadow 0.3s;
 
   &:hover {
     > * {
-      color: ${(props) => props.theme.mainText};
+      color: var(--mainText);
     }
-    box-shadow: 0px 0px 9px 3px ${(props) => props.theme.mainBlue};
+    box-shadow: 0px 0px 9px 3px var(--mainBlue);
   }
   &.active {
     > * {
-      color: ${(props) => props.theme.mainBlue};
+      color: var(--mainBlue);
     }
-    box-shadow: 0px 0px 7px 1px ${(props) => props.theme.mainBlue};
+    box-shadow: 0px 0px 7px 1px var(--mainBlue);
   }
   &.dark {
     &:hover {
@@ -120,7 +120,7 @@ const OsList = () => {
         className={`${selectedOsIndex === data.id ? "active" : ""} ${isDarkMode ? "dark" : ""}`}
         onClick={() => handleClickOsIcon(data.id)}
       >
-        <OsIcon color={`${selectedOsIndex === data.id ? lightTheme.mainBlue : ""}`}>{data.icon}</OsIcon>
+        <OsIcon color={`${selectedOsIndex === data.id ? "var(--mainBlue)" : ""}`}>{data.icon}</OsIcon>
         <OsIconName>{data.os}</OsIconName>
       </OsIconBox>
     ));

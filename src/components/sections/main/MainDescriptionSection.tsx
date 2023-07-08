@@ -21,10 +21,10 @@ const CardBox = styled.div<{ darkMode?: boolean }>`
     align-items: start;
     text-align: start;
   }
-  color: ${(props) => props.theme.mainText};
-  background: ${(props) => props.theme.modalBackground};
+  color: var(--mainText);
+  background: var(--modalBackground);
   border-radius: ${borderRadius.medium};
-  transition: 0.3s;
+  transition: background 0.3s;
   box-shadow: ${(props) => (props.darkMode ? `none` : `2px 0px 10px 0px #ddd`)};
 
   &:hover {
@@ -44,7 +44,7 @@ const CardBox = styled.div<{ darkMode?: boolean }>`
 const DescriptionBox = styled(FlexColumnCenterDiv)`
   width: 100%;
   height: 100%;
-  color: ${(props) => props.theme.mainText};
+  color: var(--mainText);
 `;
 
 const Title = styled(H2)`

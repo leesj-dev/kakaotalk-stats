@@ -18,7 +18,8 @@ const GraphDetailContainer = styled.div`
   margin-top: 80px;
   display: flex;
   width: 100%;
-  background: ${(props) => props.theme.mainBackground};
+  background: var(--mainBackground);
+  transition: background 0.3s;
   @media (max-width: 768px) {
     margin-top: 70px;
   }
@@ -37,7 +38,7 @@ const GraphBox = styled.div`
   width: 100%;
   gap: 30px;
   > :nth-child(1) {
-    background: ${(props) => props.theme.modalBackground};
+    background: var(--modalBackground);
   }
   @media (max-width: 768px) {
     height: 70vh;

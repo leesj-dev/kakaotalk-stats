@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 interface BlueButtonProps {
   inactive?: boolean;
   disabled?: boolean;
-  darkMode?: boolean;
+  isDarkMode?: boolean;
 }
 
 const BlueButton = styled.button<BlueButtonProps>`
@@ -17,14 +17,13 @@ const BlueButton = styled.button<BlueButtonProps>`
   font-weight: 500;
   letter-spacing: 0.05rem;
   color: #fff;
-  background: ${(props) => props.theme.mainBlue};
+  background: var(--mainBlue);
   border-radius: 3rem;
-  transition: 0.3s;
   border: none;
   cursor: pointer;
 
   &:hover {
-    background: ${(props) => props.theme.mainBlueHover};
+    background: var(--mainBlueHover);
     color: #fff;
   }
   ${(props) =>
@@ -33,18 +32,18 @@ const BlueButton = styled.button<BlueButtonProps>`
       background: ${props.theme.mainGray};
       cursor: not-allowed;
       &:hover {
-        background: ${(props) => props.theme.mainBlack};
+        background: var(--mainBlack);
       }
     `}
   ${(props) =>
     props.inactive &&
     css`
       box-sizing: border-box;
-      background: ${(props) => props.theme.mainWhite};
-      color: ${props.darkMode ? "#fff" : props.theme.mainBlue};
-      box-shadow: ${props.darkMode ? "" : "inset 0 0 0 1px " + props.theme.mainBlue};
+      background: var(--mainWhite);
+      color: var(--mainBlue);
+      box-shadow: ${props.isDarkMode ? "none" : "inset 0 0 0 1px var(--mainBlue)"};
       &:hover {
-        background: ${props.darkMode && props.theme.mainGray};
+        background: ${props.isDarkMode && `var(--mainGray)`};
       }
     `};
 `;

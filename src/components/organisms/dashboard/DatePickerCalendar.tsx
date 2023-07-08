@@ -7,7 +7,7 @@ import { setLimitTime } from "../../../store/reducer/dashboard/limitTimeSlice";
 import { AnalyzedMessage } from "../../../@types/index.d";
 
 const DatePickerInputContainer = styled.div`
-  color: ${(props) => props.theme.mainBlue};
+  color: var(--mainBlue);
 `;
 
 const CustomInput = styled.input`

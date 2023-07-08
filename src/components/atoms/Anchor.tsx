@@ -11,8 +11,7 @@ const AnchorComponent = styled.a`
 
   &:hover {
     > * {
-      transition: 0.3s;
-      color: ${(props) => props.theme.mainBlue};
+      color: var(--mainBlue);
     }
   }
 `;
