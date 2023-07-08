@@ -23,7 +23,7 @@ const OsIconBox = styled(FlexColumnCenterDiv)`
   padding: 1rem;
   border-radius: ${borderRadius.weak};
   cursor: pointer;
-  transition: 0.3s;
+  transition: box-shadow 0.3s;
 
   &:hover {
     > * {

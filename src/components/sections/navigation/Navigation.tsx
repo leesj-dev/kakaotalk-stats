@@ -14,6 +14,7 @@ const NavigationContainer = styled.div<{ isDarkMode: boolean }>`
   z-index: ${zIndex.navigationContainer};
   user-select: none;
   background: var(--navBackground);
+  transition: background 0.3s, box-shadow 0.3s;
 `;
 
 export interface NavProps {

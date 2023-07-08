@@ -88,11 +88,9 @@ const NavSideShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
   right: 0;
   width: 100%;
   height: 100vh;
-  opacity: 0.8;
-  background-color: var(--mainBlack);
+  background: var(--mainBlack);
   visibility: ${(props) => (props.isSideMenuVisible ? "visible" : "hidden")};
   opacity: ${(props) => (props.isSideMenuVisible ? "0.6" : "0")};
-  transition: 0.2s;
   z-index: ${zIndex.navSideShadow};
 `;
 

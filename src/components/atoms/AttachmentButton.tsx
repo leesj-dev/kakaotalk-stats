@@ -19,7 +19,6 @@ const UnderlineP = styled.p`
   background: var(--mainBlue);
   padding: 1.5rem 4rem;
   border-radius: ${borderRadius.weak};
-  transition: 0.3s;
   cursor: pointer;
 
   &:hover {

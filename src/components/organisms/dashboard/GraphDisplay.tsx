@@ -26,6 +26,7 @@ const GraphDisplayBox = styled(FlexColumnCenterDiv)`
   height: 100%;
   border-radius: ${borderRadius.medium};
   background: var(--mainWhite);
+  transition: background 0.3s;
 `;
 
 const SubjectBox = styled(FlexRowDiv)`

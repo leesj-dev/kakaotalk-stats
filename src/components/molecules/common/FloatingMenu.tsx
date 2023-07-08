@@ -17,19 +17,20 @@ const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: bo
   background: none;
   opacity: 0;
   visibility: hidden;
-  transition: 0.3s;
+  transition: opacity 0.3s, visibility 0.3s;
   opacity: ${({ isFloatingMenuVisible }) => (isFloatingMenuVisible ? 1 : 0)};
   visibility: ${({ isFloatingMenuVisible }) => (isFloatingMenuVisible ? "visible" : "hidden")};
   z-index: ${zIndex.floatingMenu};
 
   > * {
     padding: 10px;
-    transition: 0.3s;
     border-radius: ${borderRadius.medium};
     font-size: 24px;
     color: ${lightTheme.mainWhite};
     background: var(--mainBlue);
+    transition: background 0.3s;
     cursor: pointer;
+
     &:hover {
       background: var(--mainBlueHover);
     }

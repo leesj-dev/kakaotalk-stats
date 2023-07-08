@@ -19,7 +19,6 @@ const BlueButton = styled.button<BlueButtonProps>`
   color: #fff;
   background: var(--mainBlue);
   border-radius: 3rem;
-  transition: 0.3s;
   border: none;
   cursor: pointer;
 

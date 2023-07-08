@@ -31,7 +31,7 @@ body[data-theme='light'] {
   --mainBlack: #191F28;
   --mainGray: #a5aeb7;
   --mainText: #191F28;
-  --mainBlueHover: #217aff;
+  --mainBlueHover: #1170ff;
   --border: #e1e1e1;
   --mainBackground: #ffffff;
   --footerBackground: #f2f2f2;
@@ -51,7 +51,7 @@ body[data-theme='dark'] {
   --mainBlack: #000000;
   --mainGray: #676767;
   --mainText: #ffffff;
-  --mainBlueHover: #accdff;
+  --mainBlueHover: #1170ff;
   --border: #515151;
   --mainBackground: #171717;
   --footerBackground: #202020;

@@ -24,7 +24,7 @@ const CardBox = styled.div<{ darkMode?: boolean }>`
   color: var(--mainText);
   background: var(--modalBackground);
   border-radius: ${borderRadius.medium};
-  transition: 0.3s;
+  transition: background 0.3s;
   box-shadow: ${(props) => (props.darkMode ? `none` : `2px 0px 10px 0px #ddd`)};
 
   &:hover {
