@@ -103,7 +103,7 @@ const AttachmentDescriptionSection = () => {
           <BlueButton
             key={item.label}
             inactive={cardData !== item.data}
-            darkMode={isDarkMode}
+            isDarkMode={isDarkMode}
             onClick={() => setCardData(item.data)}
           >
             {item.label}

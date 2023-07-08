@@ -11,8 +11,8 @@ const DarkModeButtonBox = styled.div`
   height: 40px;
   cursor: pointer;
   > * {
-    color: ${(props) => props.theme.navBackground};
-    background: ${(props) => props.theme.mainText};
+    color: var(--navBackground);
+    background: var(--mainText);
     pointer-events: none;
   }
 
@@ -29,7 +29,7 @@ const ToggleCircle = styled.div<{ isDarkMode: boolean }>`
   left: 5px;
   width: calc(50% - 8px);
   border-radius: ${borderRadius.round};
-  background: ${(props) => props.theme.navBackground};
+  background: var(--navBackground);
   transition: left 0.3s;
 
   ${(props) =>

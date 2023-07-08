@@ -19,7 +19,7 @@ const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   width: 30%;
   min-width: 260px;
   height: 100vh;
-  background: ${(props) => props.theme.mainWhite};
+  background: var(--mainWhite);
   overflow: ${(props) => (props.isSideMenuChatRoom ? "hidden" : "auto")};
   transition: left 0.3s;
   z-index: ${zIndex.navSide};
@@ -30,7 +30,7 @@ const TopContent = styled.div`
   display: flex;
   align-items: center;
   line-height: 7rem;
-  border-bottom: 1px solid ${(props) => props.theme.border};
+  border-bottom: 1px solid var(--border);
 `;
 
 const NavMenuIcon = styled(Icon)`
@@ -58,9 +58,9 @@ const PageLink = styled(FlexColumnDiv)`
   line-height: 5rem;
 
   > * {
-    border-bottom: 1px solid ${(props) => props.theme.border};
+    border-bottom: 1px solid var(--border);
     &:hover {
-      background: ${(props) => props.theme.border};
+      background: var(--border);
     }
   }
   @media (max-width: 768px) {
@@ -89,7 +89,7 @@ const NavSideShadow = styled.div<{ isSideMenuVisible?: Boolean }>`
   width: 100%;
   height: 100vh;
   opacity: 0.8;
-  background-color: ${(props) => props.theme.mainBlack};
+  background-color: var(--mainBlack);
   visibility: ${(props) => (props.isSideMenuVisible ? "visible" : "hidden")};
   opacity: ${(props) => (props.isSideMenuVisible ? "0.6" : "0")};
   transition: 0.2s;

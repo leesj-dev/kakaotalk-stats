@@ -164,7 +164,6 @@ const ReplySpeedGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [displayData, setDisplayData] = useState<any[]>([]);
   const [countKeysLessThanData, setCountKeysLessThanData] = useState<Record<string, number>>({});
@@ -217,9 +216,9 @@ const ReplySpeedGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-          <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
-          <YAxis yAxisId="right" orientation="right" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+          <YAxis yAxisId="left" fontSize={12} tick={customTickColor} />
+          <YAxis yAxisId="right" orientation="right" fontSize={12} tick={customTickColor} />
           <Tooltip contentStyle={graphTooltipStyle} />
           {/* <Legend /> */}
           <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" fillOpacity={0.85} />
@@ -245,10 +244,10 @@ const ReplySpeedGraph = () => {
           })}
           {isParentGraphContentBox && (
             <Brush
-              fill={isDarkMode ? "#00000010" : "#ffffff10"}
+              fill={`var(--brushFill)`}
               height={65}
               startIndex={Math.floor(displayData.length * 0.75)}
-              stroke={isDarkMode ? "#ccc" : "#666"}
+              stroke={`var(--brushStroke)`}
             />
           )}
         </ComposedChart>
@@ -268,14 +267,9 @@ const ReplySpeedGraph = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-              <YAxis yAxisId="left" fontSize={12} tick={customTickColor(isDarkMode)} />
-              <YAxis
-                yAxisId="right"
-                orientation="right"
-                fontSize={12}
-                tick={customTickColor(isDarkMode)}
-              />
+              <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+              <YAxis yAxisId="left" fontSize={12} tick={customTickColor} />
+              <YAxis yAxisId="right" orientation="right" fontSize={12} tick={customTickColor} />
 
               <Tooltip />
               {/* <Legend /> */}

@@ -57,7 +57,6 @@ const ChatVolumeByHourlyGraph = () => {
   const volumeHourlyBoxSize = useSelector(
     (state: { volumeHourlyBoxSizeSlice: number[] }) => state.volumeHourlyBoxSizeSlice
   );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [scatter, setScatter] = useState<any>([]);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
@@ -186,7 +185,7 @@ const ChatVolumeByHourlyGraph = () => {
                   tick={{
                     dy: -16,
                     fontSize: 12,
-                    ...customTickColor(isDarkMode),
+                    ...customTickColor,
                   }}
                   tickLine={false}
                   height={24}
@@ -201,7 +200,7 @@ const ChatVolumeByHourlyGraph = () => {
                   label={{
                     value: `${item.day}`,
                     position: "insideRight",
-                    ...customTickColor(isDarkMode),
+                    ...customTickColor,
                   }}
                   fontSize={7}
                 />

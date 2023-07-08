@@ -13,7 +13,7 @@ const DropBox = styled(FlexColumnCenterDiv)`
   padding: 8rem 2rem;
   margin: 0 auto 30px auto;
   width: 80%;
-  border: 2px dashed ${(props) => props.theme.mainGray};
+  border: 2px dashed var(--mainGray);
   border-radius: ${borderRadius.strong};
 
   > * {
@@ -41,7 +41,7 @@ const AttachmentBox = styled.div`
 const Notice = styled(Paragraph)`
   font-size: 1.5rem;
   font-weight: 400;
-  color: ${(props) => props.theme.mainBlueHover};
+  color: var(--mainBlueHover);
 `;
 
 type DropZoneProps = {

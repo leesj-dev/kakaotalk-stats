@@ -4,18 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMenuChatRoomSelectSlice";
 import NavHead from "../../organisms/navigation/NavHead";
 import NavSideMenu from "../../organisms/navigation/NavSide";
-import { darkTheme } from "../../../style/Theme";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
 
-const NavigationContainer = styled.div`
+const NavigationContainer = styled.div<{ isDarkMode: boolean }>`
   position: fixed;
   top: 0;
   width: 100%;
-  color: ${(props) => props.theme.mainText};
-  border-bottom: ${(props) => (props.theme === darkTheme ? "none" : `1px solid ${props.theme.border}`)};
+  box-shadow: ${(props) => (props.isDarkMode ? "none" : `0 1px 1px 0px var(--border)`)};
   z-index: ${zIndex.navigationContainer};
   user-select: none;
-  background: ${(props) => props.theme.navBackground};
+  background: var(--navBackground);
 `;
 
 export interface NavProps {
@@ -65,7 +63,7 @@ const Navigation = () => {
   };
 
   return (
-    <NavigationContainer>
+    <NavigationContainer isDarkMode={isDarkMode}>
       <NavHead {...navHeadProps} />
       <NavSideMenu {...navSideProps} />
     </NavigationContainer>

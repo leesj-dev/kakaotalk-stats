@@ -28,7 +28,6 @@ const ReplyCountByHourlyGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
   const speakers: string[] = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
@@ -69,8 +68,8 @@ const ReplyCountByHourlyGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-          <YAxis width={60} fontSize={12} tick={customTickColor(isDarkMode)} />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+          <YAxis width={60} fontSize={12} tick={customTickColor} />
           <Tooltip contentStyle={graphTooltipStyle} />
           {speakers.map((speaker: string, index: number) => {
             return (
