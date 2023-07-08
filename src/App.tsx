@@ -8,7 +8,7 @@ import FloatingMenu from "./components/molecules/common/FloatingMenu";
 import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
 import Navigation from "./components/sections/navigation/Navigation";
-
+import { useLocation } from "react-router-dom";
 // const ThemeToggler = () => {
 //   const [theme, setTheme] = useState("light");
 //   const switchTheme = "light" === theme ? "dark" : "light";
@@ -21,6 +21,8 @@ import Navigation from "./components/sections/navigation/Navigation";
 // };
 
 function App() {
+  const location = useLocation();
+  const isDashboardPage = location.pathname === "/dashboard";
   return (
     <>
       <GlobalStyle />
@@ -35,7 +37,7 @@ function App() {
           <Route path={"/dashboard"} element={<DashboardPage />} />
           <Route path={"/detail"} element={<DetailPage />} />
         </Routes>
-        <Footer />
+        {isDashboardPage ? <Footer dashboard={true} /> : <Footer />}
       </Wrapper>
     </>
   );
