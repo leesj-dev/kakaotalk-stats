@@ -21,7 +21,7 @@ const DashboardLayoutBox = styled(FlexColumnDiv)<{ isSideMenu?: Boolean }>`
   left: 0;
   width: 15%;
   height: calc(100vh - 80px);
-  background: ${(props) => props.theme.mainBackground};
+  background: var(--mainBackground);
 
   @media (max-width: 1200px) {
     display: ${(props) => !props.isSideMenu && "none"};
@@ -34,10 +34,10 @@ const ChatroomMenuTitleBox = styled(FlexColumnDiv)`
   padding: 15px;
   text-align: center;
   font-size: 18px;
-  color: ${(props) => props.theme.mainText};
+  color: var(--mainText);
   letter-spacing: 0.05rem;
-  border-bottom: 1px solid ${(props) => props.theme.border};
-  background: ${(props) => props.theme.dashboardMenuBackground};
+  border-bottom: 1px solid var(--border);
+  background: var(--dashboardMenuBackground);
 `;
 
 const ChatroomGraphBox = styled.div`
@@ -45,7 +45,7 @@ const ChatroomGraphBox = styled.div`
   padding: 15px;
   display: flex;
   height: 200px;
-  border-bottom: 1px solid ${(props) => props.theme.border};
+  border-bottom: 1px solid var(--border);
   @media (max-width: 768px) {
     height: 150px;
   }
@@ -60,14 +60,14 @@ const ChatroomListBox = styled(FlexColumnDiv)`
   @media (max-width: 1200px) {
     padding: 20px 20px;
     height: 200px;
-    border-bottom: 1px solid ${(props) => props.theme.border};
+    border-bottom: 1px solid var(--border);
   }
   &::-webkit-scrollbar {
     width: 6px; /* 스크롤바의 너비 */
   }
   &::-webkit-scrollbar-thumb {
     border-radius: ${borderRadius.medium};
-    background: ${(props) => props.theme.mainGray}; /* 스크롤바의 색상 */
+    background: var(--mainGray); /* 스크롤바의 색상 */
   }
   &::-webkit-scrollbar-track {
     background: rgba(144, 144, 144, 0.2); /*스크롤바 뒷 배경 색상*/
@@ -77,14 +77,14 @@ const ChatroomListBox = styled(FlexColumnDiv)`
 const ChatRoomBox = styled.div`
   padding: 10px;
   border-radius: ${borderRadius.weak};
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--border);
   cursor: pointer;
-  background: ${(props) => props.theme.mainWhite};
+  background: var(--mainWhite);
   &:hover {
-    border: 1px solid ${(props) => props.theme.dashboardBackground};
+    border: 1px solid var(--dashboardBackground);
   }
   &.active {
-    border: 2px solid ${(props) => props.theme.mainGray};
+    border: 2px solid var(--mainGray);
   }
   > * {
     display: block;

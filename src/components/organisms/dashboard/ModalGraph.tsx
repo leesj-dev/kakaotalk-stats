@@ -20,9 +20,9 @@ const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
   width: 100%;
   height: 100%;
-  background: ${(props) => props.theme.modalBackground};
+  background: var(--modalBackground);
   backdrop-filter: blur(80px);
-  box-shadow: 2px 2px 8px -3px ${(props) => props.theme.mainBlack};
+  box-shadow: 2px 2px 8px -3px var(--mainBlack);
   border-radius: ${borderRadius.medium};
 `;
 
@@ -31,7 +31,7 @@ const CloseModalIcon = styled(Icon)`
   top: 5px;
   right: 5px;
   font-size: 24px;
-  color: ${(props) => props.theme.mainText};
+  color: var(--mainText);
   cursor: pointer;
 `;
 
@@ -91,9 +91,9 @@ const PeriodBox = styled(FlexColumnCenterDiv)`
   margin-bottom: 10px;
   padding: 10px 0;
   font-size: 16px;
-  color: ${(props) => props.theme.mainText};
-  border-top: 1px solid ${(props) => props.theme.mainGray};
-  border-bottom: 1px solid ${(props) => props.theme.mainGray};
+  color: var(--mainText);
+  border-top: 1px solid var(--mainGray);
+  border-bottom: 1px solid var(--mainGray);
   font-weight: 500;
 `;
 

@@ -40,7 +40,6 @@ const ChatVolumeByPeriodGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   // const selectedChatRoomData = results[selectedChatRoomIndex];
   // const speakerTotalChatCounts: Record<string, number> = {};
@@ -116,8 +115,8 @@ const ChatVolumeByPeriodGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-          <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+          <YAxis fontSize={12} tick={customTickColor} />
           <Tooltip contentStyle={graphTooltipStyle} />
           {/* <Legend /> */}
           {chatSpeakers.map((speaker: string, index: number) => {
@@ -137,10 +136,10 @@ const ChatVolumeByPeriodGraph = () => {
           })}
           {isParentGraphContentBox && (
             <Brush
-              fill={isDarkMode ? "#00000010" : "#ffffff10"}
+              fill={`var(--brushFill)`}
               height={65}
               startIndex={Math.floor(data.length * 0.75)}
-              stroke={isDarkMode ? "#ccc" : "#666"}
+              stroke={`var(--brushStroke)`}
             />
           )}
         </BarChart>
@@ -160,8 +159,8 @@ const ChatVolumeByPeriodGraph = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-              <YAxis fontSize={12} tick={customTickColor(isDarkMode)} />
+              <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+              <YAxis fontSize={12} tick={customTickColor} />
               <Tooltip />
               {/* <Legend /> */}
               {chatSpeakers.map((speaker: string, index: number) => {

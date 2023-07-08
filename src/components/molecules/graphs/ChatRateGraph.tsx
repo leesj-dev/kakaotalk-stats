@@ -84,7 +84,6 @@ const ChatRateGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const [data, setData] = useState<StackBarData[]>([]);
   const chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
@@ -117,8 +116,8 @@ const ChatRateGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-          <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
+          <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+          <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor} />
           <Tooltip content={renderTooltipContent} />
           {chatSpeakers.map((speaker: string, index: number) => {
             return (
@@ -138,10 +137,10 @@ const ChatRateGraph = () => {
           })}
           {isParentGraphContentBox && (
             <Brush
-              fill={isDarkMode ? "#00000010" : "#ffffff10"}
+              fill={`var(--brushFill)`}
               height={65}
               startIndex={Math.floor(data.length * 0.75)}
-              stroke={isDarkMode ? "#ccc" : "#666"}
+              stroke={`var(--brushStroke)`}
             />
           )}
         </AreaChart>
@@ -162,8 +161,8 @@ const ChatRateGraph = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" fontSize={12} tick={customTickColor(isDarkMode)} />
-              <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor(isDarkMode)} />
+              <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+              <YAxis tickFormatter={toPercent} fontSize={12} tick={customTickColor} />
               <Tooltip content={renderTooltipContent} />
               {chatSpeakers.map((speaker: string, index: number) => {
                 return (

@@ -26,7 +26,7 @@ const ImageCardBox = styled(FlexColumnDiv)`
 
 const Image = styled(Img)`
   margin-bottom: 10px;
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--border);
 `;
 
 const Description = styled(Paragraph)`
