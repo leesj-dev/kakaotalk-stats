@@ -48,7 +48,6 @@ const KeywordChartGraph = () => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   const containerRef = useRef<any>(null);
 
@@ -127,13 +126,13 @@ const KeywordChartGraph = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" fontSize={12} tick={customTickColor(isDarkMode)} />
+          <XAxis type="number" fontSize={12} tick={customTickColor} />
           <YAxis
             type="category"
             dataKey="text"
             tickFormatter={truncateValue}
             fontSize={12}
-            tick={customTickColor(isDarkMode)}
+            tick={customTickColor}
           />
           <Tooltip contentStyle={graphTooltipStyle} />
           <Bar dataKey="value" fill={setRotationColor(currentSpeakerIndex)} opacity={0.85} />

@@ -37,7 +37,7 @@ const scrollAnimation = keyframes`
 
 const AnimatedIcon = styled(Icon)`
   display: inline-block;
-  color: ${(props) => props.theme.mainGray};
+  color: var(--mainGray);
   animation: ${scrollAnimation} 1s linear infinite;
 `;
 

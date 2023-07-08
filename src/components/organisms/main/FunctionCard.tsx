@@ -25,7 +25,7 @@ const Card = styled.div`
   width: 100%;
   max-width: 1200px;
   height: 500px;
-  background: ${(props) => props.theme.mainWhite};
+  background: var(--mainWhite);
   border-radius: ${borderRadius.medium};
   box-shadow: 2px 0px 10px 0px #ddd;
   overflow: hidden;
@@ -56,8 +56,8 @@ const SideContent = styled.div`
   text-align: center;
   width: 100%;
   height: 100%;
-  color: ${(props) => props.theme.mainBlack};
-  border-right: 1px solid ${(props) => props.theme.mainGray};
+  color: var(--mainBlack);
+  border-right: 1px solid var(--mainGray);
 
   @media (max-width: 1200px) {
     background: ${(props) => props.theme.bothWhite};
@@ -116,7 +116,7 @@ const MainSlide = styled.div`
   width: 50%;
   height: 100%;
   transition: transform 0.5s ease-in-out;
-  color: ${(props) => props.theme.mainBlack};
+  color: var(--mainBlack);
 
   @media (max-width: 768px) {
     display: none;
@@ -162,13 +162,13 @@ const SlideIconBox = styled.div`
     position: absolute;
     right: 50%;
     bottom: 5%;
-    background-color: ${(props) => props.theme.mainBlue};
+    background-color: var(--mainBlue);
     @media (max-width: 768px) {
       bottom: 0;
       font-size: 15px;
     }
     &:hover {
-      background: ${(props) => props.theme.mainBlueHover};
+      background: var(--mainBlueHover);
     }
   }
 `;

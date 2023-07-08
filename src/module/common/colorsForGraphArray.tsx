@@ -29,8 +29,4 @@ export const setRotationColor = (currentSpeakerIndex: number) => {
     : colorsForGraphArray[(currentSpeakerIndex - 1) % colorsForGraphArray.length];
 };
 
-export const customTickColor = (isDarkMode: boolean) => {
-  return isDarkMode
-    ? { fontWeight: 100, stroke: "white", strokeWidth: 0.5 }
-    : { fontWeight: 100, stroke: "black", strokeWidth: 0.5 };
-};
+export const customTickColor = { fontWeight: 100, stroke: `var(--mainText)`, strokeWidth: 0.5 };

@@ -18,7 +18,7 @@ const FileListBox = styled(FlexCenterDiv)`
   margin-bottom: 1rem;
   padding: 2rem;
   justify-content: space-between;
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid var(--border);
   border-radius: ${borderRadius.medium};
 `;
 
@@ -30,7 +30,7 @@ const FileList = styled.div`
 
 const CloseIcon = styled(Icon)`
   font-size: 3rem;
-  color: ${(props) => props.theme.mainText};
+  color: var(--mainText);
   cursor: pointer;
 `;
 
