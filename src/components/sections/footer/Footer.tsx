@@ -10,6 +10,7 @@ import { zIndex } from "../../../style/specifiedCss/zIndex";
 const FooterContainer = styled.div`
   position: relative;
   background: ${(props) => props.theme.footerBackground};
+  background-color: #ff0;
   padding: 6rem 0;
   z-index: ${zIndex.footer};
 `;
