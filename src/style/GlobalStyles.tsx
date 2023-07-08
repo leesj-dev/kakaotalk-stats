@@ -14,6 +14,7 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
+
 }
 
 body {

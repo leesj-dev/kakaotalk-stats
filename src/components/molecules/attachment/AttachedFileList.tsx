@@ -29,6 +29,7 @@ const FileList = styled.div`
 `;
 
 const CloseIcon = styled(Icon)`
+  padding-left: 10px;
   font-size: 3rem;
   color: var(--mainText);
   cursor: pointer;
