@@ -13,10 +13,14 @@ const FooterContainer = styled.div`
   background: var(--footerBackground);
   transition: background 0.3s;
   z-index: ${zIndex.footer};
+  @media (max-width: 1200px) {
+    min-width: 1180px;
+  }
 `;
 
 const ContentBox = styled(FlexColumnCenterDiv)`
   margin: 0 auto;
+  width: 100%;
   max-width: 1220px;
 `;
 
