@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 interface BlueButtonProps {
   inactive?: boolean;
   disabled?: boolean;
-  darkMode?: boolean;
+  isDarkMode?: boolean;
 }
 
 const BlueButton = styled.button<BlueButtonProps>`
@@ -41,10 +41,10 @@ const BlueButton = styled.button<BlueButtonProps>`
     css`
       box-sizing: border-box;
       background: var(--mainWhite);
-      color: ${props.darkMode ? "#fff" : props.theme.mainBlue};
-      box-shadow: ${props.darkMode ? "" : "inset 0 0 0 1px " + props.theme.mainBlue};
+      color: var(--mainBlue);
+      box-shadow: ${props.isDarkMode ? "none" : "inset 0 0 0 1px var(--mainBlue)"};
       &:hover {
-        background: ${props.darkMode && `var(--mainGray)`};
+        background: ${props.isDarkMode && `var(--mainGray)`};
       }
     `};
 `;

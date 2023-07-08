@@ -73,6 +73,7 @@ const OsNotice = styled(Paragraph)`
   font-size: 1.5rem;
   color: var(--mainBlueHover);
   text-align: center;
+  transition: 0.3s;
 `;
 
 const ScrollIndicatorBox = styled.div`

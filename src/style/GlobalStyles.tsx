@@ -44,6 +44,7 @@ body[data-theme='light'] {
   --brushFill: #00000010;
   --brushStroke:#ccc;
 }
+
 body[data-theme='dark'] {
   --mainBlue: #0d92ff;
   --mainWhite: #2b2b2b;

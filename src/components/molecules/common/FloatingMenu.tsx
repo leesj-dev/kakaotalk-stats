@@ -14,6 +14,7 @@ const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: bo
   bottom: 30px;
   right: 30px;
   gap: 10px;
+  background: none;
   opacity: 0;
   visibility: hidden;
   transition: 0.3s;

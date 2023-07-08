@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../../atoms/Img";
@@ -22,7 +22,6 @@ const NavHeadContainer = styled.div`
   justify-content: space-between;
   font-weight: 500;
   line-height: 80px;
-  border-bottom: 1px solid var(--border);
 
   > * {
     flex: 1;
@@ -78,17 +77,26 @@ interface NavHeadProps extends NavProps {}
 const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMessagesExist }) => {
   const dispatch = useDispatch();
 
-  const handleClickMenu = () => {
-    dispatch(setIsModalVisible(false));
-    closeMenu();
-  };
+  const debounceTimeoutRef = useRef<number | null>(null);
 
   const [theme, setTheme] = useState("light");
+
   const switchTheme = "light" === theme ? "dark" : "light";
 
   const handleClickDarkModeButton = () => {
-    setTheme(switchTheme);
-    dispatch(setIsDarkMode(!isDarkMode));
+    if (debounceTimeoutRef.current === null) {
+      setTheme(switchTheme);
+      dispatch(setIsDarkMode(!isDarkMode));
+
+      debounceTimeoutRef.current = window.setTimeout(() => {
+        debounceTimeoutRef.current = null;
+      }, 300);
+    }
+  };
+
+  const handleClickMenu = () => {
+    dispatch(setIsModalVisible(false));
+    closeMenu();
   };
 
   useEffect(() => {

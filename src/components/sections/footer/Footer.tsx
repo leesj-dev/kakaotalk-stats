@@ -9,8 +9,8 @@ import { zIndex } from "../../../style/specifiedCss/zIndex";
 
 const FooterContainer = styled.div`
   position: relative;
-  background: var(--footerBackground);
   padding: 6rem 0;
+  background: var(--footerBackground);
   z-index: ${zIndex.footer};
 `;
 
@@ -32,7 +32,6 @@ const DeveloperBox = styled(FlexColumnCenterDiv)`
 const IconContainer = styled.div`
   display: flex;
   gap: 10px;
-  color: var(--mainText);
 `;
 
 const AnchorIcon = styled(Icon)`
@@ -45,7 +44,6 @@ const DeveloperNameSpan = styled(Span)`
 
 const ProjectName = styled(DeveloperNameSpan)`
   font-size: 14px;
-  color: var(--mainText);
 `;
 
 const DeveloperData = [
