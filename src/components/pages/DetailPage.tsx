@@ -19,6 +19,7 @@ const GraphDetailContainer = styled.div`
   display: flex;
   width: 100%;
   background: var(--mainBackground);
+  transition: background 0.3s;
   @media (max-width: 768px) {
     margin-top: 70px;
   }

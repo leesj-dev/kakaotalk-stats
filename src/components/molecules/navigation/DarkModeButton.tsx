@@ -14,6 +14,7 @@ const DarkModeButtonBox = styled.div`
     color: var(--navBackground);
     background: var(--mainText);
     pointer-events: none;
+    transition: background 0.3s;
   }
 
   @media (max-width: 1200px) {

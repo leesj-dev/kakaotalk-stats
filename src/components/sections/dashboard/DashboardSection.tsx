@@ -21,6 +21,8 @@ const DashboardSectionContainer = styled(FlexCenterDiv)`
   height: calc(100vh - 80px);
   width: 100%;
   background: var(--dashboardBackground);
+  transition: background 0.3s;
+
   @media (max-width: 1200px) {
     height: calc(100vh - 70px);
     min-width: 1180px;
@@ -66,6 +68,7 @@ const DashboardContainer = styled(FlexColumnDiv)`
   width: 100%;
   height: 100%;
   gap: 15px;
+  transition: background 0.3s;
 `;
 
 const BodyBox = styled(FlexColumnDiv)`

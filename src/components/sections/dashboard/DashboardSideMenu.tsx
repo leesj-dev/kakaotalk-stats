@@ -22,6 +22,7 @@ const DashboardLayoutBox = styled(FlexColumnDiv)<{ isSideMenu?: Boolean }>`
   width: 15%;
   height: calc(100vh - 80px);
   background: var(--mainBackground);
+  transition: background 0.3s;
 
   @media (max-width: 1200px) {
     display: ${(props) => !props.isSideMenu && "none"};

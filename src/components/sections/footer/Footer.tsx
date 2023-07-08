@@ -11,6 +11,7 @@ const FooterContainer = styled.div`
   position: relative;
   padding: 6rem 0;
   background: var(--footerBackground);
+  transition: background 0.3s;
   z-index: ${zIndex.footer};
 `;
 
