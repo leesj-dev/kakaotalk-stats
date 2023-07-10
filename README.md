@@ -69,10 +69,17 @@
 
 
 ## 업데이트
+* [v0.1.3 - 23-07-09](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.1.3)
+  * 첨부 결과가 0인 채팅방 자동으로 제외하는 기능 추가
+  * 다크모드 변경 속도 개선
+    * (변경 전: 0.3~1초 이상 => 변경 후: 즉각적인 반영) 
+
+* [v0.1.2 - 23-07-04](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.1.2)
 
 * [v0.1.1 - 23-07-03](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.1.1)
   * 첨부 페이지 파일분석 중 Loading 화면 구현
   * 메시지 분석 성능 개선
+
 * [v0.1.0 - 23-07-02](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.1.0)
   * 카카오 돋보기 첫 릴리스. 주요 기능 소개
 
