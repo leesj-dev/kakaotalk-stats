@@ -88,6 +88,17 @@ const getRadarRankData = (radarData: number[][]) => {
   return resultData;
 };
 
+let speakers: string[][];
+let chatRoomNames: string[];
+let chatTimes: ChatTimes[][][];
+let totalChatCounts: number[];
+let replyTimes: ReplyTime[][][];
+let averageReplyTime: number[][];
+let dates: string[][];
+let nfKeywordCountArray;
+let radarData: any[];
+let radarRankData: any;
+
 const ChatRoomCompareGraph = () => {
   const [fontSize, setFontSize] = useState(15);
 
@@ -101,36 +112,38 @@ const ChatRoomCompareGraph = () => {
     (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
   );
 
-  const speakers: string[][] = getSpeakers(analyzedMessages);
-  const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
-  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
-  const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
-  const averageReplyTime: number[][] = getAverageReplyTime(replyTimes);
-  const dates: string[][] = getDates(analyzedMessages);
-  const nfKeywordCountArray = nfKeywordCounts.map((nfCountArray: number[]) => {
-    return reduceAPlusB(nfCountArray);
-  });
+  if (!radarRankData) {
+    speakers = getSpeakers(analyzedMessages);
+    chatRoomNames = getTwoLettersFromSpeakers(speakers);
+    chatTimes = getChatTimes(analyzedMessages);
+    totalChatCounts = getTotalChatCounts(chatTimes);
+    replyTimes = getReplyTimes(analyzedMessages);
+    averageReplyTime = getAverageReplyTime(replyTimes);
+    dates = getDates(analyzedMessages);
+    nfKeywordCountArray = nfKeywordCounts.map((nfCountArray: number[]) => {
+      return reduceAPlusB(nfCountArray);
+    });
 
-  const getRadarData = () => {
-    const radarData: any[] = [];
+    const getRadarData = (nfKeywordCountArray: any) => {
+      const radarData: any[] = [];
 
-    for (let i = 0; i < totalChatCounts.length; i++) {
-      const radarDatum: any = {};
-      const notDuplicatedChatDates: string[] = getNotDuplicatedChatDates(dates[i]);
-      const date1 = getDateMilliseconds(notDuplicatedChatDates[notDuplicatedChatDates.length - 1]);
-      const date2 = getDateMilliseconds(notDuplicatedChatDates[0]);
-      radarDatum["카톡 횟수"] = totalChatCounts[i];
-      radarDatum["평균답장속도"] = reduceAPlusB(averageReplyTime[i]) / speakers[i].length;
-      radarDatum["인원 수"] = speakers[i].length;
-      radarDatum["기간"] = getDayDifference(date1, date2);
-      radarDatum["이모티콘사진"] = Math.floor((nfKeywordCountArray[i] / totalChatCounts[i]) * 1000);
-      radarData.push(radarDatum);
-    }
-    return radarData;
-  };
+      for (let i = 0; i < totalChatCounts.length; i++) {
+        const radarDatum: any = {};
+        const notDuplicatedChatDates: string[] = getNotDuplicatedChatDates(dates[i]);
+        const date1 = getDateMilliseconds(notDuplicatedChatDates[notDuplicatedChatDates.length - 1]);
+        const date2 = getDateMilliseconds(notDuplicatedChatDates[0]);
+        radarDatum["카톡 횟수"] = totalChatCounts[i];
+        radarDatum["평균답장속도"] = reduceAPlusB(averageReplyTime[i]) / speakers[i].length;
+        radarDatum["인원 수"] = speakers[i].length;
+        radarDatum["기간"] = getDayDifference(date1, date2);
+        radarDatum["이모티콘사진"] = Math.floor((nfKeywordCountArray[i] / totalChatCounts[i]) * 1000);
+        radarData.push(radarDatum);
+      }
+      return radarData;
+    };
 
-  const radarRankData = getRadarRankData(getRadarData());
+    radarRankData = getRadarRankData(getRadarData(nfKeywordCountArray));
+  }
   // useEffect(() => {
   //   const handleResize = () => {
   //     const windowWidth = window.innerWidth;

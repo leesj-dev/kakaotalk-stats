@@ -18,6 +18,11 @@ const getSumTimeCount = (speaker: ChatTimes[]) => {
   return sumTimeCountEntries;
 };
 
+let chatTimes: ChatTimes[][][];
+let speakers: string[];
+let speakerChatTimes: any;
+let stackedAreaData: ReplyStackedAreaGraph[];
+
 const ReplyCountByHourlyGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -29,30 +34,32 @@ const ReplyCountByHourlyGraph = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const speakers: string[] = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
-  const speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => getSumTimeCount(speaker));
+  if (!stackedAreaData) {
+    chatTimes = getChatTimes(analyzedMessages);
+    speakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
+    speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => getSumTimeCount(speaker));
+    stackedAreaData = Array(24)
+      .fill({})
+      .map((_, i) => ({
+        name: i.toString().padStart(2),
+      }));
 
-  const stackedAreaData: ReplyStackedAreaGraph[] = Array(24)
-    .fill({})
-    .map((_, i) => ({
-      name: i.toString().padStart(2),
-    }));
+    speakerChatTimes.forEach((speakerChatTime: any, speakerIndex: number) => {
+      speakerChatTime.forEach(([time, value]: any) => {
+        const speakerData = stackedAreaData[Number(time)];
+        speakerData[speakers[speakerIndex]] = value || 0;
+      });
 
-  speakerChatTimes.forEach((speakerChatTime, speakerIndex) => {
-    speakerChatTime.forEach(([time, value]: any) => {
-      const speakerData = stackedAreaData[Number(time)];
-      speakerData[speakers[speakerIndex]] = value || 0;
-    });
-
-    for (let i = 0; i < stackedAreaData.length; i++) {
-      if (!(speakers[speakerIndex] in stackedAreaData[i])) {
-        stackedAreaData[i][speakers[speakerIndex]] = 0;
+      for (let i = 0; i < stackedAreaData.length; i++) {
+        if (!(speakers[speakerIndex] in stackedAreaData[i])) {
+          stackedAreaData[i][speakers[speakerIndex]] = 0;
+        }
       }
-    }
-  });
+    });
+  }
 
   useEffect(() => {}, [selectedChatRoomIndex]);
+
   return (
     <>
       <ResponsiveContainer width="100%" height="30%">

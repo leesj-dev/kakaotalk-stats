@@ -7,6 +7,11 @@ import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const COLORS = ["#FF414D", "#FF8991", "#F7ABB1"];
 
+let selectedChatRoomData;
+let speakerTotalChatCounts: Record<string, number> = {};
+let totalChatCount: any;
+let data: any;
+
 const ChatRatioGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -15,26 +20,27 @@ const ChatRatioGraph = () => {
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
-  const selectedChatRoomData = results[selectedChatRoomIndex];
-  const speakerTotalChatCounts: Record<string, number> = {};
-  Object.values(selectedChatRoomData).forEach((chatroom) => {
-    Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
-      const speaker = chat.speaker;
-      if (!speakerTotalChatCounts[speaker]) {
-        speakerTotalChatCounts[speaker] = 0;
-      }
-      const chatTimes = chat.chatTimes;
-      const chatCounts = chatTimes ? Object.values(chatTimes) : [];
-      const totalChatCount = reduceAPlusB(chatCounts);
-      speakerTotalChatCounts[speaker] += Number(totalChatCount);
+  if (!data) {
+    selectedChatRoomData = results[selectedChatRoomIndex];
+    Object.values(selectedChatRoomData).forEach((chatroom) => {
+      Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
+        const speaker = chat.speaker;
+        if (!speakerTotalChatCounts[speaker]) {
+          speakerTotalChatCounts[speaker] = 0;
+        }
+        const chatTimes = chat.chatTimes;
+        const chatCounts = chatTimes ? Object.values(chatTimes) : [];
+        const totalChatCount = reduceAPlusB(chatCounts);
+        speakerTotalChatCounts[speaker] += Number(totalChatCount);
+      });
     });
-  });
 
-  const totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
-  const data = Object.entries(speakerTotalChatCounts).map(([name, value]) => ({
-    name,
-    value: Number(((value / totalChatCount) * 100).toFixed(0)),
-  }));
+    totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
+    data = Object.entries(speakerTotalChatCounts).map(([name, value]) => ({
+      name,
+      value: Number(((value / totalChatCount) * 100).toFixed(0)),
+    }));
+  }
 
   return (
     <>

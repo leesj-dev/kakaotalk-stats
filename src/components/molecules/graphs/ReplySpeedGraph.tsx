@@ -154,6 +154,12 @@ const countKeysLessThanAverage = (displayData: Record<string, number>[], average
   return keyCounts;
 };
 
+let replyTimes: any;
+let chatSpeakers: any;
+let chatDates: any;
+let averageReplyTime: any;
+let replySpeedData: any;
+
 const ReplySpeedGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -168,10 +174,14 @@ const ReplySpeedGraph = () => {
   const [displayData, setDisplayData] = useState<any[]>([]);
   const [countKeysLessThanData, setCountKeysLessThanData] = useState<Record<string, number>>({});
 
-  const replyTimes = getReplyTimes(analyzedMessages)[selectedChatRoomIndex];
-  const chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
-  const chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
-  const averageReplyTime = getAverageReplyTime(displayData);
+  if (!displayData.length) {
+    replyTimes = getReplyTimes(analyzedMessages)[selectedChatRoomIndex];
+    chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
+    chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
+    averageReplyTime = getAverageReplyTime(displayData);
+    replySpeedData = createLineGraphData(chatSpeakers, chatDates, replyTimes);
+    setDisplayData(replySpeedData);
+  }
 
   const parentRef = useRef<any>(null);
 
@@ -182,7 +192,6 @@ const ReplySpeedGraph = () => {
   }
 
   useEffect(() => {
-    setDisplayData(createLineGraphData(chatSpeakers, chatDates, replyTimes));
     setCountKeysLessThanData(countKeysLessThanAverage(displayData, averageReplyTime));
   }, [selectedChatRoomIndex]);
 

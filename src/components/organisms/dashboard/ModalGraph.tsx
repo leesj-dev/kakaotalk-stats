@@ -152,6 +152,19 @@ interface ModalGraphProps {
   modalSetProps?: (data: any) => void;
 }
 
+const findModalDataById = (id: number) => {
+  if (id === 0) {
+    return graphContentData.find((item) => item.id === graphContentData.length);
+  } else if (id > graphContentData.length) {
+    return graphContentData.find((item) => item.id === 1);
+  } else {
+    return graphContentData.find((item) => item.id === id);
+  }
+};
+
+let chatDates: any;
+let datePickerPeriodData: any;
+
 const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
@@ -170,21 +183,13 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
 
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
 
-  const chatDates = getDates(results)[selectedChatRoomIndex];
-  const datePickerPeriodData = [chatDates.flat()[0], chatDates.flat().slice(-1)[0]];
+  if (!chatDates) {
+    chatDates = getDates(results)[selectedChatRoomIndex];
+    datePickerPeriodData = [chatDates.flat()[0], chatDates.flat().slice(-1)[0]];
+  }
 
   const handleClickCloseModalButton = () => {
     setIsModalVisible && dispatch(setIsModalVisible(false));
-  };
-
-  const findModalDataById = (id: number) => {
-    if (id === 0) {
-      return graphContentData.find((item) => item.id === graphContentData.length);
-    } else if (id > graphContentData.length) {
-      return graphContentData.find((item) => item.id === 1);
-    } else {
-      return graphContentData.find((item) => item.id === id);
-    }
   };
 
   const handleClickFlipIcon = (nextId: number) => {

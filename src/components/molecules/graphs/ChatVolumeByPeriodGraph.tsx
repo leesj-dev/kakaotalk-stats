@@ -30,6 +30,36 @@ export const getNotDuplicatedChatDates = (chatDates: string[]) => {
   return notDuplicatedChatDates;
 };
 
+const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
+  let chatCounts = 0;
+  for (const key in chatCountsDay) {
+    chatCounts += chatCountsDay[key];
+  }
+  return chatCounts;
+};
+
+const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTimes: ChatTimes[][]) => {
+  const notDuplicatedChatDates = getNotDuplicatedChatDates(chatDates);
+  const stackBarData: StackBarData[] = [];
+
+  for (let i = 0; i < notDuplicatedChatDates.length; i++) {
+    const date: any = { name: notDuplicatedChatDates[i] };
+    chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
+      const dateIndex: number = chatDates[speakerIndex].indexOf(notDuplicatedChatDates[i]);
+      if (dateIndex !== -1) {
+        date[speaker] = sumChatCountsDay(chatTimes[speakerIndex][dateIndex]);
+      }
+    });
+    stackBarData.push(date);
+  }
+  return stackBarData;
+};
+
+let chatSpeakers: any;
+let chatDates: any;
+let chatTimes: any;
+let isParentGraphContentBox: any;
+
 const ChatVolumeByPeriodGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -53,42 +83,19 @@ const ChatVolumeByPeriodGraph = () => {
   //   });
   // });
 
-  const sumChatCountsDay = (chatCountsDay: ChatTimes) => {
-    let chatCounts = 0;
-    for (const key in chatCountsDay) {
-      chatCounts += chatCountsDay[key];
-    }
-    return chatCounts;
-  };
-
-  const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTimes: ChatTimes[][]) => {
-    const notDuplicatedChatDates = getNotDuplicatedChatDates(chatDates);
-    const stackBarData: StackBarData[] = [];
-
-    for (let i = 0; i < notDuplicatedChatDates.length; i++) {
-      const date: any = { name: notDuplicatedChatDates[i] };
-      chatSpeakers.forEach((speaker: string, speakerIndex: number) => {
-        const dateIndex: number = chatDates[speakerIndex].indexOf(notDuplicatedChatDates[i]);
-        if (dateIndex !== -1) {
-          date[speaker] = sumChatCountsDay(chatTimes[speakerIndex][dateIndex]);
-        }
-      });
-      stackBarData.push(date);
-    }
-    return stackBarData;
-  };
-
-  const [data, setData] = useState<StackBarData[]>([]);
-  let chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
-  const chatDates = getDates(results)[selectedChatRoomIndex];
-  const chatTimes = getChatTimes(results)[selectedChatRoomIndex];
-
   const parentRef = useRef<any>(null);
 
-  let isParentGraphContentBox;
-  if (parentRef?.current?.current) {
-    isParentGraphContentBox =
-      parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
+  const [data, setData] = useState<StackBarData[]>([]);
+
+  if (!data.length) {
+    chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
+    chatDates = getDates(results)[selectedChatRoomIndex];
+    chatTimes = getChatTimes(results)[selectedChatRoomIndex];
+
+    if (parentRef?.current?.current) {
+      isParentGraphContentBox =
+        parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
+    }
   }
 
   useEffect(() => {

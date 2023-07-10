@@ -14,6 +14,8 @@ import { volumeHourlyBoxSizeSlice } from "./reducer/dashboard/volumeHourlyBoxSiz
 import { isDarkModeSlice } from "./reducer/common/isDarkModeSlice";
 import { isModalVisibleSlice } from "./reducer/dashboard/isModalVisibleSlice";
 import { isSideMenuChatRoomSelectSlice } from "./reducer/dashboard/isSideMenuChatRoomSelectSlice";
+// import { chatVolumeByHourlyGraphSlice } from "./reducer/graphData/ChatVolumeByHourlyGraphSlice";
+// import { keywordChartGraphDataSlice } from "./reducer/graphData/keywordChartGraphDataSlice";
 
 export default configureStore({
   reducer: {
@@ -32,6 +34,8 @@ export default configureStore({
     isDarkModeSlice: isDarkModeSlice.reducer,
     isModalVisibleSlice: isModalVisibleSlice.reducer,
     isSideMenuChatRoomSelectSlice: isSideMenuChatRoomSelectSlice.reducer,
+    // setChatVolumeBtyHourlyGraphSlice: chatVolumeByHourlyGraphSlice.reducer,
+    // setKeywordChartGraphSlice: keywordChartGraphDataSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -114,6 +114,12 @@ export const getAverageReplyTime = (replyTimes: ReplyTime[][][]) => {
   return averageReplyTimeArray;
 };
 
+let speakers: string[][];
+let chatRoomNames: string[];
+let chatTimes: ChatTimes[][][];
+let totalChatCounts: number[];
+let pieGraphData: NameValuePair[];
+
 const SummaryPieGraph = () => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
@@ -131,16 +137,18 @@ const SummaryPieGraph = () => {
     averageReplyTime: number[];
   } | null>(null);
 
-  const speakers: string[][] = getSpeakers(analyzedMessages);
-  const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
-  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
-  const pieGraphData: NameValuePair[] = chatRoomNames.map((name, index) => {
-    return {
-      name: name,
-      value: totalChatCounts[index],
-    };
-  });
+  if (!pieGraphData) {
+    speakers = getSpeakers(analyzedMessages);
+    chatRoomNames = getTwoLettersFromSpeakers(speakers);
+    chatTimes = getChatTimes(analyzedMessages);
+    totalChatCounts = getTotalChatCounts(chatTimes);
+    pieGraphData = chatRoomNames.map((name, index) => {
+      return {
+        name: name,
+        value: totalChatCounts[index],
+      };
+    });
+  }
 
   const mostChattedTimes: StringNumberTuple[][] = getMostChattedTimes(chatTimes);
   const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);

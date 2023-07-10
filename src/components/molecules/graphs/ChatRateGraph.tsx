@@ -74,6 +74,11 @@ const renderTooltipContent = (o: any) => {
   );
 };
 
+let chatSpeakers: any;
+let chatDates: any;
+let chatTimes: any;
+let isParentGraphContentBox: any;
+
 const ChatRateGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -85,17 +90,19 @@ const ChatRateGraph = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  const [data, setData] = useState<StackBarData[]>([]);
-  const chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
-  const chatDates: string[] = getDates(results)[selectedChatRoomIndex];
-  const chatTimes: ChatTimes[][] = getChatTimes(results)[selectedChatRoomIndex];
-
   const parentRef = useRef<any>(null);
 
-  let isParentGraphContentBox;
-  if (parentRef?.current?.current) {
-    isParentGraphContentBox =
-      parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
+  const [data, setData] = useState<StackBarData[]>([]);
+
+  if (!data.length) {
+    chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
+    chatDates = getDates(results)[selectedChatRoomIndex];
+    chatTimes = getChatTimes(results)[selectedChatRoomIndex];
+
+    if (parentRef?.current?.current) {
+      isParentGraphContentBox =
+        parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
+    }
   }
 
   useEffect(() => {
