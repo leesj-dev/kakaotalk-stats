@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { HTMLAttributes } from "react";
+import styled, { css } from "styled-components";
 import { BsGithub, BsEnvelope } from "react-icons/bs";
 import Icon from "../../atoms/Icon";
 import Anchor from "../../atoms/Anchor";
@@ -7,16 +7,28 @@ import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import Span from "../../atoms/Span";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
 
-const FooterContainer = styled.div`
+interface FooterProps extends HTMLAttributes<HTMLDivElement> {
+  dashboard?: boolean;
+}
+
+const FooterContainer = styled.div<FooterProps>`
   position: relative;
   padding: 6rem 0;
   background: var(--footerBackground);
   transition: background 0.3s;
   z-index: ${zIndex.footer};
+  ${(props) =>
+    props.dashboard &&
+    css`
+      @media (max-width: 1200px) {
+        min-width: 1180px;
+      }
+    `}
 `;
 
 const ContentBox = styled(FlexColumnCenterDiv)`
   margin: 0 auto;
+  width: 100%;
   max-width: 1220px;
 `;
 
@@ -60,9 +72,9 @@ const DeveloperData = [
   },
 ];
 
-const Footer = () => {
+const Footer = (props: FooterProps) => {
   return (
-    <FooterContainer>
+    <FooterContainer {...props}>
       <ContentBox>
         <DeveloperDescriptionBox>
           {DeveloperData.map((developer) => {

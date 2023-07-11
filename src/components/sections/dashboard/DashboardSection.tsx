@@ -107,6 +107,9 @@ const ModalBox = styled.div`
   right: 5.5%;
   z-index: ${zIndex.graphModal};
   display: flex;
+  @media (max-width: 1200px) {
+    left: 5.5%;
+  }
 `;
 
 const DashboardSection = () => {
