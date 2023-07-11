@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
@@ -34,10 +34,17 @@ const ReplyCountByHourlyGraph = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  if (!stackedAreaData) {
+  const [replyCountData, setReplyCountData] = useState<ReplyStackedAreaGraph[]>([]);
+
+  useEffect(() => {
+    setReplyCountData([]);
+  }, [selectedChatRoomIndex]);
+
+  if (!replyCountData.length) {
     chatTimes = getChatTimes(analyzedMessages);
     speakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
     speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => getSumTimeCount(speaker));
+
     stackedAreaData = Array(24)
       .fill({})
       .map((_, i) => ({
@@ -56,47 +63,48 @@ const ReplyCountByHourlyGraph = () => {
         }
       }
     });
+    setReplyCountData(stackedAreaData);
   }
-
-  useEffect(() => {}, [selectedChatRoomIndex]);
 
   return (
     <>
-      <ResponsiveContainer width="100%" height="30%">
-        <AreaChart
-          width={500}
-          height={300}
-          data={stackedAreaData}
-          margin={{
-            top: 5,
-            right: 13,
-            left: -17,
-            bottom: -10,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
-          <YAxis width={60} fontSize={12} tick={customTickColor} />
-          <Tooltip contentStyle={graphTooltipStyle} />
-          {speakers.map((speaker: string, index: number) => {
-            return (
-              <Area
-                key={index}
-                type="monotone"
-                dataKey={speaker}
-                stackId="1"
-                stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
-                fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-                strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
-                fillOpacity={
-                  selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
-                }
-                style={{ cursor: "pointer", transition: "ease-in-out 0.7s" }}
-              />
-            );
-          })}
-        </AreaChart>
-      </ResponsiveContainer>
+      {replyCountData.length && (
+        <ResponsiveContainer width="100%" height="30%">
+          <AreaChart
+            width={500}
+            height={300}
+            data={replyCountData}
+            margin={{
+              top: 5,
+              right: 13,
+              left: -17,
+              bottom: -10,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+            <YAxis width={60} fontSize={12} tick={customTickColor} />
+            <Tooltip contentStyle={graphTooltipStyle} />
+            {speakers.map((speaker: string, index: number) => {
+              return (
+                <Area
+                  key={index}
+                  type="monotone"
+                  dataKey={speaker}
+                  stackId="1"
+                  stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
+                  fillOpacity={
+                    selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
+                  }
+                  style={{ cursor: "pointer", transition: "ease-in-out 0.7s" }}
+                />
+              );
+            })}
+          </AreaChart>
+        </ResponsiveContainer>
+      )}
     </>
   );
 };

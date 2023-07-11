@@ -112,7 +112,9 @@ const ChatRoomCompareGraph = () => {
     (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
   );
 
-  if (!radarRankData) {
+  const [radarRankData, setRadarRankData] = useState<any[]>([]);
+
+  if (!radarRankData.length) {
     speakers = getSpeakers(analyzedMessages);
     chatRoomNames = getTwoLettersFromSpeakers(speakers);
     chatTimes = getChatTimes(analyzedMessages);
@@ -142,7 +144,11 @@ const ChatRoomCompareGraph = () => {
       return radarData;
     };
 
-    radarRankData = getRadarRankData(getRadarData(nfKeywordCountArray));
+    radarData = getRadarData(nfKeywordCountArray);
+
+    setRadarRankData(getRadarRankData(radarData));
+
+    // radarRankData = getRadarRankData(getRadarData(nfKeywordCountArray));
   }
   // useEffect(() => {
   //   const handleResize = () => {
@@ -166,48 +172,52 @@ const ChatRoomCompareGraph = () => {
   //   };
   // }, []);
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <RadarChart
-        cx="50%"
-        cy="50%"
-        outerRadius="70%"
-        data={radarRankData}
-        margin={{
-          top: 0,
-          right: 0,
-          left: 0,
-          bottom: 0,
-        }}
-      >
-        <PolarGrid />
-        <PolarAngleAxis dataKey="subject" fontSize="1.8vh" tick={customTickColor} />
-        <PolarRadiusAxis
-          fontSize={10}
-          angle={60}
-          domain={[0, Object.keys(radarRankData[0]).length - 2]}
-          tick={customTickColor}
-        />
-        {chatRoomNames.map((el: any, index: number) => {
-          return (
-            <Radar
-              key={index}
-              name={el.length > 20 ? `${el.slice(0, 22)}...` : el}
-              dataKey={index.toString()}
-              stroke={
-                selectedChatRoomIndex === index
-                  ? lightTheme.mainBlack
-                  : colorsForGraphArray[index % colorsForGraphArray.length]
-              }
-              strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
-              fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fillOpacity={0.3}
+    <>
+      {radarRankData.length && (
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart
+            cx="50%"
+            cy="50%"
+            outerRadius="70%"
+            data={radarRankData}
+            margin={{
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <PolarGrid />
+            <PolarAngleAxis dataKey="subject" fontSize="1.8vh" tick={customTickColor} />
+            <PolarRadiusAxis
+              fontSize={10}
+              angle={60}
+              domain={[0, Object.keys(radarRankData[0]).length - 2]}
+              tick={customTickColor}
             />
-          );
-        })}
-        {/* <Legend iconType="line" /> */}
-        <Tooltip contentStyle={graphTooltipStyle} />
-      </RadarChart>
-    </ResponsiveContainer>
+            {chatRoomNames.map((el: any, index: number) => {
+              return (
+                <Radar
+                  key={index}
+                  name={el.length > 20 ? `${el.slice(0, 22)}...` : el}
+                  dataKey={index.toString()}
+                  stroke={
+                    selectedChatRoomIndex === index
+                      ? lightTheme.mainBlack
+                      : colorsForGraphArray[index % colorsForGraphArray.length]
+                  }
+                  strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
+                  fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  fillOpacity={0.3}
+                />
+              );
+            })}
+            {/* <Legend iconType="line" /> */}
+            <Tooltip contentStyle={graphTooltipStyle} />
+          </RadarChart>
+        </ResponsiveContainer>
+      )}
+    </>
   );
 };
 

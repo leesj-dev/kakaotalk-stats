@@ -36,6 +36,13 @@ const getAllKeywordData = (keywordData: ValueCountPair[]) => {
   return resultArray;
 };
 
+function truncateValue(value: string) {
+  if (value.length > 7) {
+    return value.substring(0, 6) + "...";
+  }
+  return value;
+}
+
 let keywordCounts: KeywordCounts[][][];
 let currentKeywordCounts: KeywordCounts[][];
 let keywordData: ValueCountPair[][];
@@ -59,28 +66,26 @@ const KeywordChartGraph = () => {
 
   const [DISPLAY_KEYWORD_COUNT, setDISPLAY_KEYWORD_COUNT] = useState<number>(10);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
+  const [dataForCloud, setDataForCloud] = useState<any[]>([]);
+  const [allKeywordData, setAllKeywordData] = useState<any[]>([]);
 
-  if (!allKeywordData) {
+  useEffect(() => {
+    setAllKeywordData([]);
+    setDataForCloud([]);
+  }, [selectedChatRoomIndex]);
+
+  if (!allKeywordData.length) {
     keywordCounts = getKeywordCounts(results);
     currentKeywordCounts = keywordCounts[selectedChatRoomIndex];
     keywordData = getHighKeywords(currentKeywordCounts, DISPLAY_KEYWORD_COUNT);
-    allKeywordData = getAllKeywordData(keywordData.flat()).sort(
-      (a, b) => Number(b.value) - Number(a.value)
+    setAllKeywordData(
+      getAllKeywordData(keywordData.flat()).sort((a, b) => Number(b.value) - Number(a.value))
     );
-  }
 
-  function truncateValue(value: string) {
-    if (value.length > 7) {
-      return value.substring(0, 6) + "...";
-    }
-    return value;
-  }
-
-  if (!dataForCloud) {
     if (isDetailPage) {
-      dataForCloud =
-        selectedSpeakerIndex === -1
-          ? JSON.parse(
+      selectedSpeakerIndex === -1
+        ? setDataForCloud(
+            JSON.parse(
               JSON.stringify(
                 getHighKeywords(currentKeywordCounts, 100)
                   .flat()
@@ -88,7 +93,8 @@ const KeywordChartGraph = () => {
                   .slice(0, 100)
               )
             )
-          : JSON.parse(JSON.stringify(getHighKeywords(currentKeywordCounts, 100)[selectedSpeakerIndex]));
+          )
+        : setDataForCloud(JSON.parse(JSON.stringify(keywordData[selectedSpeakerIndex])));
     }
   }
 

@@ -87,20 +87,21 @@ const ChatVolumeByPeriodGraph = () => {
 
   const [data, setData] = useState<StackBarData[]>([]);
 
+  useEffect(() => {
+    setData([]);
+  }, [selectedChatRoomIndex]);
+
   if (!data.length) {
     chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
     chatDates = getDates(results)[selectedChatRoomIndex];
     chatTimes = getChatTimes(results)[selectedChatRoomIndex];
+    setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
 
     if (parentRef?.current?.current) {
       isParentGraphContentBox =
         parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
     }
   }
-
-  useEffect(() => {
-    setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
-  }, [selectedChatRoomIndex]);
 
   // +누르면 보여주는 기준점의 수를 줄이고
   // -누르면 보여주는 기준점의 수를 늘린다

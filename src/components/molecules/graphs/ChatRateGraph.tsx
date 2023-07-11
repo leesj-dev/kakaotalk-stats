@@ -94,20 +94,21 @@ const ChatRateGraph = () => {
 
   const [data, setData] = useState<StackBarData[]>([]);
 
+  useEffect(() => {
+    setData([]);
+  }, [selectedChatRoomIndex]);
+
   if (!data.length) {
     chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
     chatDates = getDates(results)[selectedChatRoomIndex];
     chatTimes = getChatTimes(results)[selectedChatRoomIndex];
-
-    if (parentRef?.current?.current) {
-      isParentGraphContentBox =
-        parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
-    }
+    setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
   }
 
-  useEffect(() => {
-    setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
-  }, [selectedChatRoomIndex]);
+  if (parentRef?.current?.current) {
+    isParentGraphContentBox =
+      parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
+  }
 
   return (
     <>

@@ -174,6 +174,11 @@ const ReplySpeedGraph = () => {
   const [displayData, setDisplayData] = useState<any[]>([]);
   const [countKeysLessThanData, setCountKeysLessThanData] = useState<Record<string, number>>({});
 
+  useEffect(() => {
+    setDisplayData([]);
+    setCountKeysLessThanData(countKeysLessThanAverage(displayData, averageReplyTime));
+  }, [selectedChatRoomIndex]);
+
   if (!displayData.length) {
     replyTimes = getReplyTimes(analyzedMessages)[selectedChatRoomIndex];
     chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
@@ -190,10 +195,6 @@ const ReplySpeedGraph = () => {
     isParentGraphContentBox =
       parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
   }
-
-  useEffect(() => {
-    setCountKeysLessThanData(countKeysLessThanAverage(displayData, averageReplyTime));
-  }, [selectedChatRoomIndex]);
 
   return (
     <>
