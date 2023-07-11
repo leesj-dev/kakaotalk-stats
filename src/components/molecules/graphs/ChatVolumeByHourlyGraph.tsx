@@ -246,6 +246,7 @@ const ChatVolumeByHourlyGraph = () => {
                     );
                   }}
                   fill={setRotationColor(currentSpeakerIndex)}
+                  animationDuration={300}
                 />
               </ScatterChart>
             </ResponsiveContainer>

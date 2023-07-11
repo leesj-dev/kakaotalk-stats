@@ -231,7 +231,14 @@ const ReplySpeedGraph = () => {
           <YAxis yAxisId="right" orientation="right" fontSize={12} tick={customTickColor} />
           <Tooltip contentStyle={graphTooltipStyle} />
           {/* <Legend /> */}
-          <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" fillOpacity={0.85} />
+          <Bar
+            yAxisId="right"
+            dataKey="답장횟수"
+            barSize={20}
+            fill="#8884d8"
+            fillOpacity={0.85}
+            animationDuration={300}
+          />
           <ReferenceLine
             y={getAverageReplyTime(displayData)}
             yAxisId="left"
@@ -249,6 +256,7 @@ const ReplySpeedGraph = () => {
                 stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
                 strokeWidth={selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 2 : 0.2}
                 style={{ transition: "ease-in-out 0.7s" }}
+                animationDuration={300}
               />
             );
           })}
@@ -283,7 +291,13 @@ const ReplySpeedGraph = () => {
 
               <Tooltip />
               {/* <Legend /> */}
-              <Bar yAxisId="right" dataKey="답장횟수" barSize={20} fill="#8884d8" />
+              <Bar
+                yAxisId="right"
+                dataKey="답장횟수"
+                barSize={20}
+                fill="#8884d8"
+                animationDuration={300}
+              />
               <ReferenceLine y={getAverageReplyTime(displayData)} yAxisId="left" stroke="orange" />
               {chatSpeakers.map((speaker: string, index: number) => {
                 return (
@@ -298,6 +312,7 @@ const ReplySpeedGraph = () => {
                       selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 2 : 0.2
                     }
                     style={{ transition: "ease-in-out 0.7s" }}
+                    animationDuration={300}
                   />
                 );
               })}

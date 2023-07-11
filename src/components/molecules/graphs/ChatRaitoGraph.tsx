@@ -58,6 +58,7 @@ const ChatRatioGraph = () => {
             dataKey="value"
             labelLine
             // label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+            animationDuration={300}
           >
             {data.map((entry: any, index: number) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

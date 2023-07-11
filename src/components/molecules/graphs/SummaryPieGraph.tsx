@@ -118,7 +118,7 @@ let speakers: string[][];
 let chatRoomNames: string[];
 let chatTimes: ChatTimes[][][];
 let totalChatCounts: number[];
-let pieGraphData: NameValuePair[];
+let pieGraphData: NameValuePair[] = [];
 
 const SummaryPieGraph = () => {
   const dispatch = useDispatch();
@@ -137,7 +137,7 @@ const SummaryPieGraph = () => {
     averageReplyTime: number[];
   } | null>(null);
 
-  if (!pieGraphData) {
+  if (!pieGraphData.length) {
     speakers = getSpeakers(analyzedMessages);
     chatRoomNames = getTwoLettersFromSpeakers(speakers);
     chatTimes = getChatTimes(analyzedMessages);
@@ -149,8 +149,6 @@ const SummaryPieGraph = () => {
       };
     });
   }
-
-  console.log(pieGraphData);
 
   const mostChattedTimes: StringNumberTuple[][] = getMostChattedTimes(chatTimes);
   const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
@@ -212,6 +210,7 @@ const SummaryPieGraph = () => {
                 innerRadius={0}
                 outerRadius={"100%"}
                 dataKey="value"
+                animationDuration={300}
               >
                 {pieGraphData.map((_, index) => {
                   return (

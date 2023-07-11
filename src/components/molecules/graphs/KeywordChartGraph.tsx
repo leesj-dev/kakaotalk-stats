@@ -149,7 +149,12 @@ const KeywordChartGraph = () => {
             tick={customTickColor}
           />
           <Tooltip contentStyle={graphTooltipStyle} />
-          <Bar dataKey="value" fill={setRotationColor(currentSpeakerIndex)} opacity={0.85} />
+          <Bar
+            dataKey="value"
+            fill={setRotationColor(currentSpeakerIndex)}
+            opacity={0.85}
+            animationDuration={300}
+          />
         </BarChart>
       </ResponsiveContainer>
     </>

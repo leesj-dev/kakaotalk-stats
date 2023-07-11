@@ -209,6 +209,7 @@ const ChatRoomCompareGraph = () => {
                   strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
                   fill={colorsForGraphArray[index % colorsForGraphArray.length]}
                   fillOpacity={0.3}
+                  animationDuration={300}
                 />
               );
             })}

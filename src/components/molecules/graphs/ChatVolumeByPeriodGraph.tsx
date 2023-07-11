@@ -139,6 +139,7 @@ const ChatVolumeByPeriodGraph = () => {
                 fillOpacity={
                   selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
                 }
+                animationDuration={300}
               />
             );
           })}
@@ -184,6 +185,7 @@ const ChatVolumeByPeriodGraph = () => {
                       selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
                     }
                     style={{ transition: "ease-in-out 0.7s" }}
+                    animationDuration={300}
                   />
                 );
               })}
