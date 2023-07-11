@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
@@ -18,6 +18,11 @@ const getSumTimeCount = (speaker: ChatTimes[]) => {
   return sumTimeCountEntries;
 };
 
+let chatTimes: ChatTimes[][][];
+let speakers: string[];
+let speakerChatTimes: any;
+let stackedAreaData: ReplyStackedAreaGraph[];
+
 const ReplyCountByHourlyGraph = () => {
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -29,67 +34,78 @@ const ReplyCountByHourlyGraph = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const speakers: string[] = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
-  const speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => getSumTimeCount(speaker));
+  const [replyCountData, setReplyCountData] = useState<ReplyStackedAreaGraph[]>([]);
 
-  const stackedAreaData: ReplyStackedAreaGraph[] = Array(24)
-    .fill({})
-    .map((_, i) => ({
-      name: i.toString().padStart(2),
-    }));
+  useEffect(() => {
+    setReplyCountData([]);
+  }, [selectedChatRoomIndex]);
 
-  speakerChatTimes.forEach((speakerChatTime, speakerIndex) => {
-    speakerChatTime.forEach(([time, value]: any) => {
-      const speakerData = stackedAreaData[Number(time)];
-      speakerData[speakers[speakerIndex]] = value || 0;
-    });
+  if (!replyCountData.length) {
+    chatTimes = getChatTimes(analyzedMessages);
+    speakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
+    speakerChatTimes = chatTimes[selectedChatRoomIndex].map((speaker) => getSumTimeCount(speaker));
 
-    for (let i = 0; i < stackedAreaData.length; i++) {
-      if (!(speakers[speakerIndex] in stackedAreaData[i])) {
-        stackedAreaData[i][speakers[speakerIndex]] = 0;
+    stackedAreaData = Array(24)
+      .fill({})
+      .map((_, i) => ({
+        name: i.toString().padStart(2),
+      }));
+
+    speakerChatTimes.forEach((speakerChatTime: any, speakerIndex: number) => {
+      speakerChatTime.forEach(([time, value]: any) => {
+        const speakerData = stackedAreaData[Number(time)];
+        speakerData[speakers[speakerIndex]] = value || 0;
+      });
+
+      for (let i = 0; i < stackedAreaData.length; i++) {
+        if (!(speakers[speakerIndex] in stackedAreaData[i])) {
+          stackedAreaData[i][speakers[speakerIndex]] = 0;
+        }
       }
-    }
-  });
+    });
+    setReplyCountData(stackedAreaData);
+  }
 
-  useEffect(() => {}, [selectedChatRoomIndex]);
   return (
     <>
-      <ResponsiveContainer width="100%" height="30%">
-        <AreaChart
-          width={500}
-          height={300}
-          data={stackedAreaData}
-          margin={{
-            top: 5,
-            right: 13,
-            left: -17,
-            bottom: -10,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
-          <YAxis width={60} fontSize={12} tick={customTickColor} />
-          <Tooltip contentStyle={graphTooltipStyle} />
-          {speakers.map((speaker: string, index: number) => {
-            return (
-              <Area
-                key={index}
-                type="monotone"
-                dataKey={speaker}
-                stackId="1"
-                stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
-                fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-                strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
-                fillOpacity={
-                  selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
-                }
-                style={{ cursor: "pointer", transition: "ease-in-out 0.7s" }}
-              />
-            );
-          })}
-        </AreaChart>
-      </ResponsiveContainer>
+      {replyCountData.length && (
+        <ResponsiveContainer width="100%" height="30%">
+          <AreaChart
+            width={500}
+            height={300}
+            data={replyCountData}
+            margin={{
+              top: 5,
+              right: 13,
+              left: -17,
+              bottom: -10,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
+            <YAxis width={60} fontSize={12} tick={customTickColor} />
+            <Tooltip contentStyle={graphTooltipStyle} />
+            {speakers.map((speaker: string, index: number) => {
+              return (
+                <Area
+                  key={index}
+                  type="monotone"
+                  dataKey={speaker}
+                  stackId="1"
+                  stroke={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  strokeWidth={selectedSpeakerIndex === -1 ? 1 : 0}
+                  fillOpacity={
+                    selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
+                  }
+                  style={{ cursor: "pointer", transition: "ease-in-out 0.7s" }}
+                  animationDuration={300}
+                />
+              );
+            })}
+          </AreaChart>
+        </ResponsiveContainer>
+      )}
     </>
   );
 };

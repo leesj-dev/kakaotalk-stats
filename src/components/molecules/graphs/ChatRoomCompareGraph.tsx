@@ -88,6 +88,17 @@ const getRadarRankData = (radarData: number[][]) => {
   return resultData;
 };
 
+let speakers: string[][];
+let chatRoomNames: string[];
+let chatTimes: ChatTimes[][][];
+let totalChatCounts: number[];
+let replyTimes: ReplyTime[][][];
+let averageReplyTime: number[][];
+let dates: string[][];
+let nfKeywordCountArray;
+let radarData: any[];
+let radarRankData: any;
+
 const ChatRoomCompareGraph = () => {
   const [fontSize, setFontSize] = useState(15);
 
@@ -101,36 +112,44 @@ const ChatRoomCompareGraph = () => {
     (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
   );
 
-  const speakers: string[][] = getSpeakers(analyzedMessages);
-  const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
-  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
-  const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
-  const averageReplyTime: number[][] = getAverageReplyTime(replyTimes);
-  const dates: string[][] = getDates(analyzedMessages);
-  const nfKeywordCountArray = nfKeywordCounts.map((nfCountArray: number[]) => {
-    return reduceAPlusB(nfCountArray);
-  });
+  const [radarRankData, setRadarRankData] = useState<any[]>([]);
 
-  const getRadarData = () => {
-    const radarData: any[] = [];
+  if (!radarRankData.length) {
+    speakers = getSpeakers(analyzedMessages);
+    chatRoomNames = getTwoLettersFromSpeakers(speakers);
+    chatTimes = getChatTimes(analyzedMessages);
+    totalChatCounts = getTotalChatCounts(chatTimes);
+    replyTimes = getReplyTimes(analyzedMessages);
+    averageReplyTime = getAverageReplyTime(replyTimes);
+    dates = getDates(analyzedMessages);
+    nfKeywordCountArray = nfKeywordCounts.map((nfCountArray: number[]) => {
+      return reduceAPlusB(nfCountArray);
+    });
 
-    for (let i = 0; i < totalChatCounts.length; i++) {
-      const radarDatum: any = {};
-      const notDuplicatedChatDates: string[] = getNotDuplicatedChatDates(dates[i]);
-      const date1 = getDateMilliseconds(notDuplicatedChatDates[notDuplicatedChatDates.length - 1]);
-      const date2 = getDateMilliseconds(notDuplicatedChatDates[0]);
-      radarDatum["카톡 횟수"] = totalChatCounts[i];
-      radarDatum["평균답장속도"] = reduceAPlusB(averageReplyTime[i]) / speakers[i].length;
-      radarDatum["인원 수"] = speakers[i].length;
-      radarDatum["기간"] = getDayDifference(date1, date2);
-      radarDatum["이모티콘사진"] = Math.floor((nfKeywordCountArray[i] / totalChatCounts[i]) * 1000);
-      radarData.push(radarDatum);
-    }
-    return radarData;
-  };
+    const getRadarData = (nfKeywordCountArray: any) => {
+      const radarData: any[] = [];
 
-  const radarRankData = getRadarRankData(getRadarData());
+      for (let i = 0; i < totalChatCounts.length; i++) {
+        const radarDatum: any = {};
+        const notDuplicatedChatDates: string[] = getNotDuplicatedChatDates(dates[i]);
+        const date1 = getDateMilliseconds(notDuplicatedChatDates[notDuplicatedChatDates.length - 1]);
+        const date2 = getDateMilliseconds(notDuplicatedChatDates[0]);
+        radarDatum["카톡 횟수"] = totalChatCounts[i];
+        radarDatum["평균답장속도"] = reduceAPlusB(averageReplyTime[i]) / speakers[i].length;
+        radarDatum["인원 수"] = speakers[i].length;
+        radarDatum["기간"] = getDayDifference(date1, date2);
+        radarDatum["이모티콘사진"] = Math.floor((nfKeywordCountArray[i] / totalChatCounts[i]) * 1000);
+        radarData.push(radarDatum);
+      }
+      return radarData;
+    };
+
+    radarData = getRadarData(nfKeywordCountArray);
+
+    setRadarRankData(getRadarRankData(radarData));
+
+    // radarRankData = getRadarRankData(getRadarData(nfKeywordCountArray));
+  }
   // useEffect(() => {
   //   const handleResize = () => {
   //     const windowWidth = window.innerWidth;
@@ -153,48 +172,53 @@ const ChatRoomCompareGraph = () => {
   //   };
   // }, []);
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <RadarChart
-        cx="50%"
-        cy="50%"
-        outerRadius="70%"
-        data={radarRankData}
-        margin={{
-          top: 0,
-          right: 0,
-          left: 0,
-          bottom: 0,
-        }}
-      >
-        <PolarGrid />
-        <PolarAngleAxis dataKey="subject" fontSize="1.8vh" tick={customTickColor} />
-        <PolarRadiusAxis
-          fontSize={10}
-          angle={60}
-          domain={[0, Object.keys(radarRankData[0]).length - 2]}
-          tick={customTickColor}
-        />
-        {chatRoomNames.map((el: any, index: number) => {
-          return (
-            <Radar
-              key={index}
-              name={el.length > 20 ? `${el.slice(0, 22)}...` : el}
-              dataKey={index.toString()}
-              stroke={
-                selectedChatRoomIndex === index
-                  ? lightTheme.mainBlack
-                  : colorsForGraphArray[index % colorsForGraphArray.length]
-              }
-              strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
-              fill={colorsForGraphArray[index % colorsForGraphArray.length]}
-              fillOpacity={0.3}
+    <>
+      {radarRankData.length && (
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart
+            cx="50%"
+            cy="50%"
+            outerRadius="70%"
+            data={radarRankData}
+            margin={{
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <PolarGrid />
+            <PolarAngleAxis dataKey="subject" fontSize="1.8vh" tick={customTickColor} />
+            <PolarRadiusAxis
+              fontSize={10}
+              angle={60}
+              domain={[0, Object.keys(radarRankData[0]).length - 2]}
+              tick={customTickColor}
             />
-          );
-        })}
-        {/* <Legend iconType="line" /> */}
-        <Tooltip contentStyle={graphTooltipStyle} />
-      </RadarChart>
-    </ResponsiveContainer>
+            {chatRoomNames.map((el: any, index: number) => {
+              return (
+                <Radar
+                  key={index}
+                  name={el.length > 20 ? `${el.slice(0, 22)}...` : el}
+                  dataKey={index.toString()}
+                  stroke={
+                    selectedChatRoomIndex === index
+                      ? lightTheme.mainBlack
+                      : colorsForGraphArray[index % colorsForGraphArray.length]
+                  }
+                  strokeWidth={selectedChatRoomIndex === index ? 2 : 1}
+                  fill={colorsForGraphArray[index % colorsForGraphArray.length]}
+                  fillOpacity={0.3}
+                  animationDuration={300}
+                />
+              );
+            })}
+            {/* <Legend iconType="line" /> */}
+            <Tooltip contentStyle={graphTooltipStyle} />
+          </RadarChart>
+        </ResponsiveContainer>
+      )}
+    </>
   );
 };
 

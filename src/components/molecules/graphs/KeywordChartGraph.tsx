@@ -36,6 +36,19 @@ const getAllKeywordData = (keywordData: ValueCountPair[]) => {
   return resultArray;
 };
 
+function truncateValue(value: string) {
+  if (value.length > 7) {
+    return value.substring(0, 6) + "...";
+  }
+  return value;
+}
+
+let keywordCounts: KeywordCounts[][][];
+let currentKeywordCounts: KeywordCounts[][];
+let keywordData: ValueCountPair[][];
+let allKeywordData: ValueCountPair[];
+let dataForCloud: any;
+
 const KeywordChartGraph = () => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
@@ -53,46 +66,47 @@ const KeywordChartGraph = () => {
 
   const [DISPLAY_KEYWORD_COUNT, setDISPLAY_KEYWORD_COUNT] = useState<number>(10);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
+  const [dataForCloud, setDataForCloud] = useState<any[]>([]);
+  const [allKeywordData, setAllKeywordData] = useState<any[]>([]);
 
-  const keywordCounts: KeywordCounts[][][] = getKeywordCounts(results);
-  const currentKeywordCounts: KeywordCounts[][] = keywordCounts[selectedChatRoomIndex];
-  const keywordData: ValueCountPair[][] = getHighKeywords(currentKeywordCounts, DISPLAY_KEYWORD_COUNT);
-  const allKeywordData: ValueCountPair[] = getAllKeywordData(keywordData.flat()).sort(
-    (a, b) => Number(b.value) - Number(a.value)
-  );
+  useEffect(() => {
+    setAllKeywordData([]);
+    setDataForCloud([]);
+  }, [selectedChatRoomIndex]);
+
+  if (!allKeywordData.length) {
+    keywordCounts = getKeywordCounts(results);
+    currentKeywordCounts = keywordCounts[selectedChatRoomIndex];
+    keywordData = getHighKeywords(currentKeywordCounts, DISPLAY_KEYWORD_COUNT);
+    setAllKeywordData(
+      getAllKeywordData(keywordData.flat()).sort((a, b) => Number(b.value) - Number(a.value))
+    );
+
+    if (isDetailPage) {
+      selectedSpeakerIndex === -1
+        ? setDataForCloud(
+            JSON.parse(
+              JSON.stringify(
+                getHighKeywords(currentKeywordCounts, 100)
+                  .flat()
+                  .sort((a, b) => Number(b.value) - Number(a.value))
+                  .slice(0, 100)
+              )
+            )
+          )
+        : setDataForCloud(JSON.parse(JSON.stringify(keywordData[selectedSpeakerIndex])));
+    }
+  }
 
   useEffect(() => {
     setCurrentSpeakerIndex(selectedSpeakerIndex + 1);
   }, [selectedSpeakerIndex]);
-
-  function truncateValue(value: string) {
-    if (value.length > 7) {
-      return value.substring(0, 6) + "...";
-    }
-    return value;
-  }
 
   useEffect(() => {
     if (containerRef?.current?.current.offsetLeft === 0) {
       setDISPLAY_KEYWORD_COUNT(20);
     }
   }, [containerRef]);
-
-  let dataForCloud: any;
-
-  if (isDetailPage) {
-    dataForCloud =
-      selectedSpeakerIndex === -1
-        ? JSON.parse(
-            JSON.stringify(
-              getHighKeywords(currentKeywordCounts, 100)
-                .flat()
-                .sort((a, b) => Number(b.value) - Number(a.value))
-                .slice(0, 100)
-            )
-          )
-        : JSON.parse(JSON.stringify(getHighKeywords(currentKeywordCounts, 100)[selectedSpeakerIndex]));
-  }
 
   return (
     <>
@@ -135,7 +149,12 @@ const KeywordChartGraph = () => {
             tick={customTickColor}
           />
           <Tooltip contentStyle={graphTooltipStyle} />
-          <Bar dataKey="value" fill={setRotationColor(currentSpeakerIndex)} opacity={0.85} />
+          <Bar
+            dataKey="value"
+            fill={setRotationColor(currentSpeakerIndex)}
+            opacity={0.85}
+            animationDuration={300}
+          />
         </BarChart>
       </ResponsiveContainer>
     </>

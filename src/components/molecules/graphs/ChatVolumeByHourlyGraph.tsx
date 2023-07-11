@@ -44,6 +44,17 @@ const getMostValue = (array: any) => {
   );
 };
 
+const daysOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
+
+let selectedChatRoomData: any;
+let speakerNames: any;
+let speakerTotalChatTimes: Record<string, Record<string, Record<string, number>>>;
+
+let mostValues: number[];
+let graph: any[];
+
+let totalTimezoneData;
+
 const ChatVolumeByHourlyGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -60,72 +71,77 @@ const ChatVolumeByHourlyGraph = () => {
 
   const [scatter, setScatter] = useState<any>([]);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
-  const selectedChatRoomData = results[selectedChatRoomIndex];
-  const speakerNames = getSpeakers(results)[selectedChatRoomIndex];
-  speakerNames.unshift("전체");
-  const speakerTotalChatTimes: Record<string, Record<string, Record<string, number>>> = {};
 
-  Object.values(selectedChatRoomData).forEach((chatroom) => {
-    Object.values(chatroom).forEach((chat) => {
-      const speaker = chat.speaker;
-      const date = getDayIndex(chat.date);
-      if (!speakerTotalChatTimes[speaker]) {
-        speakerTotalChatTimes[speaker] = {};
-      }
-      if (!speakerTotalChatTimes[speaker][date]) {
-        speakerTotalChatTimes[speaker][date] = {};
-        for (let i = 0; i < 24; i++) {
-          speakerTotalChatTimes[speaker][date][i.toString()] = 0;
+  useEffect(() => {
+    setScatter([]);
+  }, [selectedChatRoomIndex]);
+
+  if (!scatter.length) {
+    selectedChatRoomData = results[selectedChatRoomIndex];
+    speakerNames = getSpeakers(results)[selectedChatRoomIndex];
+    speakerNames.unshift("전체");
+    speakerTotalChatTimes = {};
+
+    Object.values(selectedChatRoomData).forEach((chatroom: any) => {
+      Object.values(chatroom).forEach((chat: any) => {
+        const speaker = chat.speaker;
+        const date = getDayIndex(chat.date);
+        if (!speakerTotalChatTimes[speaker]) {
+          speakerTotalChatTimes[speaker] = {};
+        }
+        if (!speakerTotalChatTimes[speaker][date]) {
+          speakerTotalChatTimes[speaker][date] = {};
+          for (let i = 0; i < 24; i++) {
+            speakerTotalChatTimes[speaker][date][i.toString()] = 0;
+          }
+        }
+        const chatTimes = chat.chatTimes;
+        if (chatTimes) {
+          Object.keys(chatTimes).forEach((time) => {
+            const hour = parseInt(time.split(":")[0]);
+            speakerTotalChatTimes[speaker][date][hour] += chatTimes[time];
+          });
+        }
+      });
+    });
+
+    mostValues = [];
+    graph = [];
+    Object.entries(speakerTotalChatTimes).forEach((speaker: any) => {
+      const weekData: WeekData[] = [];
+
+      const timeDataOfWeek: ChatTimes = speaker[1];
+      const timeTable: any[] = Object.values(timeDataOfWeek);
+
+      daysOfWeek.forEach((day: string, index: number) => {
+        weekData.push({
+          day: day,
+          values: [],
+        });
+        const timeTableDay = timeTable[index];
+        for (const timeNumber in timeTableDay) {
+          weekData.at(-1)?.values.push({
+            hour: timeNumber,
+            value: timeTableDay[timeNumber],
+            index: 1,
+          });
+        }
+      });
+      graph.push(weekData);
+      mostValues.push(getMostValue(weekData));
+    });
+
+    totalTimezoneData = JSON.parse(JSON.stringify(graph[0]));
+    for (let i = 1; i < graph.length; i++) {
+      for (let j = 0; j < graph[i].length; j++) {
+        for (let k = 0; k < graph[i][j].values.length; k++) {
+          totalTimezoneData[j].values[k].value += graph[i][j].values[k].value;
         }
       }
-      const chatTimes = chat.chatTimes;
-      if (chatTimes) {
-        Object.keys(chatTimes).forEach((time) => {
-          const hour = parseInt(time.split(":")[0]);
-          speakerTotalChatTimes[speaker][date][hour] += chatTimes[time];
-        });
-      }
-    });
-  });
-
-  const daysOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
-
-  const mostValues: number[] = [];
-  let graph: any[] = [];
-  Object.entries(speakerTotalChatTimes).forEach((speaker: any) => {
-    const weekData: WeekData[] = [];
-
-    const timeDataOfWeek: ChatTimes = speaker[1];
-    const timeTable: any[] = Object.values(timeDataOfWeek);
-
-    daysOfWeek.forEach((day: string, index: number) => {
-      weekData.push({
-        day: day,
-        values: [],
-      });
-      const timeTableDay = timeTable[index];
-      for (const timeNumber in timeTableDay) {
-        weekData.at(-1)?.values.push({
-          hour: timeNumber,
-          value: timeTableDay[timeNumber],
-          index: 1,
-        });
-      }
-    });
-    graph.push(weekData);
-    mostValues.push(getMostValue(weekData));
-  });
-
-  const totalTimezoneData = JSON.parse(JSON.stringify(graph[0]));
-  for (let i = 1; i < graph.length; i++) {
-    for (let j = 0; j < graph[i].length; j++) {
-      for (let k = 0; k < graph[i][j].values.length; k++) {
-        totalTimezoneData[j].values[k].value += graph[i][j].values[k].value;
-      }
     }
+    mostValues.unshift(getMostValue(totalTimezoneData));
+    graph.unshift(totalTimezoneData);
   }
-  mostValues.unshift(getMostValue(totalTimezoneData));
-  graph.unshift(totalTimezoneData);
 
   useEffect(() => {
     setScatter(graph);
@@ -230,6 +246,7 @@ const ChatVolumeByHourlyGraph = () => {
                     );
                   }}
                   fill={setRotationColor(currentSpeakerIndex)}
+                  animationDuration={300}
                 />
               </ScatterChart>
             </ResponsiveContainer>

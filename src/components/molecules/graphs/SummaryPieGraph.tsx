@@ -114,6 +114,12 @@ export const getAverageReplyTime = (replyTimes: ReplyTime[][][]) => {
   return averageReplyTimeArray;
 };
 
+let speakers: string[][];
+let chatRoomNames: string[];
+let chatTimes: ChatTimes[][][];
+let totalChatCounts: number[];
+let pieGraphData: NameValuePair[] = [];
+
 const SummaryPieGraph = () => {
   const dispatch = useDispatch();
   const analyzedMessages = useSelector(
@@ -131,16 +137,18 @@ const SummaryPieGraph = () => {
     averageReplyTime: number[];
   } | null>(null);
 
-  const speakers: string[][] = getSpeakers(analyzedMessages);
-  const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
-  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
-  const pieGraphData: NameValuePair[] = chatRoomNames.map((name, index) => {
-    return {
-      name: name,
-      value: totalChatCounts[index],
-    };
-  });
+  if (!pieGraphData.length) {
+    speakers = getSpeakers(analyzedMessages);
+    chatRoomNames = getTwoLettersFromSpeakers(speakers);
+    chatTimes = getChatTimes(analyzedMessages);
+    totalChatCounts = getTotalChatCounts(chatTimes);
+    pieGraphData = chatRoomNames.map((name, index) => {
+      return {
+        name: name,
+        value: totalChatCounts[index],
+      };
+    });
+  }
 
   const mostChattedTimes: StringNumberTuple[][] = getMostChattedTimes(chatTimes);
   const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
@@ -183,47 +191,50 @@ const SummaryPieGraph = () => {
   // };
 
   return (
-    <Container>
-      {/* <ChatRoomIndexArrowBox></ChatRoomIndexArrowBox> */}
-      <ArrowIcon
-        onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}
-        fontSize="3rem"
-      >
-        <BiLeftArrowCircle />
-      </ArrowIcon>
-      <ResponsiveContainer width="100%" height={"100%"}>
-        <PieChart>
-          <Pie
-            data={pieGraphData}
-            cx={"50%"}
-            cy={"50%"}
-            innerRadius={0}
-            outerRadius={"100%"}
-            dataKey="value"
+    <>
+      {pieGraphData && (
+        <Container>
+          {/* <ChatRoomIndexArrowBox></ChatRoomIndexArrowBox> */}
+          <ArrowIcon
+            onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}
+            fontSize="3rem"
           >
-            {pieGraphData.map((_, index) => {
-              return (
-                <Cell
-                  key={`cell-${index}`}
-                  onClick={() => handleClickChatRoom(index)}
-                  fill={colorsForChatroomArray[index % colorsForChatroomArray.length]}
-                  stroke={selectedChatRoomIndex === index ? lightTheme.mainBlack : ""}
-                  strokeWidth={selectedChatRoomIndex === index ? 1 : 1}
-                  cursor="pointer"
-                />
-              );
-            })}
-          </Pie>
-          <Tooltip contentStyle={graphTooltipStyle} />
-        </PieChart>
-      </ResponsiveContainer>{" "}
-      <ArrowIcon
-        onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)}
-        fontSize="3rem"
-      >
-        <BiRightArrowCircle />
-      </ArrowIcon>
-      {/* 
+            <BiLeftArrowCircle />
+          </ArrowIcon>
+          <ResponsiveContainer width="100%" height={"100%"}>
+            <PieChart>
+              <Pie
+                data={pieGraphData}
+                cx={"50%"}
+                cy={"50%"}
+                innerRadius={0}
+                outerRadius={"100%"}
+                dataKey="value"
+                animationDuration={300}
+              >
+                {pieGraphData.map((_, index) => {
+                  return (
+                    <Cell
+                      key={`cell-${index}`}
+                      onClick={() => handleClickChatRoom(index)}
+                      fill={colorsForChatroomArray[index % colorsForChatroomArray.length]}
+                      stroke={selectedChatRoomIndex === index ? lightTheme.mainBlack : ""}
+                      strokeWidth={selectedChatRoomIndex === index ? 1 : 1}
+                      cursor="pointer"
+                    />
+                  );
+                })}
+              </Pie>
+              <Tooltip contentStyle={graphTooltipStyle} />
+            </PieChart>
+          </ResponsiveContainer>{" "}
+          <ArrowIcon
+            onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex + 1)}
+            fontSize="3rem"
+          >
+            <BiRightArrowCircle />
+          </ArrowIcon>
+          {/* 
       <ResponsiveContainer width="100%" height="100%">
         <BarChart layout="vertical" data={pieGraphData}>
           <XAxis type="number" />
@@ -239,7 +250,7 @@ const SummaryPieGraph = () => {
           </Bar>
         </BarChart>
       </ResponsiveContainer> */}
-      {/* {selectedChatRoomData && (
+          {/* {selectedChatRoomData && (
         <div>
           <GraphInformation unit={"총 대화 수"} value={selectedChatRoomData.totalChatCount.toString()} />
           <GraphInformation unit={"대화자"} value={selectedChatRoomData.speakers.join(",")} />
@@ -261,7 +272,9 @@ const SummaryPieGraph = () => {
           })}
         </div>
       )} */}
-    </Container>
+        </Container>
+      )}
+    </>
   );
 };
 

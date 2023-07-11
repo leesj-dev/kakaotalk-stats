@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
@@ -6,6 +6,11 @@ import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
 
 const COLORS = ["#FF414D", "#FF8991", "#F7ABB1"];
+
+let selectedChatRoomData;
+let speakerTotalChatCounts: Record<string, number> = {};
+let totalChatCount: any;
+let data: any;
 
 const ChatRatioGraph = () => {
   const results = useSelector(
@@ -15,26 +20,30 @@ const ChatRatioGraph = () => {
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
-  const selectedChatRoomData = results[selectedChatRoomIndex];
-  const speakerTotalChatCounts: Record<string, number> = {};
-  Object.values(selectedChatRoomData).forEach((chatroom) => {
-    Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
-      const speaker = chat.speaker;
-      if (!speakerTotalChatCounts[speaker]) {
-        speakerTotalChatCounts[speaker] = 0;
-      }
-      const chatTimes = chat.chatTimes;
-      const chatCounts = chatTimes ? Object.values(chatTimes) : [];
-      const totalChatCount = reduceAPlusB(chatCounts);
-      speakerTotalChatCounts[speaker] += Number(totalChatCount);
-    });
-  });
+  const [data, setData] = useState<any[]>([]);
 
-  const totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
-  const data = Object.entries(speakerTotalChatCounts).map(([name, value]) => ({
-    name,
-    value: Number(((value / totalChatCount) * 100).toFixed(0)),
-  }));
+  if (!data.length) {
+    selectedChatRoomData = results[selectedChatRoomIndex];
+    Object.values(selectedChatRoomData).forEach((chatroom) => {
+      Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
+        const speaker = chat.speaker;
+        if (!speakerTotalChatCounts[speaker]) {
+          speakerTotalChatCounts[speaker] = 0;
+        }
+        const chatTimes = chat.chatTimes;
+        const chatCounts = chatTimes ? Object.values(chatTimes) : [];
+        const totalChatCount = reduceAPlusB(chatCounts);
+        speakerTotalChatCounts[speaker] += Number(totalChatCount);
+      });
+    });
+
+    totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
+    const result = Object.entries(speakerTotalChatCounts).map(([name, value]) => ({
+      name,
+      value: Number(((value / totalChatCount) * 100).toFixed(0)),
+    }));
+    setData(result);
+  }
 
   return (
     <>
@@ -49,6 +58,7 @@ const ChatRatioGraph = () => {
             dataKey="value"
             labelLine
             // label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+            animationDuration={300}
           >
             {data.map((entry: any, index: number) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

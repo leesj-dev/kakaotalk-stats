@@ -153,6 +153,7 @@ const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProp
           outerRadius={oR}
           fill="#8884d8"
           stroke="none"
+          animationDuration={300}
         >
           {data.map((entry, index) => (
             <Cell
