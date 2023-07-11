@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
@@ -20,7 +20,9 @@ const ChatRatioGraph = () => {
     (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
   );
 
-  if (!data) {
+  const [data, setData] = useState<any[]>([]);
+
+  if (!data.length) {
     selectedChatRoomData = results[selectedChatRoomIndex];
     Object.values(selectedChatRoomData).forEach((chatroom) => {
       Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
@@ -36,10 +38,11 @@ const ChatRatioGraph = () => {
     });
 
     totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
-    data = Object.entries(speakerTotalChatCounts).map(([name, value]) => ({
+    const result = Object.entries(speakerTotalChatCounts).map(([name, value]) => ({
       name,
       value: Number(((value / totalChatCount) * 100).toFixed(0)),
     }));
+    setData(result);
   }
 
   return (
