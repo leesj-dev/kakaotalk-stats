@@ -75,6 +75,10 @@ interface ChatRatioWithArrowGraphProps {
   justifyContent?: string;
 }
 
+let selectedChatRoomData;
+let speakerTotalChatCounts: Record<string, number> = {};
+let totalChatCount: any;
+
 const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProps) => {
   const dispatch = useDispatch();
 
@@ -88,6 +92,7 @@ const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProp
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
+  const [data, setData] = useState<any[]>([]);
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
 
   const handleResize = () => {
@@ -104,26 +109,32 @@ const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProp
     iR = 25 * scale,
     oR = 50 * scale;
 
-  const selectedChatRoomData = results[selectedChatRoomIndex];
-  const speakerTotalChatCounts: Record<string, number> = {};
-  Object.values(selectedChatRoomData).forEach((chatroom) => {
-    Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
-      const speaker = chat.speaker;
-      if (!speakerTotalChatCounts[speaker]) {
-        speakerTotalChatCounts[speaker] = 0;
-      }
-      const chatTimes = chat.chatTimes;
-      const chatCounts = chatTimes ? Object.values(chatTimes) : [];
-      const totalChatCount = reduceAPlusB(chatCounts);
-      speakerTotalChatCounts[speaker] += Number(totalChatCount);
+  useEffect(() => {
+    setData([]);
+  }, [selectedChatRoomIndex]);
+
+  if (!data.length) {
+    selectedChatRoomData = results[selectedChatRoomIndex];
+    Object.values(selectedChatRoomData).forEach((chatroom) => {
+      Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
+        const speaker = chat.speaker;
+        if (!speakerTotalChatCounts[speaker]) {
+          speakerTotalChatCounts[speaker] = 0;
+        }
+        const chatTimes = chat.chatTimes;
+        const chatCounts = chatTimes ? Object.values(chatTimes) : [];
+        const totalChatCount = reduceAPlusB(chatCounts);
+        speakerTotalChatCounts[speaker] += Number(totalChatCount);
+      });
     });
-  });
-  const totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
-  const data = Object.entries(speakerTotalChatCounts).map(([name, value], index) => ({
-    name,
-    value: Number(((value / totalChatCount) * 100).toFixed(0)),
-    color: colorsForGraphArray[index % colorsForGraphArray.length],
-  }));
+    totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
+    const result = Object.entries(speakerTotalChatCounts).map(([name, value], index) => ({
+      name,
+      value: Number(((value / totalChatCount) * 100).toFixed(0)),
+      color: colorsForGraphArray[index % colorsForGraphArray.length],
+    }));
+    setData(result);
+  }
 
   let angle = getValueForAngle(data, selectedSpeakerIndex);
 
