@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Legend,
@@ -97,11 +97,8 @@ let averageReplyTime: number[][];
 let dates: string[][];
 let nfKeywordCountArray;
 let radarData: any[];
-let radarRankData: any;
 
 const ChatRoomCompareGraph = () => {
-  const [fontSize, setFontSize] = useState(15);
-
   const analyzedMessages = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
   );

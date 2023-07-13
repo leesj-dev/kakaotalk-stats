@@ -6,7 +6,6 @@ import { setSelectedOsIndex } from "../../../store/reducer/attachment/selectedOs
 import { AiFillWindows, AiFillApple, AiFillAndroid } from "react-icons/ai";
 import { SiIos } from "react-icons/si";
 import Icon from "../../atoms/Icon";
-import { lightTheme } from "../../../style/Theme";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 

@@ -234,19 +234,20 @@ interface Props {
   moveScrollPosition?: React.MutableRefObject<HTMLDivElement | null>;
 }
 
+const SLIDE_COUNT = 6; // 슬라이드 개수
+
 const FunctionCard = ({ moveScrollPosition }: Props) => {
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-  const slideCount = 6; // 슬라이드 개수
 
   const handleSlideChange = (direction: "next" | "prev") => {
     if (direction === "next") {
-      setActiveSlideIndex((prevIndex) => (prevIndex + 1) % slideCount);
+      setActiveSlideIndex((prevIndex) => (prevIndex + 1) % SLIDE_COUNT);
     } else if (direction === "prev") {
-      setActiveSlideIndex((prevIndex) => (prevIndex - 1 + slideCount) % slideCount);
+      setActiveSlideIndex((prevIndex) => (prevIndex - 1 + SLIDE_COUNT) % SLIDE_COUNT);
     }
   };
-
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
 
   return (
     <Container ref={moveScrollPosition}>

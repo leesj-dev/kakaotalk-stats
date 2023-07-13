@@ -1,7 +1,6 @@
 import React from "react";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import styled, { css } from "styled-components";
-import { darkTheme, lightTheme } from "../../../style/Theme";
 import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
 

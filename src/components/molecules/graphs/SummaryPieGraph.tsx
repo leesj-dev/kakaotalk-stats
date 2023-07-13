@@ -234,44 +234,6 @@ const SummaryPieGraph = () => {
           >
             <BiRightArrowCircle />
           </ArrowIcon>
-          {/* 
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart layout="vertical" data={pieGraphData}>
-          <XAxis type="number" />
-          <YAxis type="category" dataKey="name" />
-          <Bar dataKey="value" onClick={handleClick}>
-            {pieGraphData.map((entry, index) => (
-              <Cell
-                cursor="pointer"
-                fill={index === activeIndex ? "#82ca9d" : "#8884d8"}
-                key={`cell-${index}`}
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer> */}
-          {/* {selectedChatRoomData && (
-        <div>
-          <GraphInformation unit={"총 대화 수"} value={selectedChatRoomData.totalChatCount.toString()} />
-          <GraphInformation unit={"대화자"} value={selectedChatRoomData.speakers.join(",")} />
-
-          <GraphInformation unit={"대화자 수"} value={selectedChatRoomData.speakerCount.toString()} />
-          <GraphInformation
-            unit={"가장 많은 대화 시간대"}
-            value={`${selectedChatRoomData.mostChattedTimes[0][0]}시 대화수: 
-            ${selectedChatRoomData.mostChattedTimes[0][1]}개`}
-          />
-          {selectedChatRoomData.speakers.map((speaker: string, index: number) => {
-            return (
-              <GraphInformation
-                key={index}
-                unit={speaker}
-                value={`${selectedChatRoomData.averageReplyTime[index]}초`}
-              />
-            );
-          })}
-        </div>
-      )} */}
         </Container>
       )}
     </>

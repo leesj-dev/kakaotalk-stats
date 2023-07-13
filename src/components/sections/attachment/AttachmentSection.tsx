@@ -7,7 +7,6 @@ import FileDrop from "../../organisms/attachment/FileDrop";
 import {
   AnalyzedMessage,
   Chatroom,
-  ChatTimes,
   FileObject,
   MessageInfo,
   OriginMessageData,
@@ -205,9 +204,6 @@ const AttachmentSection = () => {
     return true;
   };
 
-  let timeStart: any;
-  let timeFinish: any;
-
   const handleClickAnalyzeButton = async () => {
     try {
       const analysisSuccess = await dispatchAnalyzedMessages(attachedFileList);
@@ -241,7 +237,6 @@ const AttachmentSection = () => {
    * @returns {Promise<AnalyzedMessage[][][]>} - 분석된 메시지 데이터 배열을 포함하는 프로미스 객체
    */
   const analyzeMessage = async (attachedFileList: FileObject[][], osIndex: number | null) => {
-    timeStart = new Date();
     setIsLoading(true);
     const analyzedMessages: MessageInfo[][] = await decodeTxtFileToMessageData(
       attachedFileList,
