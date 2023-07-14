@@ -74,6 +74,11 @@ const renderTooltipContent = (o: any) => {
   );
 };
 
+let chatSpeakers: any;
+let chatDates: any;
+let chatTimes: any;
+let isParentGraphContentBox: any;
+
 const ChatRateGraph = () => {
   const results = useSelector(
     (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
@@ -85,22 +90,25 @@ const ChatRateGraph = () => {
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  const [data, setData] = useState<StackBarData[]>([]);
-  const chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
-  const chatDates: string[] = getDates(results)[selectedChatRoomIndex];
-  const chatTimes: ChatTimes[][] = getChatTimes(results)[selectedChatRoomIndex];
-
   const parentRef = useRef<any>(null);
 
-  let isParentGraphContentBox;
+  const [data, setData] = useState<StackBarData[]>([]);
+
+  useEffect(() => {
+    setData([]);
+  }, [selectedChatRoomIndex]);
+
+  if (!data.length) {
+    chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
+    chatDates = getDates(results)[selectedChatRoomIndex];
+    chatTimes = getChatTimes(results)[selectedChatRoomIndex];
+    setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
+  }
+
   if (parentRef?.current?.current) {
     isParentGraphContentBox =
       parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
   }
-
-  useEffect(() => {
-    setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
-  }, [selectedChatRoomIndex]);
 
   return (
     <>
@@ -132,6 +140,7 @@ const ChatRateGraph = () => {
                 fillOpacity={
                   selectedSpeakerIndex === -1 ? 0.85 : selectedSpeakerIndex === index ? 1 : 0.4
                 }
+                animationDuration={300}
               />
             );
           })}
@@ -180,6 +189,7 @@ const ChatRateGraph = () => {
                       selectedSpeakerIndex === -1 ? 1 : selectedSpeakerIndex === index ? 1 : 0.4
                     }
                     style={{ transition: "ease-in-out 0.7s" }}
+                    animationDuration={300}
                   />
                 );
               })}
