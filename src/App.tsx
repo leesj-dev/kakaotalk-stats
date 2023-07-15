@@ -9,6 +9,8 @@ import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
 import Navigation from "./components/sections/navigation/Navigation";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 // const ThemeToggler = () => {
 //   const [theme, setTheme] = useState("light");
 //   const switchTheme = "light" === theme ? "dark" : "light";
@@ -23,6 +25,19 @@ import { useLocation } from "react-router-dom";
 function App() {
   const location = useLocation();
   const isDashboardPage = location.pathname === "/dashboard";
+
+  useEffect(() => {
+    const getApiTest = async () => {
+      const result = await axios.get("/api/test");
+      return console.log(result);
+    };
+
+    console.log("?????");
+    (async () => {
+      await getApiTest();
+    })();
+  }, []);
+
   return (
     <>
       <GlobalStyle />
