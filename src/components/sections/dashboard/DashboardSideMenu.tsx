@@ -22,7 +22,10 @@ const DashboardLayoutBox = styled(FlexColumnDiv)<{ isSideMenu?: Boolean }>`
   width: 15%;
   height: calc(100vh - 80px);
   background: var(--mainBackground);
-  transition: background 0.3s;
+
+  * {
+    transition: background 0.3s;
+  }
 
   @media (max-width: 1200px) {
     display: ${(props) => !props.isSideMenu && "none"};
@@ -37,7 +40,6 @@ const ChatroomMenuTitleBox = styled(FlexColumnDiv)`
   font-size: 18px;
   color: var(--mainText);
   letter-spacing: 0.05rem;
-  border-bottom: 1px solid var(--border);
   background: var(--dashboardMenuBackground);
 `;
 
