@@ -69,6 +69,9 @@
 
 
 ## 업데이트
+* [v0.1.4 - 23-07-15](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.1.4)
+  * 대시보드, 상세페이지 전환 속도 개선
+
 * [v0.1.3 - 23-07-09](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.1.3)
   * 첨부 결과가 0인 채팅방 자동으로 제외하는 기능 추가
   * 다크모드 변경 속도 개선
