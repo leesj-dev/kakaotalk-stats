@@ -2,10 +2,12 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.9.3",
     "axios": "^1.4.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^7.3.4",
     "react": "^18.2.0",
