@@ -2,10 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+require("dotenv").config({ path: "../.env" });
 
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGODB_URI;
+const mongoURI = process.env.MONGODB_CONNECTION;
 
 // MongoDB 연결 설정
 mongoose
