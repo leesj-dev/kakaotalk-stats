@@ -28,15 +28,16 @@ function App() {
 
   useEffect(() => {
     const getApiTest = async () => {
-      const result = await axios.post("/api/users", {
-        name: "test",
-        email: "test",
+      const result = await axios.post("/api/users/create", {
+        userId: "testId",
+        password: "testPassword",
+        nickname: "testNickname",
       });
       return console.log(result);
     };
 
     (async () => {
-      // await getApiTest();
+      await getApiTest();
     })();
   }, []);
 

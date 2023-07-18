@@ -5,10 +5,11 @@ const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 3000;
+const mongoURI = process.env.MONGODB_URI;
 
 // MongoDB 연결 설정
 mongoose
-  .connect("mongodb+srv://youngkmg:DyyWrOBZsnQztW9Z@kmg.z3cx8l5.mongodb.net/kmg", {
+  .connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -23,40 +24,38 @@ app.use(cors()); // CORS 미들웨어 추가
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../build")));
 
-// 사용자 모델 정의
+// user Schema를 정의합니다.
 const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
+  userId: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  nickname: { type: String, required: true, unique: true },
 });
 
+// user model을  class로 생성합니다.
 const User = mongoose.model("User", userSchema);
 
-// 새로운 사용자 생성
-app.post("/api/users", (req, res) => {
-  console.log(req);
-  const { name, email } = req.body;
-  const user = new User({ name, email });
+// user를 DB에 저장합니다.
+app.post("/api/users/create", (req, res) => {
+  const { userId, password, nickname } = req.body;
+  const newUser = new User({ userId, password, nickname });
 
-  user
+  newUser
     .save()
     .then(() => {
-      res.status(201).json("사용자가 생성되었습니다.");
+      // 회원 가입 성공
+      res.status(200).json({ message: "회원 가입이 완료되었습니다." });
     })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json("사용자 생성에 실패했습니다.");
-    });
-});
-
-// 모든 사용자 조회
-app.get("/api/users", (req, res) => {
-  User.find()
-    .then((users) => {
-      res.status(200).json(users);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json("사용자 조회에 실패했습니다.");
+    .catch((err) => {
+      // 중복된 아이디나 닉네임인 경우 처리
+      if (err.code === 11000) {
+        const key = Object.keys(err.keyValue)[0];
+        const value = err.keyValue[key];
+        console.error(err, `error[11000]: 중복된 아이디나 닉네임 에러`);
+        res.status(409).json({ error: `${key} '${value}'는 이미 사용 중입니다.` });
+      } else {
+        // 기타 오류 처리
+        res.status(500).json({ error: "회원 가입 중 오류가 발생했습니다." });
+      }
     });
 });
 
