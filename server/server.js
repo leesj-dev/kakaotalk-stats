@@ -4,12 +4,15 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config({ path: "../.env" });
 const { hashPassword } = require("./module/hashPassword/hashPassword");
-const { error } = require("console");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { authenticateToken } = require("./module/accessToken/authenticateToken");
+const { cleanUpExpiredTokens } = require("./module/accessToken/cleanUpExpiredTokens");
 
 const app = express();
 const port = process.env.PORT || 3000;
 const mongoURI = process.env.MONGODB_CONNECTION;
+const accessTokenSecretKey = process.env.ACCESS_TOKEN_SECRET_KEY;
 
 // MongoDB 연결 설정
 mongoose
@@ -27,12 +30,15 @@ mongoose
 app.use(cors()); // CORS 미들웨어 추가
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../build")));
+app.use("/api/protected", authenticateToken);
 
 // user Schema를 정의합니다.
 const userSchema = new mongoose.Schema({
   userId: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   nickname: { type: String, required: true, unique: true },
+  accessToken: { type: String },
+  tokenExpiresAt: { type: Date, required: true, index: { expireAfterSeconds: 0 } },
 });
 
 // user model을  class로 생성합니다.
@@ -75,19 +81,31 @@ app.post("/api/users/signin", async (req, res) => {
     }
 
     const isMatchedPassword = await bcrypt.compare(password, foundUserData.password);
-
     // 일치하지 않는 password
-    if (isMatchedPassword) {
+    if (!isMatchedPassword) {
       return res.status(401).json({ error: "비밀번호가 일치하지 않습니다." });
     }
 
     // 로그인 성공
-    res.status(200).json({ message: "로그인하였습니다." });
+    const accessToken = jwt.sign({ userId }, accessTokenSecretKey, { expiresIn: "2h" });
+    await User.updateOne(
+      { userId },
+      { $set: { token: accessToken, tokenExpiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000) } }
+    );
+    res.status(200).json({
+      message: "로그인되었습니다.",
+      data: {
+        accessToken,
+      },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "로그인 중 오류가 발생했습니다." });
   }
 });
+
+// 주기적으로 만료된 토큰 정리 작업 수행
+setInterval(cleanUpExpiredTokens, 24 * 60 * 60 * 1000); // 24시간마다 실행 (주기는 애플리케이션에 맞게 조정 가능)
 
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../build/index.html"));

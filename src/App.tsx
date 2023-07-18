@@ -27,7 +27,7 @@ function App() {
   const isDashboardPage = location.pathname === "/dashboard";
 
   useEffect(() => {
-    const getApiTest = async () => {
+    const createUserTest = async () => {
       const result = await axios.post("/api/users/create", {
         userId: "testId",
         password: "testPassword",
@@ -37,7 +37,20 @@ function App() {
     };
 
     (async () => {
-      await getApiTest();
+      await createUserTest();
+    })();
+
+    const signInTest = async () => {
+      const result = await axios.post("/api/users/signin", {
+        userId: "testId",
+        password: "testPassword",
+        nickname: "testNickname",
+      });
+      return console.log(result);
+    };
+
+    (async () => {
+      await signInTest();
     })();
   }, []);
 
