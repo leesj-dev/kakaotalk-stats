@@ -30,7 +30,7 @@ mongoose
 app.use(cors()); // CORS 미들웨어 추가
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../build")));
-app.use("/api/protected", authenticateToken);
+app.use("/api/protected", authenticateToken(accessTokenSecretKey));
 
 // user Schema를 정의합니다.
 const userSchema = new mongoose.Schema({
@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   nickname: { type: String, required: true, unique: true },
   accessToken: { type: String },
-  tokenExpiresAt: { type: Date, required: true, index: { expireAfterSeconds: 0 } },
+  tokenExpiresAt: { type: Date, index: { expireAfterSeconds: 0 } },
 });
 
 // user model을  class로 생성합니다.
@@ -59,7 +59,7 @@ app.post("/api/users/create", async (req, res) => {
       // 중복된 아이디 또는 닉네임
       const key = Object.keys(error.keyValue)[0];
       const value = error.keyValue[key];
-      console.error(error, `error[11000]: 중복된 아이디나 닉네임 에러`);
+      console.error(`error[11000]: 중복된 아이디나 닉네임 에러`);
       res.status(409).json({ error: `${key} '${value}'는 이미 사용 중입니다.` });
     } else {
       // 이외의 예상치 못한 오류
@@ -88,15 +88,14 @@ app.post("/api/users/signin", async (req, res) => {
 
     // 로그인 성공
     const accessToken = jwt.sign({ userId }, accessTokenSecretKey, { expiresIn: "2h" });
+
     await User.updateOne(
       { userId },
-      { $set: { token: accessToken, tokenExpiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000) } }
+      { $set: { accessToken, tokenExpiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000) } }
     );
     res.status(200).json({
       message: "로그인되었습니다.",
-      data: {
-        accessToken,
-      },
+      accessToken,
     });
   } catch (error) {
     console.error(error);
@@ -104,8 +103,16 @@ app.post("/api/users/signin", async (req, res) => {
   }
 });
 
+app.post("/api/protected/edit", (req, res) => {
+  // 인증된 사용자에게만 허용된 핸들러 로직
+  console.log("허용됨");
+  res.status(200).json({ message: "인증되었습니다." });
+});
+
 // 주기적으로 만료된 토큰 정리 작업 수행
-setInterval(cleanUpExpiredTokens, 24 * 60 * 60 * 1000); // 24시간마다 실행 (주기는 애플리케이션에 맞게 조정 가능)
+setInterval(() => {
+  cleanUpExpiredTokens(User);
+}, 2 * 60 * 60 * 1000);
 
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../build/index.html"));

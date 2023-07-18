@@ -9,7 +9,7 @@ import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
 import Navigation from "./components/sections/navigation/Navigation";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 // const ThemeToggler = () => {
 //   const [theme, setTheme] = useState("light");
@@ -23,6 +23,8 @@ import axios from "axios";
 // };
 
 function App() {
+  const [accessToken, setAccessToken] = useState<string>("");
+
   const location = useLocation();
   const isDashboardPage = location.pathname === "/dashboard";
 
@@ -39,13 +41,17 @@ function App() {
     (async () => {
       await createUserTest();
     })();
+  }, []);
 
+  useEffect(() => {
     const signInTest = async () => {
       const result = await axios.post("/api/users/signin", {
         userId: "testId",
         password: "testPassword",
         nickname: "testNickname",
       });
+      console.log(result.data.accessToken);
+      setAccessToken(result.data.accessToken);
       return console.log(result);
     };
 
@@ -53,6 +59,23 @@ function App() {
       await signInTest();
     })();
   }, []);
+
+  useEffect(() => {
+    const protectedUrlTest = async () => {
+      console.log(accessToken);
+      const result = await axios.post("/api/protected/edit", null, {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      });
+      console.log("????");
+      return console.log(result);
+    };
+
+    (async () => {
+      await protectedUrlTest();
+    })();
+  }, [accessToken]);
 
   return (
     <>

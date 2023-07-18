@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: "../../.env" });
 
 exports.authenticateToken = (accessTokenSecretKey) => (req, res, next) => {
   // 헤더에서 토큰 가져오기
