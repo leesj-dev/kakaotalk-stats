@@ -11,6 +11,7 @@ import Navigation from "./components/sections/navigation/Navigation";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import UserPage from "./components/pages/UserPage";
 // const ThemeToggler = () => {
 //   const [theme, setTheme] = useState("light");
 //   const switchTheme = "light" === theme ? "dark" : "light";
@@ -23,59 +24,8 @@ import axios from "axios";
 // };
 
 function App() {
-  const [accessToken, setAccessToken] = useState<string>("");
-
   const location = useLocation();
   const isDashboardPage = location.pathname === "/dashboard";
-
-  useEffect(() => {
-    const createUserTest = async () => {
-      const result = await axios.post("/api/users/create", {
-        userId: "testId",
-        password: "testPassword",
-        nickname: "testNickname",
-      });
-      return console.log(result);
-    };
-
-    (async () => {
-      await createUserTest();
-    })();
-  }, []);
-
-  useEffect(() => {
-    const signInTest = async () => {
-      const result = await axios.post("/api/users/signin", {
-        userId: "testId",
-        password: "testPassword",
-        nickname: "testNickname",
-      });
-      console.log(result.data.accessToken);
-      setAccessToken(result.data.accessToken);
-      return console.log(result);
-    };
-
-    (async () => {
-      await signInTest();
-    })();
-  }, []);
-
-  useEffect(() => {
-    const protectedUrlTest = async () => {
-      console.log(accessToken);
-      const result = await axios.post("/api/protected/edit", null, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      });
-      console.log("????");
-      return console.log(result);
-    };
-
-    (async () => {
-      await protectedUrlTest();
-    })();
-  }, [accessToken]);
 
   return (
     <>
@@ -86,6 +36,7 @@ function App() {
         <Routes>
           <Route path={"/"} element={<MainPage />} />
           <Route path={"/attachment"} element={<AttachmentPage />} />
+          <Route path={"/users"} element={<UserPage />} />
         </Routes>
         <Routes>
           <Route path={"/dashboard"} element={<DashboardPage />} />

@@ -72,6 +72,7 @@ app.post("/api/users/create", async (req, res) => {
 // 로그인 핸들러
 app.post("/api/users/signin", async (req, res) => {
   try {
+    console.log(req, "??");
     const { userId, password } = req.body;
     const foundUserData = await User.findOne({ userId });
 
@@ -88,6 +89,7 @@ app.post("/api/users/signin", async (req, res) => {
 
     // 로그인 성공
     const accessToken = jwt.sign({ userId }, accessTokenSecretKey, { expiresIn: "2h" });
+    const decodedAccessTokenData = jwt.decode(accessToken);
 
     await User.updateOne(
       { userId },
@@ -96,6 +98,7 @@ app.post("/api/users/signin", async (req, res) => {
     res.status(200).json({
       message: "로그인되었습니다.",
       accessToken,
+      decodedAccessTokenData,
     });
   } catch (error) {
     console.error(error);
@@ -106,6 +109,13 @@ app.post("/api/users/signin", async (req, res) => {
 app.post("/api/protected/edit", (req, res) => {
   // 인증된 사용자에게만 허용된 핸들러 로직
   console.log("허용됨");
+  res.status(200).json({ message: "인증되었습니다." });
+});
+
+//로그아웃
+app.post("/api/protected/users/signout", (req, res) => {
+  // 인증된 사용자에게만 허용된 핸들러 로직
+  console.log(req);
   res.status(200).json({ message: "인증되었습니다." });
 });
 

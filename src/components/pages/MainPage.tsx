@@ -4,6 +4,7 @@ import scrollToEvent from "../../module/common/scrollToEvent";
 import MainDescriptionSection from "../sections/main/MainDescriptionSection";
 import { FlexColumnCenterDiv } from "../atoms/FlexDiv";
 import MainVisual from "../sections/main/MainVisual";
+import UserPage from "./UserPage";
 
 const MainContainer = styled(FlexColumnCenterDiv)`
   padding: 70px 20px;
