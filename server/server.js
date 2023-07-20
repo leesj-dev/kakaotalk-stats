@@ -8,6 +8,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("./module/accessToken/authenticateToken");
 const { cleanUpExpiredTokens } = require("./module/accessToken/cleanUpExpiredTokens");
+const cookieParser = require("cookie-parser");
+const { verifyToken } = require("./module/accessToken/jwtVerifyToken");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,22 +29,26 @@ mongoose
     console.error("MongoDB 연결에 실패했습니다.", error);
   });
 
-app.use(cors()); // CORS 미들웨어 추가
-app.use(express.json());
-app.use(express.static(path.resolve(__dirname, "../build")));
-app.use("/api/protected", authenticateToken(accessTokenSecretKey));
+const kmgDB = mongoose;
 
 // user Schema를 정의합니다.
-const userSchema = new mongoose.Schema({
+const userSchema = new kmgDB.Schema({
   userId: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   nickname: { type: String, required: true, unique: true },
+  refreshToken: { type: String },
   accessToken: { type: String },
   tokenExpiresAt: { type: Date, index: { expireAfterSeconds: 0 } },
 });
 
 // user model을  class로 생성합니다.
-const User = mongoose.model("User", userSchema);
+const User = kmgDB.model("User", userSchema);
+
+app.use(cors()); // CORS 미들웨어 추가
+app.use(express.json());
+app.use(express.static(path.resolve(__dirname, "../build")));
+app.use("/api/protected", authenticateToken(accessTokenSecretKey, User));
+app.use(cookieParser());
 
 // 회원 가입 핸들러
 app.post("/api/users/create", async (req, res) => {
@@ -69,10 +75,33 @@ app.post("/api/users/create", async (req, res) => {
   }
 });
 
+app.post("/api/users/login");
+
 // 로그인 핸들러
-app.post("/api/users/signin", async (req, res) => {
+app.post("/api/users/login", async (req, res) => {
   try {
-    console.log(req, "??");
+    const requestedRefreshToken =
+      req.headers.cookie && req.headers.cookie.split("; ")[0].split("refreshToken=")[1];
+    const isValidRefreshToken = verifyToken(requestedRefreshToken, accessTokenSecretKey);
+
+    if (requestedRefreshToken) {
+      const dbUser = await User.findOne({ refreshToken: requestedRefreshToken });
+      const isMatchedRefreshToken = requestedRefreshToken === dbUser.refreshToken;
+      if (isValidRefreshToken && isMatchedRefreshToken) {
+        // 로그인 성공
+        const { userId } = jwt.decode(requestedRefreshToken, accessTokenSecretKey);
+
+        const accessToken = jwt.sign({ userId }, accessTokenSecretKey, {
+          expiresIn: "1h",
+          issuer: "young",
+        });
+        return res.status(200).json({
+          message: "자동로그인 되었습니다.",
+          accessToken,
+        });
+      }
+    }
+
     const { userId, password } = req.body;
     const foundUserData = await User.findOne({ userId });
 
@@ -88,17 +117,24 @@ app.post("/api/users/signin", async (req, res) => {
     }
 
     // 로그인 성공
-    const accessToken = jwt.sign({ userId }, accessTokenSecretKey, { expiresIn: "2h" });
-    const decodedAccessTokenData = jwt.decode(accessToken);
-
+    const refreshToken = jwt.sign({ userId }, accessTokenSecretKey, { expiresIn: "7d" });
     await User.updateOne(
       { userId },
-      { $set: { accessToken, tokenExpiresAt: new Date(Date.now() + 2 * 60 * 60 * 1000) } }
+      { $set: { refreshToken, tokenExpiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) } }
     );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    const accessToken = jwt.sign({ userId }, accessTokenSecretKey, {
+      expiresIn: "1h",
+      issuer: "young",
+    });
     res.status(200).json({
       message: "로그인되었습니다.",
       accessToken,
-      decodedAccessTokenData,
     });
   } catch (error) {
     console.error(error);
@@ -108,7 +144,6 @@ app.post("/api/users/signin", async (req, res) => {
 
 app.post("/api/protected/edit", (req, res) => {
   // 인증된 사용자에게만 허용된 핸들러 로직
-  console.log("허용됨");
   res.status(200).json({ message: "인증되었습니다." });
 });
 
@@ -122,7 +157,7 @@ app.post("/api/protected/users/signout", (req, res) => {
 // 주기적으로 만료된 토큰 정리 작업 수행
 setInterval(() => {
   cleanUpExpiredTokens(User);
-}, 2 * 60 * 60 * 1000);
+}, 10 * 60 * 1000);
 
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../build/index.html"));

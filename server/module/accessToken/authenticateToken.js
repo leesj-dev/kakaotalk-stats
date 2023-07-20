@@ -1,24 +1,44 @@
 const jwt = require("jsonwebtoken");
+const { verifyToken } = require("./jwtVerifyToken");
 
-exports.authenticateToken = (accessTokenSecretKey) => (req, res, next) => {
-  // 헤더에서 토큰 가져오기
-  const accessToken = req.headers.authorization;
+exports.authenticateToken = (accessTokenSecretKey, UsersCollection) => async (req, res, next) => {
+  try {
+    // 헤더에서 토큰 가져오기
+    const requestedRefreshToken =
+      req.headers.cookie && req.headers.cookie.split("; ")[0].split("refreshToken=")[1];
+    const requestedAccessToken =
+      req.headers.cookie && req.headers.cookie.split("; ")[1].split("accessToken=")[1];
+    console.log(requestedRefreshToken, "requestedRefreshToken");
+    console.log(requestedAccessToken, "requestedAccessToken");
 
-  // 토큰이 없는 경우
-  if (!accessToken) {
-    return res.status(401).json({ error: "토큰이 필요합니다." });
-  }
+    const isValidAccessToken = verifyToken(requestedAccessToken, accessTokenSecretKey);
+    const isValidRefreshToken = verifyToken(requestedRefreshToken, accessTokenSecretKey);
 
-  // 토큰 검증
-  jwt.verify(accessToken, accessTokenSecretKey, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ error: "유효하지 않은 토큰입니다." });
+    const dbUser = await UsersCollection.findOne({ refreshToken: requestedRefreshToken });
+    const isMatchedRefreshToken = requestedRefreshToken === dbUser.refreshToken;
+
+    // refreshToken이 유효하지 않은 경우 접근 불가
+    if (!isValidRefreshToken || !isMatchedRefreshToken) {
+      return res.status(401).json({ error: "접근불가: 리프레시 토큰이 유효하지 않습니다." });
     }
 
-    // 토큰이 유효한 경우, 요청 객체에 사용자 정보 추가
-    req.user = decoded.userId;
+    // accessToken이 유효하지 않은 경우 accessToken 재발급
+    const { userId } = jwt.decode(requestedAccessToken);
+    if (!isValidAccessToken) {
+      const newAccessToken = jwt.sign({ userId }, accessTokenSecretKey, {
+        expiresIn: "10s",
+        issuer: "youngjuhee",
+      });
+      return res.status(200).json({
+        message: "새로운 accessToken이 발급되었습니다.",
+        requestedAccessToken: newAccessToken,
+      });
+    }
 
-    // 다음 미들웨어로 이동
+    // 유효한 accessToken을 소유한 경우
     next();
-  });
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ error: "접근불가: 토큰이 유효하지 않습니다." });
+  }
 };

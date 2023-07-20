@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const FormContainer = styled.div`
@@ -44,21 +44,24 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const SignInForm = () => {
+const LogInForm = () => {
+  const [accessToken, setAccessToken] = useState<string>("");
+
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-
-  const [accessToken, setAccessToken] = useState<string>("");
 
   const signInTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const result = await axios.post("/api/users/signin", {
+      const result = await axios.post("/api/users/login", {
         userId,
         password,
       });
-      setAccessToken(result.data.accessToken);
-      return console.log(result);
+      console.log(result.data.accessToken, "login");
+      const accessToken = result.data.accessToken;
+      document.cookie = `accessToken=${accessToken}; max-age=${1 * 60 * 60}; path=/`;
+
+      return setAccessToken(accessToken);
     } catch (error) {
       console.error(error);
     }
@@ -67,12 +70,7 @@ const SignInForm = () => {
   const protectedUrlTest = async (e: any) => {
     e.preventDefault();
     try {
-      const result = await axios.post("/api/protected/edit", null, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      });
-      console.log("허용됨");
+      const result = await axios.post("/api/protected/edit", null);
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -94,4 +92,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default LogInForm;

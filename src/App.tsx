@@ -9,23 +9,23 @@ import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
 import Navigation from "./components/sections/navigation/Navigation";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import UserPage from "./components/pages/UserPage";
-// const ThemeToggler = () => {
-//   const [theme, setTheme] = useState("light");
-//   const switchTheme = "light" === theme ? "dark" : "light";
-
-//   useEffect(() => {
-//     document.body.dataset.theme = theme;
-//   }, [theme]);
-
-//   return <Dddd onClick={() => setTheme(switchTheme)}>테마 변경</Dddd>;
-// };
 
 function App() {
   const location = useLocation();
   const isDashboardPage = location.pathname === "/dashboard";
+
+  useEffect(() => {
+    const cookieCheckForRememberLogin = async () => {
+      const result = await axios.post("/api/users/login", null);
+      const { accessToken } = result.data;
+      document.cookie = `accessToken=${accessToken}; max-age=${1 * 60 * 60}; path=/`;
+      return console.log(result.data);
+    };
+    (async () => cookieCheckForRememberLogin())();
+  }, []);
 
   return (
     <>

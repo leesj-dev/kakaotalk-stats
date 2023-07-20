@@ -4,7 +4,7 @@ exports.cleanUpExpiredTokens = async (User) => {
     const currentDate = new Date();
     await User.updateMany(
       { tokenExpiresAt: { $lt: currentDate } },
-      { $unset: { tokenExpiresAt: "", accessToken: "" } }
+      { $unset: { tokenExpiresAt: "", refreshToken: "" } }
     );
 
     console.log("만료된 토큰 정리 완료");
