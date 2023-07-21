@@ -5,7 +5,7 @@ import { getTokenFromCookie } from "../../../module/common/getTokenFromCookie";
 import { UserData } from "./WithdrawButton";
 
 const FormContainer = styled.div`
-  background-color: #f2f2f2;
+  background: #f2f2f2;
   padding: 20px;
   border-radius: 5px;
 `;
@@ -38,12 +38,16 @@ const Input = styled.input`
 const Button = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #4caf50;
+  background: #4caf50;
   color: white;
   border: none;
   border-radius: 3px;
   font-size: 1.7rem;
   cursor: pointer;
+
+  &:hover {
+    background: #26942a;
+  }
 `;
 
 interface accessTokenProps {

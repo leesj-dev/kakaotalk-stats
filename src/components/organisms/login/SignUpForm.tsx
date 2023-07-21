@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const FormContainer = styled.div`
-  background-color: #f2f2f2;
+  background: #f2f2f2;
   padding: 2rem;
   border-radius: 5px;
 `;
@@ -36,12 +36,16 @@ const Input = styled.input`
 const Button = styled.button`
   width: 100%;
   padding: 1rem;
-  background-color: #4caf50;
+  background: #4caf50;
   color: white;
   border: none;
   border-radius: 3px;
   font-size: 1.7rem;
   cursor: pointer;
+
+  &:hover {
+    background: #26942a;
+  }
 `;
 
 const SignUpForm = () => {

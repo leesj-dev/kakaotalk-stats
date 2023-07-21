@@ -12,10 +12,15 @@ const Button = styled.button`
   width: 100%;
   padding: 1rem 2rem;
   font-size: 2rem;
-  background-color: #4caf50;
+  background: #4caf50;
   color: white;
   border-radius: 3px;
   border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: #26942a;
+  }
 `;
 
 interface LogOutButtonProps {
