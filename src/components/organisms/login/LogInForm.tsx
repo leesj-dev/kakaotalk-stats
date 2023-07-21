@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const FormContainer = styled.div`
@@ -45,8 +45,6 @@ const Button = styled.button`
 `;
 
 const LogInForm = () => {
-  const [accessToken, setAccessToken] = useState<string>("");
-
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
@@ -57,11 +55,10 @@ const LogInForm = () => {
         userId,
         password,
       });
-      console.log(result.data.accessToken, "login");
       const accessToken = result.data.accessToken;
       document.cookie = `accessToken=${accessToken}; max-age=${1 * 60 * 60}; path=/`;
 
-      return setAccessToken(accessToken);
+      return console.log(result);
     } catch (error) {
       console.error(error);
     }

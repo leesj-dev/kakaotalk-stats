@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const FormContainer = styled.div`
   background-color: #f2f2f2;
-  padding: 20px;
+  padding: 2rem;
   border-radius: 5px;
 `;
 
@@ -15,7 +15,7 @@ const FormTitle = styled.h2`
 `;
 
 const FormGroup = styled.form`
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 `;
 
 const Label = styled.label`
@@ -35,7 +35,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   width: 100%;
-  padding: 10px;
+  padding: 1rem;
   background-color: #4caf50;
   color: white;
   border: none;

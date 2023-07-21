@@ -1,15 +1,12 @@
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("./jwtVerifyToken");
+const { getTokenFromCookie } = require("./getTokenFromCookie");
 
 exports.authenticateToken = (accessTokenSecretKey, UsersCollection) => async (req, res, next) => {
   try {
     // 헤더에서 토큰 가져오기
-    const requestedRefreshToken =
-      req.headers.cookie && req.headers.cookie.split("; ")[0].split("refreshToken=")[1];
-    const requestedAccessToken =
-      req.headers.cookie && req.headers.cookie.split("; ")[1].split("accessToken=")[1];
-    console.log(requestedRefreshToken, "requestedRefreshToken");
-    console.log(requestedAccessToken, "requestedAccessToken");
+    const requestedRefreshToken = getTokenFromCookie(req, res, "refreshToken");
+    const requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
 
     const isValidAccessToken = verifyToken(requestedAccessToken, accessTokenSecretKey);
     const isValidRefreshToken = verifyToken(requestedRefreshToken, accessTokenSecretKey);

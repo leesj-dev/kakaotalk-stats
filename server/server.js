@@ -10,6 +10,7 @@ const { authenticateToken } = require("./module/accessToken/authenticateToken");
 const { cleanUpExpiredTokens } = require("./module/accessToken/cleanUpExpiredTokens");
 const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./module/accessToken/jwtVerifyToken");
+const { getTokenFromCookie } = require("./module/accessToken/getTokenFromCookie");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,7 +29,6 @@ mongoose
   .catch((error) => {
     console.error("MongoDB 연결에 실패했습니다.", error);
   });
-
 const kmgDB = mongoose;
 
 // user Schema를 정의합니다.
@@ -44,7 +44,8 @@ const userSchema = new kmgDB.Schema({
 // user model을  class로 생성합니다.
 const User = kmgDB.model("User", userSchema);
 
-app.use(cors()); // CORS 미들웨어 추가
+// 미들웨어
+app.use(cors());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../build")));
 app.use("/api/protected", authenticateToken(accessTokenSecretKey, User));
@@ -62,7 +63,7 @@ app.post("/api/users/create", async (req, res) => {
     res.status(200).json({ message: "회원 가입이 완료되었습니다." });
   } catch (error) {
     if (error.code === 11000) {
-      // 중복된 아이디 또는 닉네임
+      // 중복된 아이디 또는 닉네임 오류
       const key = Object.keys(error.keyValue)[0];
       const value = error.keyValue[key];
       console.error(`error[11000]: 중복된 아이디나 닉네임 에러`);
@@ -80,38 +81,40 @@ app.post("/api/users/login");
 // 로그인 핸들러
 app.post("/api/users/login", async (req, res) => {
   try {
-    const requestedRefreshToken =
-      req.headers.cookie && req.headers.cookie.split("; ")[0].split("refreshToken=")[1];
+    const requestedRefreshToken = getTokenFromCookie(req, res, "refreshToken");
     const isValidRefreshToken = verifyToken(requestedRefreshToken, accessTokenSecretKey);
 
+    // 유효한 requestedRefreshToken을 가지고 있는 경우 자동 로그인
     if (requestedRefreshToken) {
-      const dbUser = await User.findOne({ refreshToken: requestedRefreshToken });
-      const isMatchedRefreshToken = requestedRefreshToken === dbUser.refreshToken;
+      const userData = await User.findOne({ refreshToken: requestedRefreshToken });
+      const isMatchedRefreshToken = requestedRefreshToken === userData.refreshToken;
       if (isValidRefreshToken && isMatchedRefreshToken) {
-        // 로그인 성공
         const { userId } = jwt.decode(requestedRefreshToken, accessTokenSecretKey);
-
         const accessToken = jwt.sign({ userId }, accessTokenSecretKey, {
           expiresIn: "1h",
           issuer: "young",
         });
         return res.status(200).json({
-          message: "자동로그인 되었습니다.",
+          message: "로그인 되었습니다.",
           accessToken,
+          data: {
+            userId,
+            nickname: userData.nickname,
+          },
         });
       }
     }
 
     const { userId, password } = req.body;
-    const foundUserData = await User.findOne({ userId });
+    const userData = await User.findOne({ userId });
 
     // 존재하지 않는 userId
-    if (!foundUserData) {
+    if (!userData) {
       return res.status(401).json({ error: "존재하지 않는 ID입니다." });
     }
 
-    const isMatchedPassword = await bcrypt.compare(password, foundUserData.password);
     // 일치하지 않는 password
+    const isMatchedPassword = await bcrypt.compare(password, userData.password);
     if (!isMatchedPassword) {
       return res.status(401).json({ error: "비밀번호가 일치하지 않습니다." });
     }
@@ -122,6 +125,7 @@ app.post("/api/users/login", async (req, res) => {
       { userId },
       { $set: { refreshToken, tokenExpiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) } }
     );
+    // refreshToken 발급
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
@@ -135,6 +139,10 @@ app.post("/api/users/login", async (req, res) => {
     res.status(200).json({
       message: "로그인되었습니다.",
       accessToken,
+      data: {
+        userId,
+        nickname: userData.nickname,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -143,15 +151,30 @@ app.post("/api/users/login", async (req, res) => {
 });
 
 app.post("/api/protected/edit", (req, res) => {
-  // 인증된 사용자에게만 허용된 핸들러 로직
-  res.status(200).json({ message: "인증되었습니다." });
+  // 인증된 클라이언트에게만 허용된 핸들러 로직
+  res.status(200).json({ message: "인증 되었습니다." });
 });
 
 //로그아웃
-app.post("/api/protected/users/signout", (req, res) => {
-  // 인증된 사용자에게만 허용된 핸들러 로직
-  console.log(req);
-  res.status(200).json({ message: "인증되었습니다." });
+app.post("/api/protected/users/signout", async (req, res) => {
+  try {
+    const refreshToken = getTokenFromCookie(req, res, "refreshToken");
+
+    // 클라이언트의 db에 존재하는 refreshToken 데이터 초기화
+    await User.updateOne(
+      { refreshToken },
+      {
+        $set: { tokenExpiresAt: "", refreshToken: "" },
+      }
+    );
+
+    // 클라이언트 쿠키 정리
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    res.status(200).json({ message: "로그아웃 되었습니다." });
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 // 주기적으로 만료된 토큰 정리 작업 수행
