@@ -3,7 +3,7 @@ const { verifyToken } = require("./jwtVerifyToken");
 const { getTokenFromCookie } = require("./getTokenFromCookie");
 
 exports.authenticateToken = (accessTokenSecretKey, UserModel) => async (req, res, next) => {
-  console.log(req.path);
+  console.log(req.path, "토큰 인증시도");
   try {
     const requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
     // accessToken을 소유한 경우

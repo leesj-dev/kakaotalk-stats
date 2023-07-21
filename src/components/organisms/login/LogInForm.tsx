@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { getTokenFromCookie } from "../../../module/common/getTokenFromCookie";
+import { UserData } from "./WithdrawButton";
 
 const FormContainer = styled.div`
   background-color: #f2f2f2;
@@ -45,11 +46,14 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const LogInForm = () => {
+interface accessTokenProps {
+  userData: UserData | null;
+  setUserData: (accessToken: UserData | null) => void;
+}
+
+const LogInForm = ({ userData, setUserData }: accessTokenProps) => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-
-  const [accessToken, setUserData] = useState<string>("");
 
   const signInTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,9 +63,8 @@ const LogInForm = () => {
         password,
       });
 
-      const accessToken = getTokenFromCookie(document.cookie);
-      setUserData(accessToken);
-
+      console.log(result.data, "result.data");
+      setUserData(result.data.data);
       return console.log(result);
     } catch (error) {
       console.error(error);

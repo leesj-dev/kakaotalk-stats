@@ -201,6 +201,32 @@ app.post("/api/protected/users/signout", async (req, res) => {
   }
 });
 
+//회원 탈퇴
+app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
+  console.log(req.path);
+  try {
+    const requestedUserId = req.params.userId;
+    console.log(`회원탈퇴 시도 - ID: [${requestedUserId}]`);
+    const accessToken = getTokenFromCookie(req, res, "accessToken");
+    const decodedUserId = jwt.decode(accessToken, accessTokenSecretKey).userId;
+
+    const isMatchedUserId = requestedUserId === decodedUserId;
+    if (isMatchedUserId) {
+      const { userId } = await User.findOne({ userId: requestedUserId });
+      // db에 존재하는 user 데이터 삭제
+      await User.deleteOne({ userId });
+    }
+
+    // 클라이언트 쿠키 정리
+    res.clearCookie("accessToken");
+    console.log(`회원탈퇴 성공 - ID: [${requestedUserId}]`);
+    res.status(200).json({ message: `${requestedUserId}님의 회원탈퇴가 완료되었습니다.` });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "회원탈퇴 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
 // 주기적으로 만료된 토큰 정리 작업 수행
 setInterval(() => {
   cleanUpExpiredTokens(User);

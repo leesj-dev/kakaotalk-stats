@@ -1,37 +1,42 @@
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
+import { UserData } from "./WithdrawButton";
 
-const LogOutContainer = styled.div``;
+const LogOutContainer = styled.div`
+  padding: 2rem;
+  background: #f2f2f2;
+`;
 
 const Button = styled.button`
   width: 100%;
   padding: 1rem 2rem;
-  border-radius: 3px;
+  font-size: 2rem;
   background-color: #4caf50;
   color: white;
+  border-radius: 3px;
   border: none;
 `;
 
 interface LogOutButtonProps {
-  userData: string;
-  setUserData: (userData: string) => void;
+  userData: UserData;
+  setUserData: (userData: UserData | null) => void;
 }
 
 const LogOutButton = ({ userData, setUserData }: LogOutButtonProps) => {
-  const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickLogoutButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       const result = await axios.post("/api/protected/users/signout", null);
-      setUserData("");
+      setUserData(null);
       return console.log(result);
     } catch (error) {
       console.error(error);
     }
   };
   return (
-    <LogOutContainer style={{ fontSize: "2rem", padding: "1rem" }}>
-      <Button onClick={(e) => handleLogout(e)}>로그아웃</Button>
+    <LogOutContainer>
+      <Button onClick={(e) => handleClickLogoutButton(e)}>로그아웃</Button>
     </LogOutContainer>
   );
 };

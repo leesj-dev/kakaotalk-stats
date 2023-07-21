@@ -4,6 +4,7 @@ import styled from "styled-components";
 import SignUpForm from "../organisms/login/SignUpForm";
 import LogInForm from "../organisms/login/LogInForm";
 import LogOutButton from "../organisms/login/LogOutButton";
+import WithdrawButton, { UserData } from "../organisms/login/WithdrawButton";
 
 const UserPageContainer = styled.div`
   display: flex;
@@ -14,8 +15,8 @@ const UserPageContainer = styled.div`
 `;
 
 interface accessTokenProps {
-  userData: string;
-  setUserData: (accessToken: string) => void;
+  userData: UserData | null;
+  setUserData: (accessToken: UserData | null) => void;
 }
 
 const UserPage = ({ userData, setUserData }: accessTokenProps) => {
@@ -26,11 +27,14 @@ const UserPage = ({ userData, setUserData }: accessTokenProps) => {
   return (
     <UserPageContainer>
       {userData ? (
-        <LogOutButton userData={userData} setUserData={setUserData} />
+        <>
+          <LogOutButton userData={userData} setUserData={setUserData} />
+          <WithdrawButton userData={userData} setUserData={setUserData} />
+        </>
       ) : (
         <>
           <SignUpForm />
-          <LogInForm />
+          <LogInForm userData={userData} setUserData={setUserData} />
         </>
       )}
     </UserPageContainer>

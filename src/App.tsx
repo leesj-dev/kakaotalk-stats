@@ -13,20 +13,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import UserPage from "./components/pages/UserPage";
 import { getTokenFromCookie } from "./module/common/getTokenFromCookie";
+import { UserData } from "./components/organisms/login/WithdrawButton";
 
 function App() {
   const location = useLocation();
   const isDashboardPage = location.pathname === "/dashboard";
 
-  const [userData, setUserData] = useState<string>("");
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
     const cookieCheckForRememberLogin = async () => {
       const accessToken = getTokenFromCookie(document.cookie);
       if (accessToken) {
         const result = await axios.post("/api/users/login", null);
-        setUserData(result.data);
-        return console.log(result.data);
+        return setUserData(result.data.data);
       }
     };
     (async () => cookieCheckForRememberLogin())();
