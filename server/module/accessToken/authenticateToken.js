@@ -2,38 +2,61 @@ const jwt = require("jsonwebtoken");
 const { verifyToken } = require("./jwtVerifyToken");
 const { getTokenFromCookie } = require("./getTokenFromCookie");
 
-exports.authenticateToken = (accessTokenSecretKey, UsersCollection) => async (req, res, next) => {
+exports.authenticateToken = (accessTokenSecretKey, UserModel) => async (req, res, next) => {
+  console.log(req.path);
   try {
-    // 헤더에서 토큰 가져오기
-    const requestedRefreshToken = getTokenFromCookie(req, res, "refreshToken");
     const requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
-
+    // accessToken을 소유한 경우
     const isValidAccessToken = verifyToken(requestedAccessToken, accessTokenSecretKey);
-    const isValidRefreshToken = verifyToken(requestedRefreshToken, accessTokenSecretKey);
+    const decodedToken = jwt.decode(requestedAccessToken, accessTokenSecretKey);
+    const requestedUserId = decodedToken.userId;
+    const requestedUser = await UserModel.findOne({ userId: requestedUserId });
+    const isValidRefreshToken = verifyToken(requestedUser.refreshToken, accessTokenSecretKey);
 
-    const dbUser = await UsersCollection.findOne({ refreshToken: requestedRefreshToken });
-    const isMatchedRefreshToken = requestedRefreshToken === dbUser.refreshToken;
-
-    // refreshToken이 유효하지 않은 경우 접근 불가
-    if (!isValidRefreshToken || !isMatchedRefreshToken) {
-      return res.status(401).json({ error: "접근불가: 리프레시 토큰이 유효하지 않습니다." });
+    // 유효하지 않은 토큰이거나 로그인 기간이 만료된 경우
+    if (!isValidAccessToken && !isValidRefreshToken) {
+      console.log(
+        "isValidAccessToken:",
+        isValidAccessToken,
+        "isValidRefreshToken",
+        isValidRefreshToken,
+        "토큰 만료"
+      );
+      res.clearCookie("accessToken");
+      // res.status(409).json({ error: "로그인 기간 만료" });
+      return next();
     }
 
-    // accessToken이 유효하지 않은 경우 accessToken 재발급
-    const { userId } = jwt.decode(requestedAccessToken);
-    if (!isValidAccessToken) {
-      const newAccessToken = jwt.sign({ userId }, accessTokenSecretKey, {
+    // accessToken이 만료되었지만 유효한 refreshToken을 가지고 있는 경우 newAccessToken 발급
+    if (!isValidAccessToken && isValidRefreshToken) {
+      console.log(
+        "isValidAccessToken:",
+        isValidAccessToken,
+        "isValidRefreshToken",
+        isValidRefreshToken,
+        "토큰 재발급"
+      );
+      // newAccessToken 발급
+      const accessToken = jwt.sign({ userId: requestedUserId }, accessTokenSecretKey, {
         expiresIn: "10s",
-        issuer: "youngjuhee",
+        issuer: "young",
       });
-      return res.status(200).json({
-        message: "새로운 accessToken이 발급되었습니다.",
-        requestedAccessToken: newAccessToken,
-      });
+      res.cookie("accessToken", accessToken);
     }
 
-    // 유효한 accessToken을 소유한 경우
-    next();
+    // 다음 미들웨어로 유효한 accessToken을 소유한 user의 데이터 전달
+    res.locals.userData = {
+      userId: requestedUser.userId,
+      nickname: requestedUser.nickname,
+    };
+    console.log(
+      "isValidAccessToken:",
+      isValidAccessToken,
+      "isValidRefreshToken",
+      isValidRefreshToken,
+      "유효한 토큰"
+    );
+    return next();
   } catch (error) {
     console.error(error);
     return res.status(401).json({ error: "접근불가: 토큰이 유효하지 않습니다." });

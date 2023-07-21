@@ -14,16 +14,16 @@ const Button = styled.button`
 `;
 
 interface LogOutButtonProps {
-  accessToken: string;
-  setAccessToken: (accessToken: string) => void;
+  userData: string;
+  setUserData: (userData: string) => void;
 }
 
-const LogOutButton = ({ accessToken, setAccessToken }: LogOutButtonProps) => {
+const LogOutButton = ({ userData, setUserData }: LogOutButtonProps) => {
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       const result = await axios.post("/api/protected/users/signout", null);
-      setAccessToken("");
+      setUserData("");
       return console.log(result);
     } catch (error) {
       console.error(error);

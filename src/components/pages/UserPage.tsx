@@ -13,21 +13,20 @@ const UserPageContainer = styled.div`
   height: 70vh;
 `;
 
-const UserPage = () => {
-  const [accessToken, setAccessToken] = useState<string>("");
+interface accessTokenProps {
+  userData: string;
+  setUserData: (accessToken: string) => void;
+}
 
+const UserPage = ({ userData, setUserData }: accessTokenProps) => {
   useEffect(() => {
-    const accessToken = document.cookie.split("accessToken=")[1];
-    console.log(document.cookie);
-    setAccessToken(accessToken);
-  }, []);
-
-  useEffect(() => {}, [accessToken]);
+    console.log(userData);
+  }, [userData]);
 
   return (
     <UserPageContainer>
-      {accessToken ? (
-        <LogOutButton accessToken={accessToken} setAccessToken={setAccessToken} />
+      {userData ? (
+        <LogOutButton userData={userData} setUserData={setUserData} />
       ) : (
         <>
           <SignUpForm />

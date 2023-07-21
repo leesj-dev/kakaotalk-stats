@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { getTokenFromCookie } from "../../../module/common/getTokenFromCookie";
 
 const FormContainer = styled.div`
   background-color: #f2f2f2;
@@ -48,6 +49,8 @@ const LogInForm = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
+  const [accessToken, setUserData] = useState<string>("");
+
   const signInTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -55,8 +58,9 @@ const LogInForm = () => {
         userId,
         password,
       });
-      const accessToken = result.data.accessToken;
-      document.cookie = `accessToken=${accessToken}; max-age=${1 * 60 * 60}; path=/`;
+
+      const accessToken = getTokenFromCookie(document.cookie);
+      setUserData(accessToken);
 
       return console.log(result);
     } catch (error) {

@@ -16,7 +16,7 @@ exports.getTokenFromCookie = (req, res, token) => {
         .split("; ")
         .find((cookieData) => cookieData.slice(0, 13).includes(tokenForm))
         .split(tokenForm)[1];
-    return tokenResult;
+    return tokenResult ? tokenResult : "";
   } catch (error) {
     console.error(error);
     return res.status(401).json({ error: "접근불가: 토큰이 유효하지 않습니다." });

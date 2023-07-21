@@ -9,23 +9,32 @@ import Wrapper from "./components/wrapper/Wrapper";
 import GlobalStyle from "./style/GlobalStyles";
 import Navigation from "./components/sections/navigation/Navigation";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import UserPage from "./components/pages/UserPage";
+import { getTokenFromCookie } from "./module/common/getTokenFromCookie";
 
 function App() {
   const location = useLocation();
   const isDashboardPage = location.pathname === "/dashboard";
 
+  const [userData, setUserData] = useState<string>("");
+
   useEffect(() => {
     const cookieCheckForRememberLogin = async () => {
-      const result = await axios.post("/api/users/login", null);
-      const { accessToken } = result.data;
-      document.cookie = `accessToken=${accessToken}; max-age=${1 * 60 * 60}; path=/`;
-      return console.log(result.data);
+      const accessToken = getTokenFromCookie(document.cookie);
+      if (accessToken) {
+        const result = await axios.post("/api/users/login", null);
+        setUserData(result.data);
+        return console.log(result.data);
+      }
     };
     (async () => cookieCheckForRememberLogin())();
   }, []);
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   return (
     <>
@@ -36,7 +45,7 @@ function App() {
         <Routes>
           <Route path={"/"} element={<MainPage />} />
           <Route path={"/attachment"} element={<AttachmentPage />} />
-          <Route path={"/users"} element={<UserPage />} />
+          <Route path={"/users"} element={<UserPage userData={userData} setUserData={setUserData} />} />
         </Routes>
         <Routes>
           <Route path={"/dashboard"} element={<DashboardPage />} />
