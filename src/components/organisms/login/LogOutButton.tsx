@@ -24,7 +24,7 @@ const Button = styled.button`
 `;
 
 interface LogOutButtonProps {
-  userData: UserData;
+  userData: UserData | null;
   setUserData: (userData: UserData | null) => void;
 }
 

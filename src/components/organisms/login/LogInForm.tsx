@@ -58,13 +58,19 @@ interface accessTokenProps {
 const LogInForm = ({ userData, setUserData }: accessTokenProps) => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
 
-  const signInTest = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleClickRememberMe = () => {
+    setIsRememberMe(!isRememberMe);
+  };
+
+  const logInTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const result = await axios.post("/api/users/login", {
         userId,
         password,
+        isRememberMe,
       });
 
       console.log(result.data, "result.data");
@@ -88,11 +94,13 @@ const LogInForm = ({ userData, setUserData }: accessTokenProps) => {
   return (
     <FormContainer>
       <FormTitle>로그인</FormTitle>
-      <FormGroup onSubmit={(e) => signInTest(e)}>
+      <FormGroup onSubmit={(e) => logInTest(e)}>
         <Label>아이디</Label>
         <Input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} />
         <Label>비밀번호</Label>
         <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Label>자동 로그인</Label>
+        <Input type="checkbox" checked={isRememberMe} onChange={() => handleClickRememberMe()} />
         <Button type="submit">로그인</Button>
       </FormGroup>
       <Button onClick={(e) => protectedUrlTest(e)}>토큰 테스트</Button>

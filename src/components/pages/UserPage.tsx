@@ -26,17 +26,18 @@ const UserPage = ({ userData, setUserData }: accessTokenProps) => {
 
   return (
     <UserPageContainer>
-      {userData ? (
-        <>
-          <LogOutButton userData={userData} setUserData={setUserData} />
-          <WithdrawButton userData={userData} setUserData={setUserData} />
-        </>
-      ) : (
-        <>
-          <SignUpForm />
-          <LogInForm userData={userData} setUserData={setUserData} />
-        </>
-      )}
+      {/* {userData ? ( */}
+      {/* <> */}
+
+      {/* </> */}
+      {/* ) : ( */}
+      {/* <> */}
+      <SignUpForm />
+      <LogInForm userData={userData} setUserData={setUserData} />
+      <LogOutButton userData={userData} setUserData={setUserData} />
+      <WithdrawButton userData={userData} setUserData={setUserData} />
+      {/* </> */}
+      {/* // )} */}
     </UserPageContainer>
   );
 };

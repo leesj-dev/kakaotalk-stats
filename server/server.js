@@ -48,8 +48,9 @@ const User = kmgDB.model("User", userSchema);
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../build")));
-app.use("/api/protected", authenticateToken(accessTokenSecretKey, User));
 app.use(cookieParser());
+
+app.use("/api/protected", authenticateToken(accessTokenSecretKey, User));
 
 // 회원 가입 핸들러
 app.post("/api/users/create", async (req, res) => {
@@ -86,9 +87,9 @@ app.post("/api/users/login", async (req, res) => {
 
   try {
     const requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
+    const { userId, password, isRememberMe } = req.body;
     // accessToken 없이 새롭게 로그인하는 경우
     if (!requestedAccessToken) {
-      const { userId, password } = req.body;
       console.log(`로그인 시도 - ID: [${userId}]`);
 
       const userData = await User.findOne({ userId });
@@ -115,11 +116,16 @@ app.post("/api/users/login", async (req, res) => {
       );
 
       // accessToken 발급
-      const accessToken = jwt.sign({ userId }, accessTokenSecretKey, {
+      const accessToken = jwt.sign({ userId, isRememberMe }, accessTokenSecretKey, {
         expiresIn: "10s",
         issuer: "young",
       });
+
+      // if (isRememberMe) {
       res.cookie("accessToken", accessToken);
+      // } else {
+      //   res.cookie("accessToken", accessToken, { maxAge: 10 * 1000 });
+      // }
       console.log(`로그인 성공 - ID: [${userId}]`);
 
       return res.status(200).json({
@@ -133,7 +139,8 @@ app.post("/api/users/login", async (req, res) => {
 
     // accessToken을 소유한 경우
     const isValidAccessToken = verifyToken(requestedAccessToken, accessTokenSecretKey);
-    const requestedUserId = jwt.decode(requestedAccessToken, accessTokenSecretKey).userId;
+    const decodedTokenData = jwt.decode(requestedAccessToken, accessTokenSecretKey);
+    const requestedUserId = decodedTokenData.userId;
     const requestedUser = await User.findOne({ userId: requestedUserId });
     const isValidRefreshToken = verifyToken(requestedUser.refreshToken, accessTokenSecretKey);
 
@@ -148,11 +155,17 @@ app.post("/api/users/login", async (req, res) => {
     if (!isValidAccessToken && isValidRefreshToken) {
       console.log(isValidAccessToken, isValidRefreshToken, "재발급");
       // newAccessToken 발급
-      const accessToken = jwt.sign({ userId: requestedUserId }, accessTokenSecretKey, {
+      const accessToken = jwt.sign({ userId: requestedUserId, isRememberMe }, accessTokenSecretKey, {
         expiresIn: "10s",
         issuer: "young",
       });
+
+      const beforeRememberMeData = decodedTokenData.isRememberMe;
+      // if (isRememberMe || beforeRememberMeData) {
       res.cookie("accessToken", accessToken);
+      // } else {
+      //   res.cookie("accessToken", accessToken, { maxAge: 10 * 1000 });
+      // }
     }
 
     // 유효한 accessToken을 가지고 있는 경우 로그인
