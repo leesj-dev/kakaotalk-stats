@@ -42,8 +42,8 @@ body[data-theme='light'] {
   --modalBackground: #fafafa5f;
   --modalContentBackground: #ffffff9d;
   --bothWhite: #fff;
-  --brushFill: #00000010;
-  --brushStroke:#ccc;
+  --brushFill: #ffffff10;
+  --brushStroke:#5eb9ff;
 }
 
 body[data-theme='dark'] {
@@ -58,12 +58,12 @@ body[data-theme='dark'] {
   --footerBackground: #202020;
   --navBackground: #202020;
   --dashboardBackground: #151515;
-  --dashboardMenuBackground: #151515;
+  --dashboardMenuBackground: #60606070;
   --modalBackground: #44444440;
   --modalContentBackground: #60606070;
   --bothWhite: #fff;
   --brushFill: #ffffff10;
-  --brushStroke:#666;
+  --brushStroke:#00b7ff;
 }
 
 ul,

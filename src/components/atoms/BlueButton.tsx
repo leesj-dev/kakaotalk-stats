@@ -20,6 +20,7 @@ const BlueButton = styled.button<BlueButtonProps>`
   background: var(--mainBlue);
   border-radius: 3rem;
   border: none;
+  transition: 0.3s;
   cursor: pointer;
 
   &:hover {
