@@ -49,10 +49,8 @@ const daysOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
 let selectedChatRoomData: any;
 let speakerNames: any;
 let speakerTotalChatTimes: Record<string, Record<string, Record<string, number>>>;
-
 let mostValues: number[];
 let graph: any[];
-
 let totalTimezoneData;
 
 const ChatVolumeByHourlyGraph = () => {

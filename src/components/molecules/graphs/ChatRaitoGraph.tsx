@@ -10,7 +10,6 @@ const COLORS = ["#FF414D", "#FF8991", "#F7ABB1"];
 let selectedChatRoomData;
 let speakerTotalChatCounts: Record<string, number> = {};
 let totalChatCount: any;
-let data: any;
 
 const ChatRatioGraph = () => {
   const results = useSelector(

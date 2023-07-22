@@ -1,17 +1,14 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../../atoms/Img";
 import { useDispatch } from "react-redux";
-import { darkTheme, lightTheme } from "../../../style/Theme";
 import { setIsDarkMode } from "../../../store/reducer/common/isDarkModeSlice";
-import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
 import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
-import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 import DarkModeButton from "../../molecules/navigation/DarkModeButton";
 
 const NavHeadContainer = styled.div`
@@ -122,6 +119,7 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
           <Link to="/attachment">분석하기</Link>
           {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
+          <Link to="/users">로그인</Link>
         </Menus>
         <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
       </MenuBox>

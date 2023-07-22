@@ -46,8 +46,6 @@ function truncateValue(value: string) {
 let keywordCounts: KeywordCounts[][][];
 let currentKeywordCounts: KeywordCounts[][];
 let keywordData: ValueCountPair[][];
-let allKeywordData: ValueCountPair[];
-let dataForCloud: any;
 
 const KeywordChartGraph = () => {
   const isDetailPage = useLocation().pathname.includes("detail");
@@ -67,7 +65,7 @@ const KeywordChartGraph = () => {
   const [DISPLAY_KEYWORD_COUNT, setDISPLAY_KEYWORD_COUNT] = useState<number>(10);
   const [currentSpeakerIndex, setCurrentSpeakerIndex] = useState<number>(selectedSpeakerIndex);
   const [dataForCloud, setDataForCloud] = useState<any[]>([]);
-  const [allKeywordData, setAllKeywordData] = useState<any[]>([]);
+  const [allKeywordData, setAllKeywordData] = useState<ValueCountPair[]>([]);
 
   useEffect(() => {
     setAllKeywordData([]);

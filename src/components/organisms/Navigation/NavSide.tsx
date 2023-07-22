@@ -98,6 +98,9 @@ interface NavSideMenuProps extends NavProps {
   isWideScreen: boolean;
 }
 
+const scrollY = window.scrollY;
+const bodyStyle = document.body.style;
+
 const NavSide: React.FC<NavSideMenuProps> = ({
   closeMenu,
   isWideScreen,
@@ -107,9 +110,6 @@ const NavSide: React.FC<NavSideMenuProps> = ({
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
-
-  const scrollY = window.scrollY;
-  const bodyStyle = document.body.style;
 
   const handleClickGoToDescription = () => {
     closeMenu();
