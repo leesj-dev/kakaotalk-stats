@@ -69,6 +69,9 @@
 
 
 ## 업데이트
+* [v0.2.0-alpha - 23-07-22](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.0-alpha)
+  * 회원가입 및 로그인 관련 기능 추가 (테스트 버전)
+    * UI/UX 및 서버 배포 이전
 * [v0.1.4 - 23-07-15](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.1.4)
   * 대시보드, 상세페이지 전환 속도 개선
 
