@@ -176,7 +176,7 @@ app.post("/api/users/login", async (req, res) => {
     console.log(`로그인 성공: userId - [${requestedUser.userId}]`);
     return res.status(200).json({
       message: "로그인되었습니다.",
-      userId,
+      userId: requestedUser.userId,
       accessToken,
       nickname: requestedUser.nickname,
     });

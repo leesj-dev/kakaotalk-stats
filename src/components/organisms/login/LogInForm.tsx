@@ -78,6 +78,7 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
       const { accessToken } = result.data;
       setAccessToken(accessToken);
       setUserData(result.data);
+      console.log(userId + "님의 로그인이 완료되었습니다.");
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -95,6 +96,7 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
       console.log(result);
       setAccessToken(result.data.accessToken);
       setUserData(result.data);
+      console.log(userData?.userId + "님의 제한 페이지 접근이 완료되었습니다.");
       return console.log(result);
     } catch (error) {
       console.error(error);

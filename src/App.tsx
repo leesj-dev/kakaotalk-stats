@@ -32,15 +32,14 @@ function App() {
           },
         });
         setAccessToken(cookieAccessToken);
+        console.log(result.data.userId + "님의 자동 로그인이 완료되었습니다.");
         return setUserData(result.data);
       }
     };
+
+    // 쿠키에 accessToken이 존재하는 경우 자동 로그인 시도
     (async () => cookieCheckForRememberLogin())();
   }, []);
-
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
 
   return (
     <>

@@ -31,7 +31,6 @@ interface LogOutButtonProps {
 
 const LogOutButton = ({ userData, setUserData, accessToken }: LogOutButtonProps) => {
   const handleClickLogoutButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(accessToken);
     e.preventDefault();
     try {
       const result = await axios.post("/api/protected/users/signout", null, {
@@ -40,6 +39,7 @@ const LogOutButton = ({ userData, setUserData, accessToken }: LogOutButtonProps)
         },
       });
       setUserData(null);
+      console.log(userData?.userId + "님의 로그아웃이 완료되었습니다.");
       return console.log(result);
     } catch (error) {
       console.error(error);
