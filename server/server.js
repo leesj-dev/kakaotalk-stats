@@ -11,6 +11,7 @@ const { cleanUpExpiredTokens } = require("./module/accessToken/cleanUpExpiredTok
 const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./module/accessToken/jwtVerifyToken");
 const { getTokenFromCookie } = require("./module/accessToken/getTokenFromCookie");
+const bodyParser = require("body-parser");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -49,6 +50,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "../build")));
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 app.use("/api/protected", authenticateToken(accessTokenSecretKey, User));
 
@@ -92,6 +94,7 @@ app.post("/api/users/login", async (req, res) => {
     if (!requestedAccessToken) {
       console.log(`로그인 시도 - ID: [${userId}]`);
 
+      console.log(await User.find());
       const userData = await User.findOne({ userId });
 
       // 존재하지 않는 userId
@@ -121,11 +124,11 @@ app.post("/api/users/login", async (req, res) => {
         issuer: "young",
       });
 
-      // if (isRememberMe) {
-      res.cookie("accessToken", accessToken);
-      // } else {
-      //   res.cookie("accessToken", accessToken, { maxAge: 10 * 1000 });
-      // }
+      if (isRememberMe) {
+        res.cookie("accessToken", accessToken);
+      } else {
+        res.cookie("accessToken", accessToken, { maxAge: 10 * 1000 });
+      }
       console.log(`로그인 성공 - ID: [${userId}]`);
 
       return res.status(200).json({
@@ -161,11 +164,11 @@ app.post("/api/users/login", async (req, res) => {
       });
 
       const beforeRememberMeData = decodedTokenData.isRememberMe;
-      // if (isRememberMe || beforeRememberMeData) {
-      res.cookie("accessToken", accessToken);
-      // } else {
-      //   res.cookie("accessToken", accessToken, { maxAge: 10 * 1000 });
-      // }
+      if (isRememberMe || beforeRememberMeData) {
+        res.cookie("accessToken", accessToken);
+      } else {
+        res.cookie("accessToken", accessToken, { maxAge: 10 * 1000 });
+      }
     }
 
     // 유효한 accessToken을 가지고 있는 경우 로그인

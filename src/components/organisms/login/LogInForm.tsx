@@ -52,10 +52,12 @@ const Button = styled.button`
 
 interface accessTokenProps {
   userData: UserData | null;
-  setUserData: (accessToken: UserData | null) => void;
+  setUserData: (userData: UserData | null) => void;
+  accessToken: string;
+  setAccessToken: (accessToken: string) => void;
 }
 
-const LogInForm = ({ userData, setUserData }: accessTokenProps) => {
+const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: accessTokenProps) => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
@@ -74,6 +76,8 @@ const LogInForm = ({ userData, setUserData }: accessTokenProps) => {
       });
 
       console.log(result.data, "result.data");
+      const accessToken = getTokenFromCookie(document.cookie);
+      setAccessToken(accessToken);
       setUserData(result.data.data);
       return console.log(result);
     } catch (error) {
@@ -84,7 +88,17 @@ const LogInForm = ({ userData, setUserData }: accessTokenProps) => {
   const protectedUrlTest = async (e: any) => {
     e.preventDefault();
     try {
-      const result = await axios.post("/api/protected/edit", null);
+      const result = await axios.post(
+        "/api/protected/edit",
+        { accessToken },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       return console.log(result);
     } catch (error) {
       console.error(error);

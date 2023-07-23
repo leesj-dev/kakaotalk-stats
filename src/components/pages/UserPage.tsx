@@ -16,10 +16,12 @@ const UserPageContainer = styled.div`
 
 interface accessTokenProps {
   userData: UserData | null;
-  setUserData: (accessToken: UserData | null) => void;
+  setUserData: (userData: UserData | null) => void;
+  accessToken: string;
+  setAccessToken: (accessToken: string) => void;
 }
 
-const UserPage = ({ userData, setUserData }: accessTokenProps) => {
+const UserPage = ({ userData, setUserData, accessToken, setAccessToken }: accessTokenProps) => {
   useEffect(() => {
     console.log(userData);
   }, [userData]);
@@ -33,9 +35,14 @@ const UserPage = ({ userData, setUserData }: accessTokenProps) => {
       {/* ) : ( */}
       {/* <> */}
       <SignUpForm />
-      <LogInForm userData={userData} setUserData={setUserData} />
-      <LogOutButton userData={userData} setUserData={setUserData} />
-      <WithdrawButton userData={userData} setUserData={setUserData} />
+      <LogInForm
+        userData={userData}
+        setUserData={setUserData}
+        accessToken={accessToken}
+        setAccessToken={setAccessToken}
+      />
+      <LogOutButton userData={userData} setUserData={setUserData} accessToken={accessToken} />
+      <WithdrawButton userData={userData} setUserData={setUserData} accessToken={accessToken} />
       {/* </> */}
       {/* // )} */}
     </UserPageContainer>

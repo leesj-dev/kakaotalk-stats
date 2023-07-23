@@ -29,16 +29,21 @@ export interface UserData {
 
 interface WithdrawProps {
   userData: UserData | null;
+  accessToken: string;
   setUserData: (userData: UserData | null) => void;
 }
 
-const WithdrawButton = ({ userData, setUserData }: WithdrawProps) => {
+const WithdrawButton = ({ userData, setUserData, accessToken }: WithdrawProps) => {
   const handleClickWithdrawButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       console.log(userData);
       if (userData) {
-        const result = await axios.delete(`/api/protected/users/${userData.userId}/withdraw`);
+        const result = await axios.delete(`/api/protected/users/${userData.userId}/withdraw`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         setUserData(null);
         console.log(userData.userId + "님의 회원탈퇴가 완료되었습니다.");
         return console.log(result);

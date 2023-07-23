@@ -20,12 +20,19 @@ function App() {
   const isDashboardPage = location.pathname === "/dashboard";
 
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [accessToken, setAccessToken] = useState<string>("");
 
   useEffect(() => {
     const cookieCheckForRememberLogin = async () => {
-      const accessToken = getTokenFromCookie(document.cookie);
-      if (accessToken) {
-        const result = await axios.post("/api/users/login", null);
+      const cookieAccessToken = getTokenFromCookie(document.cookie);
+      console.log(cookieAccessToken);
+      if (cookieAccessToken) {
+        const result = await axios.post("/api/users/login", null, {
+          headers: {
+            Authorization: `Bearer ${cookieAccessToken}`,
+          },
+        });
+        setAccessToken(accessToken);
         return setUserData(result.data.data);
       }
     };
@@ -45,7 +52,17 @@ function App() {
         <Routes>
           <Route path={"/"} element={<MainPage />} />
           <Route path={"/attachment"} element={<AttachmentPage />} />
-          <Route path={"/users"} element={<UserPage userData={userData} setUserData={setUserData} />} />
+          <Route
+            path={"/users"}
+            element={
+              <UserPage
+                userData={userData}
+                setUserData={setUserData}
+                accessToken={accessToken}
+                setAccessToken={setAccessToken}
+              />
+            }
+          />
         </Routes>
         <Routes>
           <Route path={"/dashboard"} element={<DashboardPage />} />
