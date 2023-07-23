@@ -120,7 +120,7 @@ app.post("/api/users/login", async (req, res) => {
         { userId },
         { $set: { refreshToken, tokenExpiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) } }
       );
-      console.log(`새로운 refreshToken 발급: userId - ${userId}`);
+      console.log(`새로운 refreshToken 발급: userId - [${userId}]`);
 
       // accessToken 발급
       const accessToken = createAccessToken(userId, accessTokenSecretKey, isRememberMe);
@@ -131,7 +131,7 @@ app.post("/api/users/login", async (req, res) => {
         res.cookie("accessToken", accessToken);
       }
 
-      console.log(`로그인 성공 - ID: [${userId}]`);
+      console.log(`로그인 성공: userId - [${userId}]`);
       return res.status(200).json({
         message: "로그인되었습니다.",
         userId,
@@ -147,7 +147,7 @@ app.post("/api/users/login", async (req, res) => {
     const requestedUser = await User.findOne({ userId: requestedUserId });
     const isValidRefreshToken = verifyToken(requestedUser.refreshToken, accessTokenSecretKey);
     const isRememberMeBefore = decodedTokenData.isRememberMe;
-    console.log(`로그인 시도 - ID: [${requestedUserId}]`);
+    console.log(`로그인 시도: userId - [${requestedUserId}]`);
 
     // 유효하지 않은 토큰이거나 로그인 기간이 만료된 경우
     if (!isValidAccessToken && !isValidRefreshToken) {
@@ -173,7 +173,7 @@ app.post("/api/users/login", async (req, res) => {
     // accessToken 발급
     const accessToken = createAccessToken(userId, accessTokenSecretKey, isRememberMe);
 
-    console.log(`로그인 성공 - ID: [${requestedUser.userId}]`);
+    console.log(`로그인 성공: userId - [${requestedUser.userId}]`);
     return res.status(200).json({
       message: "로그인되었습니다.",
       userId,
@@ -198,7 +198,7 @@ app.post("/api/protected/users/signout", async (req, res) => {
   console.log(req.path);
   try {
     const { userId } = res.locals;
-    console.log(`로그아웃 시도 - userId: [${userId}]`);
+    console.log(`로그아웃 시도: userId - [${userId}]`);
 
     // 클라이언트의 db에 존재하는 refreshToken 데이터 초기화
     const updatedUser = await User.findOneAndUpdate(
@@ -209,7 +209,7 @@ app.post("/api/protected/users/signout", async (req, res) => {
 
     // 로그아웃 성공 시
     if (updatedUser) {
-      console.log(`로그아웃 성공 - userId: [${userId}]`);
+      console.log(`로그아웃 성공: userId - [${userId}]`);
       res.clearCookie("accessToken"); // 클라이언트 쿠키 초기화
       return res.status(200).json({ message: "로그아웃 되었습니다." });
     } else {
@@ -227,14 +227,14 @@ app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
   console.log(req.path);
   try {
     const { userId } = res.locals;
-    console.log(`회원탈퇴 시도 - userId: [${userId}]`);
+    console.log(`회원탈퇴 시도: userId - [${userId}]`);
 
     // db에 존재하는 user 데이터 삭제
     await User.deleteOne({ userId });
 
     // 클라이언트 쿠키 정리
     res.clearCookie("accessToken");
-    console.log(`회원탈퇴 성공 - userId: [${userId}]`);
+    console.log(`회원탈퇴 성공: userId - [${userId}]`);
     res.status(200).json({ message: `${userId}님의 회원탈퇴가 완료되었습니다.` });
   } catch (error) {
     console.error(error);
