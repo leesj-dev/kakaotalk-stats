@@ -123,7 +123,7 @@ app.post("/api/users/login", async (req, res) => {
       console.log(`새로운 refreshToken 발급: userId - ${userId}`);
 
       // accessToken 발급
-      const accessToken = createAccessToken(userId, isRememberMe, accessTokenSecretKey);
+      const accessToken = createAccessToken(userId, accessTokenSecretKey, isRememberMe);
 
       // 자동 로그인에 체크한 경우 쿠키에 accessToken 저장
       if (isRememberMe) {
@@ -160,7 +160,7 @@ app.post("/api/users/login", async (req, res) => {
     if (!isValidAccessToken && isValidRefreshToken) {
       console.log(`accessToken 재발급: A(${isValidRefreshToken}), R(${isValidRefreshToken})`);
       // newAccessToken 발급 및 쿠키 설정
-      const accessToken = createAccessToken(requestedUserId, isRememberMeBefore, accessTokenSecretKey);
+      const accessToken = createAccessToken(requestedUserId, accessTokenSecretKey, isRememberMeBefore);
 
       const beforeRememberMeData = isRememberMeBefore;
       if (isRememberMe || beforeRememberMeData) {
@@ -171,7 +171,7 @@ app.post("/api/users/login", async (req, res) => {
 
     // 유효한 accessToken을 가지고 있는 경우 로그인
     // accessToken 발급
-    const accessToken = createAccessToken(userId, isRememberMe, accessTokenSecretKey);
+    const accessToken = createAccessToken(userId, accessTokenSecretKey, isRememberMe);
 
     console.log(`로그인 성공 - ID: [${requestedUser.userId}]`);
     return res.status(200).json({
@@ -188,7 +188,7 @@ app.post("/api/users/login", async (req, res) => {
 
 app.post("/api/protected/edit", (req, res) => {
   console.log(req.path);
-  const userData = res.locals.userData;
+  const userData = res.locals;
   // 인증된 클라이언트에게만 허용된 핸들러 로직
   res.status(200).json(userData);
 });
@@ -197,7 +197,7 @@ app.post("/api/protected/edit", (req, res) => {
 app.post("/api/protected/users/signout", async (req, res) => {
   console.log(req.path);
   try {
-    const { userId } = res.locals.userData;
+    const { userId } = res.locals;
     console.log(`로그아웃 시도 - userId: [${userId}]`);
 
     // 클라이언트의 db에 존재하는 refreshToken 데이터 초기화
@@ -226,7 +226,7 @@ app.post("/api/protected/users/signout", async (req, res) => {
 app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
   console.log(req.path);
   try {
-    const { userId } = res.locals.userData;
+    const { userId } = res.locals;
     console.log(`회원탈퇴 시도 - userId: [${userId}]`);
 
     // db에 존재하는 user 데이터 삭제

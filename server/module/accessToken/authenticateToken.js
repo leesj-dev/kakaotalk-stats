@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("./jwtVerifyToken");
 const { getAccessToken } = require("./getAccessToken");
+const { createAccessToken } = require("./createAccessToken");
 
 const ERROR_MESSAGES = {
   INVALID_TOKEN: "유효하지 않은 토큰",
@@ -45,21 +46,18 @@ exports.authenticateToken = (accessTokenSecretKey, UserModel) => async (req, res
     // accessToken 만료 + 유효한 refreshToken인 경우, 새로운 accessToken 발급 및 쿠키 설정
     if (!isValidAccessToken && isValidRefreshToken) {
       console.log(`토큰 재발급: A(${isValidAccessToken}) & R(${isValidRefreshToken})`);
-      const newAccessToken = jwt.sign({ userId: requestedUserId }, accessTokenSecretKey, {
-        expiresIn: EXPIRATION_TIME,
-        issuer: "young",
-      });
+      const newAccessToken = createAccessToken(requestedUserId, accessTokenSecretKey);
 
-      res.locals.userData = { accessToken: newAccessToken };
+      res.locals = { accessToken: newAccessToken };
     } else {
       // 유효한 accessToken을 가지고 있는 경우
-      res.locals.userData = { accessToken };
+      res.locals = { accessToken };
     }
 
     // 다음 미들웨어로 유효한 accessToken을 소유한 user의 데이터 전달
     const { userId, nickname } = requestedUser;
-    res.locals.userData.userId = userId;
-    res.locals.userData.nickname = nickname;
+    res.locals.userId = userId;
+    res.locals.nickname = nickname;
 
     return next();
   } catch (error) {
