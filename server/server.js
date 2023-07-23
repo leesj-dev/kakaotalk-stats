@@ -12,6 +12,7 @@ const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./module/accessToken/jwtVerifyToken");
 const { getTokenFromCookie } = require("./module/accessToken/getTokenFromCookie");
 const bodyParser = require("body-parser");
+const { getAccessToken } = require("./module/accessToken/getAccessToken");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -94,7 +95,6 @@ app.post("/api/users/login", async (req, res) => {
     if (!requestedAccessToken) {
       console.log(`로그인 시도 - ID: [${userId}]`);
 
-      console.log(await User.find());
       const userData = await User.findOne({ userId });
 
       // 존재하지 않는 userId
@@ -197,9 +197,10 @@ app.post("/api/protected/edit", (req, res) => {
 app.post("/api/protected/users/signout", async (req, res) => {
   console.log(req.path);
   try {
-    const accessToken = getTokenFromCookie(req, res, "accessToken");
+    const accessToken = getAccessToken(req.headers.authorization);
     const requestedUserId = jwt.decode(accessToken, accessTokenSecretKey).userId;
     const { userId } = await User.findOne({ userId: requestedUserId });
+    console.log(`로그아웃 시도 - userId: [${userId}]`);
 
     // 클라이언트의 db에 존재하는 refreshToken 데이터 초기화
     await User.updateOne(
@@ -211,6 +212,7 @@ app.post("/api/protected/users/signout", async (req, res) => {
 
     // 클라이언트 쿠키 정리
     res.clearCookie("accessToken");
+    console.log(`로그아웃 성공 - userId: [${userId}]`);
     res.status(200).json({ message: "로그아웃 되었습니다." });
   } catch (error) {
     console.error(error);
@@ -222,7 +224,7 @@ app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
   console.log(req.path);
   try {
     const requestedUserId = req.params.userId;
-    console.log(`회원탈퇴 시도 - ID: [${requestedUserId}]`);
+    console.log(`회원탈퇴 시도 - userId: [${requestedUserId}]`);
     const accessToken = getTokenFromCookie(req, res, "accessToken");
     const decodedUserId = jwt.decode(accessToken, accessTokenSecretKey).userId;
 
@@ -235,7 +237,7 @@ app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
 
     // 클라이언트 쿠키 정리
     res.clearCookie("accessToken");
-    console.log(`회원탈퇴 성공 - ID: [${requestedUserId}]`);
+    console.log(`회원탈퇴 성공 - userId: [${requestedUserId}]`);
     res.status(200).json({ message: `${requestedUserId}님의 회원탈퇴가 완료되었습니다.` });
   } catch (error) {
     console.error(error);
