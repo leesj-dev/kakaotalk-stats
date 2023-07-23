@@ -25,15 +25,14 @@ function App() {
   useEffect(() => {
     const cookieCheckForRememberLogin = async () => {
       const cookieAccessToken = getTokenFromCookie(document.cookie);
-      console.log(cookieAccessToken);
       if (cookieAccessToken) {
         const result = await axios.post("/api/users/login", null, {
           headers: {
             Authorization: `Bearer ${cookieAccessToken}`,
           },
         });
-        setAccessToken(accessToken);
-        return setUserData(result.data.data);
+        setAccessToken(cookieAccessToken);
+        return setUserData(result.data);
       }
     };
     (async () => cookieCheckForRememberLogin())();

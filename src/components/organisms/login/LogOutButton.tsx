@@ -31,18 +31,14 @@ interface LogOutButtonProps {
 
 const LogOutButton = ({ userData, setUserData, accessToken }: LogOutButtonProps) => {
   const handleClickLogoutButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(accessToken);
     e.preventDefault();
     try {
-      const result = await axios.post(
-        "/api/protected/users/signout",
-        { accessToken },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const result = await axios.post("/api/protected/users/signout", null, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setUserData(null);
       return console.log(result);
     } catch (error) {

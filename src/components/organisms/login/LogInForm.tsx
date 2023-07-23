@@ -75,10 +75,9 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
         isRememberMe,
       });
 
-      console.log(result.data, "result.data");
-      const accessToken = getTokenFromCookie(document.cookie);
+      const { accessToken } = result.data;
       setAccessToken(accessToken);
-      setUserData(result.data.data);
+      setUserData(result.data);
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -88,17 +87,14 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
   const protectedUrlTest = async (e: any) => {
     e.preventDefault();
     try {
-      const result = await axios.post(
-        "/api/protected/edit",
-        { accessToken },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
+      const result = await axios.post("/api/protected/edit", null, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(result);
+      setAccessToken(result.data.accessToken);
+      setUserData(result.data);
       return console.log(result);
     } catch (error) {
       console.error(error);
