@@ -23,6 +23,7 @@ interface accessTokenProps {
 
 const UserPage = ({ userData, setUserData, accessToken, setAccessToken }: accessTokenProps) => {
   useEffect(() => {
+    // 로그인 된 유저 데이터 확인용
     console.log(userData);
   }, [userData]);
 

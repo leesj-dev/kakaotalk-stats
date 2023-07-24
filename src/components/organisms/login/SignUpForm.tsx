@@ -74,6 +74,7 @@ const SignUpForm = () => {
         password,
         nickname,
       });
+      console.log(userId + "님의 회원가입이 완료되었습니다.");
       return console.log(result);
     } catch (error) {
       console.error(error);

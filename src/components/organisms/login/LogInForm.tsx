@@ -104,10 +104,10 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
         isRememberMe,
       });
 
-      console.log(result.data, "result.data");
-      const accessToken = getTokenFromCookie(document.cookie);
+      const { accessToken } = result.data;
       setAccessToken(accessToken);
-      setUserData(result.data.data);
+      setUserData(result.data);
+      console.log(userId + "님의 로그인이 완료되었습니다.");
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -117,17 +117,15 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
   const protectedUrlTest = async (e: any) => {
     e.preventDefault();
     try {
-      const result = await axios.post(
-        "/api/protected/edit",
-        { accessToken },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
+      const result = await axios.post("/api/protected/edit", null, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(result);
+      setAccessToken(result.data.accessToken);
+      setUserData(result.data);
+      console.log(userData?.userId + "님의 제한 페이지 접근이 완료되었습니다.");
       return console.log(result);
     } catch (error) {
       console.error(error);
