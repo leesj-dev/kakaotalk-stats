@@ -12,6 +12,8 @@ const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./module/accessToken/jwtVerifyToken");
 const { getTokenFromCookie } = require("./module/accessToken/getTokenFromCookie");
 const bodyParser = require("body-parser");
+const { getAccessToken } = require("./module/accessToken/getAccessToken");
+const { createAccessToken } = require("./module/accessToken/createAccessToken");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -88,23 +90,24 @@ app.post("/api/users/login", async (req, res) => {
   console.log(req.path);
 
   try {
+    // user 데이터 확인
     const requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
     const { userId, password, isRememberMe } = req.body;
+    const userData = await User.findOne({ userId });
+
     // accessToken 없이 새롭게 로그인하는 경우
     if (!requestedAccessToken) {
       console.log(`로그인 시도 - ID: [${userId}]`);
-
-      console.log(await User.find());
-      const userData = await User.findOne({ userId });
-
       // 존재하지 않는 userId
       if (!userData) {
+        console.log(`로그인 에러: 존재하지 않는 userId - ${userId}`);
         return res.status(401).json({ error: "존재하지 않는 ID입니다." });
       }
 
       // 일치하지 않는 password
       const isMatchedPassword = await bcrypt.compare(password, userData.password);
       if (!isMatchedPassword) {
+        console.log(`패스워드 에러: 일치하지 않는 패스워드 userId - ${userId}`);
         return res.status(401).json({ error: "비밀번호가 일치하지 않습니다." });
       }
 
@@ -117,26 +120,23 @@ app.post("/api/users/login", async (req, res) => {
         { userId },
         { $set: { refreshToken, tokenExpiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) } }
       );
+      console.log(`새로운 refreshToken 발급: userId - [${userId}]`);
 
       // accessToken 발급
-      const accessToken = jwt.sign({ userId, isRememberMe }, accessTokenSecretKey, {
-        expiresIn: "10s",
-        issuer: "young",
-      });
+      const accessToken = createAccessToken(userId, accessTokenSecretKey, isRememberMe);
 
+      // 자동 로그인에 체크한 경우 쿠키에 accessToken 저장
       if (isRememberMe) {
+        console.log(`자동 로그인: accessToken 쿠키에 저장 userId - ${userId}`);
         res.cookie("accessToken", accessToken);
-      } else {
-        res.cookie("accessToken", accessToken, { maxAge: 10 * 1000 });
       }
-      console.log(`로그인 성공 - ID: [${userId}]`);
 
+      console.log(`로그인 성공: userId - [${userId}]`);
       return res.status(200).json({
         message: "로그인되었습니다.",
-        data: {
-          userId,
-          nickname: userData.nickname,
-        },
+        userId,
+        accessToken,
+        nickname: userData.nickname,
       });
     }
 
@@ -146,39 +146,39 @@ app.post("/api/users/login", async (req, res) => {
     const requestedUserId = decodedTokenData.userId;
     const requestedUser = await User.findOne({ userId: requestedUserId });
     const isValidRefreshToken = verifyToken(requestedUser.refreshToken, accessTokenSecretKey);
+    const isRememberMeBefore = decodedTokenData.isRememberMe;
+    console.log(`로그인 시도: userId - [${requestedUserId}]`);
 
     // 유효하지 않은 토큰이거나 로그인 기간이 만료된 경우
     if (!isValidAccessToken && !isValidRefreshToken) {
-      console.log(isValidAccessToken, isValidRefreshToken, "만료");
+      console.log(`로그인 기간 만료:  R(${isValidRefreshToken})`);
       res.clearCookie("accessToken");
       return res.status(409).json({ error: "로그인 기간 만료" });
     }
 
     // accessToken이 만료되었지만 유효한 refreshToken을 가지고 있는 경우 newAccessToken 발급
     if (!isValidAccessToken && isValidRefreshToken) {
-      console.log(isValidAccessToken, isValidRefreshToken, "재발급");
-      // newAccessToken 발급
-      const accessToken = jwt.sign({ userId: requestedUserId, isRememberMe }, accessTokenSecretKey, {
-        expiresIn: "10s",
-        issuer: "young",
-      });
+      console.log(`accessToken 재발급: A(${isValidRefreshToken}), R(${isValidRefreshToken})`);
+      // newAccessToken 발급 및 쿠키 설정
+      const accessToken = createAccessToken(requestedUserId, accessTokenSecretKey, isRememberMeBefore);
 
-      const beforeRememberMeData = decodedTokenData.isRememberMe;
+      const beforeRememberMeData = isRememberMeBefore;
       if (isRememberMe || beforeRememberMeData) {
+        console.log(`자동 로그인: accessToken 쿠키에 저장 userId - ${requestedUserId}`);
         res.cookie("accessToken", accessToken);
-      } else {
-        res.cookie("accessToken", accessToken, { maxAge: 10 * 1000 });
       }
     }
 
     // 유효한 accessToken을 가지고 있는 경우 로그인
-    console.log(`로그인 성공 - ID: [${requestedUser.userId}]`);
+    // accessToken 발급
+    const accessToken = createAccessToken(userId, accessTokenSecretKey, isRememberMe);
+
+    console.log(`로그인 성공: userId - [${requestedUser.userId}]`);
     return res.status(200).json({
-      message: "로그인 되었습니다.",
-      data: {
-        userId: requestedUser.userId,
-        nickname: requestedUser.nickname,
-      },
+      message: "로그인되었습니다.",
+      userId: requestedUser.userId,
+      accessToken,
+      nickname: requestedUser.nickname,
     });
   } catch (error) {
     console.error(error);
@@ -188,7 +188,7 @@ app.post("/api/users/login", async (req, res) => {
 
 app.post("/api/protected/edit", (req, res) => {
   console.log(req.path);
-  const userData = res.locals.userData;
+  const userData = res.locals;
   // 인증된 클라이언트에게만 허용된 핸들러 로직
   res.status(200).json(userData);
 });
@@ -197,23 +197,28 @@ app.post("/api/protected/edit", (req, res) => {
 app.post("/api/protected/users/signout", async (req, res) => {
   console.log(req.path);
   try {
-    const accessToken = getTokenFromCookie(req, res, "accessToken");
-    const requestedUserId = jwt.decode(accessToken, accessTokenSecretKey).userId;
-    const { userId } = await User.findOne({ userId: requestedUserId });
+    const { userId } = res.locals;
+    console.log(`로그아웃 시도: userId - [${userId}]`);
 
     // 클라이언트의 db에 존재하는 refreshToken 데이터 초기화
-    await User.updateOne(
+    const updatedUser = await User.findOneAndUpdate(
       { userId },
-      {
-        $set: { tokenExpiresAt: "", refreshToken: "" },
-      }
+      { tokenExpiresAt: "", refreshToken: "" },
+      { new: true } // 옵션을 설정하여 업데이트된 결과를 반환
     );
 
-    // 클라이언트 쿠키 정리
-    res.clearCookie("accessToken");
-    res.status(200).json({ message: "로그아웃 되었습니다." });
+    // 로그아웃 성공 시
+    if (updatedUser) {
+      console.log(`로그아웃 성공: userId - [${userId}]`);
+      res.clearCookie("accessToken"); // 클라이언트 쿠키 초기화
+      return res.status(200).json({ message: "로그아웃 되었습니다." });
+    } else {
+      // 로그아웃 실패 시
+      return res.status(400).json({ error: "로그아웃에 실패하였습니다." });
+    }
   } catch (error) {
     console.error(error);
+    return res.status(500).json({ message: "서버 오류가 발생하였습니다." });
   }
 });
 
@@ -221,25 +226,19 @@ app.post("/api/protected/users/signout", async (req, res) => {
 app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
   console.log(req.path);
   try {
-    const requestedUserId = req.params.userId;
-    console.log(`회원탈퇴 시도 - ID: [${requestedUserId}]`);
-    const accessToken = getTokenFromCookie(req, res, "accessToken");
-    const decodedUserId = jwt.decode(accessToken, accessTokenSecretKey).userId;
+    const { userId } = res.locals;
+    console.log(`회원탈퇴 시도: userId - [${userId}]`);
 
-    const isMatchedUserId = requestedUserId === decodedUserId;
-    if (isMatchedUserId) {
-      const { userId } = await User.findOne({ userId: requestedUserId });
-      // db에 존재하는 user 데이터 삭제
-      await User.deleteOne({ userId });
-    }
+    // db에 존재하는 user 데이터 삭제
+    await User.deleteOne({ userId });
 
     // 클라이언트 쿠키 정리
     res.clearCookie("accessToken");
-    console.log(`회원탈퇴 성공 - ID: [${requestedUserId}]`);
-    res.status(200).json({ message: `${requestedUserId}님의 회원탈퇴가 완료되었습니다.` });
+    console.log(`회원탈퇴 성공: userId - [${userId}]`);
+    res.status(200).json({ message: `${userId}님의 회원탈퇴가 완료되었습니다.` });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "회원탈퇴 작업 수행 중 문제가 발생하였습니다." });
+    res.status(500).json({ message: "회원탈퇴 작업 수행 중 문제가 발생하였습니다." });
   }
 });
 

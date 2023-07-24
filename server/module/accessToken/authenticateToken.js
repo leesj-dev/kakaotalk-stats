@@ -1,64 +1,67 @@
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("./jwtVerifyToken");
-const { getTokenFromCookie } = require("./getTokenFromCookie");
+const { getAccessToken } = require("./getAccessToken");
+const { createAccessToken } = require("./createAccessToken");
+
+const ERROR_MESSAGES = {
+  INVALID_TOKEN: "유효하지 않은 토큰",
+  INVALID_USERID: "존재하지 않는 userId",
+  EXPIRED_LOGIN: "로그인 기간 만료",
+};
+
+const EXPIRATION_TIME = "10s";
 
 exports.authenticateToken = (accessTokenSecretKey, UserModel) => async (req, res, next) => {
-  console.log(req.path, "토큰 인증시도");
+  console.log(`토큰 인증 시도 - ${req.path}`);
   try {
-    const requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
-    // accessToken을 소유한 경우
-    const isValidAccessToken = verifyToken(requestedAccessToken, accessTokenSecretKey);
-    const decodedToken = jwt.decode(requestedAccessToken, accessTokenSecretKey);
-    const requestedUserId = decodedToken.userId;
+    const accessToken = req.headers.authorization && getAccessToken(req.headers.authorization);
+
+    if (!accessToken) {
+      console.log(`접근 에러: ${ERROR_MESSAGES.INVALID_TOKEN}`);
+      return res.status(400).json({ error: ERROR_MESSAGES.INVALID_TOKEN });
+    }
+
+    // 유저 정보 확인
+    const decodedToken = jwt.decode(accessToken, accessTokenSecretKey);
+    const requestedUserId = decodedToken && decodedToken.userId;
     const requestedUser = await UserModel.findOne({ userId: requestedUserId });
+
+    // 유효하지 않은 토큰이거나 존재하지 않는 userId인 경우
+    if (!requestedUser) {
+      console.log(`접근 에러: ${ERROR_MESSAGES.INVALID_USERID}`);
+      return res.status(400).json({ error: ERROR_MESSAGES.INVALID_USERID });
+    }
+
+    // accessToken 및 refreshToken 검증
+    const isValidAccessToken = verifyToken(accessToken, accessTokenSecretKey);
     const isValidRefreshToken = verifyToken(requestedUser.refreshToken, accessTokenSecretKey);
 
     // 유효하지 않은 토큰이거나 로그인 기간이 만료된 경우
     if (!isValidAccessToken && !isValidRefreshToken) {
-      console.log(
-        "isValidAccessToken:",
-        isValidAccessToken,
-        "isValidRefreshToken",
-        isValidRefreshToken,
-        "토큰 만료"
-      );
+      console.log(`토큰 만료: A(${isValidAccessToken}) & R(${isValidRefreshToken})`);
       res.clearCookie("accessToken");
-      // res.status(409).json({ error: "로그인 기간 만료" });
-      return next();
+      return res.status(419).json({ error: `${ERROR_MESSAGES.EXPIRED_LOGIN}` });
     }
 
-    // accessToken이 만료되었지만 유효한 refreshToken을 가지고 있는 경우 newAccessToken 발급
+    // accessToken 만료 + 유효한 refreshToken인 경우, 새로운 accessToken 발급 및 쿠키 설정
     if (!isValidAccessToken && isValidRefreshToken) {
-      console.log(
-        "isValidAccessToken:",
-        isValidAccessToken,
-        "isValidRefreshToken",
-        isValidRefreshToken,
-        "토큰 재발급"
-      );
-      // newAccessToken 발급
-      const accessToken = jwt.sign({ userId: requestedUserId }, accessTokenSecretKey, {
-        expiresIn: "10s",
-        issuer: "young",
-      });
-      res.cookie("accessToken", accessToken);
+      console.log(`토큰 재발급: A(${isValidAccessToken}) & R(${isValidRefreshToken})`);
+      const newAccessToken = createAccessToken(requestedUserId, accessTokenSecretKey);
+
+      res.locals = { accessToken: newAccessToken };
+    } else {
+      // 유효한 accessToken을 가지고 있는 경우
+      res.locals = { accessToken };
     }
 
     // 다음 미들웨어로 유효한 accessToken을 소유한 user의 데이터 전달
-    res.locals.userData = {
-      userId: requestedUser.userId,
-      nickname: requestedUser.nickname,
-    };
-    console.log(
-      "isValidAccessToken:",
-      isValidAccessToken,
-      "isValidRefreshToken",
-      isValidRefreshToken,
-      "유효한 토큰"
-    );
+    const { userId, nickname } = requestedUser;
+    res.locals.userId = userId;
+    res.locals.nickname = nickname;
+
     return next();
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ error: "접근불가: 토큰이 유효하지 않습니다." });
+    return res.status(401).json({ error: `${ERROR_MESSAGES.INVALID_TOKEN}` });
   }
 };

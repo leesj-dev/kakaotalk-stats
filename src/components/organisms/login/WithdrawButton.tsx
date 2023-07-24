@@ -37,7 +37,6 @@ const WithdrawButton = ({ userData, setUserData, accessToken }: WithdrawProps) =
   const handleClickWithdrawButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      console.log(userData);
       if (userData) {
         const result = await axios.delete(`/api/protected/users/${userData.userId}/withdraw`, {
           headers: {
