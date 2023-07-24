@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getTokenFromCookie } from "../../../module/common/getTokenFromCookie";
+import { FlexRowDiv } from "../../atoms/FlexDiv";
 import { UserData } from "./WithdrawButton";
 
 const FormContainer = styled.div`
@@ -34,10 +36,13 @@ const Input = styled.input`
   border: 1px solid #ccc;
   font-size: 1.7rem;
 `;
+const ErrorText = styled.span`
+  color: #f00;
+`;
 
 const Button = styled.button`
-  width: 100%;
   padding: 10px;
+  width: 100%;
   background: #4caf50;
   color: white;
   border: none;
@@ -48,6 +53,16 @@ const Button = styled.button`
   &:hover {
     background: #26942a;
   }
+`;
+
+const SignUpBox = styled.div`
+  text-align: center;
+`;
+
+const SignUpButton = styled.span`
+  margin-left: 5px;
+  font-weight: 700;
+  border-bottom: 1px solid #000;
 `;
 
 interface accessTokenProps {
@@ -61,13 +76,27 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
+  // 유효성 검사 메세지
+  const [errMessege, setErrMessege] = useState(false);
 
   const handleClickRememberMe = () => {
     setIsRememberMe(!isRememberMe);
   };
 
+  // 로그인 유효성
+  const loginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // 유효성 검사
+    if (userId === "" || password === "") {
+      setErrMessege(true);
+      return;
+    }
+  };
+
   const logInTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       const result = await axios.post("/api/users/login", {
         userId,
@@ -115,8 +144,16 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
         <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <Label>자동 로그인</Label>
         <Input type="checkbox" checked={isRememberMe} onChange={() => handleClickRememberMe()} />
+        <ErrorText>{errMessege}</ErrorText>
+
         <Button type="submit">로그인</Button>
       </FormGroup>
+      <SignUpBox>
+        이미 회원정보가 있으신가요?
+        <SignUpButton>
+          <Link to="/join">회원가입</Link>
+        </SignUpButton>
+      </SignUpBox>
       <Button onClick={(e) => protectedUrlTest(e)}>토큰 테스트</Button>
     </FormContainer>
   );

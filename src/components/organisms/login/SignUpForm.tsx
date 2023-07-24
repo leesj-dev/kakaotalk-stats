@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Paragraph from "../../atoms/Paragraph";
+import Span from "../../atoms/Span";
 
 const FormContainer = styled.div`
   background: #f2f2f2;
@@ -48,6 +51,16 @@ const Button = styled.button`
   }
 `;
 
+const LoginBox = styled.div`
+  text-align: center;
+`;
+
+const LoginButton = styled.span`
+  margin-left: 5px;
+  font-weight: 700;
+  border-bottom: 1px solid #000;
+`;
+
 const SignUpForm = () => {
   const [nickname, setName] = useState("");
   const [userId, setUserId] = useState("");
@@ -79,6 +92,12 @@ const SignUpForm = () => {
         <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <Button type="submit">가입하기</Button>
       </FormGroup>
+      <LoginBox>
+        이미 회원정보가 있으신가요?
+        <LoginButton>
+          <Link to="/login">로그인</Link>
+        </LoginButton>
+      </LoginBox>
     </FormContainer>
   );
 };

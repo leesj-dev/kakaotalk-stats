@@ -14,6 +14,7 @@ import axios from "axios";
 import UserPage from "./components/pages/UserPage";
 import { getTokenFromCookie } from "./module/common/getTokenFromCookie";
 import { UserData } from "./components/organisms/login/WithdrawButton";
+import SignUp from "./components/pages/SignUp";
 
 function App() {
   const location = useLocation();
@@ -53,7 +54,7 @@ function App() {
           <Route path={"/"} element={<MainPage />} />
           <Route path={"/attachment"} element={<AttachmentPage />} />
           <Route
-            path={"/users"}
+            path={"/login"}
             element={
               <UserPage
                 userData={userData}
@@ -63,6 +64,7 @@ function App() {
               />
             }
           />
+          <Route path={"/join"} element={<SignUp />} />
         </Routes>
         <Routes>
           <Route path={"/dashboard"} element={<DashboardPage />} />
