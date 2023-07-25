@@ -12,7 +12,6 @@ const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./module/accessToken/jwtVerifyToken");
 const { getTokenFromCookie } = require("./module/accessToken/getTokenFromCookie");
 const bodyParser = require("body-parser");
-const { getAccessToken } = require("./module/accessToken/getAccessToken");
 const { createAccessToken } = require("./module/accessToken/createAccessToken");
 
 const app = express();
@@ -34,18 +33,46 @@ mongoose
   });
 const kmgDB = mongoose;
 
-// user Schema를 정의합니다.
+// 230725 todo: validator 이용하여 error 출력 기능
 const userSchema = new kmgDB.Schema({
-  userId: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  nickname: { type: String, required: true, unique: true },
+  userId: {
+    type: String,
+    required: [true, "아이디를 입력하세요."],
+    unique: true,
+    match: [/[a-zA-Z0-9]{4,16}/, "아이디는 4 ~ 16자의 영문, 숫자 조합으로 입력해야 합니다."],
+    trim: true,
+  },
+  password: { type: String, required: true, trim: true },
+  nickname: {
+    type: String,
+    required: [true, "닉네임을 입력하세요."],
+    unique: true,
+    trim: true,
+  },
   refreshToken: { type: String },
   accessToken: { type: String },
   tokenExpiresAt: { type: Date, index: { expireAfterSeconds: 0 } },
 });
 
-// user model을  class로 생성합니다.
+const postSchema = new kmgDB.Schema({
+  postId: { type: Number, required: true, unique: true },
+  userId: { type: String, required: true },
+  nickname: { type: String, required: true },
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now() },
+  isPrivate: { type: Boolean, default: false },
+});
+
+const autoIncrementSchema = new mongoose.Schema({
+  model: String, // Auto-increment를 적용할 대상 컬렉션의 이름
+  field: String, // Auto-increment를 적용할 필드의 이름
+  count: { type: Number, default: 0 }, // 현재까지 사용된 숫자 카운트
+});
+
 const User = kmgDB.model("User", userSchema);
+const Post = kmgDB.model("Post", postSchema);
+const Counter = mongoose.model("Counter", autoIncrementSchema);
 
 // 미들웨어
 app.use(cors());
@@ -56,7 +83,7 @@ app.use(bodyParser.json());
 
 app.use("/api/protected", authenticateToken(accessTokenSecretKey, User));
 
-// 회원 가입 핸들러
+// 회원 가입
 app.post("/api/users/create", async (req, res) => {
   console.log(req.path);
   try {
@@ -85,7 +112,7 @@ app.post("/api/users/create", async (req, res) => {
   }
 });
 
-// 로그인 핸들러
+// 로그인
 app.post("/api/users/login", async (req, res) => {
   console.log(req.path);
 
@@ -189,7 +216,7 @@ app.post("/api/users/login", async (req, res) => {
 app.post("/api/protected/edit", (req, res) => {
   console.log(req.path);
   const userData = res.locals;
-  // 인증된 클라이언트에게만 허용된 핸들러 로직
+  // 인증된 클라이언트에게만 허용된 로직
   res.status(200).json(userData);
 });
 
@@ -241,6 +268,96 @@ app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
     res.status(500).json({ message: "회원탈퇴 작업 수행 중 문제가 발생하였습니다." });
   }
 });
+
+// 게시판 조회
+app.get("/api/posts", async (req, res) => {
+  console.log(req.path);
+  try {
+    console.log(`게시판 조회 시도`);
+    const posts = await Post.find();
+    console.log(`게시판 조회 성공`);
+    res.status(200).json({ message: `게시판 조회가 완료되었습니다.`, posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시판 조회 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 게시글 조회
+app.get("/api/posts/:postId", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { postId } = req.params; // postId 값을 조회
+    console.log(`게시글 조회 시도: postId - ${postId}`);
+    const postResult = await Post.find({ postId });
+
+    // 존재하지 않는 게시물인 경우
+    if (!postResult) {
+      res.status(400).json({
+        message: `
+      error 게시글 조회 실패: postId - ${postId}`,
+      });
+    }
+
+    console.log(`게시글 조회 성공: postId - ${postId}`);
+    res.status(200).json({
+      message: `게시글 ${postResult.title}(postId:${postResult.postId})의 조회가 완료되었습니다.`,
+      postResult,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시판 조회 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 게시글 작성
+app.post("/api/protected/posts/create", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { title, content, isPrivate } = req.body;
+    const { userId, nickname } = res.locals;
+    console.log(userId);
+    console.log(`게시글 작성 시도: userId - ${userId}`);
+
+    const currentCounter = await Counter.find({ model: "Post" });
+    // 작성될 게시글 정보
+    const newPost = {
+      postId: currentCounter[0].count + 1,
+      userId,
+      nickname,
+      title,
+      content,
+      createdAt: Date.now(),
+      isPrivate,
+    };
+
+    const postResult = await Post.create(newPost);
+    console.log(postResult);
+
+    // count 값 증가 후, 현재 값을 가져옴
+    await Counter.findOneAndUpdate(
+      { model: "Post" },
+      { $inc: { count: 1 } },
+      { new: true, upsert: true }
+    );
+
+    // 게시글 작성 성공 시
+    console.log(`게시글 작성 성공: userId - ${userId}`);
+    res.status(200).json({
+      message: `게시글 (${title})의 작성이 완료되었습니다.`,
+      post: postResult, // 작성된 게시글 정보 반환
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시글 작성 작업 수행 중 문제가 발생하였습니다.", result: [] });
+  }
+});
+
+// 게시글 수정
+app.put("/api/protected/posts", async (req, res) => {});
+
+// 게시글 삭제
+app.delete("/api/protected/posts", async (req, res) => {});
 
 // 주기적으로 만료된 토큰 정리 작업 수행
 setInterval(() => {

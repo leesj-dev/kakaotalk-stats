@@ -14,6 +14,7 @@ import axios from "axios";
 import UserPage from "./components/pages/UserPage";
 import { getTokenFromCookie } from "./module/common/getTokenFromCookie";
 import { UserData } from "./components/organisms/login/WithdrawButton";
+import PostPage from "./components/pages/PostPage";
 
 function App() {
   const location = useLocation();
@@ -61,6 +62,7 @@ function App() {
               />
             }
           />
+          <Route path={"/posts"} element={<PostPage accessToken={accessToken} />} />
         </Routes>
         <Routes>
           <Route path={"/dashboard"} element={<DashboardPage />} />
