@@ -353,11 +353,114 @@ app.post("/api/protected/posts/create", async (req, res) => {
   }
 });
 
+// 게시글 수정 권한 확인
+app.get("/api/protected/posts/:postId/edit/authorization", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { userId } = res.locals;
+    const { postId } = req.params; // postId 값을 조회
+    console.log(`게시글 권한 확인 시도: postId - ${postId} userId - ${userId}`);
+
+    // 게시글 조회
+    const requestedPost = await Post.findOne({ postId });
+
+    // 게시글이 존재하지 않으면 오류 응답
+    if (!requestedPost) {
+      return res.status(404).json({ message: "수정할 게시글을 찾을 수 없습니다." });
+    }
+
+    // 사용자 인증 및 권한 검사
+    if (requestedPost.userId !== userId) {
+      return res.status(403).json({ message: "게시글을 수정할 권한이 없습니다." });
+    }
+
+    console.log(`게시글 권환 확인 성공: postId - ${postId} userId - ${userId}`);
+    res.status(200).json({
+      message: `게시글 ${requestedPost.title}(postId:${requestedPost.postId})의 수정 권한 확인이 완료되었습니다.`,
+      requestedPost,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시글 수정 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
 // 게시글 수정
-app.put("/api/protected/posts", async (req, res) => {});
+app.put("/api/protected/posts/:postId/edit", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { title, content, isPrivate } = req.body.toEditData;
+    const { userId } = res.locals;
+    const { postId } = req.params; // postId 값을 조회
+    console.log(`게시글 수정 시도: postId - ${postId}`);
+
+    // 게시글 조회
+    const requestedPost = await Post.findOne({ postId });
+
+    // 게시글이 존재하지 않으면 오류 응답
+    if (!requestedPost) {
+      return res.status(404).json({ message: "수정할 게시글을 찾을 수 없습니다." });
+    }
+
+    // 사용자 인증 및 권한 검사
+    if (requestedPost.userId !== userId) {
+      return res.status(403).json({ message: "게시글을 수정할 권한이 없습니다." });
+    }
+
+    const postResult = await Post.findOneAndUpdate({ postId }, { title, content, isPrivate });
+
+    if (!postResult) {
+      return res.status(400).json({ message: "미지의 이유로 게시글 수정에 실패하였습니다." });
+    }
+
+    console.log(`게시글 수정 성공: postId - ${postId}`);
+    res.status(200).json({
+      message: `게시글 ${postResult.title}(postId:${postResult.postId})의 수정이 완료되었습니다.`,
+      postResult,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시글 수정 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
 
 // 게시글 삭제
-app.delete("/api/protected/posts", async (req, res) => {});
+app.delete("/api/protected/posts/:postId/delete", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { userId } = res.locals;
+    const { postId } = req.params; // postId 값을 조회
+    console.log(`게시글 삭제 시도: postId - ${postId}`);
+
+    // 게시글 조회
+    const requestedPost = await Post.findOne({ postId });
+
+    // 게시글이 존재하지 않으면 오류 응답
+    if (!requestedPost) {
+      return res.status(404).json({ message: "삭제할 게시글을 찾을 수 없습니다." });
+    }
+
+    // 사용자 인증 및 권한 검사
+    if (requestedPost.userId !== userId) {
+      return res.status(403).json({ message: "게시글을 삭제할 권한이 없습니다." });
+    }
+
+    const postResult = await Post.findOneAndDelete({ postId });
+
+    if (!postResult) {
+      return res.status(400).json({ message: "미지의 이유로 게시글 삭제에 실패하였습니다." });
+    }
+
+    console.log(`게시글 삭제 성공: postId - ${postId}`);
+    res.status(200).json({
+      message: `게시글 ${postResult.title}(postId:${postResult.postId})의 삭제가 완료되었습니다.`,
+      postResult,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시글 삭제 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
 
 // 주기적으로 만료된 토큰 정리 작업 수행
 setInterval(() => {

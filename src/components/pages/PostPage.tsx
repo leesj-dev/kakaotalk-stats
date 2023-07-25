@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import H2 from "../atoms/H2";
 
 const PostPageContainer = styled.div`
   margin: 200px auto;
@@ -111,27 +112,71 @@ const NonePostContainer = styled.div`
   font-size: 2rem;
 `;
 
-const PostItem = ({
-  title,
-  content,
-  nickname,
-  createdAt,
-}: {
-  title: string;
-  content: string;
-  nickname: string;
-  createdAt: string;
-}) => {
-  return (
-    <Post>
-      <PostTitle>제목: {title}</PostTitle>
-      <PostMeta>
-        작성자: {nickname}, 작성일: {createdAt}
-      </PostMeta>
-      <PostContent>{content}</PostContent>
-    </Post>
-  );
-};
+const CurrentPostContainer = styled.div`
+  margin-bottom: 3rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const CurrentPostTitle = styled.div`
+  font-size: 2rem;
+  font-weight: 700;
+`;
+
+const CurrentPostAuthor = styled.div`
+  font-size: 1.7rem;
+`;
+
+const CurrentPostCreatedAt = styled.div`
+  font-size: 1.7rem;
+`;
+
+const CurrentPostContent = styled.div`
+  font-size: 1.7rem;
+`;
+
+const PostButtonBox = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const DeleteButton = styled.button`
+  font-size: 1.7rem;
+  padding: 8px 12px;
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const EditButton = styled.button`
+  font-size: 1.7rem;
+  padding: 8px 12px;
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
 
 interface PostPageProps {
   accessToken: string;
@@ -142,6 +187,12 @@ const PostPage = ({ accessToken }: PostPageProps) => {
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const [posts, setPosts] = useState<any>([]);
+  const [currentPost, setCurrentPost] = useState<any>(null);
+
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
+  const [editIsPrivate, setEditIsPrivate] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const initializeForm = () => {
     setTitle("");
@@ -168,7 +219,100 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
       console.log(`${title} 게시물 작성이 완료되었습니다.`);
       initializeForm();
-      setPosts([...posts.unshift(result.data.post)]);
+      setPosts([result.data.post, ...posts]);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const viewPost = async (post: any) => {
+    try {
+      const result = await axios.get(`/api/posts/${post.postId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
+      setCurrentPost(result.data.postResult[0]);
+      setIsEditing(false);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const clickEditPost = async (e: React.FormEvent<HTMLButtonElement>, post: any) => {
+    e.preventDefault();
+    try {
+      const result = await axios.get(`/api/protected/posts/${post.postId}/edit/authorization`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(`${post.title} 게시물 수정 권한 확인이 완료되었습니다.`);
+      setEditTitle(post.title);
+      setEditContent(post.content);
+      setEditIsPrivate(post.isPrivate);
+      setIsEditing(!isEditing);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const editPost = async (e: React.FormEvent<HTMLFormElement>, post: any) => {
+    e.preventDefault();
+    const toEditData = {
+      title: editTitle,
+      content: editContent,
+      isPrivate: editIsPrivate,
+    };
+
+    try {
+      const result = await axios.put(
+        `/api/protected/posts/${post.postId}/edit`,
+        { toEditData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(`${post.title} 게시물 수정이 완료되었습니다.`);
+      const editedPostId = result.data.postResult.postId;
+      const editedPostIndex = posts.findIndex((item: any) => item.postId === editedPostId);
+
+      const copiedPosts = [...posts];
+      copiedPosts[editedPostIndex] = {
+        ...result.data.postResult,
+        ...toEditData,
+      };
+      setPosts(copiedPosts);
+      setCurrentPost(copiedPosts[editedPostIndex]);
+      setIsEditing(false);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deletePost = async (e: React.FormEvent<HTMLButtonElement>, post: any) => {
+    e.preventDefault();
+    try {
+      const result = await axios.delete(`/api/protected/posts/${post.postId}/delete`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log(`${post.title} 게시물 삭제가 완료되었습니다.`);
+      const deletedPostId = result.data.postResult.postId;
+      setPosts(posts.filter((post: any) => post.postId !== deletedPostId));
+      setCurrentPost(null);
+
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -178,7 +322,6 @@ const PostPage = ({ accessToken }: PostPageProps) => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        console.log("???");
         const result = await axios.get("/api/posts");
         console.log(`게시물 조회가 완료되었습니다.`);
         setPosts(result.data.posts);
@@ -193,17 +336,46 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
   return (
     <PostPageContainer>
+      {currentPost &&
+        (isEditing ? (
+          <FormContainer>
+            <FormGroup onSubmit={(e) => editPost(e, currentPost)}>
+              <Label>제목</Label>
+              <Input type="text" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
+              <Label>내용</Label>
+              <Textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} />
+              <Label>비밀글</Label>
+              <Checkbox
+                type="checkBox"
+                checked={editIsPrivate}
+                onChange={(e) => setEditIsPrivate(e.target.checked)}
+              ></Checkbox>
+              <Button type="submit">수정하기</Button>
+            </FormGroup>
+          </FormContainer>
+        ) : (
+          <CurrentPostContainer>
+            <CurrentPostTitle>제목: {currentPost.title}</CurrentPostTitle>
+            <CurrentPostAuthor>작성자: {currentPost.nickname}</CurrentPostAuthor>
+            <CurrentPostCreatedAt>작성일: {currentPost.createdAt}</CurrentPostCreatedAt>
+            <CurrentPostContent>내용: {currentPost.content}</CurrentPostContent>
+            <PostButtonBox>
+              <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
+              <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
+            </PostButtonBox>
+          </CurrentPostContainer>
+        ))}
       <PostPageTitle>게시판</PostPageTitle>
       {posts ? (
         <PostList>
           {posts.map((post: any) => (
-            <PostItem
-              key={post.postId}
-              title={post.title}
-              content={post.content}
-              nickname={post.nickname}
-              createdAt={post.createdAt}
-            />
+            <Post onClick={() => viewPost(post)}>
+              <PostTitle>제목: {post.title}</PostTitle>
+              <PostMeta>
+                작성자: {post.nickname}, 작성일: {post.createdAt}
+              </PostMeta>
+              <PostContent>{post.content}</PostContent>
+            </Post>
           ))}
         </PostList>
       ) : (
@@ -221,7 +393,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
             checked={isPrivate}
             onChange={(e) => setIsPrivate(e.target.checked)}
           ></Checkbox>
-          <Button type="submit">글 작성하기</Button>
+          <Button type="submit">글쓰기</Button>
         </FormGroup>
       </FormContainer>
     </PostPageContainer>
