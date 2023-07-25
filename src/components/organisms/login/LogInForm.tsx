@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getTokenFromCookie } from "../../../module/common/getTokenFromCookie";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
@@ -73,6 +73,8 @@ interface accessTokenProps {
 }
 
 const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: accessTokenProps) => {
+  const navigate = useNavigate();
+
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
@@ -97,6 +99,7 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
   const logInTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const data = { userId, password, isRememberMe };
     try {
       const result = await axios.post("/api/users/login", {
         userId,
@@ -108,9 +111,11 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
       setAccessToken(accessToken);
       setUserData(result.data);
       console.log(userId + "님의 로그인이 완료되었습니다.");
+      navigate("/");
       return console.log(result);
     } catch (error) {
       console.error(error);
+      console.error(data);
     }
   };
 

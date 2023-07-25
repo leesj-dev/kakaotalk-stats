@@ -5,6 +5,7 @@ import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMe
 import NavHead from "../../organisms/navigation/NavHead";
 import NavSideMenu from "../../organisms/navigation/NavSide";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
+import { UserData } from "../../organisms/login/WithdrawButton";
 
 const NavigationContainer = styled.div<{ isDarkMode: boolean }>`
   position: fixed;
@@ -21,9 +22,18 @@ export interface NavProps {
   closeMenu: () => void;
   isDarkMode: boolean;
   isAnalyzedMessagesExist: boolean;
+  userData: UserData | null;
+  setUserData: (userData: UserData | null) => void;
+  accessToken: string;
+  setAccessToken: (accessToken: string) => void;
 }
-
-const Navigation = () => {
+interface userDataProps {
+  userData: UserData | null;
+  setUserData: (userData: UserData | null) => void;
+  accessToken: string;
+  setAccessToken: (accessToken: string) => void;
+}
+const Navigation = ({ userData, setUserData, accessToken, setAccessToken }: userDataProps) => {
   const dispatch = useDispatch();
 
   const isAnalyzedMessagesExist = useSelector(
@@ -65,8 +75,20 @@ const Navigation = () => {
 
   return (
     <NavigationContainer isDarkMode={isDarkMode}>
-      <NavHead {...navHeadProps} />
-      <NavSideMenu {...navSideProps} />
+      <NavHead
+        {...navHeadProps}
+        userData={userData}
+        setUserData={setUserData}
+        accessToken={accessToken}
+        setAccessToken={setAccessToken}
+      />
+      <NavSideMenu
+        {...navSideProps}
+        userData={userData}
+        setUserData={setUserData}
+        accessToken={accessToken}
+        setAccessToken={setAccessToken}
+      />
     </NavigationContainer>
   );
 };

@@ -106,6 +106,7 @@ const NavSide: React.FC<NavSideMenuProps> = ({
   isWideScreen,
   isDarkMode,
   isAnalyzedMessagesExist,
+  userData,
 }) => {
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice

@@ -10,6 +10,7 @@ import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import DarkModeButton from "../../molecules/navigation/DarkModeButton";
+import LogOutButton from "../login/LogOutButton";
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;
@@ -71,7 +72,15 @@ const MobileMenuIcon = styled(Icon)`
 
 interface NavHeadProps extends NavProps {}
 
-const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMessagesExist }) => {
+const NavHead: React.FC<NavHeadProps> = ({
+  closeMenu,
+  isDarkMode,
+  isAnalyzedMessagesExist,
+  userData,
+  setUserData,
+  accessToken,
+  setAccessToken,
+}) => {
   const dispatch = useDispatch();
 
   const debounceTimeoutRef = useRef<number | null>(null);
@@ -119,7 +128,11 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
           <Link to="/attachment">분석하기</Link>
           {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
-          <Link to="/login">로그인</Link>
+          {userData ? (
+            <LogOutButton userData={userData} setUserData={setUserData} accessToken={accessToken} />
+          ) : (
+            <Link to="/login">로그인</Link>
+          )}
         </Menus>
         <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
       </MenuBox>

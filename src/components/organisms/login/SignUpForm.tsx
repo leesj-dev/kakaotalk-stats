@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import Paragraph from "../../atoms/Paragraph";
 import Span from "../../atoms/Span";
+import { useNavigate } from "react-router-dom";
 
 const FormContainer = styled.div`
   background: #f2f2f2;
@@ -62,6 +63,8 @@ const LoginButton = styled.span`
 `;
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+
   const [nickname, setName] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -75,6 +78,7 @@ const SignUpForm = () => {
         nickname,
       });
       console.log(userId + "님의 회원가입이 완료되었습니다.");
+      navigate("/login");
       return console.log(result);
     } catch (error) {
       console.error(error);

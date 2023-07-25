@@ -91,7 +91,14 @@ app.post("/api/users/login", async (req, res) => {
 
   try {
     // user 데이터 확인
-    const requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
+    let requestedAccessToken;
+    if (req.headers && req.headers.cookie) {
+      requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
+    }
+    // if (req.headers && req.headers.cookie) {
+    //   const requestedAccessToken = getTokenFromCookie(req, res, "accessToken");
+    // }
+
     const { userId, password, isRememberMe } = req.body;
     const userData = await User.findOne({ userId });
 
