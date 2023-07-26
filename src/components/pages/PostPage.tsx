@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import H2 from "../atoms/H2";
 
 const PostPageContainer = styled.div`
   margin: 200px auto;
@@ -228,11 +227,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
   const viewPost = async (post: any) => {
     try {
-      const result = await axios.get(`/api/posts/${post.postId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const result = await axios.get(`/api/posts/${post.postId}`);
 
       console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
       setCurrentPost(result.data.postResult[0]);
