@@ -29,23 +29,14 @@ const UserPage = ({ userData, setUserData, accessToken, setAccessToken }: access
 
   return (
     <UserPageContainer>
-      {/* {userData ? ( */}
-      {/* <> */}
-
-      {/* </> */}
-      {/* ) : ( */}
-      {/* <> */}
-      {/* <SignUpForm /> */}
       <LogInForm
         userData={userData}
         setUserData={setUserData}
         accessToken={accessToken}
         setAccessToken={setAccessToken}
       />
-      {/* <LogOutButton userData={userData} setUserData={setUserData} accessToken={accessToken} />
-      <WithdrawButton userData={userData} setUserData={setUserData} accessToken={accessToken} /> */}
-      {/* </> */}
-      {/* // )} */}
+
+      {/* <WithdrawButton userData={userData} setUserData={setUserData} accessToken={accessToken} /> */}
     </UserPageContainer>
   );
 };
