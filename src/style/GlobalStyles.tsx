@@ -14,7 +14,7 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
-
+/* outline: 1px solid #f00; */
 }
 
 body {

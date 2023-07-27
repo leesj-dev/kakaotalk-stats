@@ -14,7 +14,11 @@ import axios from "axios";
 import UserPage from "./components/pages/UserPage";
 import { getTokenFromCookie } from "./module/common/getTokenFromCookie";
 import { UserData } from "./components/organisms/login/WithdrawButton";
+<<<<<<< HEAD
+import SignUp from "./components/pages/SignUp";
+=======
 import PostPage from "./components/pages/PostPage";
+>>>>>>> 9e11deee49745f03d2528d3c4761f95e19ad99da
 
 function App() {
   const location = useLocation();
@@ -26,33 +30,40 @@ function App() {
   useEffect(() => {
     const cookieCheckForRememberLogin = async () => {
       const cookieAccessToken = getTokenFromCookie(document.cookie);
+      console.log(cookieAccessToken);
       if (cookieAccessToken) {
         const result = await axios.post("/api/users/login", null, {
           headers: {
             Authorization: `Bearer ${cookieAccessToken}`,
           },
         });
-        setAccessToken(cookieAccessToken);
-        console.log(result.data.userId + "님의 자동 로그인이 완료되었습니다.");
-        return setUserData(result.data);
+        setAccessToken(accessToken);
+        return setUserData(result.data.data);
       }
     };
-
-    // 쿠키에 accessToken이 존재하는 경우 자동 로그인 시도
     (async () => cookieCheckForRememberLogin())();
   }, []);
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   return (
     <>
       <GlobalStyle />
       <Wrapper>
         <FloatingMenu />
-        <Navigation />
+        <Navigation
+          userData={userData}
+          setUserData={setUserData}
+          accessToken={accessToken}
+          setAccessToken={setAccessToken}
+        />
         <Routes>
           <Route path={"/"} element={<MainPage />} />
           <Route path={"/attachment"} element={<AttachmentPage />} />
           <Route
-            path={"/users"}
+            path={"/login"}
             element={
               <UserPage
                 userData={userData}
@@ -62,7 +73,11 @@ function App() {
               />
             }
           />
+
+          <Route path={"/join"} element={<SignUp />} />
+
           <Route path={"/posts"} element={<PostPage accessToken={accessToken} />} />
+
         </Routes>
         <Routes>
           <Route path={"/dashboard"} element={<DashboardPage />} />

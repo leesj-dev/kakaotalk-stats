@@ -1,23 +1,36 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getTokenFromCookie } from "../../../module/common/getTokenFromCookie";
+import { FlexRowDiv } from "../../atoms/FlexDiv";
+import Paragraph from "../../atoms/Paragraph";
 import { UserData } from "./WithdrawButton";
 
+const FormWrapper = styled.div`
+  padding: 2rem;
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #f8f8f8;
+`;
+
 const FormContainer = styled.div`
-  background: #f2f2f2;
-  padding: 20px;
-  border-radius: 5px;
+  width: 30%;
 `;
 
 const FormTitle = styled.h2`
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   text-align: center;
   font-size: 2rem;
 `;
 
 const FormGroup = styled.form`
-  margin-bottom: 10px;
+  margin-bottom: 1.5rem;
 `;
 
 const Label = styled.label`
@@ -29,25 +42,54 @@ const Label = styled.label`
 const Input = styled.input`
   margin-bottom: 1rem;
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border-radius: 3px;
-  border: 1px solid #ccc;
-  font-size: 1.7rem;
+  border: 1px solid #ebebeb;
+  font-size: 1.3rem;
+`;
+
+const AutoLoginBox = styled(FlexRowDiv)`
+  margin-bottom: 5px;
+  gap: 5px;
+  > * {
+    width: auto;
+  }
+  label {
+    position: relative;
+    top: 0.5px;
+    font-size: 1.2rem;
+  }
+`;
+
+const ErrorText = styled.div`
+  margin-bottom: 10px;
+  color: #f00;
 `;
 
 const Button = styled.button`
+  padding: 1rem;
   width: 100%;
-  padding: 10px;
-  background: #4caf50;
-  color: white;
+  background: #2da0fa;
+  color: #fff;
   border: none;
   border-radius: 3px;
   font-size: 1.7rem;
   cursor: pointer;
 
   &:hover {
-    background: #26942a;
+    background: #1170ff;
   }
+`;
+
+const SignUpBox = styled.div`
+  font-size: 1.3rem;
+  text-align: center;
+`;
+
+const SignUpButton = styled.span`
+  margin-left: 5px;
+  font-weight: 700;
+  border-bottom: 1px solid #000;
 `;
 
 interface accessTokenProps {
@@ -58,16 +100,33 @@ interface accessTokenProps {
 }
 
 const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: accessTokenProps) => {
+  const navigate = useNavigate();
+
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
+  // 유효성 검사 메세지
+  const [errMessege, setErrMessege] = useState("");
 
   const handleClickRememberMe = () => {
     setIsRememberMe(!isRememberMe);
   };
 
+  // 로그인 유효성
+  const loginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (userId === "" || password === "") {
+      setErrMessege("아이디 또는 비밀번호를 입력해주세요");
+      return;
+    }
+    logInTest(e);
+  };
+
   const logInTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const data = { userId, password, isRememberMe };
     try {
       const result = await axios.post("/api/users/login", {
         userId,
@@ -79,9 +138,11 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
       setAccessToken(accessToken);
       setUserData(result.data);
       console.log(userId + "님의 로그인이 완료되었습니다.");
+      navigate("/");
       return console.log(result);
     } catch (error) {
       console.error(error);
+      setErrMessege("아이디 또는 비밀번호를 확인해주세요");
     }
   };
 
@@ -104,19 +165,43 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
   };
 
   return (
-    <FormContainer>
-      <FormTitle>로그인</FormTitle>
-      <FormGroup onSubmit={(e) => logInTest(e)}>
-        <Label>아이디</Label>
-        <Input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} />
-        <Label>비밀번호</Label>
-        <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <Label>자동 로그인</Label>
-        <Input type="checkbox" checked={isRememberMe} onChange={() => handleClickRememberMe()} />
-        <Button type="submit">로그인</Button>
-      </FormGroup>
-      <Button onClick={(e) => protectedUrlTest(e)}>토큰 테스트</Button>
-    </FormContainer>
+    <FormWrapper>
+      <FormContainer>
+        <FormTitle>로그인</FormTitle>
+        <FormGroup onSubmit={loginSubmit}>
+          <Input
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            placeholder="아이디"
+          />
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호"
+          />{" "}
+          <AutoLoginBox>
+            <Input
+              type="checkbox"
+              id="remember"
+              checked={isRememberMe}
+              onChange={() => handleClickRememberMe()}
+            />
+            <Label>로그인 상태 유지</Label>
+          </AutoLoginBox>
+          <ErrorText>{errMessege}</ErrorText>
+          <Button type="submit">로그인</Button>
+        </FormGroup>
+        <SignUpBox>
+          이미 회원정보가 있으신가요?
+          <SignUpButton>
+            <Link to="/join">회원가입</Link>
+          </SignUpButton>
+        </SignUpBox>
+        {/* <Button onClick={(e) => protectedUrlTest(e)}>토큰 테스트</Button> */}
+      </FormContainer>
+    </FormWrapper>
   );
 };
 

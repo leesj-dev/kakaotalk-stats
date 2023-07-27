@@ -8,6 +8,7 @@
  * @throws {Error} 오류가 발생할 경우 예외를 던집니다.
  */
 exports.getTokenFromCookie = (req, res, token) => {
+  console.log(req.headers);
   try {
     const tokenForm = `${token}=`;
     const tokenResult =

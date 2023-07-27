@@ -3,24 +3,12 @@ import React from "react";
 import styled from "styled-components";
 import { UserData } from "./WithdrawButton";
 
-const LogOutContainer = styled.div`
-  padding: 2rem;
-  background: #f2f2f2;
-`;
+const LogOutContainer = styled.div``;
 
 const Button = styled.button`
-  width: 100%;
-  padding: 1rem 2rem;
-  font-size: 2rem;
-  background: #4caf50;
-  color: white;
-  border-radius: 3px;
+  background-color: transparent;
   border: none;
   cursor: pointer;
-
-  &:hover {
-    background: #26942a;
-  }
 `;
 
 interface LogOutButtonProps {
