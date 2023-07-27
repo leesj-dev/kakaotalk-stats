@@ -228,9 +228,10 @@ const PostPage = ({ accessToken }: PostPageProps) => {
   const viewPost = async (post: any) => {
     try {
       const result = await axios.get(`/api/posts/${post.postId}`);
+      console.log(result.data);
 
       console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
-      setCurrentPost(result.data.postResult[0]);
+      setCurrentPost(result.data.posts[0]);
       setIsEditing(false);
       return console.log(result);
     } catch (error) {
@@ -277,12 +278,12 @@ const PostPage = ({ accessToken }: PostPageProps) => {
       );
 
       console.log(`${post.title} 게시물 수정이 완료되었습니다.`);
-      const editedPostId = result.data.postResult.postId;
+      const editedPostId = result.data.post.postId;
       const editedPostIndex = posts.findIndex((item: any) => item.postId === editedPostId);
 
       const copiedPosts = [...posts];
       copiedPosts[editedPostIndex] = {
-        ...result.data.postResult,
+        ...result.data.post,
         ...toEditData,
       };
       setPosts(copiedPosts);
@@ -304,7 +305,8 @@ const PostPage = ({ accessToken }: PostPageProps) => {
       });
 
       console.log(`${post.title} 게시물 삭제가 완료되었습니다.`);
-      const deletedPostId = result.data.postResult.postId;
+      console.log(result.data);
+      const deletedPostId = result.data.post.postId;
       setPosts(posts.filter((post: any) => post.postId !== deletedPostId));
       setCurrentPost(null);
 

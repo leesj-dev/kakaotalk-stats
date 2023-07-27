@@ -312,10 +312,10 @@ app.get("/api/posts/:postId", async (req, res) => {
   try {
     const { postId } = req.params; // postId 값을 조회
     console.log(`게시글 조회 시도: postId - ${postId}`);
-    const postResult = await Post.find({ postId });
+    const posts = await Post.find({ postId });
 
     // 존재하지 않는 게시물인 경우
-    if (!postResult.length) {
+    if (!posts.length) {
       res.status(404).json({
         message: `게시글 조회 실패: postId - ${postId}`,
       });
@@ -323,8 +323,8 @@ app.get("/api/posts/:postId", async (req, res) => {
 
     console.log(`게시글 조회 성공: postId - ${postId}`);
     res.status(200).json({
-      message: `게시글 ${postResult[0].title}(postId:${postResult[0].postId})의 조회가 완료되었습니다.`,
-      postResult,
+      message: `게시글 ${posts[0].title}(postId:${posts[0].postId})의 조회가 완료되었습니다.`,
+      posts,
     });
   } catch (error) {
     console.error(error);
@@ -402,7 +402,7 @@ app.get("/api/protected/posts/:postId/edit/authorization", async (req, res) => {
     console.log(`게시글 권환 확인 성공: postId - ${postId} userId - ${userId}`);
     res.status(200).json({
       message: `게시글 ${requestedPost.title}(postId:${requestedPost.postId})의 수정 권한 확인이 완료되었습니다.`,
-      requestedPost,
+      post: requestedPost,
     });
   } catch (error) {
     console.error(error);
@@ -447,7 +447,7 @@ app.put("/api/protected/posts/:postId/edit", async (req, res) => {
     console.log(`게시글 수정 성공: postId - ${postId}`);
     res.status(200).json({
       message: `게시글 ${updatedPost.title}(postId:${updatedPost.postId})의 수정이 완료되었습니다.`,
-      updatedPost,
+      post: updatedPost,
     });
   } catch (error) {
     console.error(error);
@@ -482,7 +482,7 @@ app.delete("/api/protected/posts/:postId/delete", async (req, res) => {
     console.log(`게시글 삭제 성공: postId - ${postId}`);
     res.status(200).json({
       message: `게시글 ${deletedPost.title}(postId:${deletedPost.postId})의 삭제가 완료되었습니다.`,
-      deletedPost,
+      post: deletedPost,
     });
   } catch (error) {
     console.error(error);
