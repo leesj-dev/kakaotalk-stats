@@ -46,14 +46,16 @@ const userSchema = new kmgDB.Schema({
   password: {
     type: String,
     required: [true, "패스워드를 입력하세요."],
-    match: [/^[a-zA-Z0-9]{4,16}$/, "패스워드는 4 ~ 16자의 영문, 숫자 조합으로 입력해야 합니다."],
     trim: true,
   },
   nickname: {
     type: String,
     required: [true, "닉네임을 입력하세요."],
     unique: true,
-    match: [/^[가-힣a-zA-Z]{2,10}$/, "닉네임은 2 ~ 10자의 한글, 영문, 숫자 조합으로 입력해야 합니다."],
+    match: [
+      /^[가-힣a-zA-Z0-9]{2,10}$/,
+      "닉네임은 2 ~ 10자의 한글, 영문, 숫자 조합으로 입력해야 합니다.",
+    ],
     trim: true,
   },
   refreshToken: { type: String },
@@ -97,9 +99,12 @@ app.post("/api/users/create", async (req, res) => {
     const { userId, password, nickname } = req.body;
     console.log(`회원가입 시도 - ID: [${userId}] Nickname: [${nickname}]`);
 
-    const hashedPassword = await hashPassword(password);
-    const newUser = new User({ userId, password: hashedPassword, nickname });
-    await newUser.save();
+    const isValidPassword = /^[a-zA-Z0-9]{4,16}$/.test(password);
+    if (isValidPassword) {
+      const hashedPassword = await hashPassword(password);
+      const newUser = new User({ userId, password: hashedPassword, nickname });
+      await newUser.save();
+    }
 
     // 회원 가입 성공
     console.log(`회원가입 성공 - ID: [${userId}] Nickname: [${nickname}]`);
