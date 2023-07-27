@@ -74,10 +74,18 @@ const LoginButton = styled.span`
   border-bottom: 1px solid #000;
 `;
 
-const ErrorText = styled.div`
+const ErrorTextBox = styled.div`
   margin-bottom: 10px;
-  color: #f00;
 `;
+const ErrorText = styled(Span)`
+  color: #f00;
+  font-size: 1rem;
+`;
+const PassText = styled(Span)`
+  color: #0c7a00;
+  font-size: 1rem;
+`;
+
 const initialIdNotice = {
   alert: false,
   message: "",
@@ -104,7 +112,7 @@ const SignUpForm = () => {
       return;
     } else if (!regexrNickname.test(nickname)) {
       setNicknameNotice({
-        message: "3~10자리 한글과 영문으로 이루어진 닉네임을 작성해주세요",
+        message: " 특수문자를 제외한 2~10자리인 닉네임을 작성해주세요",
         alert: false,
       });
       return;
@@ -143,7 +151,7 @@ const SignUpForm = () => {
       return;
     } else if (!regexrID.test(userId)) {
       setIdNotice({
-        message: "올바른 아이디 형식으로 작성해주세요",
+        message: "영문과 숫자가 포함한 문자 4~16자리로 입력해주세요",
         alert: false,
       });
       return;
@@ -169,7 +177,7 @@ const SignUpForm = () => {
       return;
     } else if (!regexrPass.test(password)) {
       setPassNotice({
-        message: "1개 이상 영문과 숫자가 포함한 문자 8~15자리로 입력해주세요",
+        message: "영문과 숫자가 포함한 문자 4~16자리로 입력해주세요",
         alert: false,
       });
       return;
@@ -210,16 +218,16 @@ const SignUpForm = () => {
               onChange={(e) => setNickname(e.target.value)}
               placeholder="이름"
             />
-            <button type="button" onClick={onCheckNickNameHandler}>
+            {/* <button type="button" onClick={onCheckNickNameHandler}>
               중복확인
-            </button>
-            <ErrorText>
+            </button> */}
+            <ErrorTextBox>
               {nickNameNotice.hasOwnProperty("alert") ? (
-                <Span>{nickNameNotice.message}</Span>
+                <ErrorText>{nickNameNotice.message}</ErrorText>
               ) : (
-                <Span>{nickNameNotice.message}</Span>
+                <PassText>{nickNameNotice.message}</PassText>
               )}
-            </ErrorText>
+            </ErrorTextBox>
           </>
           <>
             <Input
@@ -229,16 +237,16 @@ const SignUpForm = () => {
               onChange={(e) => setUserId(e.target.value)}
               placeholder="아이디"
             />
-            <button type="button" onClick={onCheckIDHandler}>
+            {/* <button type="button" onClick={onCheckIDHandler}>
               중복확인
-            </button>
-            <ErrorText>
+            </button> */}
+            <ErrorTextBox>
               {idNotice.hasOwnProperty("alert") ? (
-                <Span>{idNotice.message}</Span>
+                <ErrorText>{idNotice.message}</ErrorText>
               ) : (
-                <Span>{idNotice.message}</Span>
+                <PassText>{idNotice.message}</PassText>
               )}
-            </ErrorText>
+            </ErrorTextBox>
           </>
           <>
             <Input
@@ -248,13 +256,13 @@ const SignUpForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="비밀번호"
             />
-            <ErrorText>
+            <ErrorTextBox>
               {passNotice.hasOwnProperty("alert") ? (
-                <Span>{passNotice.message}</Span>
+                <ErrorText>{passNotice.message}</ErrorText>
               ) : (
-                <Span>{passNotice.message}</Span>
+                <PassText>{passNotice.message}</PassText>
               )}
-            </ErrorText>
+            </ErrorTextBox>
           </>
 
           <Button type="submit">가입하기</Button>

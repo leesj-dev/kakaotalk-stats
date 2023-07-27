@@ -26,7 +26,7 @@ exports.authenticateToken = (accessTokenSecretKey, UserModel) => async (req, res
     const requestedUserId = decodedToken && decodedToken.userId;
     const requestedUser = await UserModel.findOne({ userId: requestedUserId });
 
-    // 유효하지 않은 토큰이거나 존재하지 않는 userId인 경우
+    // 존재하지 않는 userId인 경우
     if (!requestedUser) {
       console.log(`접근 에러: ${ERROR_MESSAGES.INVALID_USERID}`);
       return res.status(400).json({ error: ERROR_MESSAGES.INVALID_USERID });

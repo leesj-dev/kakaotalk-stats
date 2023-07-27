@@ -12,8 +12,8 @@ const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./module/accessToken/jwtVerifyToken");
 const { getTokenFromCookie } = require("./module/accessToken/getTokenFromCookie");
 const bodyParser = require("body-parser");
-const { getAccessToken } = require("./module/accessToken/getAccessToken");
 const { createAccessToken } = require("./module/accessToken/createAccessToken");
+const { convertToKrTime } = require("./utilities/convertToKrTime");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -34,18 +34,52 @@ mongoose
   });
 const kmgDB = mongoose;
 
-// user Schema를 정의합니다.
+// 230725 todo: validator 이용하여 error 출력 기능
 const userSchema = new kmgDB.Schema({
-  userId: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  nickname: { type: String, required: true, unique: true },
+  userId: {
+    type: String,
+    required: [true, "아이디를 입력하세요."],
+    unique: true,
+    match: [/^[a-zA-Z0-9]{4,16}$/, "아이디는 4 ~ 16자의 영문, 숫자 조합으로 입력해야 합니다."],
+    trim: true,
+  },
+  password: {
+    type: String,
+    required: [true, "패스워드를 입력하세요."],
+    match: [/^[a-zA-Z0-9]{4,16}$/, "패스워드는 4 ~ 16자의 영문, 숫자 조합으로 입력해야 합니다."],
+    trim: true,
+  },
+  nickname: {
+    type: String,
+    required: [true, "닉네임을 입력하세요."],
+    unique: true,
+    match: [/^[가-힣a-zA-Z]{2,10}$/, "닉네임은 2 ~ 10자의 한글, 영문, 숫자 조합으로 입력해야 합니다."],
+    trim: true,
+  },
   refreshToken: { type: String },
   accessToken: { type: String },
   tokenExpiresAt: { type: Date, index: { expireAfterSeconds: 0 } },
 });
 
-// user model을  class로 생성합니다.
+const postSchema = new kmgDB.Schema({
+  postId: { type: Number, required: true, unique: true },
+  userId: { type: String, required: true },
+  nickname: { type: String, required: true },
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  createdAt: { type: String, default: Date.now().toLocaleString("ko-KR") },
+  isPrivate: { type: Boolean, default: false },
+});
+
+const autoIncrementSchema = new mongoose.Schema({
+  model: String, // Auto-increment를 적용할 대상 컬렉션의 이름
+  field: String, // Auto-increment를 적용할 필드의 이름
+  count: { type: Number, default: 0 }, // 현재까지 사용된 숫자 카운트
+});
+
 const User = kmgDB.model("User", userSchema);
+const Post = kmgDB.model("Post", postSchema);
+const Counter = mongoose.model("Counter", autoIncrementSchema);
 
 // 미들웨어
 app.use(cors());
@@ -56,7 +90,7 @@ app.use(bodyParser.json());
 
 app.use("/api/protected", authenticateToken(accessTokenSecretKey, User));
 
-// 회원 가입 핸들러
+// 회원 가입
 app.post("/api/users/create", async (req, res) => {
   console.log(req.path);
   try {
@@ -76,7 +110,11 @@ app.post("/api/users/create", async (req, res) => {
       const key = Object.keys(error.keyValue)[0];
       const value = error.keyValue[key];
       console.error(`error[11000]: 중복된 아이디나 닉네임 에러`);
-      res.status(409).json({ error: `${key} '${value}'는 이미 사용 중입니다.` });
+      if (key === "userId") {
+        res.status(409).json({ status: "409-1", error: `${key} '${value}'는 이미 사용 중입니다.` });
+      } else if (key === "nickname") {
+        res.status(409).json({ status: "409-2", error: `${key} '${value}'는 이미 사용 중입니다.` });
+      }
     } else {
       // 이외의 예상치 못한 오류
       console.error(error);
@@ -85,7 +123,7 @@ app.post("/api/users/create", async (req, res) => {
   }
 });
 
-// 로그인 핸들러
+// 로그인
 app.post("/api/users/login", async (req, res) => {
   console.log(req.path);
 
@@ -196,7 +234,7 @@ app.post("/api/users/login", async (req, res) => {
 app.post("/api/protected/edit", (req, res) => {
   console.log(req.path);
   const userData = res.locals;
-  // 인증된 클라이언트에게만 허용된 핸들러 로직
+  // 인증된 클라이언트에게만 허용된 로직
   res.status(200).json(userData);
 });
 
@@ -246,6 +284,204 @@ app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "회원탈퇴 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 게시판 조회
+app.get("/api/posts", async (req, res) => {
+  console.log(req.path);
+  try {
+    console.log(`게시판 조회 시도`);
+    const posts = await Post.find();
+    console.log(`게시판 조회 성공`);
+    res.status(200).json({ message: `게시판 조회가 완료되었습니다.`, posts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시판 조회 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 게시글 조회
+app.get("/api/posts/:postId", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { postId } = req.params; // postId 값을 조회
+    console.log(`게시글 조회 시도: postId - ${postId}`);
+    const postResult = await Post.find({ postId });
+
+    // 존재하지 않는 게시물인 경우
+    if (!postResult.length) {
+      res.status(404).json({
+        message: `게시글 조회 실패: postId - ${postId}`,
+      });
+    }
+
+    console.log(`게시글 조회 성공: postId - ${postId}`);
+    res.status(200).json({
+      message: `게시글 ${postResult[0].title}(postId:${postResult[0].postId})의 조회가 완료되었습니다.`,
+      postResult,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시판 조회 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 게시글 작성
+app.post("/api/protected/posts/create", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { title, content, isPrivate } = req.body;
+    const { userId, nickname } = res.locals;
+
+    console.log(`게시글 작성 시도: userId - ${userId}`);
+
+    // 작성될 게시글 정보
+    const currentCounter = await Counter.find({ model: "Post" });
+    const newPost = {
+      postId: currentCounter[0].count + 1,
+      userId,
+      nickname,
+      title,
+      content,
+      createdAt: convertToKrTime(new Date()), // 현재 시간을 한국 시간으로 변환하여 저장
+      isPrivate,
+    };
+
+    const postResult = await Post.create(newPost);
+
+    // count 값 증가 후, 현재 값을 가져옴
+    await Counter.findOneAndUpdate(
+      { model: "Post" },
+      { $inc: { count: 1 } },
+      { new: true, upsert: true }
+    );
+
+    // 게시글 작성 성공
+    console.log(`게시글 작성 성공: userId - ${userId}`);
+    res.status(200).json({
+      message: `게시글 (${title})의 작성이 완료되었습니다.`,
+      post: postResult,
+    });
+  } catch (error) {
+    if (error._message === "Post validation failed") {
+      return res.status(400).json({ message: "글 제목 또는 내용을 입력해야 합니다." });
+    }
+
+    console.error(error);
+    res.status(500).json({ message: "게시글 작성 작업 수행 중 문제가 발생하였습니다.", result: [] });
+  }
+});
+
+// 게시글 수정 권한 확인
+app.get("/api/protected/posts/:postId/edit/authorization", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { userId } = res.locals;
+    const { postId } = req.params; // postId 값을 조회
+    console.log(`게시글 권한 확인 시도: postId - ${postId} userId - ${userId}`);
+
+    // 게시글 조회
+    const requestedPost = await Post.findOne({ postId });
+
+    // 게시글이 존재하지 않으면 오류 응답
+    if (!requestedPost) {
+      return res.status(404).json({ message: "수정할 게시글을 찾을 수 없습니다." });
+    }
+
+    // 사용자 인증 및 권한 검사
+    if (requestedPost.userId !== userId) {
+      return res.status(403).json({ message: "게시글을 수정할 권한이 없습니다." });
+    }
+
+    console.log(`게시글 권환 확인 성공: postId - ${postId} userId - ${userId}`);
+    res.status(200).json({
+      message: `게시글 ${requestedPost.title}(postId:${requestedPost.postId})의 수정 권한 확인이 완료되었습니다.`,
+      requestedPost,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시글 수정 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 게시글 수정
+app.put("/api/protected/posts/:postId/edit", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { title, content, isPrivate } = req.body.toEditData;
+    const { userId } = res.locals;
+    const { postId } = req.params; // postId 값을 조회
+    console.log(`게시글 수정 시도: postId - ${postId}`);
+
+    // 요청 데이터에 제목이 없는 경우
+    if (!title) {
+      return res.status(400).json({ status: "400-1", error: "제목을 입력해야 합니다." });
+    }
+
+    // 요청 데이터에 내용이 없는 경우
+    if (!content) {
+      return res.status(400).json({ status: "400-2", error: "본문을 입력해야 합니다." });
+    }
+
+    // 게시글 조회
+    const requestedPost = await Post.findOne({ postId });
+
+    // 게시글이 존재하지 않으면 오류 응답
+    if (!requestedPost) {
+      return res.status(404).json({ message: "수정할 게시글을 찾을 수 없습니다." });
+    }
+
+    // 사용자 인증 및 권한 검사
+    if (requestedPost.userId !== userId) {
+      return res.status(403).json({ message: "게시글을 수정할 권한이 없습니다." });
+    }
+
+    const updatedPost = await Post.findOneAndUpdate({ postId }, { title, content, isPrivate });
+
+    console.log(`게시글 수정 성공: postId - ${postId}`);
+    res.status(200).json({
+      message: `게시글 ${updatedPost.title}(postId:${updatedPost.postId})의 수정이 완료되었습니다.`,
+      updatedPost,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시글 수정 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 게시글 삭제
+app.delete("/api/protected/posts/:postId/delete", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { userId } = res.locals;
+    const { postId } = req.params; // postId 값을 조회
+    console.log(`게시글 삭제 시도: postId - ${postId}`);
+
+    // 게시글 조회
+    const requestedPost = await Post.findOne({ postId });
+
+    // 게시글이 존재하지 않으면 오류 응답
+    if (!requestedPost) {
+      return res.status(404).json({ message: "이미 삭제된 게시글입니다." });
+    }
+
+    // 사용자 인증 및 권한 검사
+    if (requestedPost.userId !== userId) {
+      return res.status(403).json({ message: "게시글을 삭제할 권한이 없습니다." });
+    }
+
+    // 게시글 삭제
+    const deletedPost = await Post.findOneAndDelete({ postId });
+
+    console.log(`게시글 삭제 성공: postId - ${postId}`);
+    res.status(200).json({
+      message: `게시글 ${deletedPost.title}(postId:${deletedPost.postId})의 삭제가 완료되었습니다.`,
+      deletedPost,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "게시글 삭제 작업 수행 중 문제가 발생하였습니다." });
   }
 });
 
