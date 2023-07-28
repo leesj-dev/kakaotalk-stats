@@ -106,7 +106,7 @@ const SignUpForm = () => {
       return;
     } else if (!regexrNickname.test(nickname)) {
       setNicknameNotice({
-        message: " 특수문자를 제외한 2~10자리인 닉네임을 작성해주세요",
+        message: "2 ~ 10자의 한글, 영문 조합으로 입력해야 합니다.",
         alert: false,
       });
       return;
@@ -172,14 +172,14 @@ const SignUpForm = () => {
           const data = axiosError.response.data as { status: string; error: string };
           const subCode = data.status;
           if (subCode === "409-1") {
-            setIdNotice({ message: data.error, alert: false });
+            setIdNotice({ message: "이미 사용중인 아이디입니다", alert: false });
           }
           if (subCode === "409-2") {
-            setNicknameNotice({ message: data.error, alert: false });
+            setNicknameNotice({ message: "이미 사용중인 닉네임입니다", alert: false });
           }
           if (subCode === "409-3") {
-            setIdNotice({ message: data.error, alert: false });
-            setNicknameNotice({ message: data.error, alert: false });
+            setIdNotice({ message: "이미 사용중인 아이디입니다", alert: false });
+            setNicknameNotice({ message: "이미 사용중인 닉네임입니다", alert: false });
           }
         }
       }

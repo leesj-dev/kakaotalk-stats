@@ -131,7 +131,7 @@ app.post("/api/users/create", async (req, res) => {
     if (foundUserByRequestedUserId) {
       return res.status(409).json({
         status: "409-1",
-        error: `'${foundUserByRequestedUserId.userId}'는 이미 사용 중입니다.`,
+        error: "이미 사용중인 아이디입니다",
       });
     }
 
@@ -139,7 +139,7 @@ app.post("/api/users/create", async (req, res) => {
     if (foundUserByRequestedNickname) {
       return res.status(409).json({
         status: "409-2",
-        error: `'${foundUserByRequestedNickname.nickname}'는 이미 사용 중입니다.`,
+        error: " 이미 사용중인 닉네임입니다",
       });
     }
 
