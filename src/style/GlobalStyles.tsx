@@ -28,6 +28,7 @@ body {
 
 body[data-theme='light'] {
   --mainBlue: #2da0fa;
+  --mainRed: #ff2c2c;
   --mainWhite: #ffffff;
   --mainBlack: #191F28;
   --mainGray: #a5aeb7;
@@ -35,6 +36,7 @@ body[data-theme='light'] {
   --mainBlueHover: #1170ff;
   --border: #e1e1e1;
   --mainBackground: #ffffff;
+  --userPageBackground: #f8f8f8;
   --footerBackground: #f2f2f2;
   --navBackground: #ffffff;
   --dashboardBackground: #2da0fa;
@@ -48,6 +50,7 @@ body[data-theme='light'] {
 
 body[data-theme='dark'] {
   --mainBlue: #0d92ff;
+  --mainRed: #ff2c2c;
   --mainWhite: #2b2b2b;
   --mainBlack: #000000;
   --mainGray: #676767;
@@ -55,6 +58,7 @@ body[data-theme='dark'] {
   --mainBlueHover: #1170ff;
   --border: #515151;
   --mainBackground: #171717;
+  --userPageBackground: #343434;
   --footerBackground: #202020;
   --navBackground: #202020;
   --dashboardBackground: #151515;

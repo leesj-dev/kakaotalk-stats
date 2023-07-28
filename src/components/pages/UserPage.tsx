@@ -1,9 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
-import SignUpForm from "../organisms/login/SignUpForm";
 import LogInForm from "../organisms/login/LogInForm";
-import LogOutButton from "../organisms/login/LogOutButton";
 import WithdrawButton, { UserData } from "../organisms/login/WithdrawButton";
 
 const UserPageContainer = styled.div`
@@ -11,7 +8,7 @@ const UserPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 3rem;
-  height: 70vh;
+  height: calc(100vh - 210.5px);
 `;
 
 interface accessTokenProps {

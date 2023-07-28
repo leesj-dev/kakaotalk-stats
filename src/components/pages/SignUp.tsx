@@ -6,7 +6,7 @@ const SigUpContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 3rem;
-  height: 70vh;
+  height: calc(100vh - 210.5px);
 `;
 
 const SignUp = () => {

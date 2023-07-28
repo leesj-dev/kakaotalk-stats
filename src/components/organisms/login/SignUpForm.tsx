@@ -21,11 +21,11 @@ const FormWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background: #f8f8f8;
+  background: var(--userPageBackground);
 `;
 
 const FormContainer = styled.div`
-  width: 30%;
+  width: 400px;
 `;
 
 const FormTitle = styled.h2`
@@ -50,7 +50,7 @@ const Input = styled.input`
 const Button = styled.button`
   padding: 1rem;
   width: 100%;
-  background: #2da0fa;
+  background: var(--mainBlue);
   color: white;
   border: none;
   border-radius: 3px;
@@ -58,7 +58,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: #1170ff;
+    background: var(--mainBlueHover);
   }
 `;
 
@@ -70,26 +70,23 @@ const LoginBox = styled.div`
 const LoginButton = styled.span`
   margin-left: 5px;
   font-weight: 700;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--mainText);
 `;
 
 const ErrorTextBox = styled.div`
   margin-bottom: 10px;
 `;
+
 const ErrorText = styled(Span)`
-  color: #f00;
-  font-size: 1rem;
-`;
-const PassText = styled(Span)`
-  color: #0c7a00;
+  color: var(--mainRed);
   font-size: 1rem;
 `;
 
 const initialIdNotice = {
   alert: false,
   message: "",
-  // 다른 필요한 프로퍼티들도 추가할 수 있습니다.
 };
+
 const SignUpForm = () => {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
@@ -98,61 +95,68 @@ const SignUpForm = () => {
   const [idNotice, setIdNotice] = useState(initialIdNotice);
   const [nickNameNotice, setNicknameNotice] = useState(initialIdNotice);
   const [passNotice, setPassNotice] = useState(initialIdNotice);
-  // 닉네임 검사 & 중복검사
 
+  // Nickname
   const onBlurNicknameHandler = async () => {
+    const isValidNickname = regexrNickname.test(nickname);
     if (nickname === "") {
       setNicknameNotice({ message: "필수항목입니다.", alert: false });
       return;
-    } else if (!regexrNickname.test(nickname)) {
+    }
+    if (!isValidNickname) {
       setNicknameNotice({
         message: "2 ~ 10자의 한글, 영문 조합으로 입력해야 합니다.",
         alert: false,
       });
       return;
-    } else
-      setNicknameNotice({
-        message: "",
-        alert: true,
-      });
+    }
+    setNicknameNotice({
+      message: "",
+      alert: true,
+    });
   };
 
   // ID
   const onBlurIdHandler = () => {
+    const isValidID = regexrID.test(userId);
     if (userId === "") {
       setIdNotice({ message: "필수항목입니다.", alert: false });
       return;
-    } else if (!regexrID.test(userId)) {
+    }
+    if (isValidID) {
       setIdNotice({
         message: "4 ~ 16자의 영문, 숫자 조합으로 입력해야 합니다.",
         alert: false,
       });
       return;
-    } else {
-      setIdNotice({
-        message: "",
-        alert: true,
-      });
     }
+    setIdNotice({
+      message: "",
+      alert: true,
+    });
   };
 
+  // Password
   const onBlurPasswordHandler = () => {
+    const isValidPassword = regexrPass.test(password);
+
     if (password === "") {
       setPassNotice({ message: "필수항목입니다.", alert: false });
       return;
-    } else if (!regexrPass.test(password)) {
+    }
+    if (!isValidPassword) {
       setPassNotice({
         message: "한글을 제외한 4 ~ 16자의 문자로 입력해야 합니다.",
         alert: false,
       });
       return;
-    } else {
-      setPassNotice({
-        message: "",
-        alert: true,
-      });
     }
+    setPassNotice({
+      message: "",
+      alert: true,
+    });
   };
+
   const signUpUserTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -161,26 +165,23 @@ const SignUpForm = () => {
         password,
         nickname,
       });
-
       navigate("/login");
       return console.log(result);
     } catch (error: unknown) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
-        if (axiosError.response?.status === 409) {
-          const data = axiosError.response.data as { status: string; error: string };
-          const subCode = data.status;
-          if (subCode === "409-1") {
-            setIdNotice({ message: "이미 사용중인 아이디입니다", alert: false });
-          }
-          if (subCode === "409-2") {
-            setNicknameNotice({ message: "이미 사용중인 닉네임입니다", alert: false });
-          }
-          if (subCode === "409-3") {
-            setIdNotice({ message: "이미 사용중인 아이디입니다", alert: false });
-            setNicknameNotice({ message: "이미 사용중인 닉네임입니다", alert: false });
-          }
+        const data = axiosError.response?.data as { status: string; error: string };
+        const subCode = data?.status;
+
+        if (subCode === "409-1") {
+          setIdNotice({ message: "이미 사용중인 아이디입니다", alert: false });
+        }
+        if (subCode === "409-2") {
+          setNicknameNotice({ message: "이미 사용중인 닉네임입니다", alert: false });
+        }
+        if (subCode === "409-3") {
+          setIdNotice({ message: "이미 사용중인 아이디입니다", alert: false });
+          setNicknameNotice({ message: "이미 사용중인 닉네임입니다", alert: false });
         }
       }
     }
@@ -190,7 +191,6 @@ const SignUpForm = () => {
     <FormWrapper>
       <FormContainer>
         <FormTitle>회원가입</FormTitle>
-
         <FormGroup onSubmit={(e) => signUpUserTest(e)}>
           <>
             <Input
@@ -200,7 +200,6 @@ const SignUpForm = () => {
               onChange={(e) => setNickname(e.target.value)}
               placeholder="이름"
             />
-
             <ErrorTextBox>
               {nickNameNotice.alert ? null : <ErrorText>{nickNameNotice.message}</ErrorText>}
             </ErrorTextBox>
@@ -230,7 +229,6 @@ const SignUpForm = () => {
               {passNotice.alert ? null : <ErrorText>{passNotice.message}</ErrorText>}
             </ErrorTextBox>
           </>
-
           <Button type="submit">가입하기</Button>
         </FormGroup>
         <LoginBox>
