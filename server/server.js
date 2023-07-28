@@ -4,7 +4,7 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config({ path: "../.env" });
 const { hashPassword } = require("./module/hashPassword/hashPassword");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("./module/accessToken/authenticateToken");
 const { cleanUpExpiredTokens } = require("./module/accessToken/cleanUpExpiredTokens");
