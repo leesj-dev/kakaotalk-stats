@@ -269,7 +269,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
     try {
       const result = await axios.put(
         `/api/protected/posts/${post.postId}/edit`,
-        { toEditData },
+        { ...toEditData },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
