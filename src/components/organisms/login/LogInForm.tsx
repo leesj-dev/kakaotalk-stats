@@ -2,9 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getTokenFromCookie } from "../../../module/common/getTokenFromCookie";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
-import Paragraph from "../../atoms/Paragraph";
 import { UserData } from "./WithdrawButton";
 
 const FormWrapper = styled.div`
@@ -16,11 +14,11 @@ const FormWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background: #f8f8f8;
+  background: var(--userPageBackground);
 `;
 
 const FormContainer = styled.div`
-  width: 30%;
+  width: 400px;
 `;
 
 const FormTitle = styled.h2`
@@ -34,15 +32,15 @@ const FormGroup = styled.form`
 `;
 
 const Label = styled.label`
-  display: block;
   margin-bottom: 5px;
+  display: block;
   font-size: 1.7rem;
 `;
 
 const Input = styled.input`
+  padding: 10px;
   margin-bottom: 1rem;
   width: 100%;
-  padding: 10px;
   border-radius: 3px;
   border: 1px solid #ebebeb;
   font-size: 1.3rem;
@@ -63,13 +61,13 @@ const AutoLoginBox = styled(FlexRowDiv)`
 
 const ErrorText = styled.div`
   margin-bottom: 10px;
-  color: #f00;
+  color: var(--mainRed);
 `;
 
 const Button = styled.button`
   padding: 1rem;
   width: 100%;
-  background: #2da0fa;
+  background: var(--mainBlue);
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -77,7 +75,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: #1170ff;
+    background: var(--mainBlueHover);
   }
 `;
 
@@ -89,7 +87,7 @@ const SignUpBox = styled.div`
 const SignUpButton = styled.span`
   margin-left: 5px;
   font-weight: 700;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--mainText);
 `;
 
 interface accessTokenProps {
@@ -126,7 +124,6 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
   const logInTest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = { userId, password, isRememberMe };
     try {
       const result = await axios.post("/api/users/login", {
         userId,
@@ -146,23 +143,23 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
     }
   };
 
-  const protectedUrlTest = async (e: any) => {
-    e.preventDefault();
-    try {
-      const result = await axios.post("/api/protected/edit", null, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log(result);
-      setAccessToken(result.data.accessToken);
-      setUserData(result.data);
-      console.log(userData?.userId + "님의 제한 페이지 접근이 완료되었습니다.");
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const protectedUrlTest = async (e: any) => {
+  //   e.preventDefault();
+  //   try {
+  //     const result = await axios.post("/api/protected/edit", null, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+  //     console.log(result);
+  //     setAccessToken(result.data.accessToken);
+  //     setUserData(result.data);
+  //     console.log(userData?.userId + "님의 제한 페이지 접근이 완료되었습니다.");
+  //     return console.log(result);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <FormWrapper>
