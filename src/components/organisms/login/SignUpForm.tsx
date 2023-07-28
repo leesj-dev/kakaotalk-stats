@@ -1,15 +1,14 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Paragraph from "../../atoms/Paragraph";
 import Span from "../../atoms/Span";
 import { useNavigate } from "react-router-dom";
 
 // 이메일 정규식 : 영문자와 숫자만
 const regexrID = /^[a-zA-Z0-9]{4,16}$/;
 // 비밀번호 형식
-const regexrPass = /^[a-zA-Z0-9]{4,16}$/;
+const regexrPass = /^[a-zA-Z가-힣!@#$%^&*()_+|<>?:{}]*.{4,16}$/;
 //  닉네임 형식
 const regexrNickname = /^[가-힣a-zA-Z]{2,10}$/;
 
@@ -93,11 +92,6 @@ const initialIdNotice = {
 };
 const SignUpForm = () => {
   const navigate = useNavigate();
-  // const [join, setJoin] = useState({
-  //   nickname: "",
-  //   userId: "",
-  //   password: "",
-  // });
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -119,29 +113,8 @@ const SignUpForm = () => {
     } else
       setNicknameNotice({
         message: "",
-        alert: false,
+        alert: true,
       });
-  };
-
-  const onCheckNickNameHandler = async () => {
-    try {
-      const response = await axios.post(
-        "/api/users/create",
-        { nickname },
-        { headers: { "Context-Type": "application/json" } }
-      );
-      if (response.status === 201) {
-        setNicknameNotice({
-          message: "사용 가능한 닉네임입니다.",
-          alert: true,
-        });
-      }
-    } catch (error) {
-      setNicknameNotice({
-        message: "이미 사용중인 닉네임입니다.",
-        alert: false,
-      });
-    }
   };
 
   // ID
@@ -151,33 +124,25 @@ const SignUpForm = () => {
       return;
     } else if (!regexrID.test(userId)) {
       setIdNotice({
-        message: "영문과 숫자가 포함한 문자 4~16자리로 입력해주세요",
+        message: "4 ~ 16자의 영문, 숫자 조합으로 입력해야 합니다.",
         alert: false,
       });
       return;
-    }
-  };
-
-  const onCheckIDHandler = async () => {
-    try {
-      const response = await axios.post("/api/users/create", { userId });
-      if (response.status === 201) {
-        setIdNotice({ message: "사용 가능한 아이디입니다.", alert: true });
-      }
-    } catch (error) {
+    } else {
       setIdNotice({
-        message: "이미 사용중인 아이디입니다.",
-        alert: false,
+        message: "",
+        alert: true,
       });
     }
   };
+
   const onBlurPasswordHandler = () => {
     if (password === "") {
       setPassNotice({ message: "필수항목입니다.", alert: false });
       return;
     } else if (!regexrPass.test(password)) {
       setPassNotice({
-        message: "영문과 숫자가 포함한 문자 4~16자리로 입력해주세요",
+        message: "한글을 제외한 4 ~ 16자의 문자로 입력해야 합니다.",
         alert: false,
       });
       return;
@@ -196,11 +161,28 @@ const SignUpForm = () => {
         password,
         nickname,
       });
-      console.log(userId + "님의 회원가입이 완료되었습니다.");
+
       navigate("/login");
       return console.log(result);
-    } catch (error) {
-      console.error(error);
+    } catch (error: unknown) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 409) {
+          const data = axiosError.response.data as { status: string; error: string };
+          const subCode = data.status;
+          if (subCode === "409-1") {
+            setIdNotice({ message: data.error, alert: false });
+          }
+          if (subCode === "409-2") {
+            setNicknameNotice({ message: data.error, alert: false });
+          }
+          if (subCode === "409-3") {
+            setIdNotice({ message: data.error, alert: false });
+            setNicknameNotice({ message: data.error, alert: false });
+          }
+        }
+      }
     }
   };
 
@@ -218,15 +200,9 @@ const SignUpForm = () => {
               onChange={(e) => setNickname(e.target.value)}
               placeholder="이름"
             />
-            {/* <button type="button" onClick={onCheckNickNameHandler}>
-              중복확인
-            </button> */}
+
             <ErrorTextBox>
-              {nickNameNotice.hasOwnProperty("alert") ? (
-                <ErrorText>{nickNameNotice.message}</ErrorText>
-              ) : (
-                <PassText>{nickNameNotice.message}</PassText>
-              )}
+              {nickNameNotice.alert ? null : <ErrorText>{nickNameNotice.message}</ErrorText>}
             </ErrorTextBox>
           </>
           <>
@@ -237,15 +213,9 @@ const SignUpForm = () => {
               onChange={(e) => setUserId(e.target.value)}
               placeholder="아이디"
             />
-            {/* <button type="button" onClick={onCheckIDHandler}>
-              중복확인
-            </button> */}
+
             <ErrorTextBox>
-              {idNotice.hasOwnProperty("alert") ? (
-                <ErrorText>{idNotice.message}</ErrorText>
-              ) : (
-                <PassText>{idNotice.message}</PassText>
-              )}
+              {idNotice.alert ? null : <ErrorText>{idNotice.message}</ErrorText>}
             </ErrorTextBox>
           </>
           <>
@@ -257,18 +227,14 @@ const SignUpForm = () => {
               placeholder="비밀번호"
             />
             <ErrorTextBox>
-              {passNotice.hasOwnProperty("alert") ? (
-                <ErrorText>{passNotice.message}</ErrorText>
-              ) : (
-                <PassText>{passNotice.message}</PassText>
-              )}
+              {passNotice.alert ? null : <ErrorText>{passNotice.message}</ErrorText>}
             </ErrorTextBox>
           </>
 
           <Button type="submit">가입하기</Button>
         </FormGroup>
         <LoginBox>
-          이미 회원정보가 있으신가요?
+          회원이 아니신가요?
           <LoginButton>
             <Link to="/login">로그인</Link>
           </LoginButton>
