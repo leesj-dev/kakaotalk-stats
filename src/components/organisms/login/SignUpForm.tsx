@@ -199,7 +199,8 @@ const SignUpForm = () => {
       console.log(userId + "님의 회원가입이 완료되었습니다.");
       navigate("/login");
       return console.log(result);
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error.response.data.status);
       console.error(error);
     }
   };
