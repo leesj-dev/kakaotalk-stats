@@ -82,6 +82,13 @@ const ErrorText = styled(Span)`
   font-size: 1rem;
 `;
 
+const Label = styled.label`
+  display: block;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  font-size: 1.3rem;
+`;
+
 const initialIdNotice = {
   alert: false,
   message: "",
@@ -193,24 +200,26 @@ const SignUpForm = () => {
         <FormTitle>회원가입</FormTitle>
         <FormGroup onSubmit={(e) => signUpUserTest(e)}>
           <>
+            <Label>이름</Label>
             <Input
               type="text"
               value={nickname}
               onBlur={onBlurNicknameHandler}
               onChange={(e) => setNickname(e.target.value)}
-              placeholder="이름"
+              // placeholder="이름"
             />
             <ErrorTextBox>
               {nickNameNotice.alert ? null : <ErrorText>{nickNameNotice.message}</ErrorText>}
             </ErrorTextBox>
           </>
           <>
+            <Label>아이디</Label>
             <Input
               type="text"
               value={userId}
               onBlur={onBlurIdHandler}
               onChange={(e) => setUserId(e.target.value)}
-              placeholder="아이디"
+              // placeholder="아이디"
             />
 
             <ErrorTextBox>
@@ -218,12 +227,13 @@ const SignUpForm = () => {
             </ErrorTextBox>
           </>
           <>
+            <Label>비밀번호</Label>
             <Input
               type="password"
               value={password}
               onBlur={onBlurPasswordHandler}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="비밀번호"
+              // placeholder="비밀번호"
             />
             <ErrorTextBox>
               {passNotice.alert ? null : <ErrorText>{passNotice.message}</ErrorText>}
