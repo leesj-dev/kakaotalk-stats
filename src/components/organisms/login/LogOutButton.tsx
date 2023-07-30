@@ -21,17 +21,16 @@ const LogOutButton = ({ userData, setUserData, accessToken }: LogOutButtonProps)
   const handleClickLogoutButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      const result = await axios.post("/api/protected/users/signout", null, {
+      await axios.post("/api/protected/users/signout", null, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setUserData(null);
-      console.log(userData?.userId + "님의 로그아웃이 완료되었습니다.");
-      return console.log(result);
     } catch (error) {
       console.error(error);
     }
+    setUserData(null);
+    console.log(userData?.userId + "님의 로그아웃이 완료되었습니다.");
   };
   return (
     <LogOutContainer>

@@ -14,6 +14,8 @@ const { getTokenFromCookie } = require("./module/accessToken/getTokenFromCookie"
 const bodyParser = require("body-parser");
 const { createAccessToken } = require("./module/accessToken/createAccessToken");
 const { convertToKrTime } = require("./utilities/convertToKrTime");
+const { createSecretKey } = require("crypto");
+const { getAccessToken } = require("./module/accessToken/getAccessToken");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -339,6 +341,13 @@ app.get("/api/posts", async (req, res) => {
 app.get("/api/posts/:postId", async (req, res) => {
   console.log(req.path);
   try {
+    const accessToken = req.headers.authorization && getAccessToken(req.headers.authorization);
+
+    if (accessToken) {
+      authenticateToken(createSecretKey, User);
+      console.log(accessToken);
+    }
+
     const { postId } = req.params; // postId 값을 조회
     console.log(`게시글 조회 시도: postId - ${postId}`);
     const posts = await Post.find({ postId });
@@ -443,20 +452,9 @@ app.get("/api/protected/posts/:postId/edit/authorization", async (req, res) => {
 app.put("/api/protected/posts/:postId/edit", async (req, res) => {
   console.log(req.path);
   try {
-    const { title, content, isPrivate } = req.body;
     const { userId } = res.locals;
     const { postId } = req.params; // postId 값을 조회
     console.log(`게시글 수정 시도: postId - ${postId}`);
-
-    // 요청 데이터에 제목이 없는 경우
-    if (!title) {
-      return res.status(400).json({ status: "400-1", error: "제목을 입력해야 합니다." });
-    }
-
-    // 요청 데이터에 내용이 없는 경우
-    if (!content) {
-      return res.status(400).json({ status: "400-2", error: "본문을 입력해야 합니다." });
-    }
 
     // 게시글 조회
     const requestedPost = await Post.findOne({ postId });
@@ -469,6 +467,25 @@ app.put("/api/protected/posts/:postId/edit", async (req, res) => {
     // 사용자 인증 및 권한 검사
     if (requestedPost.userId !== userId) {
       return res.status(403).json({ message: "게시글을 수정할 권한이 없습니다." });
+    }
+
+    console.log(`게시글 권한 확인 성공: postId - ${postId} userId - ${userId}`);
+
+    // 클라이언트로부터 수정 데이터를 기다림
+    const { title, content, isPrivate } = await new Promise((resolve) => {
+      req.on("data", (chunk) => {
+        resolve(JSON.parse(chunk.toString()));
+      });
+    });
+
+    // 요청 데이터에 제목이 없는 경우
+    if (!title) {
+      return res.status(400).json({ status: "400-1", error: "제목을 입력해야 합니다." });
+    }
+
+    // 요청 데이터에 내용이 없는 경우
+    if (!content) {
+      return res.status(400).json({ status: "400-2", error: "본문을 입력해야 합니다." });
     }
 
     const updatedPost = await Post.findOneAndUpdate({ postId }, { title, content, isPrivate });

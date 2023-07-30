@@ -40,7 +40,7 @@ exports.authenticateToken = (accessTokenSecretKey, UserModel) => async (req, res
     if (!isValidAccessToken && !isValidRefreshToken) {
       console.log(`토큰 만료: A(${isValidAccessToken}) & R(${isValidRefreshToken})`);
       res.clearCookie("accessToken");
-      return res.status(419).json({ error: `${ERROR_MESSAGES.EXPIRED_LOGIN}` });
+      return res.status(401).json({ error: `${ERROR_MESSAGES.EXPIRED_LOGIN}` });
     }
 
     // accessToken 만료 + 유효한 refreshToken인 경우, 새로운 accessToken 발급 및 쿠키 설정

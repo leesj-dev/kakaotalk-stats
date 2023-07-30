@@ -227,7 +227,11 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
   const viewPost = async (post: any) => {
     try {
-      const result = await axios.get(`/api/posts/${post.postId}`);
+      const result = await axios.get(`/api/posts/${post.postId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       console.log(result.data);
 
       console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
