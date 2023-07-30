@@ -30,7 +30,7 @@
   
 ## 사이트 URL
 
-- ### https://kmg-kakaomagnifyingglass.vercel.app/
+- ### http://kmg-env-1.eba-332qe2dv.ap-northeast-2.elasticbeanstalk.com/
 
 
 
