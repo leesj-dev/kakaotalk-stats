@@ -187,6 +187,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
   const [posts, setPosts] = useState<any>([]);
   const [currentPost, setCurrentPost] = useState<any>(null);
+  const [isSameAuthor, setIsSameAuthor] = useState<any>(false);
 
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
@@ -235,8 +236,8 @@ const PostPage = ({ accessToken }: PostPageProps) => {
       console.log(result.data);
 
       console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
-      setCurrentPost(result.data.posts[0]);
-      setIsEditing(false);
+      setCurrentPost(result.data.post);
+      setIsSameAuthor(result.data.isSameAuthor);
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -360,10 +361,12 @@ const PostPage = ({ accessToken }: PostPageProps) => {
             <CurrentPostAuthor>작성자: {currentPost.nickname}</CurrentPostAuthor>
             <CurrentPostCreatedAt>작성일: {currentPost.createdAt}</CurrentPostCreatedAt>
             <CurrentPostContent>내용: {currentPost.content}</CurrentPostContent>
-            <PostButtonBox>
-              <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
-              <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
-            </PostButtonBox>
+            {isSameAuthor && (
+              <PostButtonBox>
+                <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
+                <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
+              </PostButtonBox>
+            )}
           </CurrentPostContainer>
         ))}
       <PostPageTitle>게시판</PostPageTitle>

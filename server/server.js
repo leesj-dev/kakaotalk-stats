@@ -342,27 +342,27 @@ app.get("/api/posts/:postId", async (req, res) => {
   console.log(req.path);
   try {
     const accessToken = req.headers.authorization && getAccessToken(req.headers.authorization);
-
-    if (accessToken) {
-      authenticateToken(createSecretKey, User);
-      console.log(accessToken);
-    }
+    const decodedToken = jwt.decode(accessToken, accessTokenSecretKey);
+    const requestedUserId = decodedToken && decodedToken.userId;
 
     const { postId } = req.params; // postId 값을 조회
     console.log(`게시글 조회 시도: postId - ${postId}`);
-    const posts = await Post.find({ postId });
+    const post = await Post.findOne({ postId });
 
     // 존재하지 않는 게시물인 경우
-    if (!posts.length) {
+    if (!post) {
       res.status(404).json({
         message: `게시글 조회 실패: postId - ${postId}`,
       });
     }
 
+    const isSameAuthor = post.userId === requestedUserId;
+
     console.log(`게시글 조회 성공: postId - ${postId}`);
     res.status(200).json({
-      message: `게시글 ${posts[0].title}(postId:${posts[0].postId})의 조회가 완료되었습니다.`,
-      posts,
+      message: `게시글 ${post.title}(postId:${post.postId})의 조회가 완료되었습니다.`,
+      post,
+      isSameAuthor,
     });
   } catch (error) {
     console.error(error);
