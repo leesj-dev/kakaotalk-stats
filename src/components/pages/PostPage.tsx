@@ -177,6 +177,69 @@ const EditButton = styled.button`
   }
 `;
 
+const CommentFormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  width: 100%;
+`;
+
+const TextArea = styled.textarea`
+  resize: none;
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const CheckBoxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+`;
+
+const CheckBox = styled.input`
+  margin-right: 5px;
+`;
+
+const SubmitCommentButton = styled(Button)``;
+
+const CommentContainer = styled.div`
+  margin: 10px 0;
+`;
+
+const CommentCountBox = styled.div``;
+
+const CommentList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+const CommentItem = styled.li`
+  margin: 5px 0;
+`;
+
+const CommentContent = styled.div`
+  padding: 8px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+`;
+
+const CommentAuthor = styled.span`
+  font-weight: bold;
+`;
+
+const CommentTime = styled.span`
+  font-size: 12px;
+  color: #777;
+`;
+
 interface PostPageProps {
   accessToken: string;
 }
@@ -194,10 +257,20 @@ const PostPage = ({ accessToken }: PostPageProps) => {
   const [editIsPrivate, setEditIsPrivate] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const initializeForm = () => {
+  const [comment, setComment] = useState("");
+  const [isPrivateComment, setIsPrivateComment] = useState(false);
+
+  const [comments, setComments] = useState<any>([]);
+
+  const initializePostForm = () => {
     setTitle("");
     setContent("");
     setIsPrivate(false);
+  };
+
+  const initializeCommentForm = () => {
+    setComment("");
+    setIsPrivateComment(false);
   };
 
   const createPostTest = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -218,7 +291,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
       );
 
       console.log(`${title} 게시물 작성이 완료되었습니다.`);
-      initializeForm();
+      initializePostForm();
       setPosts([result.data.post, ...posts]);
       return console.log(result);
     } catch (error) {
@@ -321,6 +394,42 @@ const PostPage = ({ accessToken }: PostPageProps) => {
     }
   };
 
+  const handleWriteComment = (e: any) => {
+    e.preventDefault();
+    setComment(e.target.value);
+  };
+
+  const handlePrivateCommentChange = (e: any) => {
+    e.preventDefault();
+    setIsPrivateComment(e.target.checked);
+  };
+
+  const handleSubmitComment = async (e: any, post: any) => {
+    e.preventDefault();
+    try {
+      const result = await axios.post(
+        `/api/protected/posts/${post.postId}/comments`,
+        {
+          comment,
+          isPrivateComment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(`${comment} 댓글 작성이 완료되었습니다.`);
+      initializeCommentForm();
+      console.log(result);
+      setComments([...comments, result.data.comment]);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -335,6 +444,21 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
     (async () => await loadPosts())();
   }, []);
+
+  useEffect(() => {
+    const loadComments = async () => {
+      try {
+        const result = await axios.get(`/api/posts/${currentPost.postId}/comments`);
+        console.log(result);
+        setComments([...result.data]);
+        return console.log(result.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    (async () => await loadComments())();
+  }, [currentPost]);
 
   return (
     <PostPageContainer>
@@ -367,6 +491,40 @@ const PostPage = ({ accessToken }: PostPageProps) => {
                 <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
               </PostButtonBox>
             )}
+            <CommentContainer>
+              <CommentCountBox>댓글:{comments.length}개</CommentCountBox>
+              <CommentList>
+                {comments.length ? (
+                  comments.map((comment: any) => (
+                    <CommentItem key={comment.commentId}>
+                      <CommentAuthor>작성자: {comment.nickname}</CommentAuthor>
+                      <CommentTime>작성시간: {comment.createdAt}</CommentTime>
+                      <CommentContent>{comment.comment}</CommentContent>
+                    </CommentItem>
+                  ))
+                ) : (
+                  <CommentItem>댓글이 없습니다.</CommentItem>
+                )}
+              </CommentList>
+            </CommentContainer>
+            <CommentFormContainer>
+              <TextArea
+                value={comment}
+                onChange={(e) => handleWriteComment(e)}
+                placeholder="댓글을 입력하세요"
+              />
+              <CheckBoxWrapper>
+                <Label>비밀글</Label>
+                <CheckBox
+                  type="checkbox"
+                  checked={isPrivateComment}
+                  onChange={(e) => handlePrivateCommentChange(e)}
+                />
+              </CheckBoxWrapper>
+              <SubmitCommentButton onClick={(e) => handleSubmitComment(e, currentPost)}>
+                댓글 작성하기
+              </SubmitCommentButton>
+            </CommentFormContainer>
           </CurrentPostContainer>
         ))}
       <PostPageTitle>게시판</PostPageTitle>

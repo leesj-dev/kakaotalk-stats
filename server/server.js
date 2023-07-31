@@ -14,7 +14,6 @@ const { getTokenFromCookie } = require("./module/accessToken/getTokenFromCookie"
 const bodyParser = require("body-parser");
 const { createAccessToken } = require("./module/accessToken/createAccessToken");
 const { convertToKrTime } = require("./utilities/convertToKrTime");
-const { createSecretKey } = require("crypto");
 const { getAccessToken } = require("./module/accessToken/getAccessToken");
 
 const app = express();
@@ -36,7 +35,7 @@ mongoose
   });
 const kmgDB = mongoose;
 
-// 230725 todo: validator 이용하여 error 출력 기능
+// 스키마 정의
 const userSchema = new kmgDB.Schema({
   userId: {
     type: String,
@@ -76,9 +75,30 @@ const autoIncrementSchema = new mongoose.Schema({
   count: { type: Number, default: 0 }, // 현재까지 사용된 숫자 카운트
 });
 
+const commentSchema = new mongoose.Schema({
+  postId: { type: Number, ref: "Post", required: true },
+  comment: { type: String, required: true },
+  userId: { type: String, ref: "User", required: true },
+  nickname: { type: String, ref: "User", required: true },
+  isPrivate: { type: Boolean, default: false },
+  createdAt: { type: String, default: Date.now().toLocaleString("ko-KR") },
+  replies: [
+    {
+      parentId: { type: mongoose.Schema.Types.ObjectId, ref: "Comment", required: true },
+      comment: { type: String, required: true },
+      userId: { type: String, ref: "User", required: true },
+      nickname: { type: String, ref: "User", required: true },
+      isPrivate: { type: Boolean, default: false },
+      createdAt: { type: Date, default: Date.now },
+    },
+  ],
+});
+
+// 모델 정의
 const User = kmgDB.model("User", userSchema);
 const Post = kmgDB.model("Post", postSchema);
 const Counter = mongoose.model("Counter", autoIncrementSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 
 // 미들웨어
 app.use(cors());
@@ -533,6 +553,119 @@ app.delete("/api/protected/posts/:postId/delete", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "게시글 삭제 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 게시물의 댓글 조회
+app.get("/api/posts/:postId/comments", async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const comments = await Comment.find({ postId });
+    console.log(comments);
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "서버 에러" });
+  }
+});
+
+// 댓글 작성
+app.post("/api/protected/posts/:postId/comments", async (req, res) => {
+  console.log(req.path);
+  try {
+    const { comment, isPrivateComment } = req.body;
+    const { userId, nickname } = res.locals;
+    const { postId } = req.params;
+    console.log(`댓글 작성 시도: userId - ${userId}`);
+
+    // 요청 데이터에 내용이 없는 경우
+    if (!comment) {
+      return res.status(400).json({ status: "400-2", error: "댓글을 입력해야 합니다." });
+    }
+
+    console.log(comment, "?");
+
+    const newComment = await Comment.create({
+      postId,
+      comment,
+      userId,
+      nickname,
+      isPrivateComment,
+      createdAt: convertToKrTime(new Date()),
+    });
+
+    // 댓글 작성 성공
+    console.log(`댓글 작성 성공: userId - ${userId}`);
+    res.status(200).json({
+      message: `댓글 (${comment})의 작성이 완료되었습니다.`,
+      comment: newComment,
+    });
+  } catch (error) {
+    console.log(error);
+    if (error._message === "Comment validation failed") {
+      return res.status(400).json({ message: "댓글 내용을 입력해야 합니다." });
+    }
+
+    console.error(error);
+    res.status(500).json({ message: "서버 에러" });
+  }
+});
+
+// 댓글 수정
+app.put("/api/comments/:commentId", async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { comment } = req.body;
+
+    const updatedComment = await Comment.findByIdAndUpdate(commentId, { comment }, { new: true });
+
+    if (!updatedComment) {
+      return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
+    }
+
+    res.status(200).json(updatedComment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "서버 에러" });
+  }
+});
+
+// 답글 작성
+app.post("/api/comments/:commentId/replies", async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { comment, author } = req.body;
+
+    const parentComment = await Comment.findById(commentId);
+    if (!parentComment) {
+      return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
+    }
+
+    const newReply = { comment, author };
+    parentComment.replies.push(newReply);
+    await parentComment.save();
+
+    res.status(201).json(parentComment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "서버 에러" });
+  }
+});
+
+// 댓글 삭제
+app.delete("/api/comments/:commentId", async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const deletedComment = await Comment.findByIdAndDelete(commentId);
+
+    if (!deletedComment) {
+      return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
+    }
+
+    res.status(200).json({ message: "댓글이 삭제되었습니다." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "서버 에러" });
   }
 });
 
