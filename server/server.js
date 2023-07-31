@@ -457,7 +457,7 @@ app.get("/api/protected/posts/:postId/edit/authorization", async (req, res) => {
       return res.status(403).json({ message: "게시글을 수정할 권한이 없습니다." });
     }
 
-    console.log(`게시글 권환 확인 성공: postId - ${postId} userId - ${userId}`);
+    console.log(`게시글 권한 확인 성공: postId - ${postId} userId - ${userId}`);
     res.status(200).json({
       message: `게시글 ${requestedPost.title}(postId:${requestedPost.postId})의 수정 권한 확인이 완료되었습니다.`,
       requestedPost,
@@ -607,19 +607,73 @@ app.post("/api/protected/posts/:postId/comments", async (req, res) => {
   }
 });
 
-// 댓글 수정
-app.put("/api/comments/:commentId", async (req, res) => {
+// 댓글 수정 권한 확인
+app.get("/api/protected/posts/:postId/comments/:commentId/authorization", async (req, res) => {
+  console.log(req.path);
   try {
     const { commentId } = req.params;
-    const { comment } = req.body;
+    const { userId } = res.locals;
+    console.log(`댓글 수정 권한 확인 시도: commentId - ${commentId} userId - ${userId}`);
 
-    const updatedComment = await Comment.findByIdAndUpdate(commentId, { comment }, { new: true });
+    // 댓글 조회
+    const requestedComment = await Comment.findById(commentId);
 
+    // 댓글이 존재하지 않으면 오류 응답
+    if (!requestedComment) {
+      return res.status(404).json({ message: "수정할 댓글을 찾을 수 없습니다." });
+    }
+
+    // 사용자 인증 및 권한 검사
+    if (requestedComment.userId !== userId) {
+      return res.status(403).json({ message: "댓글을 수정할 권한이 없습니다." });
+    }
+
+    console.log(`댓글 권한 확인 성공: commentId - ${commentId} userId - ${userId}`);
+    res.status(200).json({
+      message: `댓글 ${requestedComment.title}(commentId:${requestedComment.commentId})의 수정 권한 확인이 완료되었습니다.`,
+      requestedComment,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "댓글 수정 작업 수행 중 문제가 발생하였습니다." });
+  }
+});
+
+// 댓글 수정
+app.put("/api/protected/posts/:postId/comments/:commentId", async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { comment, isPrivateComment } = req.body;
+    const { userId } = res.locals;
+
+    // 요청 데이터에 내용이 없는 경우
+    if (!comment) {
+      return res.status(400).json({ status: "400-2", error: "댓글을 입력해야 합니다." });
+    }
+
+    const requestedComment = await Comment.findById(commentId);
+
+    // 댓글 작성자와 로그인한 사용자가 일치하는지 확인
+    if (requestedComment.userId !== userId) {
+      return res.status(403).json({ message: "댓글을 삭제할 권한이 없습니다." });
+    }
+
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      { comment, isPrivate: isPrivateComment },
+      { new: true }
+    );
+
+    // 업데이트할 댓글이 존재하지 않을 경우
     if (!updatedComment) {
       return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
     }
 
-    res.status(200).json(updatedComment);
+    console.log(`댓글 수정 성공: commentId - ${commentId}`);
+    res.status(200).json({
+      message: `게시글 ${updatedComment.title}(commentId:${updatedComment.commentId})의 수정이 완료되었습니다.`,
+      comment: updatedComment,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "서버 에러" });

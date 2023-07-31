@@ -255,21 +255,28 @@ const DeleteCommentButton = styled.button`
   cursor: pointer;
 `;
 
+const EditCommentInput = styled.input`
+  display: block;
+  padding: 8px;
+  width: 100%;
+  border-radius: 4px;
+`;
+
 interface PostPageProps {
   accessToken: string;
+  userData: any;
 }
-const PostPage = ({ accessToken }: PostPageProps) => {
+const PostPage = ({ accessToken, userData }: PostPageProps) => {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, Edit] = useState("");
   const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);
 
   const [posts, setPosts] = useState<any>([]);
   const [currentPost, setCurrentPost] = useState<any>(null);
-  const [isSameAuthor, setIsSameAuthor] = useState<any>(false);
 
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
-  const [editIsPrivate, setEditIsPrivateContent] = useState<boolean>(false);
+  const [editIsPrivateContent, setEditIsPrivateContent] = useState<boolean>(false);
   const [isPostEditing, setIsPostEditing] = useState<boolean>(false);
 
   const [comment, setComment] = useState("");
@@ -277,9 +284,14 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
   const [comments, setComments] = useState<any>([]);
 
+  const [editComment, setEditComment] = useState<any>();
+  const [editIsPrivateComment, setEditIsPrivateComment] = useState<boolean>();
+  const [editingCommentId, setEditingCommentId] = useState<String>("");
+  const [isCommentEditing, setIsCommentEditing] = useState<boolean>(false);
+
   const initializePostForm = () => {
     setTitle("");
-    setContent("");
+    Edit("");
     setIsPrivateContent(false);
   };
 
@@ -325,7 +337,6 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
       console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
       setCurrentPost(result.data.post);
-      setIsSameAuthor(result.data.isSameAuthor);
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -356,7 +367,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
     const toEditPostData = {
       title: editTitle,
       content: editContent,
-      isPrivateContent: editIsPrivate,
+      isPrivateContent: editIsPrivateContent,
     };
 
     try {
@@ -469,6 +480,77 @@ const PostPage = ({ accessToken }: PostPageProps) => {
     }
   };
 
+  const clickEditComment = async (
+    e: React.FormEvent<HTMLButtonElement>,
+    currentPost: any,
+    comment: any
+  ) => {
+    e.preventDefault();
+    try {
+      const result = await axios.get(
+        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}/authorization`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(`${comment._id} 댓글 수정 권한 확인이 완료되었습니다.`);
+      setEditComment(comment.comment);
+      setEditIsPrivateComment(comment.isPrivateContent);
+      setIsCommentEditing(!isPostEditing);
+      setEditingCommentId(comment._id);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEditPrivateCommentChange = (e: any) => {
+    e.preventDefault();
+    setEditIsPrivateComment(e.target.checked);
+  };
+
+  const submitEditComment = async (
+    e: React.FormEvent<HTMLFormElement>,
+    currentPost: any,
+    comment: any
+  ) => {
+    e.preventDefault();
+    const toEditCommentData = {
+      comment: editComment,
+      isPrivateComment: editIsPrivateComment,
+    };
+
+    try {
+      console.log("??????????");
+      const result = await axios.put(
+        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}`,
+        { ...toEditCommentData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(`댓글 수정이 완료되었습니다.`);
+      const editedCommentId = result.data.comment._id;
+      const editedCommentIndex = comments.findIndex((item: any) => item._id === editedCommentId);
+
+      const copiedComments = [...comments];
+      copiedComments[editedCommentIndex] = {
+        ...result.data.comment,
+        ...toEditCommentData,
+      };
+      setComments(copiedComments);
+      setIsCommentEditing(false);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -487,10 +569,12 @@ const PostPage = ({ accessToken }: PostPageProps) => {
   useEffect(() => {
     const loadComments = async () => {
       try {
-        const result = await axios.get(`/api/posts/${currentPost.postId}/comments`);
-        console.log(result);
-        setComments([...result.data]);
-        return console.log(result.data);
+        if (currentPost) {
+          const result = await axios.get(`/api/posts/${currentPost.postId}/comments`);
+          console.log(result);
+          setComments([...result.data]);
+          return console.log(result.data);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -516,7 +600,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
               <Label>비밀글</Label>
               <Checkbox
                 type="checkBox"
-                checked={editIsPrivate}
+                checked={editIsPrivateContent}
                 onChange={(e) => setEditIsPrivateContent(e.target.checked)}
               ></Checkbox>
               <Button type="submit">수정하기</Button>
@@ -528,7 +612,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
             <CurrentPostAuthor>작성자: {currentPost.nickname}</CurrentPostAuthor>
             <CurrentPostCreatedAt>작성일: {currentPost.createdAt}</CurrentPostCreatedAt>
             <CurrentPostContent>내용: {currentPost.content}</CurrentPostContent>
-            {isSameAuthor && (
+            {userData?.userId === currentPost?.userId && (
               <PostButtonBox>
                 <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
                 <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
@@ -539,14 +623,40 @@ const PostPage = ({ accessToken }: PostPageProps) => {
               <CommentList>
                 {comments.length ? (
                   comments.map((comment: any) => (
-                    <CommentItem key={comment.commentId}>
+                    <CommentItem key={comment._id}>
                       <CommentAuthor>작성자: {comment.nickname}</CommentAuthor>
                       <CommentTime>작성시간: {comment.createdAt}</CommentTime>
-                      <EditCommentButton>수정</EditCommentButton>
-                      <DeleteCommentButton onClick={(e) => handleDeletedComment(e, comment)}>
-                        삭제
-                      </DeleteCommentButton>
-                      <CommentContent>{comment.comment}</CommentContent>
+                      {userData?.userId === comment?.userId && (
+                        <>
+                          <EditCommentButton onClick={(e) => clickEditComment(e, currentPost, comment)}>
+                            수정
+                          </EditCommentButton>
+                          <DeleteCommentButton onClick={(e) => handleDeletedComment(e, comment)}>
+                            삭제
+                          </DeleteCommentButton>
+                        </>
+                      )}
+                      {editingCommentId === comment._id && isCommentEditing ? (
+                        <CommentFormContainer>
+                          <FormGroup onSubmit={(e) => submitEditComment(e, currentPost, comment)}>
+                            <EditCommentInput
+                              value={editComment}
+                              onChange={(e) => setEditComment(e.target.value)}
+                            />
+                            <CheckBoxWrapper>
+                              <Label>비밀글</Label>
+                              <CheckBox
+                                type="checkbox"
+                                checked={editIsPrivateComment}
+                                onChange={(e) => handleEditPrivateCommentChange(e)}
+                              />
+                            </CheckBoxWrapper>
+                            <SubmitCommentButton type="submit">댓글 수정하기</SubmitCommentButton>
+                          </FormGroup>
+                        </CommentFormContainer>
+                      ) : (
+                        <CommentContent>{comment.comment}</CommentContent>
+                      )}
                     </CommentItem>
                   ))
                 ) : (
@@ -595,7 +705,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
           <Label>제목</Label>
           <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           <Label>내용</Label>
-          <Textarea value={content} onChange={(e) => setContent(e.target.value)} />
+          <Textarea value={content} onChange={(e) => Edit(e.target.value)} />
           <Label>비밀글</Label>
           <Checkbox
             type="checkBox"
