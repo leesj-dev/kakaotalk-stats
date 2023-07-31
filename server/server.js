@@ -630,7 +630,7 @@ app.put("/api/comments/:commentId", async (req, res) => {
   }
 });
 
-// 답글 작성
+// 대댓글 작성
 app.post("/api/comments/:commentId/replies", async (req, res) => {
   try {
     const { commentId } = req.params;
@@ -653,15 +653,26 @@ app.post("/api/comments/:commentId/replies", async (req, res) => {
 });
 
 // 댓글 삭제
-app.delete("/api/comments/:commentId", async (req, res) => {
+app.delete("/api/protected/posts/:postId/comments/:commentId", async (req, res) => {
   try {
     const { commentId } = req.params;
-    const deletedComment = await Comment.findByIdAndDelete(commentId);
+    const { userId } = res.locals;
+    console.log(`댓글 삭제 시도: userId - ${userId}, commentId - ${commentId}`);
 
-    if (!deletedComment) {
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
       return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
     }
 
+    // 댓글 작성자와 로그인한 사용자가 일치하는지 확인
+    if (comment.userId !== userId) {
+      return res.status(403).json({ message: "댓글을 삭제할 권한이 없습니다." });
+    }
+
+    await Comment.findByIdAndDelete(commentId);
+
+    console.log(`댓글 삭제 완료: userId - ${userId}`);
     res.status(200).json({ message: "댓글이 삭제되었습니다." });
   } catch (error) {
     console.error(error);

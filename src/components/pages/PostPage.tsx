@@ -1,3 +1,4 @@
+import { current } from "@reduxjs/toolkit";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
@@ -240,6 +241,20 @@ const CommentTime = styled.span`
   color: #777;
 `;
 
+const EditCommentButton = styled.button`
+  background: none;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+`;
+
+const DeleteCommentButton = styled.button`
+  background: none;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+`;
+
 interface PostPageProps {
   accessToken: string;
 }
@@ -430,6 +445,29 @@ const PostPage = ({ accessToken }: PostPageProps) => {
     }
   };
 
+  const handleDeletedComment = async (e: any, comment: any) => {
+    e.preventDefault();
+    try {
+      const result = await axios.delete(
+        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(`${comment} 댓글 삭제가 완료되었습니다.`);
+      console.log(result);
+      const copiedComments = [...comments];
+      const afterDeletedComments = copiedComments.filter((item) => item._id !== comment._id);
+      setComments([...afterDeletedComments]);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const loadPosts = async () => {
       try {
@@ -499,6 +537,10 @@ const PostPage = ({ accessToken }: PostPageProps) => {
                     <CommentItem key={comment.commentId}>
                       <CommentAuthor>작성자: {comment.nickname}</CommentAuthor>
                       <CommentTime>작성시간: {comment.createdAt}</CommentTime>
+                      <EditCommentButton>수정</EditCommentButton>
+                      <DeleteCommentButton onClick={(e) => handleDeletedComment(e, comment)}>
+                        삭제
+                      </DeleteCommentButton>
                       <CommentContent>{comment.comment}</CommentContent>
                     </CommentItem>
                   ))
