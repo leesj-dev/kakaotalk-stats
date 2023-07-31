@@ -460,7 +460,7 @@ app.get("/api/protected/posts/:postId/edit/authorization", async (req, res) => {
     console.log(`게시글 권환 확인 성공: postId - ${postId} userId - ${userId}`);
     res.status(200).json({
       message: `게시글 ${requestedPost.title}(postId:${requestedPost.postId})의 수정 권한 확인이 완료되었습니다.`,
-      post: requestedPost,
+      requestedPost,
     });
   } catch (error) {
     console.error(error);
@@ -472,31 +472,13 @@ app.get("/api/protected/posts/:postId/edit/authorization", async (req, res) => {
 app.put("/api/protected/posts/:postId/edit", async (req, res) => {
   console.log(req.path);
   try {
+    const { title, content, isPrivate } = req.body;
     const { userId } = res.locals;
     const { postId } = req.params; // postId 값을 조회
     console.log(`게시글 수정 시도: postId - ${postId}`);
 
     // 게시글 조회
     const requestedPost = await Post.findOne({ postId });
-
-    // 게시글이 존재하지 않으면 오류 응답
-    if (!requestedPost) {
-      return res.status(404).json({ message: "수정할 게시글을 찾을 수 없습니다." });
-    }
-
-    // 사용자 인증 및 권한 검사
-    if (requestedPost.userId !== userId) {
-      return res.status(403).json({ message: "게시글을 수정할 권한이 없습니다." });
-    }
-
-    console.log(`게시글 권한 확인 성공: postId - ${postId} userId - ${userId}`);
-
-    // 클라이언트로부터 수정 데이터를 기다림
-    const { title, content, isPrivate } = await new Promise((resolve) => {
-      req.on("data", (chunk) => {
-        resolve(JSON.parse(chunk.toString()));
-      });
-    });
 
     // 요청 데이터에 제목이 없는 경우
     if (!title) {
@@ -506,6 +488,16 @@ app.put("/api/protected/posts/:postId/edit", async (req, res) => {
     // 요청 데이터에 내용이 없는 경우
     if (!content) {
       return res.status(400).json({ status: "400-2", error: "본문을 입력해야 합니다." });
+    }
+
+    // 게시글이 존재하지 않으면 오류 응답
+    if (!requestedPost) {
+      return res.status(404).json({ message: "수정할 게시글을 찾을 수 없습니다." });
+    }
+
+    // 사용자 인증 및 권한 검사
+    if (requestedPost.userId !== userId) {
+      return res.status(403).json({ message: "게시글을 수정할 권한이 없습니다." });
     }
 
     const updatedPost = await Post.findOneAndUpdate({ postId }, { title, content, isPrivate });
@@ -561,7 +553,11 @@ app.get("/api/posts/:postId/comments", async (req, res) => {
   try {
     const { postId } = req.params;
     const comments = await Comment.find({ postId });
-    console.log(comments);
+
+    if (!comments) {
+      return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
+    }
+
     res.status(200).json(comments);
   } catch (error) {
     console.error(error);

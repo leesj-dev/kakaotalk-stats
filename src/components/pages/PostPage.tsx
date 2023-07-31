@@ -261,7 +261,7 @@ interface PostPageProps {
 const PostPage = ({ accessToken }: PostPageProps) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [isPrivate, setIsPrivate] = useState<boolean>(false);
+  const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);
 
   const [posts, setPosts] = useState<any>([]);
   const [currentPost, setCurrentPost] = useState<any>(null);
@@ -269,8 +269,8 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
-  const [editIsPrivate, setEditIsPrivate] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editIsPrivate, setEditIsPrivateContent] = useState<boolean>(false);
+  const [isPostEditing, setIsPostEditing] = useState<boolean>(false);
 
   const [comment, setComment] = useState("");
   const [isPrivateComment, setIsPrivateComment] = useState(false);
@@ -280,7 +280,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
   const initializePostForm = () => {
     setTitle("");
     setContent("");
-    setIsPrivate(false);
+    setIsPrivateContent(false);
   };
 
   const initializeCommentForm = () => {
@@ -296,7 +296,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
         {
           title,
           content,
-          isPrivate,
+          isPrivateContent,
         },
         {
           headers: {
@@ -343,8 +343,8 @@ const PostPage = ({ accessToken }: PostPageProps) => {
       console.log(`${post.title} 게시물 수정 권한 확인이 완료되었습니다.`);
       setEditTitle(post.title);
       setEditContent(post.content);
-      setEditIsPrivate(post.isPrivate);
-      setIsEditing(!isEditing);
+      setEditIsPrivateContent(post.isPrivateContent);
+      setIsPostEditing(!isPostEditing);
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -353,16 +353,17 @@ const PostPage = ({ accessToken }: PostPageProps) => {
 
   const editPost = async (e: React.FormEvent<HTMLFormElement>, post: any) => {
     e.preventDefault();
-    const toEditData = {
+    const toEditPostData = {
       title: editTitle,
       content: editContent,
-      isPrivate: editIsPrivate,
+      isPrivateContent: editIsPrivate,
     };
 
     try {
+      console.log("??????????");
       const result = await axios.put(
         `/api/protected/posts/${post.postId}/edit`,
-        { ...toEditData },
+        { ...toEditPostData },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -377,11 +378,11 @@ const PostPage = ({ accessToken }: PostPageProps) => {
       const copiedPosts = [...posts];
       copiedPosts[editedPostIndex] = {
         ...result.data.post,
-        ...toEditData,
+        ...toEditPostData,
       };
       setPosts(copiedPosts);
       setCurrentPost(copiedPosts[editedPostIndex]);
-      setIsEditing(false);
+      setIsPostEditing(false);
       return console.log(result);
     } catch (error) {
       console.error(error);
@@ -501,9 +502,13 @@ const PostPage = ({ accessToken }: PostPageProps) => {
   return (
     <PostPageContainer>
       {currentPost &&
-        (isEditing ? (
+        (isPostEditing ? (
           <FormContainer>
-            <FormGroup onSubmit={(e) => editPost(e, currentPost)}>
+            <FormGroup
+              onSubmit={(e) => {
+                editPost(e, currentPost);
+              }}
+            >
               <Label>제목</Label>
               <Input type="text" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
               <Label>내용</Label>
@@ -512,7 +517,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
               <Checkbox
                 type="checkBox"
                 checked={editIsPrivate}
-                onChange={(e) => setEditIsPrivate(e.target.checked)}
+                onChange={(e) => setEditIsPrivateContent(e.target.checked)}
               ></Checkbox>
               <Button type="submit">수정하기</Button>
             </FormGroup>
@@ -594,8 +599,8 @@ const PostPage = ({ accessToken }: PostPageProps) => {
           <Label>비밀글</Label>
           <Checkbox
             type="checkBox"
-            checked={isPrivate}
-            onChange={(e) => setIsPrivate(e.target.checked)}
+            checked={isPrivateContent}
+            onChange={(e) => setIsPrivateContent(e.target.checked)}
           ></Checkbox>
           <Button type="submit">글쓰기</Button>
         </FormGroup>
