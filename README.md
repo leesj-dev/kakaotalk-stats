@@ -30,7 +30,7 @@
   
 ## 사이트 URL
 
-- ### https://kmg-kakaomagnifyingglass.vercel.app/
+- ### http://kmg-env-1.eba-332qe2dv.ap-northeast-2.elasticbeanstalk.com/
 
 
 
@@ -69,6 +69,9 @@
 
 
 ## 업데이트
+* [v0.2.2 - 23-07-30](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.2)
+  * 게시판 기능 추가
+    * 클라우드 서버 배포 및 DB 연동
 * [v0.2.0-alpha - 23-07-22](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.0-alpha)
   * 회원가입 및 로그인 관련 기능 추가 (테스트 버전)
     * UI/UX 및 서버 배포 이전

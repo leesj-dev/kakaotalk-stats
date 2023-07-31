@@ -105,7 +105,7 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
   const [password, setPassword] = useState("");
   const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
   // 유효성 검사 메세지
-  const [errMessege, setErrMessege] = useState("");
+  const [errMessage, setErrMessage] = useState("");
 
   const handleClickRememberMe = () => {
     setIsRememberMe(!isRememberMe);
@@ -116,7 +116,7 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
     e.preventDefault();
 
     if (userId === "" || password === "") {
-      setErrMessege("아이디 또는 비밀번호를 입력해주세요");
+      setErrMessage("아이디 또는 비밀번호를 입력해주세요");
       return;
     }
     logInTest(e);
@@ -140,7 +140,7 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
       return console.log(result);
     } catch (error) {
       console.error(error);
-      setErrMessege("아이디 또는 비밀번호를 확인해주세요");
+      setErrMessage("아이디 또는 비밀번호를 확인해주세요");
     }
   };
 
@@ -190,7 +190,7 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
             />
             <Label>로그인 상태 유지</Label>
           </AutoLoginBox>
-          <ErrorText>{errMessege}</ErrorText>
+          <ErrorText>{errMessage}</ErrorText>
           <Button type="submit">로그인</Button>
         </FormGroup>
         <SignUpBox>

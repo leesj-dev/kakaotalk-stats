@@ -366,7 +366,7 @@ const PostPage = ({ accessToken }: PostPageProps) => {
       {posts ? (
         <PostList>
           {posts.map((post: any) => (
-            <Post onClick={() => viewPost(post)}>
+            <Post key={post.postId} onClick={() => viewPost(post)}>
               <PostTitle>제목: {post.title}</PostTitle>
               <PostMeta>
                 작성자: {post.nickname}, 작성일: {post.createdAt}
