@@ -73,7 +73,7 @@ function App() {
 
           <Route path={"/join"} element={<SignUp />} />
 
-          <Route path={"/posts"} element={<PostPage accessToken={accessToken} />} />
+          <Route path={"/posts"} element={<PostPage accessToken={accessToken} userData={userData} />} />
         </Routes>
         <Routes>
           <Route path={"/dashboard"} element={<DashboardPage />} />
