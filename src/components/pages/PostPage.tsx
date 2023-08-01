@@ -2,6 +2,7 @@ import { current } from "@reduxjs/toolkit";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { displayCreatedAt } from "../../module/common/postTime";
 
 const PostPageContainer = styled.div`
   margin: 200px auto;
@@ -571,7 +572,6 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
       try {
         if (currentPost) {
           const result = await axios.get(`/api/posts/${currentPost.postId}/comments`);
-          console.log(result);
           setComments([...result.data]);
           return console.log(result.data);
         }
@@ -610,7 +610,9 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
           <CurrentPostContainer>
             <CurrentPostTitle>제목: {currentPost.title}</CurrentPostTitle>
             <CurrentPostAuthor>작성자: {currentPost.nickname}</CurrentPostAuthor>
-            <CurrentPostCreatedAt>작성일: {currentPost.createdAt}</CurrentPostCreatedAt>
+            <CurrentPostCreatedAt>
+              작성일: {displayCreatedAt(currentPost.createdAt)}
+            </CurrentPostCreatedAt>
             <CurrentPostContent>내용: {currentPost.content}</CurrentPostContent>
             {userData?.userId === currentPost?.userId && (
               <PostButtonBox>
