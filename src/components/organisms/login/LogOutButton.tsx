@@ -49,7 +49,6 @@ const LogOutButton = ({ accessToken }: AccessToken) => {
       console.error(error);
     }
     handleLogOutDispatch();
-    window.alert("로그아웃되었습니다.");
   };
 
   return (

@@ -6,7 +6,7 @@ import { FlexRowDiv } from "../../atoms/FlexDiv";
 import { useDispatch } from "react-redux";
 import { setUserLoginAccessTokenSlice } from "../../../store/reducer/userData/userLoginAccessTokenSlice";
 import { setUserLoginDataSlice } from "../../../store/reducer/userData/userLoginDataSlice";
-import { AccessToken, UserData } from "../../../@types/index.d";
+import { LoginFormData, LoginSuccessData } from "../../../@types/index.d";
 
 const FormWrapper = styled.div`
   padding: 2rem;
@@ -93,24 +93,6 @@ const SignUpButton = styled.span`
   border-bottom: 1px solid var(--mainText);
 `;
 
-// LogIut Post 요청 보내기
-const postLogIn = async (userId: string, password: string, isRememberMe: boolean) => {
-  try {
-    const result = await axios.post("/api/users/login", {
-      userId,
-      password,
-      isRememberMe,
-    });
-    return result.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-interface LoginSuccessData extends UserData {
-  accessToken: AccessToken;
-}
-
 const LogInForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -126,8 +108,20 @@ const LogInForm = () => {
     setIsRememberMe(!isRememberMe);
   };
 
+  // LogIut Post 요청 보내기
+  const postLogIn = async (loginFormData: LoginFormData) => {
+    try {
+      const result = await axios.post("/api/users/login", {
+        ...loginFormData,
+      });
+      return result.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // LogIn Button 클릭 핸들러
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitLogIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (userId === "" || password === "") {
@@ -135,11 +129,12 @@ const LogInForm = () => {
         return setErrMessage("아이디 또는 비밀번호를 확인해주세요");
       }
 
-      const data = await postLogIn(userId, password, isRememberMe);
+      const loginFormData = { userId, password, isRememberMe };
+      const data = await postLogIn(loginFormData);
       handleLoginSuccess(data);
     } catch (error) {
       console.error(error);
-      window.alert("서버 문제로 인해 로그인에 실패하였습니다.");
+      window.alert("로그인에 실패하였습니다.");
     }
   };
 
@@ -156,7 +151,7 @@ const LogInForm = () => {
     <FormWrapper>
       <FormContainer>
         <FormTitle>로그인</FormTitle>
-        <FormGroup onSubmit={handleSubmit}>
+        <FormGroup onSubmit={handleSubmitLogIn}>
           <Input
             type="text"
             value={userId}

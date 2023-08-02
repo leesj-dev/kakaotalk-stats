@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import Span from "../../atoms/Span";
 import { Link } from "react-router-dom";
+import { SingUpData } from "../../../@types/index.d";
 
 // 이메일 정규식 : 영문자와 숫자만
 const regexID = /^[a-zA-Z0-9]{4,16}$/;
@@ -104,7 +105,7 @@ const SignUpForm = () => {
   const [nickNameNotice, setNicknameNotice] = useState(initialIdNotice);
   const [passNotice, setPassNotice] = useState(initialIdNotice);
 
-  // Nickname
+  // nickname input 유효성 검사
   const onBlurNicknameHandler = async () => {
     const isValidNickname = regexNickname.test(nickname);
     if (nickname === "") {
@@ -124,7 +125,7 @@ const SignUpForm = () => {
     });
   };
 
-  // ID
+  // userId input 유효성 검사
   const onBlurIdHandler = () => {
     const isValidID = regexID.test(userId);
     if (userId === "") {
@@ -144,7 +145,7 @@ const SignUpForm = () => {
     });
   };
 
-  // Password
+  // password input 유효성 검사
   const onBlurPasswordHandler = () => {
     const isValidPassword = regexPass.test(password);
 
@@ -165,17 +166,14 @@ const SignUpForm = () => {
     });
   };
 
-  const signUpUserTest = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // SignUp Post 요청 보내기
+  const postSignUp = async (signUpData: SingUpData) => {
     try {
-      const result = await axios.post("/api/users/create", {
-        userId,
-        password,
-        nickname,
+      await axios.post("/api/users/create", {
+        ...signUpData,
       });
-      navigate("/users/login");
-      return console.log(result);
-    } catch (error: unknown) {
+    } catch (error) {
+      console.error(error);
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         const data = axiosError.response?.data as { status: string; error: string };
@@ -192,6 +190,26 @@ const SignUpForm = () => {
           setNicknameNotice({ message: "이미 사용중인 닉네임입니다", alert: false });
         }
       }
+      throw Error;
+    }
+  };
+
+  // SignUp 성공 이벤트
+  const handleSignUpSuccess = () => {
+    window.alert("회원가입 되었습니다.");
+    navigate("/users/login");
+  };
+
+  // SignUp Button 클릭 핸들러
+  const handleSubmitSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const signUpData = { nickname, userId, password };
+      await postSignUp(signUpData);
+      handleSignUpSuccess();
+    } catch (error) {
+      console.error(error);
+      window.alert("회원가입에 실패하였습니다.");
     }
   };
 
@@ -200,14 +218,16 @@ const SignUpForm = () => {
       <SigUpContainer>
         <FormContainer>
           <FormTitle>회원가입</FormTitle>
-          <FormGroup onSubmit={(e) => signUpUserTest(e)}>
+          <FormGroup onSubmit={(e) => handleSubmitSignUp(e)}>
             <>
               <Input
                 type="text"
                 value={nickname}
+                minLength={2}
+                maxLength={10}
                 onBlur={onBlurNicknameHandler}
                 onChange={(e) => setNickname(e.target.value)}
-                placeholder="이름"
+                placeholder="닉네임"
               />
               <ErrorTextBox>
                 {nickNameNotice.alert ? null : <ErrorText>{nickNameNotice.message}</ErrorText>}
@@ -217,6 +237,8 @@ const SignUpForm = () => {
               <Input
                 type="text"
                 value={userId}
+                minLength={4}
+                maxLength={16}
                 onBlur={onBlurIdHandler}
                 onChange={(e) => setUserId(e.target.value)}
                 placeholder="아이디"
@@ -230,6 +252,8 @@ const SignUpForm = () => {
               <Input
                 type="password"
                 value={password}
+                minLength={4}
+                maxLength={16}
                 onBlur={onBlurPasswordHandler}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="비밀번호"
