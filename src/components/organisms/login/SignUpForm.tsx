@@ -1,16 +1,16 @@
-import axios, { AxiosError } from "axios";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import axios, { AxiosError } from "axios";
 import Span from "../../atoms/Span";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // 이메일 정규식 : 영문자와 숫자만
-const regexrID = /^[a-zA-Z0-9]{4,16}$/;
+const regexID = /^[a-zA-Z0-9]{4,16}$/;
 // 비밀번호 형식
-const regexrPass = /^[a-zA-Z가-힣!@#$%^&*()_+|<>?:{}]*.{4,16}$/;
+const regexPass = /^[a-zA-Z가-힣!@#$%^&*()_+|<>?:{}]*.{4,16}$/;
 //  닉네임 형식
-const regexrNickname = /^[가-힣a-zA-Z]{2,10}$/;
+const regexNickname = /^[가-힣a-zA-Z]{2,10}$/;
 
 const FormWrapper = styled.div`
   padding: 2rem;
@@ -87,6 +87,14 @@ const initialIdNotice = {
   message: "",
 };
 
+const SigUpContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  height: calc(100vh - 210.5px);
+`;
+
 const SignUpForm = () => {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
@@ -98,7 +106,7 @@ const SignUpForm = () => {
 
   // Nickname
   const onBlurNicknameHandler = async () => {
-    const isValidNickname = regexrNickname.test(nickname);
+    const isValidNickname = regexNickname.test(nickname);
     if (nickname === "") {
       setNicknameNotice({ message: "필수항목입니다.", alert: false });
       return;
@@ -118,7 +126,7 @@ const SignUpForm = () => {
 
   // ID
   const onBlurIdHandler = () => {
-    const isValidID = regexrID.test(userId);
+    const isValidID = regexID.test(userId);
     if (userId === "") {
       setIdNotice({ message: "필수항목입니다.", alert: false });
       return;
@@ -138,7 +146,7 @@ const SignUpForm = () => {
 
   // Password
   const onBlurPasswordHandler = () => {
-    const isValidPassword = regexrPass.test(password);
+    const isValidPassword = regexPass.test(password);
 
     if (password === "") {
       setPassNotice({ message: "필수항목입니다.", alert: false });
@@ -165,7 +173,7 @@ const SignUpForm = () => {
         password,
         nickname,
       });
-      navigate("/login");
+      navigate("/users/login");
       return console.log(result);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -189,55 +197,57 @@ const SignUpForm = () => {
 
   return (
     <FormWrapper>
-      <FormContainer>
-        <FormTitle>회원가입</FormTitle>
-        <FormGroup onSubmit={(e) => signUpUserTest(e)}>
-          <>
-            <Input
-              type="text"
-              value={nickname}
-              onBlur={onBlurNicknameHandler}
-              onChange={(e) => setNickname(e.target.value)}
-              placeholder="이름"
-            />
-            <ErrorTextBox>
-              {nickNameNotice.alert ? null : <ErrorText>{nickNameNotice.message}</ErrorText>}
-            </ErrorTextBox>
-          </>
-          <>
-            <Input
-              type="text"
-              value={userId}
-              onBlur={onBlurIdHandler}
-              onChange={(e) => setUserId(e.target.value)}
-              placeholder="아이디"
-            />
+      <SigUpContainer>
+        <FormContainer>
+          <FormTitle>회원가입</FormTitle>
+          <FormGroup onSubmit={(e) => signUpUserTest(e)}>
+            <>
+              <Input
+                type="text"
+                value={nickname}
+                onBlur={onBlurNicknameHandler}
+                onChange={(e) => setNickname(e.target.value)}
+                placeholder="이름"
+              />
+              <ErrorTextBox>
+                {nickNameNotice.alert ? null : <ErrorText>{nickNameNotice.message}</ErrorText>}
+              </ErrorTextBox>
+            </>
+            <>
+              <Input
+                type="text"
+                value={userId}
+                onBlur={onBlurIdHandler}
+                onChange={(e) => setUserId(e.target.value)}
+                placeholder="아이디"
+              />
 
-            <ErrorTextBox>
-              {idNotice.alert ? null : <ErrorText>{idNotice.message}</ErrorText>}
-            </ErrorTextBox>
-          </>
-          <>
-            <Input
-              type="password"
-              value={password}
-              onBlur={onBlurPasswordHandler}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="비밀번호"
-            />
-            <ErrorTextBox>
-              {passNotice.alert ? null : <ErrorText>{passNotice.message}</ErrorText>}
-            </ErrorTextBox>
-          </>
-          <Button type="submit">가입하기</Button>
-        </FormGroup>
-        <LoginBox>
-          회원이 아니신가요?
-          <LoginButton>
-            <Link to="/login">로그인</Link>
-          </LoginButton>
-        </LoginBox>
-      </FormContainer>
+              <ErrorTextBox>
+                {idNotice.alert ? null : <ErrorText>{idNotice.message}</ErrorText>}
+              </ErrorTextBox>
+            </>
+            <>
+              <Input
+                type="password"
+                value={password}
+                onBlur={onBlurPasswordHandler}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="비밀번호"
+              />
+              <ErrorTextBox>
+                {passNotice.alert ? null : <ErrorText>{passNotice.message}</ErrorText>}
+              </ErrorTextBox>
+            </>
+            <Button type="submit">가입하기</Button>
+          </FormGroup>
+          <LoginBox>
+            이미 회원정보가 있으신가요?
+            <LoginButton>
+              <Link to="/users/login">로그인</Link>
+            </LoginButton>
+          </LoginBox>
+        </FormContainer>
+      </SigUpContainer>
     </FormWrapper>
   );
 };

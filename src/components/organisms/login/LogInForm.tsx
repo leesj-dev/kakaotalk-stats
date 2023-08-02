@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
-import { UserData } from "./WithdrawButton";
+import { useDispatch } from "react-redux";
+import { setUserLoginAccessTokenSlice } from "../../../store/reducer/userData/userLoginAccessTokenSlice";
+import { setUserLoginDataSlice } from "../../../store/reducer/userData/userLoginDataSlice";
+import { AccessToken, UserData } from "../../../@types/index.d";
 
 const FormWrapper = styled.div`
   padding: 2rem;
@@ -90,82 +93,70 @@ const SignUpButton = styled.span`
   border-bottom: 1px solid var(--mainText);
 `;
 
-interface accessTokenProps {
-  userData: UserData | null;
-  setUserData: (userData: UserData | null) => void;
-  accessToken: string;
-  setAccessToken: (accessToken: string) => void;
+// LogIut Post 요청 보내기
+const postLogIn = async (userId: string, password: string, isRememberMe: boolean) => {
+  try {
+    const result = await axios.post("/api/users/login", {
+      userId,
+      password,
+      isRememberMe,
+    });
+    return result.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+interface LoginSuccessData extends UserData {
+  accessToken: AccessToken;
 }
 
-const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: accessTokenProps) => {
+const LogInForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
+
   // 유효성 검사 메세지
-  const [errMessage, setErrMessage] = useState("");
+  const [errMessage, setErrMessage] = useState<string>("");
 
   const handleClickRememberMe = () => {
     setIsRememberMe(!isRememberMe);
   };
 
-  // 로그인 유효성
-  const loginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // LogIn Button 클릭 핸들러
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (userId === "" || password === "") {
-      setErrMessage("아이디 또는 비밀번호를 입력해주세요");
-      return;
-    }
-    logInTest(e);
-  };
-
-  const logInTest = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
     try {
-      const result = await axios.post("/api/users/login", {
-        userId,
-        password,
-        isRememberMe,
-      });
+      if (userId === "" || password === "") {
+        window.alert("아이디 또는 비밀번호를 확인해주세요");
+        return setErrMessage("아이디 또는 비밀번호를 확인해주세요");
+      }
 
-      const { accessToken } = result.data;
-      setAccessToken(accessToken);
-      setUserData(result.data);
-      console.log(userId + "님의 로그인이 완료되었습니다.");
-      navigate("/");
-      return console.log(result);
+      const data = await postLogIn(userId, password, isRememberMe);
+      handleLoginSuccess(data);
     } catch (error) {
       console.error(error);
-      setErrMessage("아이디 또는 비밀번호를 확인해주세요");
+      window.alert("서버 문제로 인해 로그인에 실패하였습니다.");
     }
   };
 
-  // const protectedUrlTest = async (e: any) => {
-  //   e.preventDefault();
-  //   try {
-  //     const result = await axios.post("/api/protected/edit", null, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     console.log(result);
-  //     setAccessToken(result.data.accessToken);
-  //     setUserData(result.data);
-  //     console.log(userData?.userId + "님의 제한 페이지 접근이 완료되었습니다.");
-  //     return console.log(result);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  // LogIn 성공 이벤트
+  const handleLoginSuccess = (data: LoginSuccessData) => {
+    const { accessToken, nickname, userId } = data;
+    dispatch(setUserLoginAccessTokenSlice(accessToken));
+    dispatch(setUserLoginDataSlice({ nickname, userId }));
+    window.alert("로그인되었습니다.");
+    navigate("/");
+  };
 
   return (
     <FormWrapper>
       <FormContainer>
         <FormTitle>로그인</FormTitle>
-        <FormGroup onSubmit={loginSubmit}>
+        <FormGroup onSubmit={handleSubmit}>
           <Input
             type="text"
             value={userId}
@@ -177,7 +168,7 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="비밀번호"
-          />{" "}
+          />
           <AutoLoginBox>
             <Input
               type="checkbox"
@@ -191,12 +182,11 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
           <Button type="submit">로그인</Button>
         </FormGroup>
         <SignUpBox>
-          이미 회원정보가 있으신가요?
+          이미 회원이신가요??
           <SignUpButton>
-            <Link to="/join">회원가입</Link>
+            <Link to="/users/create">회원가입</Link>
           </SignUpButton>
         </SignUpBox>
-        {/* <Button onClick={(e) => protectedUrlTest(e)}>토큰 테스트</Button> */}
       </FormContainer>
     </FormWrapper>
   );

@@ -77,3 +77,12 @@ export type StackBarData = {
   name: string;
   [key: string]: number | string | undefined;
 };
+
+export interface UserData {
+  userId: string;
+  nickname: string;
+}
+
+export type AccessToken = {
+  accessToken: string;
+};

@@ -1,7 +1,9 @@
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
-import { UserData } from "./WithdrawButton";
+import { useDispatch } from "react-redux";
+import { setUserLoginDataSlice } from "../../../store/reducer/userData/userLoginDataSlice";
+import { AccessToken } from "../../../@types/index.d";
 
 const LogOutContainer = styled.div``;
 
@@ -11,27 +13,45 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-interface LogOutButtonProps {
-  userData: UserData | null;
-  setUserData: (userData: UserData | null) => void;
-  accessToken: string;
-}
+const LogOutButton = ({ accessToken }: AccessToken) => {
+  const dispatch = useDispatch();
 
-const LogOutButton = ({ userData, setUserData, accessToken }: LogOutButtonProps) => {
-  const handleClickLogoutButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  // LogOut Post 요청 보내기
+  const postLogOut = async () => {
     try {
-      await axios.post("/api/protected/users/signout", null, {
+      const result = await axios.post("/api/protected/users/signout", null, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      return result.data;
     } catch (error) {
       console.error(error);
     }
-    setUserData(null);
-    console.log(userData?.userId + "님의 로그아웃이 완료되었습니다.");
   };
+
+  // LogOut 상태 업데이트
+  const handleLogOutDispatch = () => {
+    dispatch(
+      setUserLoginDataSlice({
+        userId: "",
+        nickname: "",
+      })
+    );
+  };
+
+  // LogOut Button 클릭 핸들러
+  const handleClickLogoutButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      await postLogOut();
+    } catch (error) {
+      console.error(error);
+    }
+    handleLogOutDispatch();
+    window.alert("로그아웃되었습니다.");
+  };
+
   return (
     <LogOutContainer>
       <Button onClick={(e) => handleClickLogoutButton(e)}>로그아웃</Button>

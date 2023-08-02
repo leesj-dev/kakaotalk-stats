@@ -1,37 +1,17 @@
-import { useEffect } from "react";
 import styled from "styled-components";
-import LogInForm from "../organisms/login/LogInForm";
-import WithdrawButton, { UserData } from "../organisms/login/WithdrawButton";
+import { Outlet } from "react-router";
 
 const UserPageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
   height: calc(100vh - 210.5px);
 `;
 
-interface accessTokenProps {
-  userData: UserData | null;
-  setUserData: (userData: UserData | null) => void;
-  accessToken: string;
-  setAccessToken: (accessToken: string) => void;
-}
-
-const UserPage = ({ userData, setUserData, accessToken, setAccessToken }: accessTokenProps) => {
-  useEffect(() => {
-    // 로그인 된 유저 데이터 확인용
-    console.log(userData);
-  }, [userData]);
-
+const UserPage = () => {
   return (
     <UserPageContainer>
-      <LogInForm
-        userData={userData}
-        setUserData={setUserData}
-        accessToken={accessToken}
-        setAccessToken={setAccessToken}
-      />
+      <Outlet />
 
       {/* <WithdrawButton userData={userData} setUserData={setUserData} accessToken={accessToken} /> */}
     </UserPageContainer>

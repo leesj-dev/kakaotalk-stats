@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
+import { UserData } from "../../../@types/index.d";
 
 const WithdrawContainer = styled.div`
   padding: 2rem;
@@ -21,11 +22,6 @@ const Button = styled.button`
     background: #26942a;
   }
 `;
-
-export interface UserData {
-  userId: string;
-  nickname: string;
-}
 
 interface WithdrawProps {
   userData: UserData | null;

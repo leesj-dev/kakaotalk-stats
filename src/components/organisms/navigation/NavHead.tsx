@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../../atoms/Img";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsDarkMode } from "../../../store/reducer/common/isDarkModeSlice";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
@@ -11,6 +11,7 @@ import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import DarkModeButton from "../../molecules/navigation/DarkModeButton";
 import LogOutButton from "../login/LogOutButton";
+import { UserData } from "../../../@types/index.d";
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;
@@ -76,12 +77,12 @@ const NavHead: React.FC<NavHeadProps> = ({
   closeMenu,
   isDarkMode,
   isAnalyzedMessagesExist,
-  userData,
-  setUserData,
   accessToken,
   setAccessToken,
 }) => {
   const dispatch = useDispatch();
+
+  const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
 
   const debounceTimeoutRef = useRef<number | null>(null);
 
@@ -129,13 +130,13 @@ const NavHead: React.FC<NavHeadProps> = ({
           {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
 
-          {userData ? (
-            <LogOutButton userData={userData} setUserData={setUserData} accessToken={accessToken} />
+          {userData.userId ? (
+            <LogOutButton accessToken={accessToken} />
           ) : (
-            <Link to="/login">로그인</Link>
+            <Link to="/users/login">로그인</Link>
           )}
 
-          <Link to="/posts">게시판</Link>
+          <Link to="/users/posts">게시판</Link>
         </Menus>
         <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
       </MenuBox>

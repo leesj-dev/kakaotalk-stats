@@ -11,11 +11,12 @@ import Navigation from "./components/sections/navigation/Navigation";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import UserPage from "./components/pages/UserPage";
 import { getTokenFromCookie } from "./module/common/getTokenFromCookie";
-import { UserData } from "./components/organisms/login/WithdrawButton";
-import SignUp from "./components/pages/SignUp";
 import PostPage from "./components/pages/PostPage";
+import LogInForm from "./components/organisms/login/LogInForm";
+import { UserData } from "./@types/index.d";
+import UserPage from "./components/pages/UserPage";
+import SignUpForm from "./components/organisms/login/SignUpForm";
 
 function App() {
   const location = useLocation();
@@ -59,19 +60,13 @@ function App() {
         <Routes>
           <Route path={"/"} element={<MainPage />} />
           <Route path={"/attachment"} element={<AttachmentPage />} />
-          <Route
-            path={"/login"}
-            element={
-              <UserPage
-                userData={userData}
-                setUserData={setUserData}
-                accessToken={accessToken}
-                setAccessToken={setAccessToken}
-              />
-            }
-          />
 
-          <Route path={"/join"} element={<SignUp />} />
+          <Route>
+            <Route path="/users" element={<UserPage />}>
+              <Route path="login" element={<LogInForm />} />
+              <Route path="create" element={<SignUpForm />} />
+            </Route>
+          </Route>
 
           <Route path={"/posts"} element={<PostPage accessToken={accessToken} userData={userData} />} />
         </Routes>
