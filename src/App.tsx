@@ -58,21 +58,36 @@ function App() {
           setAccessToken={setAccessToken}
         />
         <Routes>
-          <Route path={"/"} element={<MainPage />} />
-          <Route path={"/attachment"} element={<AttachmentPage />} />
-
+          <Route path="/" element={<MainPage />} />
+          <Route path="/attachment" element={<AttachmentPage />} />
           <Route>
             <Route path="/users" element={<UserPage />}>
               <Route path="login" element={<LogInForm />} />
               <Route path="create" element={<SignUpForm />} />
             </Route>
           </Route>
+          <Route path="/posts" element={<PostPage accessToken={accessToken} userData={userData} />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/detail" element={<DetailPage />} />
 
-          <Route path={"/posts"} element={<PostPage accessToken={accessToken} userData={userData} />} />
-        </Routes>
-        <Routes>
-          <Route path={"/dashboard"} element={<DashboardPage />} />
-          <Route path={"/detail"} element={<DetailPage />} />
+          <Route
+            path="*"
+            element={
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  height: "80vh",
+                  fontSize: "3rem",
+                }}
+              >
+                404 ERROR: 존재하지 않는 페이지입니다. <br /> <br />
+                준비중인 화면입니다.
+              </div>
+            }
+          />
         </Routes>
         {isDashboardPage ? <Footer dashboard={true} /> : <Footer />}
       </Wrapper>
