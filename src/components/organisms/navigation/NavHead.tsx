@@ -13,28 +13,12 @@ import DarkModeButton from "../../molecules/navigation/DarkModeButton";
 import LogOutButton from "../login/LogOutButton";
 import { UserData } from "../../../@types/index.d";
 
-const NavHeadContainer = styled.div`
-  margin: 0 auto;
-  padding: 0 20px;
-  max-width: 1240px;
-  display: flex;
-  justify-content: space-between;
-  font-weight: 500;
-  line-height: 80px;
-
-  > * {
-    flex: 1;
-  }
-  @media (max-width: 1200px) {
-    line-height: 70px;
-  }
-`;
-
 const H1 = styled.h1`
   display: flex;
+  align-items: center;
   height: 40px;
+  width: 120px;
   &.active {
-    width: 120px;
     transform: translateY(-22px);
   }
   @media (max-width: 1200px) {
@@ -42,22 +26,39 @@ const H1 = styled.h1`
   }
 `;
 
+const NavHeadContainer = styled.div`
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1240px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  line-height: 80px;
+
+  @media (max-width: 1200px) {
+    line-height: 70px;
+  }
+`;
+
 const MenuBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 4.5rem;
-`;
+  margin-left: auto;
+  margin-right: 5.5rem;
 
-const Menus = styled(FlexCenterDiv)`
-  font-size: 2.2rem;
-  gap: 4.5rem;
   @media (max-width: 1200px) {
     display: none;
   }
 `;
 
-const MobileMenuBox = styled.div`
+const Menus = styled(FlexCenterDiv)`
+  font-size: 2.2rem;
+  gap: 5.5rem;
+`;
+
+const MobileMenuButton = styled.div`
   display: none;
 
   @media (max-width: 1200px) {
@@ -78,7 +79,6 @@ const NavHead: React.FC<NavHeadProps> = ({
   isDarkMode,
   isAnalyzedMessagesExist,
   accessToken,
-  setAccessToken,
 }) => {
   const dispatch = useDispatch();
 
@@ -112,11 +112,11 @@ const NavHead: React.FC<NavHeadProps> = ({
 
   return (
     <NavHeadContainer>
-      <MobileMenuBox>
+      <MobileMenuButton>
         <MobileMenuIcon onClick={handleClickMenu}>
           <HiMenu />
         </MobileMenuIcon>
-      </MobileMenuBox>
+      </MobileMenuButton>
       <H1>
         <Link to="/">
           <Img
@@ -138,8 +138,8 @@ const NavHead: React.FC<NavHeadProps> = ({
 
           <Link to="/users/posts">게시판</Link>
         </Menus>
-        <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
       </MenuBox>
+      <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
     </NavHeadContainer>
   );
 };
