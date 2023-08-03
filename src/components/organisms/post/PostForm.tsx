@@ -10,17 +10,17 @@ const FormContainer = styled.div`
 `;
 
 const TitleBox = styled.div`
-  padding: 10px 0;
+  padding: 10px;
   margin-bottom: 20px;
   border-bottom: 1px solid #ddd;
 `;
 
-const CheckBox = styled(FlexRowDiv)`
+const CheckBoxWrapper = styled(FlexRowDiv)`
   gap: 10px;
 `;
 
 const PublishBox = styled(FlexRowDiv)`
-  padding: 10px;
+  padding: 20px;
   border-top: 1px solid #ddd;
   justify-content: space-between;
   align-items: center;
@@ -45,16 +45,22 @@ const Input = styled.input`
   border: none;
   border-radius: 5px;
   font-size: 14px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Textarea = styled.textarea`
   margin-bottom: 5px;
-  padding: 8px 12px;
+  padding: 8px 20px;
   width: 100%;
   height: 150px;
   resize: none;
   border: none;
   font-size: 14px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Checkbox = styled.input`
@@ -115,14 +121,14 @@ const PostForm = ({
           placeholder="여기를 눌러서 글을 작성할 수 있습니다"
         />
         <PublishBox>
-          <CheckBox>
+          <CheckBoxWrapper>
             <Label>비밀글</Label>
             <Checkbox
               type="checkBox"
               checked={isPrivateContent}
               onChange={(e) => setIsPrivateContent(e.target.checked)}
             />
-          </CheckBox>
+          </CheckBoxWrapper>
 
           <Button type="submit">글쓰기</Button>
         </PublishBox>

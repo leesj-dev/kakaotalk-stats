@@ -1,12 +1,29 @@
 import React from "react";
+import { FaRegComment } from "react-icons/fa";
 import styled from "styled-components";
+import { displayCreatedAt } from "../../../module/common/postTime";
+import { FlexColumnDiv, FlexRowDiv } from "../../atoms/FlexDiv";
 import { UserData } from "../login/WithdrawButton";
 
 const CommentContainer = styled.div`
+  padding: 20px;
   margin: 10px 0;
+  border-radius: 5px;
+`;
+const CommentIcon = styled.div`
+  margin-bottom: 30px;
+  padding: 5px;
+  display: flex;
+  gap: 5px;
+  font-size: 1.5rem;
 `;
 
-const CommentCountBox = styled.div``;
+const CurrentPostProfile = styled.div`
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--mainBlack);
+  border-radius: 50%;
+`;
 
 const CommentList = styled.ul`
   list-style: none;
@@ -14,12 +31,26 @@ const CommentList = styled.ul`
 `;
 
 const CommentItem = styled.li`
-  margin: 5px 0;
+  margin: 20px 0;
+`;
+const CommentBox = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
+const UserContainer = styled(FlexRowDiv)`
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const CommentButtonBox = styled.div``;
+const UserBox = styled(FlexColumnDiv)`
+  gap: 5px;
+`;
 const CommentContent = styled.div`
-  padding: 8px;
-  background-color: #f5f5f5;
+  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
   border-radius: 4px;
 `;
 
@@ -144,23 +175,33 @@ const CommentListForm = ({
 }: CommentListProps) => {
   return (
     <CommentContainer>
-      <CommentCountBox>댓글:{comments.length}개</CommentCountBox>
+      <CommentIcon>
+        <FaRegComment /> {comments.length}
+      </CommentIcon>
       <CommentList>
         {comments.length ? (
           comments.map((comment: any) => (
             <CommentItem key={comment._id}>
-              <CommentAuthor>작성자: {comment.nickname}</CommentAuthor>
-              <CommentTime>작성시간: {comment.createdAt}</CommentTime>
-              {userData?.userId === comment?.userId && (
-                <>
-                  <EditCommentButton onClick={(e) => clickEditComment(e, currentPost, comment)}>
-                    수정
-                  </EditCommentButton>
-                  <DeleteCommentButton onClick={(e) => handleDeletedComment(e, comment)}>
-                    삭제
-                  </DeleteCommentButton>
-                </>
-              )}
+              <CommentBox>
+                <UserContainer>
+                  <CurrentPostProfile />
+                  <UserBox>
+                    <CommentAuthor>{comment.nickname}</CommentAuthor>
+                    <CommentTime> {displayCreatedAt(comment.createdAt)}</CommentTime>
+                  </UserBox>
+                </UserContainer>
+                {userData?.userId === comment?.userId && (
+                  <CommentButtonBox>
+                    <EditCommentButton onClick={(e) => clickEditComment(e, currentPost, comment)}>
+                      수정
+                    </EditCommentButton>
+                    <DeleteCommentButton onClick={(e) => handleDeletedComment(e, comment)}>
+                      삭제
+                    </DeleteCommentButton>
+                  </CommentButtonBox>
+                )}
+              </CommentBox>
+
               {editingCommentId === comment._id && isCommentEditing ? (
                 <CommentFormContainer>
                   <FormGroup onSubmit={(e) => submitEditComment(e, currentPost, comment)}>

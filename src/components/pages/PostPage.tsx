@@ -6,10 +6,9 @@ import CommentListForm from "../organisms/post/CommentList";
 import Post from "../organisms/post/Post";
 import PostForm from "../organisms/post/PostForm";
 import PostList from "../organisms/post/PostList";
-import PostListForm from "../organisms/post/PostList";
 
 const PostPageContainer = styled.div`
-  margin: 200px auto;
+  margin: 150px auto;
   padding: 20px;
   max-width: 1240px;
 `;
@@ -415,6 +414,7 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
   return (
     <PostPageContainer>
       {/* 게시글작성폼 */}
+      <PostPageTitle>글 작성</PostPageTitle>
       <PostForm
         createPostTest={createPostTest}
         title={title}
@@ -484,7 +484,7 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
       {/* 게시글 */}
       <PostPageTitle>게시판</PostPageTitle>
       {posts ? (
-        <PostList posts={posts} viewPost={viewPost} />
+        <PostList posts={posts} viewPost={viewPost} comments={comments} />
       ) : (
         <NonePostContainer>게시물이 없습니다.</NonePostContainer>
       )}

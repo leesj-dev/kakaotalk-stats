@@ -5,15 +5,19 @@ import { FlexRowDiv } from "../../atoms/FlexDiv";
 import { UserData } from "../login/WithdrawButton";
 
 const PostContainer = styled.div`
-  padding: 20px;
-  border-bottom: 1px solid var(--mainGray);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
 `;
+
 const UserContainer = styled(FlexRowDiv)`
   gap: 10px;
   align-items: center;
   margin-bottom: 10px;
 `;
+
 const UserBox = styled.div``;
+const PostContent = styled.div``;
 
 const CurrentPostProfile = styled.div`
   width: 50px;
@@ -21,6 +25,7 @@ const CurrentPostProfile = styled.div`
   border: 1px solid var(--mainBlack);
   border-radius: 50%;
 `;
+
 const CurrentPostTitle = styled.div`
   margin-bottom: 30px;
   font-size: 3rem;
@@ -39,13 +44,16 @@ const CurrentPostCreatedAt = styled.div`
 `;
 
 const CurrentPostContent = styled.div`
+  margin-bottom: 30px;
   font-size: 1.7rem;
 `;
 
 const PostButtonBox = styled.div`
   display: flex;
   gap: 1rem;
+  height: 30px;
 `;
+
 const DeleteButton = styled.button`
   font-size: 1.7rem;
   padding: 8px 12px;
@@ -89,6 +97,7 @@ interface PostProps {
     content: string;
     userId: string;
   };
+
   clickEditPost: (e: React.MouseEvent<HTMLButtonElement>, currentPost: any) => void;
   deletePost: (e: React.MouseEvent<HTMLButtonElement>, currentPost: any) => void;
 }
@@ -99,16 +108,18 @@ const Post = ({ currentPost, userData, clickEditPost, deletePost }: PostProps) =
 
   return (
     <PostContainer>
-      <UserContainer>
-        <CurrentPostProfile />
-        <UserBox>
-          <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
-          <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
-        </UserBox>
-      </UserContainer>
-      <CurrentPostTitle>{title}</CurrentPostTitle>
+      <PostContent>
+        <UserContainer>
+          <CurrentPostProfile />
+          <UserBox>
+            <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
+            <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
+          </UserBox>
+        </UserContainer>
+        <CurrentPostTitle>{title}</CurrentPostTitle>
+        <CurrentPostContent>{content}</CurrentPostContent>
+      </PostContent>
 
-      <CurrentPostContent>{content}</CurrentPostContent>
       {/* 자신의 글 수정 삭제 버튼 */}
       {isAuthor && (
         <PostButtonBox>
