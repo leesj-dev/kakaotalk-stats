@@ -1,19 +1,41 @@
 import React from "react";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
+import { FlexRowDiv } from "../../atoms/FlexDiv";
 import { UserData } from "../login/WithdrawButton";
-const PostContainer = styled.div``;
+
+const PostContainer = styled.div`
+  padding: 20px;
+  border-bottom: 1px solid var(--mainGray);
+`;
+const UserContainer = styled(FlexRowDiv)`
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+const UserBox = styled.div``;
+
+const CurrentPostProfile = styled.div`
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--mainBlack);
+  border-radius: 50%;
+`;
 const CurrentPostTitle = styled.div`
-  font-size: 2rem;
+  margin-bottom: 30px;
+  font-size: 3rem;
   font-weight: 700;
 `;
 
 const CurrentPostAuthor = styled.div`
-  font-size: 1.7rem;
+  margin-bottom: 5px;
+  font-weight: 700;
+  font-size: 2rem;
 `;
 
 const CurrentPostCreatedAt = styled.div`
-  font-size: 1.7rem;
+  font-size: 1.3rem;
+  color: var(--mainGray);
 `;
 
 const CurrentPostContent = styled.div`
@@ -72,14 +94,23 @@ interface PostProps {
 }
 
 const Post = ({ currentPost, userData, clickEditPost, deletePost }: PostProps) => {
+  const { title, nickname, createdAt, content, userId } = currentPost;
+  const isAuthor = userData?.userId === userId;
+
   return (
     <PostContainer>
-      <CurrentPostTitle>제목: {currentPost.title}</CurrentPostTitle>
-      <CurrentPostAuthor>작성자: {currentPost.nickname}</CurrentPostAuthor>
-      <CurrentPostCreatedAt>작성일: {displayCreatedAt(currentPost.createdAt)}</CurrentPostCreatedAt>
-      <CurrentPostContent>내용: {currentPost.content}</CurrentPostContent>
+      <UserContainer>
+        <CurrentPostProfile />
+        <UserBox>
+          <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
+          <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
+        </UserBox>
+      </UserContainer>
+      <CurrentPostTitle>{title}</CurrentPostTitle>
+
+      <CurrentPostContent>{content}</CurrentPostContent>
       {/* 자신의 글 수정 삭제 버튼 */}
-      {userData?.userId === currentPost?.userId && (
+      {isAuthor && (
         <PostButtonBox>
           <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
           <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>

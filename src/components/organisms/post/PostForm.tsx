@@ -1,12 +1,32 @@
 import React from "react";
 import styled from "styled-components";
+import { FlexRowDiv } from "../../atoms/FlexDiv";
 
 const FormContainer = styled.div`
-  max-width: 400px;
+  margin-bottom: 30px;
+  max-width: 1200px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+`;
+
+const TitleBox = styled.div`
+  padding: 10px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+`;
+
+const CheckBox = styled(FlexRowDiv)`
+  gap: 10px;
+`;
+
+const PublishBox = styled(FlexRowDiv)`
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const FormGroup = styled.form`
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 `;
@@ -22,7 +42,7 @@ const Input = styled.input`
   margin-bottom: 5px;
   padding: 8px 12px;
   width: 100%;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 5px;
   font-size: 14px;
 `;
@@ -31,10 +51,10 @@ const Textarea = styled.textarea`
   margin-bottom: 5px;
   padding: 8px 12px;
   width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  height: 150px;
+  resize: none;
+  border: none;
   font-size: 14px;
-  resize: vertical;
 `;
 
 const Checkbox = styled.input`
@@ -78,17 +98,34 @@ const PostForm = ({
   return (
     <FormContainer>
       <FormGroup onSubmit={(e) => createPostTest(e)}>
-        <Label>제목</Label>
-        <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <Label>내용</Label>
-        <Textarea value={content} onChange={(e) => edit(e.target.value)} />
-        <Label>비밀글</Label>
-        <Checkbox
-          type="checkBox"
-          checked={isPrivateContent}
-          onChange={(e) => setIsPrivateContent(e.target.checked)}
-        ></Checkbox>
-        <Button type="submit">글쓰기</Button>
+        <TitleBox>
+          {/* <Label>제목</Label> */}
+          <Input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="제목을 작성해주세요"
+          />
+        </TitleBox>
+
+        {/* <Label>내용</Label> */}
+        <Textarea
+          value={content}
+          onChange={(e) => edit(e.target.value)}
+          placeholder="여기를 눌러서 글을 작성할 수 있습니다"
+        />
+        <PublishBox>
+          <CheckBox>
+            <Label>비밀글</Label>
+            <Checkbox
+              type="checkBox"
+              checked={isPrivateContent}
+              onChange={(e) => setIsPrivateContent(e.target.checked)}
+            />
+          </CheckBox>
+
+          <Button type="submit">글쓰기</Button>
+        </PublishBox>
       </FormGroup>
     </FormContainer>
   );

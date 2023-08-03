@@ -414,6 +414,16 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
 
   return (
     <PostPageContainer>
+      {/* 게시글작성폼 */}
+      <PostForm
+        createPostTest={createPostTest}
+        title={title}
+        setTitle={setTitle}
+        content={content}
+        isPrivateContent={isPrivateContent}
+        setIsPrivateContent={setIsPrivateContent}
+        edit={edit}
+      />
       {currentPost &&
         (isPostEditing ? (
           // 글을 수정했을 때 수정 폼
@@ -478,16 +488,6 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
       ) : (
         <NonePostContainer>게시물이 없습니다.</NonePostContainer>
       )}
-      {/* 게시글작성폼 */}
-      <PostForm
-        createPostTest={createPostTest}
-        title={title}
-        setTitle={setTitle}
-        content={content}
-        isPrivateContent={isPrivateContent}
-        setIsPrivateContent={setIsPrivateContent}
-        edit={edit}
-      />
     </PostPageContainer>
   );
 };
