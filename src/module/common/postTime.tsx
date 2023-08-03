@@ -8,7 +8,6 @@ export const displayCreatedAt = (createdDate: string | number | Date) => {
 
   // 분 화
   const betweenTime = today.diff(timeValue, "minutes");
-
   // 1분 미만 = 방금 전
   if (betweenTime < 1) return "방금 전";
   // 1시간 미만 = ~분 전
