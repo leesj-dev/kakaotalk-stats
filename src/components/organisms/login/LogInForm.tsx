@@ -32,9 +32,10 @@ const FormGroup = styled.form`
 `;
 
 const Label = styled.label`
-  margin-bottom: 5px;
   display: block;
-  font-size: 1.7rem;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  font-size: 1.3rem;
 `;
 
 const Input = styled.input`
@@ -166,17 +167,19 @@ const LogInForm = ({ userData, setUserData, accessToken, setAccessToken }: acces
       <FormContainer>
         <FormTitle>로그인</FormTitle>
         <FormGroup onSubmit={loginSubmit}>
+          <Label>아이디</Label>
           <Input
             type="text"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
-            placeholder="아이디"
+            // placeholder="아이디"
           />
+          <Label>비밀번호</Label>
           <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="비밀번호"
+            // placeholder="비밀번호"
           />{" "}
           <AutoLoginBox>
             <Input
