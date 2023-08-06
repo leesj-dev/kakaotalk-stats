@@ -1,10 +1,14 @@
-import { current } from "@reduxjs/toolkit";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import CommentForm from "../organisms/post/CommentForm";
+import CommentListForm from "../organisms/post/CommentList";
+import Post from "../organisms/post/Post";
+import PostForm from "../organisms/post/PostForm";
+import PostList from "../organisms/post/PostList";
 
 const PostPageContainer = styled.div`
-  margin: 200px auto;
+  margin: 150px auto;
   padding: 20px;
   max-width: 1240px;
 `;
@@ -13,40 +17,6 @@ const PostPageTitle = styled.h1`
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
-`;
-
-const PostList = styled.div`
-  margin-bottom: 20px;
-  display: grid;
-  border-bottom: 1px solid #ccc;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-gap: 20px;
-`;
-
-const Post = styled.div`
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const PostTitle = styled.h2`
-  margin-bottom: 5px;
-  font-size: 20px;
-  font-weight: bold;
-`;
-
-const PostMeta = styled.p`
-  margin-bottom: 5px;
-  font-size: 12px;
-  color: #888;
-  margin-top: 5px;
-`;
-
-const PostContent = styled.p`
-  margin-bottom: 5px;
-  font-size: 18px;
-  color: #555;
 `;
 
 // 버튼 스타일
@@ -122,153 +92,13 @@ const CurrentPostContainer = styled.div`
   border-radius: 5px;
 `;
 
-const CurrentPostTitle = styled.div`
-  font-size: 2rem;
-  font-weight: 700;
-`;
-
-const CurrentPostAuthor = styled.div`
-  font-size: 1.7rem;
-`;
-
-const CurrentPostCreatedAt = styled.div`
-  font-size: 1.7rem;
-`;
-
-const CurrentPostContent = styled.div`
-  font-size: 1.7rem;
-`;
-
-const PostButtonBox = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
-const DeleteButton = styled.button`
-  font-size: 1.7rem;
-  padding: 8px 12px;
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const EditButton = styled.button`
-  font-size: 1.7rem;
-  padding: 8px 12px;
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const CommentFormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  width: 100%;
-`;
-
-const TextArea = styled.textarea`
-  resize: none;
-  width: 100%;
-  height: 100px;
-  margin-bottom: 10px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-
-const CheckBoxWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  font-size: 14px;
-`;
-
-const CheckBox = styled.input`
-  margin-right: 5px;
-`;
-
-const SubmitCommentButton = styled(Button)``;
-
-const CommentContainer = styled.div`
-  margin: 10px 0;
-`;
-
-const CommentCountBox = styled.div``;
-
-const CommentList = styled.ul`
-  list-style: none;
-  padding: 0;
-`;
-
-const CommentItem = styled.li`
-  margin: 5px 0;
-`;
-
-const CommentContent = styled.div`
-  padding: 8px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-`;
-
-const CommentAuthor = styled.span`
-  font-weight: bold;
-`;
-
-const CommentTime = styled.span`
-  font-size: 12px;
-  color: #777;
-`;
-
-const EditCommentButton = styled.button`
-  background: none;
-  text-decoration: underline;
-  border: none;
-  cursor: pointer;
-`;
-
-const DeleteCommentButton = styled.button`
-  background: none;
-  text-decoration: underline;
-  border: none;
-  cursor: pointer;
-`;
-
-const EditCommentInput = styled.input`
-  display: block;
-  padding: 8px;
-  width: 100%;
-  border-radius: 4px;
-`;
-
 interface PostPageProps {
   accessToken: string;
   userData: any;
 }
 const PostPage = ({ accessToken, userData }: PostPageProps) => {
   const [title, setTitle] = useState("");
-  const [content, Edit] = useState("");
+  const [content, edit] = useState("");
   const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);
 
   const [posts, setPosts] = useState<any>([]);
@@ -291,7 +121,7 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
 
   const initializePostForm = () => {
     setTitle("");
-    Edit("");
+    edit("");
     setIsPrivateContent(false);
   };
 
@@ -382,7 +212,6 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
         }
       );
 
-      console.log(`${post.title} 게시물 수정이 완료되었습니다.`);
       const editedPostId = result.data.post.postId;
       const editedPostIndex = posts.findIndex((item: any) => item.postId === editedPostId);
 
@@ -571,7 +400,6 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
       try {
         if (currentPost) {
           const result = await axios.get(`/api/posts/${currentPost.postId}/comments`);
-          console.log(result);
           setComments([...result.data]);
           return console.log(result.data);
         }
@@ -585,8 +413,21 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
 
   return (
     <PostPageContainer>
+      {/* 게시글작성폼 */}
+      <PostPageTitle>글 작성</PostPageTitle>
+      <PostForm
+        createPostTest={createPostTest}
+        title={title}
+        setTitle={setTitle}
+        content={content}
+        isPrivateContent={isPrivateContent}
+        setIsPrivateContent={setIsPrivateContent}
+        edit={edit}
+      />
       {currentPost &&
         (isPostEditing ? (
+          // 글을 수정했을 때 수정 폼
+
           <FormContainer>
             <FormGroup
               onSubmit={(e) => {
@@ -608,113 +449,45 @@ const PostPage = ({ accessToken, userData }: PostPageProps) => {
           </FormContainer>
         ) : (
           <CurrentPostContainer>
-            <CurrentPostTitle>제목: {currentPost.title}</CurrentPostTitle>
-            <CurrentPostAuthor>작성자: {currentPost.nickname}</CurrentPostAuthor>
-            <CurrentPostCreatedAt>작성일: {currentPost.createdAt}</CurrentPostCreatedAt>
-            <CurrentPostContent>내용: {currentPost.content}</CurrentPostContent>
-            {userData?.userId === currentPost?.userId && (
-              <PostButtonBox>
-                <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
-                <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
-              </PostButtonBox>
-            )}
-            <CommentContainer>
-              <CommentCountBox>댓글:{comments.length}개</CommentCountBox>
-              <CommentList>
-                {comments.length ? (
-                  comments.map((comment: any) => (
-                    <CommentItem key={comment._id}>
-                      <CommentAuthor>작성자: {comment.nickname}</CommentAuthor>
-                      <CommentTime>작성시간: {comment.createdAt}</CommentTime>
-                      {userData?.userId === comment?.userId && (
-                        <>
-                          <EditCommentButton onClick={(e) => clickEditComment(e, currentPost, comment)}>
-                            수정
-                          </EditCommentButton>
-                          <DeleteCommentButton onClick={(e) => handleDeletedComment(e, comment)}>
-                            삭제
-                          </DeleteCommentButton>
-                        </>
-                      )}
-                      {editingCommentId === comment._id && isCommentEditing ? (
-                        <CommentFormContainer>
-                          <FormGroup onSubmit={(e) => submitEditComment(e, currentPost, comment)}>
-                            <EditCommentInput
-                              value={editComment}
-                              onChange={(e) => setEditComment(e.target.value)}
-                            />
-                            <CheckBoxWrapper>
-                              <Label>비밀글</Label>
-                              <CheckBox
-                                type="checkbox"
-                                checked={editIsPrivateComment}
-                                onChange={(e) => handleEditPrivateCommentChange(e)}
-                              />
-                            </CheckBoxWrapper>
-                            <SubmitCommentButton type="submit">댓글 수정하기</SubmitCommentButton>
-                          </FormGroup>
-                        </CommentFormContainer>
-                      ) : (
-                        <CommentContent>{comment.comment}</CommentContent>
-                      )}
-                    </CommentItem>
-                  ))
-                ) : (
-                  <CommentItem>댓글이 없습니다.</CommentItem>
-                )}
-              </CommentList>
-            </CommentContainer>
-            <CommentFormContainer>
-              <TextArea
-                value={comment}
-                onChange={(e) => handleWriteComment(e)}
-                placeholder="댓글을 입력하세요"
-              />
-              <CheckBoxWrapper>
-                <Label>비밀글</Label>
-                <CheckBox
-                  type="checkbox"
-                  checked={isPrivateComment}
-                  onChange={(e) => handlePrivateCommentChange(e)}
-                />
-              </CheckBoxWrapper>
-              <SubmitCommentButton onClick={(e) => handleSubmitComment(e, currentPost)}>
-                댓글 작성하기
-              </SubmitCommentButton>
-            </CommentFormContainer>
+            <Post
+              currentPost={currentPost}
+              clickEditPost={clickEditPost}
+              deletePost={deletePost}
+              userData={userData}
+            />
+            {/* 댓글 리스트 */}
+            <CommentListForm
+              comments={comments}
+              userData={userData}
+              clickEditComment={clickEditComment}
+              handleDeletedComment={handleDeletedComment}
+              editingCommentId={editingCommentId}
+              isCommentEditing={isCommentEditing}
+              editComment={editComment}
+              setEditComment={setEditComment}
+              editIsPrivateComment={editIsPrivateComment}
+              handleEditPrivateCommentChange={handleEditPrivateCommentChange}
+              currentPost={currentPost}
+              submitEditComment={submitEditComment}
+            />
+            {/* 댓글 작성 폼 */}
+            <CommentForm
+              comment={comment}
+              isPrivateComment={isPrivateComment}
+              handleWriteComment={handleWriteComment}
+              handlePrivateCommentChange={handlePrivateCommentChange}
+              handleSubmitComment={handleSubmitComment}
+              currentPost={currentPost}
+            />
           </CurrentPostContainer>
         ))}
+      {/* 게시글 */}
       <PostPageTitle>게시판</PostPageTitle>
       {posts ? (
-        <PostList>
-          {posts.map((post: any) => (
-            <Post key={post.postId} onClick={() => viewPost(post)}>
-              <PostTitle>제목: {post.title}</PostTitle>
-              <PostMeta>
-                작성자: {post.nickname}, 작성일: {post.createdAt}
-              </PostMeta>
-              <PostContent>{post.content}</PostContent>
-            </Post>
-          ))}
-        </PostList>
+        <PostList posts={posts} viewPost={viewPost} comments={comments} />
       ) : (
         <NonePostContainer>게시물이 없습니다.</NonePostContainer>
       )}
-      <FormContainer>
-        <FormGroup onSubmit={(e) => createPostTest(e)}>
-          <Label>제목</Label>
-          <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <Label>내용</Label>
-          <Textarea value={content} onChange={(e) => Edit(e.target.value)} />
-          <Label>비밀글</Label>
-          <Checkbox
-            type="checkBox"
-            checked={isPrivateContent}
-            onChange={(e) => setIsPrivateContent(e.target.checked)}
-          ></Checkbox>
-          <Button type="submit">글쓰기</Button>
-        </FormGroup>
-      </FormContainer>
     </PostPageContainer>
   );
 };

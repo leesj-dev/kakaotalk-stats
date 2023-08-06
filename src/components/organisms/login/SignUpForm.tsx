@@ -83,6 +83,13 @@ const ErrorText = styled(Span)`
   font-size: 1rem;
 `;
 
+const Label = styled.label`
+  display: block;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  font-size: 1.3rem;
+`;
+
 const initialIdNotice = {
   alert: false,
   message: "",
@@ -112,6 +119,11 @@ const SignUpForm = () => {
       setNicknameNotice({ message: "필수항목입니다.", alert: false });
       return;
     }
+  };
+
+  const onChangeNicknameHandler = async (e: { target: { value: React.SetStateAction<string> } }) => {
+    setNickname(e.target.value);
+    const isValidNickname = regexrNickname.test(nickname);
     if (!isValidNickname) {
       setNicknameNotice({
         message: "2 ~ 10자의 한글, 영문 조합으로 입력해야 합니다.",
@@ -132,7 +144,12 @@ const SignUpForm = () => {
       setIdNotice({ message: "필수항목입니다.", alert: false });
       return;
     }
-    if (isValidID) {
+  };
+
+  const onChangeIdHandler = (e: { target: { value: React.SetStateAction<string> } }) => {
+    setUserId(e.target.value);
+    const isValidID = regexrID.test(userId);
+    if (!isValidID) {
       setIdNotice({
         message: "4 ~ 16자의 영문, 숫자 조합으로 입력해야 합니다.",
         alert: false,
@@ -148,11 +165,15 @@ const SignUpForm = () => {
   // password input 유효성 검사
   const onBlurPasswordHandler = () => {
     const isValidPassword = regexPass.test(password);
-
     if (password === "") {
       setPassNotice({ message: "필수항목입니다.", alert: false });
       return;
     }
+  };
+
+  const onChangePasswordHandler = (e: { target: { value: React.SetStateAction<string> } }) => {
+    setPassword(e.target.value);
+    const isValidPassword = regexrPass.test(password);
     if (!isValidPassword) {
       setPassNotice({
         message: "한글을 제외한 4 ~ 16자의 문자로 입력해야 합니다.",
@@ -212,68 +233,69 @@ const SignUpForm = () => {
       window.alert("회원가입에 실패하였습니다.");
     }
   };
-
   return (
     <FormWrapper>
-      <SigUpContainer>
-        <FormContainer>
-          <FormTitle>회원가입</FormTitle>
-          <FormGroup onSubmit={(e) => handleSubmitSignUp(e)}>
-            <>
-              <Input
-                type="text"
-                value={nickname}
-                minLength={2}
-                maxLength={10}
-                onBlur={onBlurNicknameHandler}
-                onChange={(e) => setNickname(e.target.value)}
-                placeholder="닉네임"
-              />
-              <ErrorTextBox>
-                {nickNameNotice.alert ? null : <ErrorText>{nickNameNotice.message}</ErrorText>}
-              </ErrorTextBox>
-            </>
-            <>
-              <Input
-                type="text"
-                value={userId}
-                minLength={4}
-                maxLength={16}
-                onBlur={onBlurIdHandler}
-                onChange={(e) => setUserId(e.target.value)}
-                placeholder="아이디"
-              />
+      <FormContainer>
+        <FormTitle>회원가입</FormTitle>
+        <FormGroup onSubmit={(e) => handleSubmitSignUp(e)}>
+          <>
+            <Label>이름</Label>
+            <Input
+              type="text"
+              value={nickname}
+              minLength={2}
+              maxLength={10}
+              onBlur={onBlurNicknameHandler}
+              onChange={onChangeNicknameHandler}
+              // placeholder="이름"
+            />
+            <ErrorTextBox>
+              {nickNameNotice.alert ? null : <ErrorText>{nickNameNotice.message}</ErrorText>}
+            </ErrorTextBox>
+          </>
+          <>
+            <Label>아이디</Label>
+            <Input
+              type="text"
+              value={userId}
+              minLength={4}
+              maxLength={16}
+              onBlur={onBlurIdHandler}
+              onChange={onChangeIdHandler}
+              // placeholder="아이디"
+            />
 
-              <ErrorTextBox>
-                {idNotice.alert ? null : <ErrorText>{idNotice.message}</ErrorText>}
-              </ErrorTextBox>
-            </>
-            <>
-              <Input
-                type="password"
-                value={password}
-                minLength={4}
-                maxLength={16}
-                onBlur={onBlurPasswordHandler}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="비밀번호"
-              />
-              <ErrorTextBox>
-                {passNotice.alert ? null : <ErrorText>{passNotice.message}</ErrorText>}
-              </ErrorTextBox>
-            </>
-            <Button type="submit">가입하기</Button>
-          </FormGroup>
-          <LoginBox>
-            이미 회원정보가 있으신가요?
-            <LoginButton>
-              <Link to="/users/login">로그인</Link>
-            </LoginButton>
-          </LoginBox>
-        </FormContainer>
-      </SigUpContainer>
+            <ErrorTextBox>
+              {idNotice.alert ? null : <ErrorText>{idNotice.message}</ErrorText>}
+            </ErrorTextBox>
+          </>
+          <>
+            <Label>비밀번호</Label>
+            <Input
+              type="password"
+              value={password}
+              minLength={4}
+              maxLength={16}
+              onBlur={onBlurPasswordHandler}
+              onChange={onChangePasswordHandler}
+              // placeholder="비밀번호"
+            />
+            <ErrorTextBox>
+              {passNotice.alert ? null : <ErrorText>{passNotice.message}</ErrorText>}
+            </ErrorTextBox>
+          </>
+          <Button type="submit">가입하기</Button>
+        </FormGroup>
+        <LoginBox>
+          회원이 아니신가요?
+          <LoginButton>
+            <Link to="/login">로그인</Link>
+          </LoginButton>
+        </LoginBox>
+      </FormContainer>
     </FormWrapper>
   );
 };
 
 export default SignUpForm;
+
