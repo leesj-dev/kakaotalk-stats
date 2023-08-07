@@ -10,7 +10,7 @@ import { AccessToken, UserData } from "../../@types/index.d";
 import { useSelector } from "react-redux";
 
 const PostPageContainer = styled.div`
-  margin: 150px auto;
+  margin: 90px auto;
   padding: 20px;
   max-width: 1240px;
 `;
@@ -86,7 +86,7 @@ const NonePostContainer = styled.div`
 
 const CurrentPostContainer = styled.div`
   margin-bottom: 3rem;
-  padding: 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -99,10 +99,6 @@ const PostPage = () => {
   const accessToken = useSelector(
     (state: { userLoginAccessTokenSlice: AccessToken }) => state.userLoginAccessTokenSlice
   );
-
-  const [title, setTitle] = useState("");
-  const [content, edit] = useState("");
-  const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);
 
   const [posts, setPosts] = useState<any>([]);
   const [currentPost, setCurrentPost] = useState<any>(null);
@@ -122,41 +118,9 @@ const PostPage = () => {
   const [editingCommentId, setEditingCommentId] = useState<String>("");
   const [isCommentEditing, setIsCommentEditing] = useState<boolean>(false);
 
-  const initializePostForm = () => {
-    setTitle("");
-    edit("");
-    setIsPrivateContent(false);
-  };
-
   const initializeCommentForm = () => {
     setComment("");
     setIsPrivateComment(false);
-  };
-
-  const createPostTest = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const result = await axios.post(
-        "/api/protected/posts/create",
-        {
-          title,
-          content,
-          isPrivateContent,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      console.log(`${title} 게시물 작성이 완료되었습니다.`);
-      initializePostForm();
-      setPosts([result.data.post, ...posts]);
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   const viewPost = async (post: any) => {
@@ -417,20 +381,10 @@ const PostPage = () => {
   return (
     <PostPageContainer>
       {/* 게시글작성폼 */}
-      <PostPageTitle>글 작성</PostPageTitle>
-      <PostForm
-        createPostTest={createPostTest}
-        title={title}
-        setTitle={setTitle}
-        content={content}
-        isPrivateContent={isPrivateContent}
-        setIsPrivateContent={setIsPrivateContent}
-        edit={edit}
-      />
+      <PostForm posts={posts} setPosts={setPosts} />
       {currentPost &&
         (isPostEditing ? (
           // 글을 수정했을 때 수정 폼
-
           <FormContainer>
             <FormGroup
               onSubmit={(e) => {

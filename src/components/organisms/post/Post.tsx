@@ -5,7 +5,6 @@ import { FlexRowDiv } from "../../atoms/FlexDiv";
 import { UserData } from "../../../@types/index.d";
 
 const PostContainer = styled.div`
-  padding: 10px;
   display: flex;
   justify-content: space-between;
 `;
@@ -27,7 +26,7 @@ const CurrentPostProfile = styled.div`
 `;
 
 const CurrentPostTitle = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 3rem;
   font-weight: 700;
 `;
@@ -44,7 +43,7 @@ const CurrentPostCreatedAt = styled.div`
 `;
 
 const CurrentPostContent = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 1.7rem;
 `;
 

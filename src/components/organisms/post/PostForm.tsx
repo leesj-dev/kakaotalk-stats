@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { AccessToken } from "../../../@types/index.d";
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -54,7 +57,7 @@ const Textarea = styled.textarea`
   margin-bottom: 5px;
   padding: 8px 20px;
   width: 100%;
-  height: 150px;
+  height: 100px;
   resize: none;
   border: none;
   font-size: 14px;
@@ -83,27 +86,73 @@ const Button = styled.button`
   }
 `;
 interface PostProps {
-  createPostTest: (e: React.FormEvent<HTMLFormElement>) => void;
-  title: string;
-  edit: React.Dispatch<React.SetStateAction<string>>;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-  content: string;
-  isPrivateContent: boolean;
-  setIsPrivateContent: React.Dispatch<React.SetStateAction<boolean>>;
+  posts: any[];
+  setPosts: (post: any[]) => void;
 }
 
-const PostForm = ({
-  createPostTest,
-  title,
-  setTitle,
-  content,
-  isPrivateContent,
-  setIsPrivateContent,
-  edit,
-}: PostProps) => {
+interface CreatePostData {
+  title: string;
+  content: string;
+  isPrivateContent: boolean;
+}
+
+const PostForm = ({ posts, setPosts }: PostProps) => {
+  const accessToken = useSelector(
+    (state: { userLoginAccessTokenSlice: AccessToken }) => state.userLoginAccessTokenSlice
+  );
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);
+
+  const createPostData = {
+    title,
+    content,
+    isPrivateContent,
+  };
+
+  const initializePostForm = () => {
+    setTitle("");
+    setContent("");
+    setIsPrivateContent(false);
+  };
+
+  // Create Post 요청 보내기
+  const requestCreatePost = async (createPostData: CreatePostData) => {
+    try {
+      const result = await axios.post(
+        "/api/protected/posts/create",
+        { createPostData },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmitCreatePost = async (
+    e: React.FormEvent<HTMLFormElement>,
+    createPostData: CreatePostData
+  ) => {
+    e.preventDefault();
+    try {
+      const result = await requestCreatePost(createPostData);
+      initializePostForm();
+      setPosts([result?.data.post, ...posts]);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <FormContainer>
-      <FormGroup onSubmit={(e) => createPostTest(e)}>
+      <FormGroup onSubmit={(e) => handleSubmitCreatePost(e, createPostData)}>
         <TitleBox>
           {/* <Label>제목</Label> */}
           <Input
@@ -117,7 +166,7 @@ const PostForm = ({
         {/* <Label>내용</Label> */}
         <Textarea
           value={content}
-          onChange={(e) => edit(e.target.value)}
+          onChange={(e) => setContent(e.target.value)}
           placeholder="여기를 눌러서 글을 작성할 수 있습니다"
         />
         <PublishBox>

@@ -6,12 +6,10 @@ import { FlexColumnDiv, FlexRowDiv } from "../../atoms/FlexDiv";
 import { UserData } from "../../../@types/index.d";
 
 const CommentContainer = styled.div`
-  padding: 20px;
-  margin: 10px 0;
   border-radius: 5px;
 `;
 const CommentIcon = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   padding: 5px;
   display: flex;
   gap: 5px;
@@ -31,7 +29,7 @@ const CommentList = styled.ul`
 `;
 
 const CommentItem = styled.li`
-  margin: 20px 0;
+  margin: 10px 0;
 `;
 const CommentBox = styled.div`
   display: flex;
@@ -51,7 +49,6 @@ const UserBox = styled(FlexColumnDiv)`
 const CommentContent = styled.div`
   padding: 20px 0;
   border-bottom: 1px solid #ddd;
-  border-radius: 4px;
 `;
 
 const CommentAuthor = styled.span`
