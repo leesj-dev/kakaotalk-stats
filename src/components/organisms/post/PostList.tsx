@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FaRegComment } from "react-icons/fa";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
+import axios from "axios";
+import { AccessToken } from "../../../@types/index.d";
 const PostListContainer = styled.div`
   margin-bottom: 20px;
   display: flex;
@@ -62,12 +64,28 @@ const PostMeta = styled(FlexRowDiv)`
 `;
 
 interface PostListProps {
+  accessToken: AccessToken;
   posts: [];
-  viewPost: (e: React.MouseEvent<HTMLButtonElement>) => void;
   comments: Comment[];
+  setCurrentPost: (post: any) => void;
 }
 
-const PostList = ({ posts, viewPost, comments }: PostListProps) => {
+const PostList = ({ accessToken, posts, comments, setCurrentPost }: PostListProps) => {
+  const viewPost = async (post: any) => {
+    try {
+      const result = await axios.get(`/api/posts/${post.postId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
+      setCurrentPost(result.data.post);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <PostListContainer>
       {posts.map((post: any) => (

@@ -88,6 +88,7 @@ const Button = styled.button`
 interface PostProps {
   posts: any[];
   setPosts: (post: any[]) => void;
+  accessToken: AccessToken;
 }
 
 interface CreatePostData {
@@ -96,11 +97,7 @@ interface CreatePostData {
   isPrivateContent: boolean;
 }
 
-const PostForm = ({ posts, setPosts }: PostProps) => {
-  const accessToken = useSelector(
-    (state: { userLoginAccessTokenSlice: AccessToken }) => state.userLoginAccessTokenSlice
-  );
-
+const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);
@@ -120,9 +117,10 @@ const PostForm = ({ posts, setPosts }: PostProps) => {
   // Create Post 요청 보내기
   const requestCreatePost = async (createPostData: CreatePostData) => {
     try {
+      console.log(createPostData);
       const result = await axios.post(
         "/api/protected/posts/create",
-        { createPostData },
+        { ...createPostData },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -140,11 +138,16 @@ const PostForm = ({ posts, setPosts }: PostProps) => {
     createPostData: CreatePostData
   ) => {
     e.preventDefault();
+    if (createPostData.title === "" || createPostData.content === "") {
+      return alert("제목 또는 본문을 작성해주세요.");
+    }
     try {
       const result = await requestCreatePost(createPostData);
-      initializePostForm();
-      setPosts([result?.data.post, ...posts]);
-      return console.log(result);
+      if (result) {
+        setPosts([result.data.post, ...posts]);
+        initializePostForm();
+        return console.log(result);
+      }
     } catch (error) {
       console.error(error);
     }

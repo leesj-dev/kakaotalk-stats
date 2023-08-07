@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
+import axios from "axios";
+import { AccessToken } from "../../../@types/index.d";
 
 const Label = styled.label`
   margin-bottom: 5px;
@@ -65,22 +67,68 @@ const Button = styled.button`
 `;
 
 interface CommentProps {
-  comment: string;
-  isPrivateComment: boolean;
-  handleWriteComment: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handlePrivateCommentChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmitComment: (e: React.MouseEvent<HTMLButtonElement>, currentPost: any) => void;
+  accessToken: AccessToken;
   currentPost: any;
+  comment: string;
+  setComment: any;
+  comments: any;
+  setComments: any;
 }
 
 const CommentForm = ({
-  comment,
-  isPrivateComment,
-  handleWriteComment,
-  handlePrivateCommentChange,
-  handleSubmitComment,
+  accessToken,
   currentPost,
+  comment,
+  setComment,
+  comments,
+  setComments,
 }: CommentProps) => {
+  const [isPrivateComment, setIsPrivateComment] = useState<boolean>(false);
+
+  const initializeCommentForm = () => {
+    setComment("");
+    setIsPrivateComment(false);
+  };
+
+  const handleWriteComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    setComment(e.target.value);
+  };
+
+  const handleSubmitComment = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    currentPost: any,
+    comment: string
+  ) => {
+    e.preventDefault();
+    try {
+      const result = await axios.post(
+        `/api/protected/posts/${currentPost.postId}/comments`,
+        {
+          comment,
+          isPrivateComment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(`${comment} 댓글 작성이 완료되었습니다.`);
+      initializeCommentForm();
+      setComments([...comments, result.data.comment]);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePrivateCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setIsPrivateComment(e.target.checked);
+  };
+
   return (
     <CommentFormContainer>
       <TextArea
@@ -99,7 +147,7 @@ const CommentForm = ({
           />
         </CheckBoxWrapper>
 
-        <Button onClick={(e) => handleSubmitComment(e, currentPost)}>댓글 작성하기</Button>
+        <Button onClick={(e) => handleSubmitComment(e, currentPost, comment)}>댓글 작성하기</Button>
       </PublishBox>
     </CommentFormContainer>
   );

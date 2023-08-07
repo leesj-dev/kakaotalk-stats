@@ -78,7 +78,6 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
   const dispatch = useDispatch();
 
   const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
-  console.log(userData, "ssssssss");
 
   const debounceTimeoutRef = useRef<number | null>(null);
 

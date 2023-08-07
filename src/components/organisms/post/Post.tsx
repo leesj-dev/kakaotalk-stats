@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
-import { UserData } from "../../../@types/index.d";
+import { AccessToken, UserData } from "../../../@types/index.d";
+import axios from "axios";
 
 const PostContainer = styled.div`
   display: flex;
@@ -89,6 +90,7 @@ const EditButton = styled.button`
 
 interface PostProps {
   userData: UserData;
+  accessToken: AccessToken;
   currentPost: {
     title: string;
     nickname: string;
@@ -96,14 +98,70 @@ interface PostProps {
     content: string;
     userId: string;
   };
-
-  clickEditPost: (e: React.MouseEvent<HTMLButtonElement>, currentPost: any) => void;
-  deletePost: (e: React.MouseEvent<HTMLButtonElement>, currentPost: any) => void;
+  setTitleEdit: any;
+  setContentEdit: any;
+  isPostEditing: boolean;
+  setIsPostEditing: any;
+  setIsPrivatePostEdit: any;
+  setPosts: any;
+  setCurrentPost: any;
+  posts: any;
 }
 
-const Post = ({ currentPost, userData, clickEditPost, deletePost }: PostProps) => {
+const Post = ({
+  userData,
+  accessToken,
+  currentPost,
+  setTitleEdit,
+  setContentEdit,
+  isPostEditing,
+  setIsPostEditing,
+  setIsPrivatePostEdit,
+  setCurrentPost,
+  setPosts,
+  posts,
+}: PostProps) => {
   const { title, nickname, createdAt, content, userId } = currentPost;
   const isAuthor = userData?.userId === userId;
+
+  const clickEditPost = async (e: React.FormEvent<HTMLButtonElement>, post: any) => {
+    e.preventDefault();
+    try {
+      const result = await axios.get(`/api/protected/posts/${post.postId}/edit/authorization`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(`${post.title} 게시물 수정 권한 확인이 완료되었습니다.`);
+      setTitleEdit(post.title);
+      setContentEdit(post.content);
+      setIsPrivatePostEdit(post.isPrivateContent);
+      setIsPostEditing(!isPostEditing);
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deletePost = async (e: React.FormEvent<HTMLButtonElement>, post: any) => {
+    e.preventDefault();
+    try {
+      const result = await axios.delete(`/api/protected/posts/${post.postId}/delete`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log(`${post.title} 게시물 삭제가 완료되었습니다.`);
+      const deletedPostId = result.data.post.postId;
+      setPosts(posts.filter((post: any) => post.postId !== deletedPostId));
+      setCurrentPost(null);
+
+      return console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <PostContainer>

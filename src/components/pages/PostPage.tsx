@@ -8,6 +8,7 @@ import PostForm from "../organisms/post/PostForm";
 import PostList from "../organisms/post/PostList";
 import { AccessToken, UserData } from "../../@types/index.d";
 import { useSelector } from "react-redux";
+import EditPostForm from "../organisms/post/EditPostForm";
 
 const PostPageContainer = styled.div`
   margin: 90px auto;
@@ -19,64 +20,6 @@ const PostPageTitle = styled.h1`
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
-`;
-
-// 버튼 스타일
-const Button = styled.button`
-  padding: 8px 12px;
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-// 입력 폼 스타일
-const FormContainer = styled.div`
-  max-width: 400px;
-`;
-
-const FormGroup = styled.form`
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Label = styled.label`
-  margin-bottom: 5px;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-`;
-
-const Input = styled.input`
-  margin-bottom: 5px;
-  padding: 8px 12px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-`;
-
-const Textarea = styled.textarea`
-  margin-bottom: 5px;
-  padding: 8px 12px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  resize: vertical;
-`;
-
-const Checkbox = styled.input`
-  margin-bottom: 5px;
 `;
 
 const NonePostContainer = styled.div`
@@ -103,249 +46,13 @@ const PostPage = () => {
   const [posts, setPosts] = useState<any>([]);
   const [currentPost, setCurrentPost] = useState<any>(null);
 
-  const [editTitle, setEditTitle] = useState("");
-  const [editContent, setEditContent] = useState("");
-  const [editIsPrivateContent, setEditIsPrivateContent] = useState<boolean>(false);
+  const [titleEdit, setTitleEdit] = useState("");
+  const [contentEdit, setContentEdit] = useState("");
+  const [isPrivatePostEdit, setIsPrivatePostEdit] = useState<boolean>(false);
   const [isPostEditing, setIsPostEditing] = useState<boolean>(false);
 
   const [comment, setComment] = useState("");
-  const [isPrivateComment, setIsPrivateComment] = useState(false);
-
   const [comments, setComments] = useState<any>([]);
-
-  const [editComment, setEditComment] = useState<any>();
-  const [editIsPrivateComment, setEditIsPrivateComment] = useState<boolean>();
-  const [editingCommentId, setEditingCommentId] = useState<String>("");
-  const [isCommentEditing, setIsCommentEditing] = useState<boolean>(false);
-
-  const initializeCommentForm = () => {
-    setComment("");
-    setIsPrivateComment(false);
-  };
-
-  const viewPost = async (post: any) => {
-    try {
-      const result = await axios.get(`/api/posts/${post.postId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log(result.data);
-
-      console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
-      setCurrentPost(result.data.post);
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const clickEditPost = async (e: React.FormEvent<HTMLButtonElement>, post: any) => {
-    e.preventDefault();
-    try {
-      const result = await axios.get(`/api/protected/posts/${post.postId}/edit/authorization`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log(`${post.title} 게시물 수정 권한 확인이 완료되었습니다.`);
-      setEditTitle(post.title);
-      setEditContent(post.content);
-      setEditIsPrivateContent(post.isPrivateContent);
-      setIsPostEditing(!isPostEditing);
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const editPost = async (e: React.FormEvent<HTMLFormElement>, post: any) => {
-    e.preventDefault();
-    const toEditPostData = {
-      title: editTitle,
-      content: editContent,
-      isPrivateContent: editIsPrivateContent,
-    };
-
-    try {
-      console.log("??????????");
-      const result = await axios.put(
-        `/api/protected/posts/${post.postId}/edit`,
-        { ...toEditPostData },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      const editedPostId = result.data.post.postId;
-      const editedPostIndex = posts.findIndex((item: any) => item.postId === editedPostId);
-
-      const copiedPosts = [...posts];
-      copiedPosts[editedPostIndex] = {
-        ...result.data.post,
-        ...toEditPostData,
-      };
-      setPosts(copiedPosts);
-      setCurrentPost(copiedPosts[editedPostIndex]);
-      setIsPostEditing(false);
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deletePost = async (e: React.FormEvent<HTMLButtonElement>, post: any) => {
-    e.preventDefault();
-    try {
-      const result = await axios.delete(`/api/protected/posts/${post.postId}/delete`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      console.log(`${post.title} 게시물 삭제가 완료되었습니다.`);
-      console.log(result.data);
-      const deletedPostId = result.data.post.postId;
-      setPosts(posts.filter((post: any) => post.postId !== deletedPostId));
-      setCurrentPost(null);
-
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleWriteComment = (e: any) => {
-    e.preventDefault();
-    setComment(e.target.value);
-  };
-
-  const handlePrivateCommentChange = (e: any) => {
-    e.preventDefault();
-    setIsPrivateComment(e.target.checked);
-  };
-
-  const handleSubmitComment = async (e: any, post: any) => {
-    e.preventDefault();
-    try {
-      const result = await axios.post(
-        `/api/protected/posts/${post.postId}/comments`,
-        {
-          comment,
-          isPrivateComment,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      console.log(`${comment} 댓글 작성이 완료되었습니다.`);
-      initializeCommentForm();
-      console.log(result);
-      setComments([...comments, result.data.comment]);
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleDeletedComment = async (e: any, comment: any) => {
-    e.preventDefault();
-    try {
-      const result = await axios.delete(
-        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      console.log(`${comment} 댓글 삭제가 완료되었습니다.`);
-      console.log(result);
-      const copiedComments = [...comments];
-      const afterDeletedComments = copiedComments.filter((item) => item._id !== comment._id);
-      setComments([...afterDeletedComments]);
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const clickEditComment = async (
-    e: React.FormEvent<HTMLButtonElement>,
-    currentPost: any,
-    comment: any
-  ) => {
-    e.preventDefault();
-    try {
-      const result = await axios.get(
-        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}/authorization`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log(`${comment._id} 댓글 수정 권한 확인이 완료되었습니다.`);
-      setEditComment(comment.comment);
-      setEditIsPrivateComment(comment.isPrivateContent);
-      setIsCommentEditing(!isPostEditing);
-      setEditingCommentId(comment._id);
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleEditPrivateCommentChange = (e: any) => {
-    e.preventDefault();
-    setEditIsPrivateComment(e.target.checked);
-  };
-
-  const submitEditComment = async (
-    e: React.FormEvent<HTMLFormElement>,
-    currentPost: any,
-    comment: any
-  ) => {
-    e.preventDefault();
-    const toEditCommentData = {
-      comment: editComment,
-      isPrivateComment: editIsPrivateComment,
-    };
-
-    try {
-      console.log("??????????");
-      const result = await axios.put(
-        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}`,
-        { ...toEditCommentData },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      console.log(`댓글 수정이 완료되었습니다.`);
-      const editedCommentId = result.data.comment._id;
-      const editedCommentIndex = comments.findIndex((item: any) => item._id === editedCommentId);
-
-      const copiedComments = [...comments];
-      copiedComments[editedCommentIndex] = {
-        ...result.data.comment,
-        ...toEditCommentData,
-      };
-      setComments(copiedComments);
-      setIsCommentEditing(false);
-      return console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -381,67 +88,68 @@ const PostPage = () => {
   return (
     <PostPageContainer>
       {/* 게시글작성폼 */}
-      <PostForm posts={posts} setPosts={setPosts} />
+      <PostForm accessToken={accessToken} posts={posts} setPosts={setPosts} />
       {currentPost &&
         (isPostEditing ? (
           // 글을 수정했을 때 수정 폼
-          <FormContainer>
-            <FormGroup
-              onSubmit={(e) => {
-                editPost(e, currentPost);
-              }}
-            >
-              <Label>제목</Label>
-              <Input type="text" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
-              <Label>내용</Label>
-              <Textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} />
-              <Label>비밀글</Label>
-              <Checkbox
-                type="checkBox"
-                checked={editIsPrivateContent}
-                onChange={(e) => setEditIsPrivateContent(e.target.checked)}
-              ></Checkbox>
-              <Button type="submit">수정하기</Button>
-            </FormGroup>
-          </FormContainer>
+          <EditPostForm
+            accessToken={accessToken}
+            currentPost={currentPost}
+            setCurrentPost={setCurrentPost}
+            posts={posts}
+            setPosts={setPosts}
+            titleEdit={titleEdit}
+            contentEdit={contentEdit}
+            setIsPostEditing={setIsPostEditing}
+            isPrivatePostEdit={isPrivatePostEdit}
+            setTitleEdit={setTitleEdit}
+            setContentEdit={setContentEdit}
+            setIsPrivatePostEdit={setIsPrivatePostEdit}
+          />
         ) : (
           <CurrentPostContainer>
             <Post
-              currentPost={currentPost}
-              clickEditPost={clickEditPost}
-              deletePost={deletePost}
+              accessToken={accessToken}
               userData={userData}
+              currentPost={currentPost}
+              posts={posts}
+              setPosts={setPosts}
+              setTitleEdit={setTitleEdit}
+              setContentEdit={setContentEdit}
+              isPostEditing={isPostEditing}
+              setIsPostEditing={setIsPostEditing}
+              setIsPrivatePostEdit={setIsPrivatePostEdit}
+              setCurrentPost={setCurrentPost}
             />
             {/* 댓글 리스트 */}
             <CommentListForm
-              comments={comments}
+              accessToken={accessToken}
               userData={userData}
-              clickEditComment={clickEditComment}
-              handleDeletedComment={handleDeletedComment}
-              editingCommentId={editingCommentId}
-              isCommentEditing={isCommentEditing}
-              editComment={editComment}
-              setEditComment={setEditComment}
-              editIsPrivateComment={editIsPrivateComment}
-              handleEditPrivateCommentChange={handleEditPrivateCommentChange}
               currentPost={currentPost}
-              submitEditComment={submitEditComment}
+              comments={comments}
+              setComments={setComments}
+              isPostEditing={isPostEditing}
             />
             {/* 댓글 작성 폼 */}
             <CommentForm
-              comment={comment}
-              isPrivateComment={isPrivateComment}
-              handleWriteComment={handleWriteComment}
-              handlePrivateCommentChange={handlePrivateCommentChange}
-              handleSubmitComment={handleSubmitComment}
+              accessToken={accessToken}
               currentPost={currentPost}
+              comment={comment}
+              setComment={setComment}
+              comments={comments}
+              setComments={setComments}
             />
           </CurrentPostContainer>
         ))}
       {/* 게시글 */}
       <PostPageTitle>게시판</PostPageTitle>
       {posts ? (
-        <PostList posts={posts} viewPost={viewPost} comments={comments} />
+        <PostList
+          accessToken={accessToken}
+          posts={posts}
+          setCurrentPost={setCurrentPost}
+          comments={comments}
+        />
       ) : (
         <NonePostContainer>게시물이 없습니다.</NonePostContainer>
       )}
