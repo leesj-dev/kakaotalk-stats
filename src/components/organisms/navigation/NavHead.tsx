@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../../atoms/Img";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsDarkMode } from "../../../store/reducer/common/isDarkModeSlice";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
@@ -11,29 +11,14 @@ import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import DarkModeButton from "../../molecules/navigation/DarkModeButton";
 import LogOutButton from "../login/LogOutButton";
-
-const NavHeadContainer = styled.div`
-  margin: 0 auto;
-  padding: 0 20px;
-  max-width: 1240px;
-  display: flex;
-  justify-content: space-between;
-  font-weight: 500;
-  line-height: 80px;
-
-  > * {
-    flex: 1;
-  }
-  @media (max-width: 1200px) {
-    line-height: 70px;
-  }
-`;
+import { UserData } from "../../../@types/index.d";
 
 const H1 = styled.h1`
   display: flex;
+  align-items: center;
   height: 40px;
+  width: 120px;
   &.active {
-    width: 120px;
     transform: translateY(-22px);
   }
   @media (max-width: 1200px) {
@@ -41,22 +26,39 @@ const H1 = styled.h1`
   }
 `;
 
+const NavHeadContainer = styled.div`
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1240px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  line-height: 80px;
+
+  @media (max-width: 1200px) {
+    line-height: 70px;
+  }
+`;
+
 const MenuBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
-  gap: 4.5rem;
-`;
+  margin-left: auto;
+  margin-right: 5.5rem;
 
-const Menus = styled(FlexCenterDiv)`
-  font-size: 2.2rem;
-  gap: 4.5rem;
   @media (max-width: 1200px) {
     display: none;
   }
 `;
 
-const MobileMenuBox = styled.div`
+const Menus = styled(FlexCenterDiv)`
+  font-size: 2.2rem;
+  gap: 5.5rem;
+`;
+
+const MobileMenuButton = styled.div`
   display: none;
 
   @media (max-width: 1200px) {
@@ -76,12 +78,11 @@ const NavHead: React.FC<NavHeadProps> = ({
   closeMenu,
   isDarkMode,
   isAnalyzedMessagesExist,
-  userData,
-  setUserData,
   accessToken,
-  setAccessToken,
 }) => {
   const dispatch = useDispatch();
+
+  const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
 
   const debounceTimeoutRef = useRef<number | null>(null);
 
@@ -111,11 +112,11 @@ const NavHead: React.FC<NavHeadProps> = ({
 
   return (
     <NavHeadContainer>
-      <MobileMenuBox>
+      <MobileMenuButton>
         <MobileMenuIcon onClick={handleClickMenu}>
           <HiMenu />
         </MobileMenuIcon>
-      </MobileMenuBox>
+      </MobileMenuButton>
       <H1>
         <Link to="/">
           <Img
@@ -129,16 +130,16 @@ const NavHead: React.FC<NavHeadProps> = ({
           {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
 
-          {userData ? (
-            <LogOutButton userData={userData} setUserData={setUserData} accessToken={accessToken} />
+          {userData.userId ? (
+            <LogOutButton accessToken={accessToken} />
           ) : (
-            <Link to="/login">로그인</Link>
+            <Link to="/users/login">로그인</Link>
           )}
 
-          <Link to="/posts">게시판</Link>
+          <Link to="/users/posts">게시판</Link>
         </Menus>
-        <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
       </MenuBox>
+      <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
     </NavHeadContainer>
   );
 };

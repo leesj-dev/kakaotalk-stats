@@ -14,9 +14,12 @@ import { volumeHourlyBoxSizeSlice } from "./reducer/dashboard/volumeHourlyBoxSiz
 import { isDarkModeSlice } from "./reducer/common/isDarkModeSlice";
 import { isModalVisibleSlice } from "./reducer/dashboard/isModalVisibleSlice";
 import { isSideMenuChatRoomSelectSlice } from "./reducer/dashboard/isSideMenuChatRoomSelectSlice";
+import { userLoginDataSlice } from "./reducer/userData/userLoginDataSlice";
+import { userLoginAccessTokenSlice } from "./reducer/userData/userLoginAccessTokenSlice";
 
 export default configureStore({
   reducer: {
+    // graph slice
     analyzedMessagesSlice: analyzedMessagesSlice.reducer,
     selectedRoomIndexSlice: selectedRoomIndexSlice.reducer,
     limitTimeSlice: limitTimeSlice.reducer,
@@ -29,9 +32,15 @@ export default configureStore({
     selectedOsIndexSlice: selectedOsIndexSlice.reducer,
     isAnalyzedMessagesExistSlice: isAnalyzedMessagesExistSlice.reducer,
     volumeHourlyBoxSizeSlice: volumeHourlyBoxSizeSlice.reducer,
-    isDarkModeSlice: isDarkModeSlice.reducer,
     isModalVisibleSlice: isModalVisibleSlice.reducer,
     isSideMenuChatRoomSelectSlice: isSideMenuChatRoomSelectSlice.reducer,
+
+    // darkMode slice
+    isDarkModeSlice: isDarkModeSlice.reducer,
+
+    // userData slice
+    userLoginDataSlice: userLoginDataSlice.reducer,
+    userLoginAccessTokenSlice: userLoginAccessTokenSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

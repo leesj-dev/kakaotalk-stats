@@ -1,16 +1,17 @@
-import axios, { AxiosError } from "axios";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import axios, { AxiosError } from "axios";
 import Span from "../../atoms/Span";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { SingUpData } from "../../../@types/index.d";
 
 // 이메일 정규식 : 영문자와 숫자만
-const regexrID = /^[a-zA-Z0-9]{4,16}$/;
+const regexID = /^[a-zA-Z0-9]{4,16}$/;
 // 비밀번호 형식
-const regexrPass = /^[a-zA-Z가-힣!@#$%^&*()_+|<>?:{}]*.{4,16}$/;
+const regexPass = /^[a-zA-Z가-힣!@#$%^&*()_+|<>?:{}]*.{4,16}$/;
 //  닉네임 형식
-const regexrNickname = /^[가-힣a-zA-Z]{2,10}$/;
+const regexNickname = /^[가-힣a-zA-Z]{2,10}$/;
 
 const FormWrapper = styled.div`
   padding: 2rem;
@@ -94,6 +95,14 @@ const initialIdNotice = {
   message: "",
 };
 
+const SigUpContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  height: calc(100vh - 210.5px);
+`;
+
 const SignUpForm = () => {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState("");
@@ -103,8 +112,9 @@ const SignUpForm = () => {
   const [nickNameNotice, setNicknameNotice] = useState(initialIdNotice);
   const [passNotice, setPassNotice] = useState(initialIdNotice);
 
-  // Nickname
+  // nickname input 유효성 검사
   const onBlurNicknameHandler = async () => {
+    const isValidNickname = regexNickname.test(nickname);
     if (nickname === "") {
       setNicknameNotice({ message: "필수항목입니다.", alert: false });
       return;
@@ -127,8 +137,9 @@ const SignUpForm = () => {
     });
   };
 
-  // ID
-  const onBlurIdHandler = async () => {
+  // userId input 유효성 검사
+  const onBlurIdHandler = () => {
+    const isValidID = regexID.test(userId);
     if (userId === "") {
       setIdNotice({ message: "필수항목입니다.", alert: false });
       return;
@@ -151,8 +162,9 @@ const SignUpForm = () => {
     });
   };
 
-  // Password
+  // password input 유효성 검사
   const onBlurPasswordHandler = () => {
+    const isValidPassword = regexPass.test(password);
     if (password === "") {
       setPassNotice({ message: "필수항목입니다.", alert: false });
       return;
@@ -175,17 +187,14 @@ const SignUpForm = () => {
     });
   };
 
-  const signUpUserTest = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // SignUp Post 요청 보내기
+  const postSignUp = async (signUpData: SingUpData) => {
     try {
-      const result = await axios.post("/api/users/create", {
-        userId,
-        password,
-        nickname,
+      await axios.post("/api/users/create", {
+        ...signUpData,
       });
-      navigate("/login");
-      return console.log(result);
-    } catch (error: unknown) {
+    } catch (error) {
+      console.error(error);
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         const data = axiosError.response?.data as { status: string; error: string };
@@ -202,19 +211,40 @@ const SignUpForm = () => {
           setNicknameNotice({ message: "이미 사용중인 닉네임입니다", alert: false });
         }
       }
+      throw Error;
     }
   };
 
+  // SignUp 성공 이벤트
+  const handleSignUpSuccess = () => {
+    window.alert("회원가입 되었습니다.");
+    navigate("/users/login");
+  };
+
+  // SignUp Button 클릭 핸들러
+  const handleSubmitSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const signUpData = { nickname, userId, password };
+      await postSignUp(signUpData);
+      handleSignUpSuccess();
+    } catch (error) {
+      console.error(error);
+      window.alert("회원가입에 실패하였습니다.");
+    }
+  };
   return (
     <FormWrapper>
       <FormContainer>
         <FormTitle>회원가입</FormTitle>
-        <FormGroup onSubmit={(e) => signUpUserTest(e)}>
+        <FormGroup onSubmit={(e) => handleSubmitSignUp(e)}>
           <>
             <Label>이름</Label>
             <Input
               type="text"
               value={nickname}
+              minLength={2}
+              maxLength={10}
               onBlur={onBlurNicknameHandler}
               onChange={onChangeNicknameHandler}
               // placeholder="이름"
@@ -228,6 +258,8 @@ const SignUpForm = () => {
             <Input
               type="text"
               value={userId}
+              minLength={4}
+              maxLength={16}
               onBlur={onBlurIdHandler}
               onChange={onChangeIdHandler}
               // placeholder="아이디"
@@ -242,6 +274,8 @@ const SignUpForm = () => {
             <Input
               type="password"
               value={password}
+              minLength={4}
+              maxLength={16}
               onBlur={onBlurPasswordHandler}
               onChange={onChangePasswordHandler}
               // placeholder="비밀번호"
@@ -264,3 +298,4 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
+
