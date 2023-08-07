@@ -149,7 +149,7 @@ interface ModalGraphProps {
     p: string;
     fontSize?: any;
   };
-  modalSetProps?: (data: any) => void;
+  setCurrentModalData?: (data: any) => void;
 }
 
 const findModalDataById = (id: number) => {
@@ -165,7 +165,7 @@ const findModalDataById = (id: number) => {
 let chatDates: any;
 let datePickerPeriodData: any;
 
-const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
+const ModalGraph = ({ currentModalData, setCurrentModalData }: ModalGraphProps) => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
   const dispatch = useDispatch();
@@ -194,8 +194,8 @@ const ModalGraph = ({ currentModalData, modalSetProps }: ModalGraphProps) => {
 
   const handleClickFlipIcon = (nextId: number) => {
     const toFlipModalData = findModalDataById(nextId);
-    if (modalSetProps && toFlipModalData) {
-      modalSetProps(toFlipModalData);
+    if (setCurrentModalData && toFlipModalData) {
+      setCurrentModalData(toFlipModalData);
     }
   };
 

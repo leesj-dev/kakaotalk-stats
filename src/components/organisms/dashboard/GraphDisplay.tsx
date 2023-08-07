@@ -123,11 +123,11 @@ const graphContentData = [
 
 const GraphBox = ({
   displaySubject,
-  modalSetProps,
+  setCurrentModalData,
   zIndex,
 }: {
   displaySubject: string;
-  modalSetProps: (data: any) => void;
+  setCurrentModalData: (data: any) => void;
   zIndex: number;
 }) => {
   const dispatch = useDispatch();
@@ -147,7 +147,7 @@ const GraphBox = ({
   const { id, subject, graph } = modalData;
 
   const handleClickOpenModalButton = () => {
-    modalSetProps(modalData);
+    setCurrentModalData(modalData);
     dispatch(setIsModalVisible(true));
   };
 

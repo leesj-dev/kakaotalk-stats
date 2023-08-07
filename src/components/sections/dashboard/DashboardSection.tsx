@@ -131,7 +131,7 @@ const DashboardSection = () => {
     (state: { isModalVisibleSlice: StringNumberTuple[] }) => state.isModalVisibleSlice
   );
 
-  const [currentModalData, modalSetProps] = useState<any>();
+  const [currentModalData, setCurrentModalData] = useState<any>();
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
@@ -196,12 +196,25 @@ const DashboardSection = () => {
     }
   }, []);
 
+  console.log("");
   return (
     <DashboardSectionContainer>
       <AsideBox>
-        <GraphDisplay displaySubject={"종합 비교"} modalSetProps={modalSetProps} zIndex={1} />
-        <GraphDisplay displaySubject={"기간 대화량"} modalSetProps={modalSetProps} zIndex={3} />
-        <GraphDisplay displaySubject={"대화 비율"} modalSetProps={modalSetProps} zIndex={2} />
+        <GraphDisplay
+          displaySubject={"종합 비교"}
+          setCurrentModalData={setCurrentModalData}
+          zIndex={1}
+        />
+        <GraphDisplay
+          displaySubject={"기간 대화량"}
+          setCurrentModalData={setCurrentModalData}
+          zIndex={3}
+        />
+        <GraphDisplay
+          displaySubject={"대화 비율"}
+          setCurrentModalData={setCurrentModalData}
+          zIndex={2}
+        />
       </AsideBox>
       <ArticleBox>
         <HeadBox>
@@ -211,7 +224,7 @@ const DashboardSection = () => {
                 {data.id === "selectSpeaker" && (
                   <GraphDisplay
                     displaySubject={"채팅방 대화 비율"}
-                    modalSetProps={modalSetProps}
+                    setCurrentModalData={setCurrentModalData}
                     zIndex={1}
                   />
                 )}
@@ -223,7 +236,11 @@ const DashboardSection = () => {
         <BodyBox>
           <VerticalBox>
             <ReplySpeedGraphBox>
-              <GraphDisplay displaySubject={"답장속도"} modalSetProps={modalSetProps} zIndex={3} />
+              <GraphDisplay
+                displaySubject={"답장속도"}
+                setCurrentModalData={setCurrentModalData}
+                zIndex={3}
+              />
             </ReplySpeedGraphBox>
           </VerticalBox>
           <VerticalBox>
@@ -231,18 +248,22 @@ const DashboardSection = () => {
               <GraphDisplay
                 displaySubject={"시간대별 대화량"}
                 zIndex={1}
-                modalSetProps={modalSetProps}
+                setCurrentModalData={setCurrentModalData}
               />
             </ReplyCountByHourlyGraphBox>
             <KeywordGraphBox>
-              <GraphDisplay displaySubject={"키워드"} modalSetProps={modalSetProps} zIndex={1} />
+              <GraphDisplay
+                displaySubject={"키워드"}
+                setCurrentModalData={setCurrentModalData}
+                zIndex={1}
+              />
             </KeywordGraphBox>
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
       {isModalVisible && currentModalData && (
         <ModalBox ref={modalRef}>
-          <ModalGraph currentModalData={currentModalData} modalSetProps={modalSetProps} />
+          <ModalGraph currentModalData={currentModalData} setCurrentModalData={setCurrentModalData} />
         </ModalBox>
       )}
     </DashboardSectionContainer>

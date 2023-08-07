@@ -65,7 +65,6 @@ const getValueForAngle = (data: any, selectedSpeakerIndex: number) => {
   if (selectedSpeakerIndex !== -1) {
     const valueForAngle = data.map((item: any) => item.value);
     const previousSpeakerValues = reduceAPlusB(valueForAngle.slice(0, selectedSpeakerIndex));
-    console.log(data);
     const currentSpeakerValue = data[selectedSpeakerIndex].value / 2;
     return previousSpeakerValues + currentSpeakerValue;
   }
@@ -137,7 +136,7 @@ const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProp
     setData(result);
   }
 
-  let angle = getValueForAngle(data, selectedSpeakerIndex);
+  let angle = data.length && getValueForAngle(data, selectedSpeakerIndex);
 
   const handleClickSpeakerCell = (index: number) => {
     dispatch(setSelectedSpeakerIndex(index));

@@ -177,7 +177,7 @@ const NavSide: React.FC<NavSideMenuProps> = ({
             </Link>
           )}
         </PageLink>
-        {isAnalyzedMessagesExist && <DashboardSideMenu isSideMenu />}
+        {isAnalyzedMessagesExist && !isWideScreen && <DashboardSideMenu isSideMenu />}
       </NavSideBox>
       <NavSideShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
     </NavSideContainer>
