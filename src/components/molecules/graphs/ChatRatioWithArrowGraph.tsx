@@ -65,6 +65,7 @@ const getValueForAngle = (data: any, selectedSpeakerIndex: number) => {
   if (selectedSpeakerIndex !== -1) {
     const valueForAngle = data.map((item: any) => item.value);
     const previousSpeakerValues = reduceAPlusB(valueForAngle.slice(0, selectedSpeakerIndex));
+    console.log(data);
     const currentSpeakerValue = data[selectedSpeakerIndex].value / 2;
     return previousSpeakerValues + currentSpeakerValue;
   }
