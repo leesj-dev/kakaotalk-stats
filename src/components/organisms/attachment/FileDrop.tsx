@@ -3,8 +3,9 @@ import styled from "styled-components";
 import AttachmentButton from "../../atoms/AttachmentButton";
 import Paragraph from "../../atoms/Paragraph";
 import OsList from "./OsList";
-import { FlexColumnCenterDiv } from "../../atoms/FlexDiv";
+import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import { borderRadius } from "../../../style/specifiedCss/borderRadius";
+import BlueButton from "../../atoms/BlueButton";
 
 const DropBox = styled(FlexColumnCenterDiv)`
   position: relative;
@@ -32,16 +33,38 @@ const AttachGuide = styled(FlexColumnCenterDiv)`
   margin-bottom: 1.5rem;
 `;
 
-const AttachmentBox = styled.div`
+const AttachmentBox = styled(FlexCenterDiv)`
   margin-bottom: 1rem;
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   gap: 5px;
+
+  > * {
+    width: calc(50% - 5px);
+  }
 `;
 
 const Notice = styled(Paragraph)`
   font-size: 1.5rem;
   font-weight: 400;
   color: var(--mainBlueHover);
+`;
+
+const DownloadTestFileButton = styled(FlexCenterDiv)`
+  padding: 1.5rem 3rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #fff;
+  background: var(--mainBlue);
+  border-radius: ${borderRadius.weak};
+  transition: background 0.3s;
+  word-break: keep-all;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--mainBlueHover);
+  }
 `;
 
 type DropZoneProps = {
@@ -67,27 +90,27 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
       <OsListBox>
         <OsList />
       </OsListBox>
-      {screenWidth > 769 ? (
-        <TextContentBox>
+      <TextContentBox>
+        {screenWidth > 769 ? (
           <AttachGuide>
             <Paragraph>카카오톡 텍스트 파일을 드래그하여 끌어 놓거나,</Paragraph>
             <Paragraph>아래의 파일 첨부하기 버튼을 눌러 카카오톡 대화 파일을 첨부해주세요.</Paragraph>
           </AttachGuide>
-
-          <AttachmentBox>
-            <AttachmentButton onChange={handleChangeFile}>파일 첨부하기</AttachmentButton>
-          </AttachmentBox>
-        </TextContentBox>
-      ) : (
-        <TextContentBox>
+        ) : (
           <AttachGuide>
             <Paragraph>아래의 파일 첨부하기 버튼을 눌러 카카오톡 대화 파일을 첨부해주세요.</Paragraph>
           </AttachGuide>
-          <AttachmentBox>
-            <AttachmentButton onChange={handleChangeFile}>파일 첨부하기</AttachmentButton>
-          </AttachmentBox>
-        </TextContentBox>
-      )}
+        )}
+        <AttachmentBox>
+          <DownloadTestFileButton
+            as="a"
+            href="https://docs.google.com/uc?export=download&id=1GnniihnXFYXGTnDj7wyC1xKkwtPEuAks&confirm=t"
+          >
+            MacOS 테스트 파일
+          </DownloadTestFileButton>
+          <AttachmentButton onChange={handleChangeFile}>파일 첨부하기</AttachmentButton>
+        </AttachmentBox>
+      </TextContentBox>
       <Notice>* 올바른 운영체제를 선택하지 않으면 분석이 불가능합니다.</Notice>
     </DropBox>
   );

@@ -30,7 +30,7 @@ const BlueButton = styled.button<BlueButtonProps>`
   ${(props) =>
     props.disabled &&
     css`
-      background: ${props.theme.mainGray};
+      background: var(--mainGray);
       cursor: not-allowed;
       &:hover {
         background: var(--mainBlack);
