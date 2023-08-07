@@ -37,6 +37,22 @@ const CurrentPostContainer = styled.div`
   border-radius: 5px;
 `;
 
+interface CommentProps {
+  accessToken: any;
+  currentPost: any;
+  comments: any;
+  setComments: any;
+}
+
+interface CommentListFormProps extends CommentProps {
+  comment: any;
+  setComment: any;
+}
+interface CommentListProps extends CommentProps {
+  userData: any;
+  isPostEditing: any;
+}
+
 const PostPage = () => {
   const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
   const accessToken = useSelector(
@@ -84,6 +100,15 @@ const PostPage = () => {
 
     (async () => await loadComments())();
   }, [currentPost]);
+
+  const commentListFormData: CommentListFormProps = {
+    accessToken,
+    currentPost,
+    comments,
+    setComments,
+    comment,
+    setComment,
+  };
 
   return (
     <PostPageContainer>
