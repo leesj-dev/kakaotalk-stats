@@ -11,6 +11,7 @@ import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
+import { UserData } from "../../../@types/index.d";
 
 const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
@@ -106,7 +107,6 @@ const NavSide: React.FC<NavSideMenuProps> = ({
   isWideScreen,
   isDarkMode,
   isAnalyzedMessagesExist,
-  userData,
 }) => {
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice

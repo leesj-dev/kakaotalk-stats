@@ -5,9 +5,8 @@ import { FaRegComment } from "react-icons/fa";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
 const PostListContainer = styled.div`
   margin-bottom: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(1000px, 1fr));
-  grid-gap: 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Post = styled.div`
@@ -18,7 +17,6 @@ const Post = styled.div`
 `;
 const CommentIcon = styled.div`
   display: flex;
-  gap: 5px;
 `;
 const CommentDate = styled.div`
   &::before {

@@ -74,15 +74,11 @@ const MobileMenuIcon = styled(Icon)`
 
 interface NavHeadProps extends NavProps {}
 
-const NavHead: React.FC<NavHeadProps> = ({
-  closeMenu,
-  isDarkMode,
-  isAnalyzedMessagesExist,
-  accessToken,
-}) => {
+const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMessagesExist }) => {
   const dispatch = useDispatch();
 
   const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
+  console.log(userData, "ssssssss");
 
   const debounceTimeoutRef = useRef<number | null>(null);
 
@@ -130,13 +126,9 @@ const NavHead: React.FC<NavHeadProps> = ({
           {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
 
-          {userData.userId ? (
-            <LogOutButton accessToken={accessToken} />
-          ) : (
-            <Link to="/users/login">로그인</Link>
-          )}
+          {userData.userId ? <LogOutButton /> : <Link to="/users/login">로그인</Link>}
 
-          <Link to="/users/posts">게시판</Link>
+          <Link to="/posts">게시판</Link>
         </Menus>
       </MenuBox>
       <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />

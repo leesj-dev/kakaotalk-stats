@@ -6,6 +6,8 @@ import CommentListForm from "../organisms/post/CommentList";
 import Post from "../organisms/post/Post";
 import PostForm from "../organisms/post/PostForm";
 import PostList from "../organisms/post/PostList";
+import { AccessToken, UserData } from "../../@types/index.d";
+import { useSelector } from "react-redux";
 
 const PostPageContainer = styled.div`
   margin: 150px auto;
@@ -92,11 +94,12 @@ const CurrentPostContainer = styled.div`
   border-radius: 5px;
 `;
 
-interface PostPageProps {
-  accessToken: string;
-  userData: any;
-}
-const PostPage = ({ accessToken, userData }: PostPageProps) => {
+const PostPage = () => {
+  const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
+  const accessToken = useSelector(
+    (state: { userLoginAccessTokenSlice: AccessToken }) => state.userLoginAccessTokenSlice
+  );
+
   const [title, setTitle] = useState("");
   const [content, edit] = useState("");
   const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);

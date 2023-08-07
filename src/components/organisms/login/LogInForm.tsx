@@ -165,7 +165,6 @@ const LogInForm = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
             // placeholder="비밀번호"
           />
           <AutoLoginBox>

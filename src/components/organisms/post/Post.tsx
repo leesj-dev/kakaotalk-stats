@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
-import { UserData } from "../login/WithdrawButton";
+import { UserData } from "../../../@types/index.d";
 
 const PostContainer = styled.div`
   padding: 10px;

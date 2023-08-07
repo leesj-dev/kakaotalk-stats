@@ -3,7 +3,7 @@ import { FaRegComment } from "react-icons/fa";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FlexColumnDiv, FlexRowDiv } from "../../atoms/FlexDiv";
-import { UserData } from "../login/WithdrawButton";
+import { UserData } from "../../../@types/index.d";
 
 const CommentContainer = styled.div`
   padding: 20px;
@@ -173,6 +173,7 @@ const CommentListForm = ({
   currentPost,
   submitEditComment,
 }: CommentListProps) => {
+  console.log("userData", userData, "comments", comments);
   return (
     <CommentContainer>
       <CommentIcon>

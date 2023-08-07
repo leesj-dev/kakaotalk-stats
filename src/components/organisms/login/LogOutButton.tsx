@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserLoginDataSlice } from "../../../store/reducer/userData/userLoginDataSlice";
 import { AccessToken } from "../../../@types/index.d";
 
@@ -13,8 +13,12 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const LogOutButton = ({ accessToken }: AccessToken) => {
+const LogOutButton = () => {
   const dispatch = useDispatch();
+
+  const accessToken = useSelector(
+    (state: { userLoginAccessTokenSlice: AccessToken }) => state.userLoginAccessTokenSlice
+  );
 
   // LogOut Post 요청 보내기
   const postLogOut = async () => {

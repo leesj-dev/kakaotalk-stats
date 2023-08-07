@@ -51,12 +51,7 @@ function App() {
       <GlobalStyle />
       <Wrapper>
         <FloatingMenu />
-        <Navigation
-          userData={userData}
-          setUserData={setUserData}
-          accessToken={accessToken}
-          setAccessToken={setAccessToken}
-        />
+        <Navigation />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/attachment" element={<AttachmentPage />} />
@@ -66,7 +61,7 @@ function App() {
               <Route path="create" element={<SignUpForm />} />
             </Route>
           </Route>
-          <Route path="/posts" element={<PostPage accessToken={accessToken} userData={userData} />} />
+          <Route path="/posts" element={<PostPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/detail" element={<DetailPage />} />
 

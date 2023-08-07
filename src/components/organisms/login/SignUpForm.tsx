@@ -123,7 +123,7 @@ const SignUpForm = () => {
 
   const onChangeNicknameHandler = async (e: { target: { value: React.SetStateAction<string> } }) => {
     setNickname(e.target.value);
-    const isValidNickname = regexrNickname.test(nickname);
+    const isValidNickname = regexNickname.test(nickname);
     if (!isValidNickname) {
       setNicknameNotice({
         message: "2 ~ 10자의 한글, 영문 조합으로 입력해야 합니다.",
@@ -148,7 +148,7 @@ const SignUpForm = () => {
 
   const onChangeIdHandler = (e: { target: { value: React.SetStateAction<string> } }) => {
     setUserId(e.target.value);
-    const isValidID = regexrID.test(userId);
+    const isValidID = regexID.test(userId);
     if (!isValidID) {
       setIdNotice({
         message: "4 ~ 16자의 영문, 숫자 조합으로 입력해야 합니다.",
@@ -173,7 +173,7 @@ const SignUpForm = () => {
 
   const onChangePasswordHandler = (e: { target: { value: React.SetStateAction<string> } }) => {
     setPassword(e.target.value);
-    const isValidPassword = regexrPass.test(password);
+    const isValidPassword = regexPass.test(password);
     if (!isValidPassword) {
       setPassNotice({
         message: "한글을 제외한 4 ~ 16자의 문자로 입력해야 합니다.",
@@ -298,4 +298,3 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
-
