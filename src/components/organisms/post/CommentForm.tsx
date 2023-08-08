@@ -14,7 +14,6 @@ const Label = styled.label`
 const CommentFormContainer = styled.div`
   display: flex;
   flex-direction: column;
-
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
@@ -136,7 +135,6 @@ const CommentForm = ({
         onChange={(e) => handleWriteComment(e)}
         placeholder="댓글을 작성하세요"
       />
-
       <PublishBox>
         <CheckBoxWrapper>
           <Label>비밀글</Label>
@@ -146,7 +144,6 @@ const CommentForm = ({
             onChange={(e) => handlePrivateCommentChange(e)}
           />
         </CheckBoxWrapper>
-
         <Button onClick={(e) => handleSubmitComment(e, currentPost, comment)}>댓글 작성하기</Button>
       </PublishBox>
     </CommentFormContainer>

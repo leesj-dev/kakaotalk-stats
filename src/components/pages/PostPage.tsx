@@ -5,6 +5,7 @@ import CurrentPost from "../organisms/post/CurrentPost";
 import PostList from "../organisms/post/PostList";
 import { AccessToken, UserData } from "../../@types/index.d";
 import { useSelector } from "react-redux";
+import PostForm from "../organisms/post/PostForm";
 
 const PostPageContainer = styled.div`
   margin: 90px auto;
@@ -21,16 +22,6 @@ const PostPageTitle = styled.h1`
 const NonePostContainer = styled.div`
   margin-bottom: 30px;
   font-size: 2rem;
-`;
-
-const CurrentPostContainer = styled.div`
-  margin-bottom: 3rem;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 `;
 
 interface currentPostProps {
@@ -105,13 +96,13 @@ const PostPage = () => {
     posts,
     setPosts,
   };
-  // if (!currentPost) {
-  //   return <div>No post selected.</div>;
-  // }
+
   return (
     <PostPageContainer>
       {/* 게시글작성폼 */}
-      <CurrentPost {...currentPostData} />
+      <PostForm accessToken={accessToken} posts={posts} setPosts={setPosts} />
+
+      {currentPost ? <CurrentPost {...currentPostData} /> : <div>No post selected.</div>}
       {/* 게시글 */}
       <PostPageTitle>게시판</PostPageTitle>
       {posts ? (

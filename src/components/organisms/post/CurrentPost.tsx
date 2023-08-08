@@ -10,8 +10,13 @@ import PostForm from "./PostForm";
 import EditPostForm from "./EditPostForm";
 
 const PostContainer = styled.div`
+  margin-bottom: 3rem;
+  padding: 2rem;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 `;
 
 const UserContainer = styled(FlexRowDiv)`
@@ -21,7 +26,15 @@ const UserContainer = styled(FlexRowDiv)`
 `;
 
 const UserBox = styled.div``;
-const PostContent = styled.div``;
+
+const PostContent = styled.div<{ isPostEditing?: boolean }>`
+  width: 100%;
+  display: flex;
+  flex-direction: ${({ isPostEditing }) => (isPostEditing ? "column" : "row")};
+  justify-content: space-between;
+`;
+
+const PostInfo = styled.div``;
 
 const CurrentPostProfile = styled.div`
   width: 50px;
@@ -92,6 +105,10 @@ const EditButton = styled.button`
   }
 `;
 
+const CurrentPostBox = styled(FlexRowDiv)`
+  justify-content: space-between;
+`;
+
 // interface PostProps {
 //   userData: UserData;
 //   accessToken: AccessToken;
@@ -111,6 +128,7 @@ const EditButton = styled.button`
 //   setCurrentPost: any;
 //   posts: any;
 // }
+
 interface currentPostProps {
   accessToken: any;
   userData: any;
@@ -187,49 +205,71 @@ const CurrentPost = ({
       console.error(error);
     }
   };
-  // if (!currentPost) {
-  //   return <div>No post selected.</div>;
-  // }
+
   return (
     <>
       {/* 자신의 글 수정 삭제 버튼 */}
-      <PostForm accessToken={accessToken} posts={posts} setPosts={setPosts} />
+
       {currentPost &&
         (isPostEditing ? (
           // 글을 수정했을 때 수정 폼
-          <EditPostForm
-            accessToken={accessToken}
-            posts={posts}
-            setPosts={setPosts}
-            currentPost={currentPost}
-            setCurrentPost={setCurrentPost}
-            setIsPostEditing={setIsPostEditing}
-            contentEdit={contentEdit}
-            setContentEdit={setContentEdit}
-            isPrivatePostEdit={isPrivatePostEdit}
-            setIsPrivatePostEdit={setIsPrivatePostEdit}
-            titleEdit={titleEdit}
-            setTitleEdit={setTitleEdit}
-          />
+          <PostContainer>
+            <CurrentPostBox>
+              <PostContent isPostEditing={isPostEditing}>
+                <UserContainer>
+                  <CurrentPostProfile />
+                  <UserBox>
+                    <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
+                    <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
+                  </UserBox>
+                </UserContainer>
+                <EditPostForm
+                  accessToken={accessToken}
+                  posts={posts}
+                  setPosts={setPosts}
+                  currentPost={currentPost}
+                  setCurrentPost={setCurrentPost}
+                  setIsPostEditing={setIsPostEditing}
+                  contentEdit={contentEdit}
+                  setContentEdit={setContentEdit}
+                  isPrivatePostEdit={isPrivatePostEdit}
+                  setIsPrivatePostEdit={setIsPrivatePostEdit}
+                  titleEdit={titleEdit}
+                  setTitleEdit={setTitleEdit}
+                />
+              </PostContent>
+            </CurrentPostBox>
+
+            {/* 댓글 리스트 */}
+            <CommentList {...commonData} userData={userData} isPostEditing={isPostEditing} />
+            {/* 댓글 작성 폼 */}
+            <CommentForm {...commonData} comment={comment} setComment={setComment} />
+          </PostContainer>
         ) : (
           <PostContainer>
-            <PostContent>
-              <UserContainer>
-                <CurrentPostProfile />
-                <UserBox>
-                  <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
-                  <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
-                </UserBox>
-              </UserContainer>
-              <CurrentPostTitle>{title}</CurrentPostTitle>
-              <CurrentPostContent>{content}</CurrentPostContent>
-            </PostContent>
-            {isAuthor && (
-              <PostButtonBox>
-                <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
-                <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
-              </PostButtonBox>
-            )}
+            <CurrentPostBox>
+              <PostContent>
+                <PostInfo>
+                  <UserContainer>
+                    <CurrentPostProfile />
+                    <UserBox>
+                      <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
+                      <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
+                    </UserBox>
+                  </UserContainer>
+                  <CurrentPostTitle>{title}</CurrentPostTitle>
+                  <CurrentPostContent>{content}</CurrentPostContent>
+                </PostInfo>
+
+                {isAuthor && (
+                  <PostButtonBox>
+                    <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
+                    <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
+                  </PostButtonBox>
+                )}
+              </PostContent>
+            </CurrentPostBox>
+
             {/* 댓글 리스트 */}
             <CommentList {...commonData} userData={userData} isPostEditing={isPostEditing} />
             {/* 댓글 작성 폼 */}

@@ -78,30 +78,36 @@ const DeleteCommentButton = styled.button`
 const CommentFormContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
-  width: 100%;
+  background-color: #fff;
 `;
 
 const FormGroup = styled.form`
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 `;
 
 const EditCommentInput = styled.input`
-  display: block;
   padding: 8px;
+  margin-bottom: 10px;
+  display: block;
   width: 100%;
   border-radius: 4px;
+  border: 1px solid #ccc;
+`;
+
+const PublishBox = styled(FlexRowDiv)`
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const CheckBoxWrapper = styled.div`
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  justify-content: space-between;
   font-size: 14px;
 `;
 
@@ -110,6 +116,7 @@ const CheckBox = styled.input`
 `;
 
 const Label = styled.label`
+  margin-right: 5px;
   margin-bottom: 5px;
   display: block;
   font-size: 14px;
@@ -132,7 +139,9 @@ const Button = styled.button`
   }
 `;
 
-const SubmitCommentButton = styled(Button)``;
+const SubmitCommentButton = styled(Button)`
+  width: 10%;
+`;
 
 interface CommentListProps {
   comments: any[];
@@ -194,8 +203,6 @@ const CommentList = ({
         }
       );
 
-      console.log(`${comment.comment} 댓글 삭제가 완료되었습니다.`);
-      console.log(result);
       const copiedComments = [...comments];
       const afterDeletedComments = copiedComments.filter((item) => item._id !== comment._id);
       setComments([...afterDeletedComments]);
@@ -285,15 +292,17 @@ const CommentList = ({
                       value={editComment}
                       onChange={(e) => setEditComment(e.target.value)}
                     />
-                    <CheckBoxWrapper>
-                      <Label>비밀글</Label>
-                      <CheckBox
-                        type="checkbox"
-                        checked={editIsPrivateComment}
-                        onChange={(e) => handleEditPrivateCommentChange(e.target.checked)}
-                      />
-                    </CheckBoxWrapper>
-                    <SubmitCommentButton type="submit">댓글 수정하기</SubmitCommentButton>
+                    <PublishBox>
+                      <CheckBoxWrapper>
+                        <Label>비밀글</Label>
+                        <CheckBox
+                          type="checkbox"
+                          checked={editIsPrivateComment}
+                          onChange={(e) => handleEditPrivateCommentChange(e.target.checked)}
+                        />
+                      </CheckBoxWrapper>
+                      <SubmitCommentButton type="submit">댓글 수정하기</SubmitCommentButton>
+                    </PublishBox>
                   </FormGroup>
                 </CommentFormContainer>
               ) : (

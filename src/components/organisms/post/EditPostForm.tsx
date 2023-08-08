@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { AccessToken } from "../../../@types/index.d";
+import { FlexRowDiv } from "../../atoms/FlexDiv";
 
 // 버튼 스타일
 const Button = styled.button`
@@ -22,7 +23,13 @@ const Button = styled.button`
 
 // 입력 폼 스타일
 const FormContainer = styled.div`
-  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
 `;
 
 const FormGroup = styled.form`
@@ -54,7 +61,19 @@ const Textarea = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
-  resize: vertical;
+  resize: none;
+`;
+
+const PublishBox = styled(FlexRowDiv)`
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+`;
+const CheckBoxWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+  font-size: 14px;
 `;
 
 const Checkbox = styled.input`
@@ -148,13 +167,17 @@ const EditPostForm = ({
         <Input type="text" value={titleEdit} onChange={(e) => setTitleEdit(e.target.value)} />
         <Label>내용</Label>
         <Textarea value={contentEdit} onChange={(e) => setContentEdit(e.target.value)} />
-        <Label>비밀글</Label>
-        <Checkbox
-          type="checkBox"
-          checked={isPrivatePostEdit}
-          onChange={(e) => setIsPrivatePostEdit(e.target.checked)}
-        ></Checkbox>
-        <Button type="submit">수정하기</Button>
+        <PublishBox>
+          <CheckBoxWrapper>
+            <Label>비밀글</Label>
+            <Checkbox
+              type="checkBox"
+              checked={isPrivatePostEdit}
+              onChange={(e) => setIsPrivatePostEdit(e.target.checked)}
+            />
+          </CheckBoxWrapper>{" "}
+          <Button type="submit">수정하기</Button>
+        </PublishBox>
       </FormGroup>
     </FormContainer>
   );
