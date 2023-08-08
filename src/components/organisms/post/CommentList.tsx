@@ -24,7 +24,7 @@ const CurrentPostProfile = styled.div`
   border-radius: 50%;
 `;
 
-const CommentList = styled.ul`
+const CommentUl = styled.ul`
   list-style: none;
   padding: 0;
 `;
@@ -143,7 +143,7 @@ interface CommentListProps {
   isPostEditing: boolean;
 }
 
-const CommentListForm = ({
+const CommentList = ({
   accessToken,
   comments,
   userData,
@@ -254,7 +254,7 @@ const CommentListForm = ({
       <CommentIcon>
         <FaRegComment /> {comments.length}
       </CommentIcon>
-      <CommentList>
+      <CommentUl>
         {comments.length ? (
           comments.map((comment: any) => (
             <CommentItem key={comment._id}>
@@ -304,9 +304,9 @@ const CommentListForm = ({
         ) : (
           <CommentItem>댓글이 없습니다.</CommentItem>
         )}
-      </CommentList>
+      </CommentUl>
     </CommentContainer>
   );
 };
 
-export default CommentListForm;
+export default CommentList;

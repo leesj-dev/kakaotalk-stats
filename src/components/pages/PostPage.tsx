@@ -1,14 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import CommentForm from "../organisms/post/CommentForm";
-import CommentListForm from "../organisms/post/CommentList";
-import Post from "../organisms/post/Post";
-import PostForm from "../organisms/post/PostForm";
+import CurrentPost from "../organisms/post/CurrentPost";
 import PostList from "../organisms/post/PostList";
 import { AccessToken, UserData } from "../../@types/index.d";
 import { useSelector } from "react-redux";
-import EditPostForm from "../organisms/post/EditPostForm";
 
 const PostPageContainer = styled.div`
   margin: 90px auto;
@@ -37,21 +33,25 @@ const CurrentPostContainer = styled.div`
   border-radius: 5px;
 `;
 
-interface CommentProps {
+interface currentPostProps {
   accessToken: any;
+  userData: any;
   currentPost: any;
+  setCurrentPost: any;
   comments: any;
   setComments: any;
+  posts: any;
+  setPosts: any;
 }
 
-interface CommentListFormProps extends CommentProps {
-  comment: any;
-  setComment: any;
-}
-interface CommentListProps extends CommentProps {
-  userData: any;
-  isPostEditing: any;
-}
+// interface CommentListFormProps extends CommentProps {
+//   comment: any;
+//   setComment: any;
+// }
+// interface CommentListProps extends CommentProps {
+//   userData: any;
+//   isPostEditing: any;
+// }
 
 const PostPage = () => {
   const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
@@ -61,13 +61,6 @@ const PostPage = () => {
 
   const [posts, setPosts] = useState<any>([]);
   const [currentPost, setCurrentPost] = useState<any>(null);
-
-  const [titleEdit, setTitleEdit] = useState("");
-  const [contentEdit, setContentEdit] = useState("");
-  const [isPrivatePostEdit, setIsPrivatePostEdit] = useState<boolean>(false);
-  const [isPostEditing, setIsPostEditing] = useState<boolean>(false);
-
-  const [comment, setComment] = useState("");
   const [comments, setComments] = useState<any>([]);
 
   useEffect(() => {
@@ -91,81 +84,34 @@ const PostPage = () => {
         if (currentPost) {
           const result = await axios.get(`/api/posts/${currentPost.postId}/comments`);
           setComments([...result.data]);
+
           return console.log(result.data);
         }
       } catch (error) {
         console.error(error);
       }
     };
-
+    loadComments();
     (async () => await loadComments())();
   }, [currentPost]);
 
-  const commentListFormData: CommentListFormProps = {
+  const currentPostData: currentPostProps = {
     accessToken,
+    userData,
     currentPost,
+    setCurrentPost,
     comments,
     setComments,
-    comment,
-    setComment,
+    posts,
+    setPosts,
   };
-
+  // if (!currentPost) {
+  //   return <div>No post selected.</div>;
+  // }
   return (
     <PostPageContainer>
       {/* 게시글작성폼 */}
-      <PostForm accessToken={accessToken} posts={posts} setPosts={setPosts} />
-      {currentPost &&
-        (isPostEditing ? (
-          // 글을 수정했을 때 수정 폼
-          <EditPostForm
-            accessToken={accessToken}
-            currentPost={currentPost}
-            setCurrentPost={setCurrentPost}
-            posts={posts}
-            setPosts={setPosts}
-            titleEdit={titleEdit}
-            contentEdit={contentEdit}
-            setIsPostEditing={setIsPostEditing}
-            isPrivatePostEdit={isPrivatePostEdit}
-            setTitleEdit={setTitleEdit}
-            setContentEdit={setContentEdit}
-            setIsPrivatePostEdit={setIsPrivatePostEdit}
-          />
-        ) : (
-          <CurrentPostContainer>
-            <Post
-              accessToken={accessToken}
-              userData={userData}
-              currentPost={currentPost}
-              posts={posts}
-              setPosts={setPosts}
-              setTitleEdit={setTitleEdit}
-              setContentEdit={setContentEdit}
-              isPostEditing={isPostEditing}
-              setIsPostEditing={setIsPostEditing}
-              setIsPrivatePostEdit={setIsPrivatePostEdit}
-              setCurrentPost={setCurrentPost}
-            />
-            {/* 댓글 리스트 */}
-            <CommentListForm
-              accessToken={accessToken}
-              userData={userData}
-              currentPost={currentPost}
-              comments={comments}
-              setComments={setComments}
-              isPostEditing={isPostEditing}
-            />
-            {/* 댓글 작성 폼 */}
-            <CommentForm
-              accessToken={accessToken}
-              currentPost={currentPost}
-              comment={comment}
-              setComment={setComment}
-              comments={comments}
-              setComments={setComments}
-            />
-          </CurrentPostContainer>
-        ))}
+      <CurrentPost {...currentPostData} />
       {/* 게시글 */}
       <PostPageTitle>게시판</PostPageTitle>
       {posts ? (

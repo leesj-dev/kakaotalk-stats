@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
 import { AccessToken, UserData } from "../../../@types/index.d";
 import axios from "axios";
+import CommentList from "./CommentList";
+import CommentForm from "./CommentForm";
+import PostForm from "./PostForm";
+import EditPostForm from "./EditPostForm";
 
 const PostContainer = styled.div`
   display: flex;
@@ -88,39 +92,60 @@ const EditButton = styled.button`
   }
 `;
 
-interface PostProps {
-  userData: UserData;
-  accessToken: AccessToken;
-  currentPost: {
-    title: string;
-    nickname: string;
-    createdAt: string;
-    content: string;
-    userId: string;
-  };
-  setTitleEdit: any;
-  setContentEdit: any;
-  isPostEditing: boolean;
-  setIsPostEditing: any;
-  setIsPrivatePostEdit: any;
-  setPosts: any;
+// interface PostProps {
+//   userData: UserData;
+//   accessToken: AccessToken;
+//   currentPost: {
+//     title: string;
+//     nickname: string;
+//     createdAt: string;
+//     content: string;
+//     userId: string;
+//   };
+//   setTitleEdit: any;
+//   setContentEdit: any;
+//   isPostEditing: boolean;
+//   setIsPostEditing: any;
+//   setIsPrivatePostEdit: any;
+//   setPosts: any;
+//   setCurrentPost: any;
+//   posts: any;
+// }
+interface currentPostProps {
+  accessToken: any;
+  userData: any;
+  currentPost: any;
   setCurrentPost: any;
+  comments: any;
+  setComments: any;
   posts: any;
+  setPosts: any;
 }
 
-const Post = ({
-  userData,
+const CurrentPost = ({
   accessToken,
+  userData,
   currentPost,
-  setTitleEdit,
-  setContentEdit,
-  isPostEditing,
-  setIsPostEditing,
-  setIsPrivatePostEdit,
   setCurrentPost,
-  setPosts,
+  comments,
+  setComments,
   posts,
-}: PostProps) => {
+  setPosts,
+}: currentPostProps) => {
+  const [titleEdit, setTitleEdit] = useState("");
+  const [contentEdit, setContentEdit] = useState("");
+  const [isPrivatePostEdit, setIsPrivatePostEdit] = useState<boolean>(false);
+  const [isPostEditing, setIsPostEditing] = useState<boolean>(false);
+
+  const [comment, setComment] = useState("");
+
+  const commonData = {
+    accessToken,
+    currentPost,
+    comments,
+    setComments,
+  };
+
   const { title, nickname, createdAt, content, userId } = currentPost;
   const isAuthor = userData?.userId === userId;
 
@@ -162,30 +187,57 @@ const Post = ({
       console.error(error);
     }
   };
-
+  // if (!currentPost) {
+  //   return <div>No post selected.</div>;
+  // }
   return (
-    <PostContainer>
-      <PostContent>
-        <UserContainer>
-          <CurrentPostProfile />
-          <UserBox>
-            <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
-            <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
-          </UserBox>
-        </UserContainer>
-        <CurrentPostTitle>{title}</CurrentPostTitle>
-        <CurrentPostContent>{content}</CurrentPostContent>
-      </PostContent>
-
+    <>
       {/* 자신의 글 수정 삭제 버튼 */}
-      {isAuthor && (
-        <PostButtonBox>
-          <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
-          <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
-        </PostButtonBox>
-      )}
-    </PostContainer>
+      <PostForm accessToken={accessToken} posts={posts} setPosts={setPosts} />
+      {currentPost &&
+        (isPostEditing ? (
+          // 글을 수정했을 때 수정 폼
+          <EditPostForm
+            accessToken={accessToken}
+            posts={posts}
+            setPosts={setPosts}
+            currentPost={currentPost}
+            setCurrentPost={setCurrentPost}
+            setIsPostEditing={setIsPostEditing}
+            contentEdit={contentEdit}
+            setContentEdit={setContentEdit}
+            isPrivatePostEdit={isPrivatePostEdit}
+            setIsPrivatePostEdit={setIsPrivatePostEdit}
+            titleEdit={titleEdit}
+            setTitleEdit={setTitleEdit}
+          />
+        ) : (
+          <PostContainer>
+            <PostContent>
+              <UserContainer>
+                <CurrentPostProfile />
+                <UserBox>
+                  <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
+                  <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
+                </UserBox>
+              </UserContainer>
+              <CurrentPostTitle>{title}</CurrentPostTitle>
+              <CurrentPostContent>{content}</CurrentPostContent>
+            </PostContent>
+            {isAuthor && (
+              <PostButtonBox>
+                <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
+                <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
+              </PostButtonBox>
+            )}
+            {/* 댓글 리스트 */}
+            <CommentList {...commonData} userData={userData} isPostEditing={isPostEditing} />
+            {/* 댓글 작성 폼 */}
+            <CommentForm {...commonData} comment={comment} setComment={setComment} />
+          </PostContainer>
+        ))}
+    </>
   );
 };
 
-export default Post;
+export default CurrentPost;
