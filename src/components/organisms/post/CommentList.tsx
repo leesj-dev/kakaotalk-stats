@@ -215,9 +215,6 @@ const CommentList = ({
 
   return (
     <CommentContainer>
-      <CommentIcon>
-        <FaRegComment /> {comments.length}
-      </CommentIcon>
       <CommentUl>
         {comments.length ? (
           comments.map((comment: any) => (

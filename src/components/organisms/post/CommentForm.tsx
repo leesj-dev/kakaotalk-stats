@@ -10,6 +10,8 @@ const CommentFormContainer = styled.div`
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
+  background: #fff;
+  cursor: auto;
 `;
 
 const TextArea = styled.textarea`

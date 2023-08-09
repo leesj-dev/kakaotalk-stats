@@ -371,7 +371,7 @@ app.get("/api/posts/:postId", async (req, res) => {
 
     // 존재하지 않는 게시물인 경우
     if (!post) {
-      res.status(404).json({
+      return res.status(404).json({
         message: `게시글 조회 실패: postId - ${postId}`,
       });
     }

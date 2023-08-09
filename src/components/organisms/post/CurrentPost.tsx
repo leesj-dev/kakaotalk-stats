@@ -7,6 +7,7 @@ import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
 import EditPostForm from "./EditPostForm";
 import { AccessToken, Comment, Post, UserData } from "../../../@types/index.d";
+import { FaRegComment } from "react-icons/fa";
 
 const PostContainer = styled.div`
   margin-bottom: 3rem;
@@ -16,35 +17,26 @@ const PostContainer = styled.div`
   border-radius: 5px;
 `;
 
+const CurrentPostBox = styled(FlexRowDiv)`
+  justify-content: space-between;
+`;
+
+const PostInfo = styled.div``;
+
 const UserContainer = styled(FlexRowDiv)`
   gap: 10px;
   align-items: center;
   margin-bottom: 10px;
 `;
 
-const UserBox = styled.div``;
-
-const PostContent = styled.div<{ isPostEditing?: boolean }>`
-  width: 100%;
-  display: flex;
-  flex-direction: ${({ isPostEditing }) => (isPostEditing ? "column" : "row")};
-  justify-content: space-between;
-`;
-
-const PostInfo = styled.div``;
-
 const CurrentPostProfile = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--mainBlack);
   border-radius: 50%;
 `;
 
-const CurrentPostTitle = styled.div`
-  margin-bottom: 10px;
-  font-size: 3rem;
-  font-weight: 700;
-`;
+const UserBox = styled.div``;
 
 const CurrentPostAuthor = styled.div`
   margin-bottom: 5px;
@@ -57,9 +49,29 @@ const CurrentPostCreatedAt = styled.div`
   color: var(--mainGray);
 `;
 
+const PostContent = styled.div<{ isPostEditing?: boolean }>`
+  width: 100%;
+  display: flex;
+  flex-direction: ${({ isPostEditing }) => (isPostEditing ? "column" : "row")};
+  justify-content: space-between;
+`;
+
+const CurrentPostTitle = styled.div`
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+  font-weight: 700;
+`;
+
 const CurrentPostContent = styled.div`
   margin-bottom: 10px;
   font-size: 1.7rem;
+`;
+
+const CommentIcon = styled.div`
+  padding: 5px;
+  display: flex;
+  gap: 5px;
+  font-size: 1.5rem;
 `;
 
 const PostButtonBox = styled.div`
@@ -102,16 +114,13 @@ const EditButton = styled.button`
   }
 `;
 
-const CurrentPostBox = styled(FlexRowDiv)`
-  justify-content: space-between;
-`;
-
 interface currentPostProps {
   accessToken: AccessToken;
   userData: UserData;
   currentPost: Post | null;
   comments: Comment[];
   posts: Post[];
+  isSameAuthor?: boolean;
   setCurrentPost: (post: Post | null) => void;
   setComments: (comment: Comment[]) => void;
   setPosts: (post: Post[]) => void;
@@ -121,10 +130,11 @@ const CurrentPost = ({
   accessToken,
   userData,
   currentPost,
-  setCurrentPost,
   comments,
-  setComments,
   posts,
+  isSameAuthor,
+  setCurrentPost,
+  setComments,
   setPosts,
 }: currentPostProps) => {
   const [titleEdit, setTitleEdit] = useState("");
@@ -153,7 +163,7 @@ const CurrentPost = ({
     currentPostData = { ...currentPostData, ...currentPost };
   }
 
-  const isSameAuthor = userData?.userId === currentPostData.userId;
+  const { title, nickname, createdAt, content } = currentPostData;
 
   const clickEditPost = async (e: React.FormEvent<HTMLButtonElement>, post: Post) => {
     e.preventDefault();
@@ -207,10 +217,8 @@ const CurrentPost = ({
                 <UserContainer>
                   <CurrentPostProfile />
                   <UserBox>
-                    <CurrentPostAuthor>{currentPostData.nickname}</CurrentPostAuthor>
-                    <CurrentPostCreatedAt>
-                      {displayCreatedAt(currentPostData.createdAt)}
-                    </CurrentPostCreatedAt>
+                    <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
+                    <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
                   </UserBox>
                 </UserContainer>
                 <EditPostForm
@@ -243,16 +251,16 @@ const CurrentPost = ({
                   <UserContainer>
                     <CurrentPostProfile />
                     <UserBox>
-                      <CurrentPostAuthor>{currentPostData.nickname}</CurrentPostAuthor>
-                      <CurrentPostCreatedAt>
-                        {displayCreatedAt(currentPostData.createdAt)}
-                      </CurrentPostCreatedAt>
+                      <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
+                      <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
                     </UserBox>
                   </UserContainer>
-                  <CurrentPostTitle>{currentPostData.title}</CurrentPostTitle>
-                  <CurrentPostContent>{currentPostData.content}</CurrentPostContent>
+                  <CurrentPostTitle>{title}</CurrentPostTitle>
+                  <CurrentPostContent>{content}</CurrentPostContent>
+                  <CommentIcon>
+                    <FaRegComment /> {comments.length}
+                  </CommentIcon>
                 </PostInfo>
-
                 {isSameAuthor && (
                   <PostButtonBox>
                     <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
