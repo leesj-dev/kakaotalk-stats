@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const { verifyToken } = require("./jwtVerifyToken");
 const { getAccessToken } = require("./getAccessToken");
 const { createAccessToken } = require("./createAccessToken");
+const User = require("../../models/User");
 
 const ERROR_MESSAGES = {
   INVALID_TOKEN: "유효하지 않은 토큰",
@@ -11,7 +12,7 @@ const ERROR_MESSAGES = {
 
 const EXPIRATION_TIME = "10s";
 
-exports.authenticateToken = (accessTokenSecretKey, UserModel) => async (req, res, next) => {
+exports.authenticateToken = (accessTokenSecretKey) => async (req, res, next) => {
   console.log(`토큰 인증 시도 - ${req.path}`);
   try {
     const accessToken = req.headers.authorization && getAccessToken(req.headers.authorization);
@@ -24,7 +25,7 @@ exports.authenticateToken = (accessTokenSecretKey, UserModel) => async (req, res
     // 유저 정보 확인
     const decodedToken = jwt.decode(accessToken, accessTokenSecretKey);
     const requestedUserId = decodedToken && decodedToken.userId;
-    const requestedUser = await UserModel.findOne({ userId: requestedUserId });
+    const requestedUser = await User.findOne({ userId: requestedUserId });
 
     // 존재하지 않는 userId인 경우
     if (!requestedUser) {

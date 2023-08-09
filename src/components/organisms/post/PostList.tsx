@@ -74,15 +74,29 @@ const PostList = ({
       });
 
       console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
-      return result.data.post;
+      const postData = result.data.post;
+      return postData;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 댓글 조회 요청
+  const requestCommentsData = async (post: Post) => {
+    try {
+      const result = await axios.get(`/api/posts/${post.postId}/comments`);
+      const commentsData: Comment[] = result.data;
+      return commentsData;
     } catch (error) {
       console.error(error);
     }
   };
 
   const viewPost = async (post: Post) => {
-    const postData = await requestPostData(post);
+    const postData: Post = await requestPostData(post);
+    const commentsData = await requestCommentsData(post);
     setCurrentPost(postData);
+    setComments(commentsData!);
   };
 
   const PostItemProps = {

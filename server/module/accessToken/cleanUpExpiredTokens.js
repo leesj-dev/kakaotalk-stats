@@ -1,5 +1,7 @@
+const User = require("../../models/User");
+
 // 만료된 토큰 정리 작업 수행 함수
-exports.cleanUpExpiredTokens = async (User) => {
+exports.cleanUpExpiredTokens = async () => {
   try {
     const currentDate = new Date();
     await User.updateMany(
