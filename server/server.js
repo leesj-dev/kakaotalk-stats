@@ -3,16 +3,14 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 require("dotenv").config({ path: "../.env" });
-const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("./module/accessToken/authenticateToken");
 const { cleanUpExpiredTokens } = require("./module/accessToken/cleanUpExpiredTokens");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const { convertToKrTime } = require("./utilities/convertToKrTime");
-const { getAccessToken } = require("./module/accessToken/getAccessToken");
 const { User } = require("./models/User");
-const userRouter = require("./router/userRouter");
-const postRouter = require("./router/postRouter");
+const userRouter = require("./routers/userRouter");
+const postRouter = require("./routers/postRouter");
 const Post = require("./models/Post");
 const Comment = require("./models/Comment");
 

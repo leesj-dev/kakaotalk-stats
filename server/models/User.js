@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
-const kmgDB = mongoose;
 
 // 스키마 정의
-const userSchema = new kmgDB.Schema({
+const userSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: [true, "아이디를 입력하세요."],
@@ -24,6 +23,7 @@ const userSchema = new kmgDB.Schema({
   accessToken: { type: String },
   tokenExpiresAt: { type: Date, index: { expireAfterSeconds: 0 } },
 });
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
