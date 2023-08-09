@@ -6,10 +6,10 @@ import axios from "axios";
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
 import EditPostForm from "./EditPostForm";
+import { AccessToken, Comment, Post, UserData } from "../../../@types/index.d";
 
 const PostContainer = styled.div`
   margin-bottom: 3rem;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -107,14 +107,14 @@ const CurrentPostBox = styled(FlexRowDiv)`
 `;
 
 interface currentPostProps {
-  accessToken: any;
-  userData: any;
-  currentPost: any;
-  setCurrentPost: any;
-  comments: any;
-  setComments: any;
-  posts: any;
-  setPosts: any;
+  accessToken: AccessToken;
+  userData: UserData;
+  currentPost: Post | null;
+  comments: Comment[];
+  posts: Post[];
+  setCurrentPost: (post: Post | null) => void;
+  setComments: (comment: Comment[]) => void;
+  setPosts: (post: Post[]) => void;
 }
 
 const CurrentPost = ({
@@ -141,10 +141,21 @@ const CurrentPost = ({
     setComments,
   };
 
-  const { title, nickname, createdAt, content, userId } = currentPost;
-  const isAuthor = userData?.userId === userId;
+  let currentPostData = {
+    title: "",
+    nickname: "",
+    createdAt: "",
+    content: "",
+    userId: "",
+  };
 
-  const clickEditPost = async (e: React.FormEvent<HTMLButtonElement>, post: any) => {
+  if (currentPost) {
+    currentPostData = { ...currentPostData, ...currentPost };
+  }
+
+  const isSameAuthor = userData?.userId === currentPostData.userId;
+
+  const clickEditPost = async (e: React.FormEvent<HTMLButtonElement>, post: Post) => {
     e.preventDefault();
     try {
       const result = await axios.get(`/api/protected/posts/${post.postId}/edit/authorization`, {
@@ -155,7 +166,7 @@ const CurrentPost = ({
       console.log(`${post.title} 게시물 수정 권한 확인이 완료되었습니다.`);
       setTitleEdit(post.title);
       setContentEdit(post.content);
-      setIsPrivatePostEdit(post.isPrivateContent);
+      setIsPrivatePostEdit(post.isPrivate);
       setIsPostEditing(!isPostEditing);
       return console.log(result);
     } catch (error) {
@@ -163,7 +174,7 @@ const CurrentPost = ({
     }
   };
 
-  const deletePost = async (e: React.FormEvent<HTMLButtonElement>, post: any) => {
+  const deletePost = async (e: React.FormEvent<HTMLButtonElement>, post: Post) => {
     e.preventDefault();
     try {
       const result = await axios.delete(`/api/protected/posts/${post.postId}/delete`, {
@@ -174,7 +185,7 @@ const CurrentPost = ({
 
       console.log(`${post.title} 게시물 삭제가 완료되었습니다.`);
       const deletedPostId = result.data.post.postId;
-      setPosts(posts.filter((post: any) => post.postId !== deletedPostId));
+      setPosts(posts.filter((post: Post) => post.postId !== deletedPostId));
       setCurrentPost(null);
 
       return console.log(result);
@@ -196,8 +207,10 @@ const CurrentPost = ({
                 <UserContainer>
                   <CurrentPostProfile />
                   <UserBox>
-                    <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
-                    <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
+                    <CurrentPostAuthor>{currentPostData.nickname}</CurrentPostAuthor>
+                    <CurrentPostCreatedAt>
+                      {displayCreatedAt(currentPostData.createdAt)}
+                    </CurrentPostCreatedAt>
                   </UserBox>
                 </UserContainer>
                 <EditPostForm
@@ -230,15 +243,17 @@ const CurrentPost = ({
                   <UserContainer>
                     <CurrentPostProfile />
                     <UserBox>
-                      <CurrentPostAuthor>{nickname}</CurrentPostAuthor>
-                      <CurrentPostCreatedAt>{displayCreatedAt(createdAt)}</CurrentPostCreatedAt>
+                      <CurrentPostAuthor>{currentPostData.nickname}</CurrentPostAuthor>
+                      <CurrentPostCreatedAt>
+                        {displayCreatedAt(currentPostData.createdAt)}
+                      </CurrentPostCreatedAt>
                     </UserBox>
                   </UserContainer>
-                  <CurrentPostTitle>{title}</CurrentPostTitle>
-                  <CurrentPostContent>{content}</CurrentPostContent>
+                  <CurrentPostTitle>{currentPostData.title}</CurrentPostTitle>
+                  <CurrentPostContent>{currentPostData.content}</CurrentPostContent>
                 </PostInfo>
 
-                {isAuthor && (
+                {isSameAuthor && (
                   <PostButtonBox>
                     <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
                     <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>

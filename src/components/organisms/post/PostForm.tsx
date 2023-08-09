@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { AccessToken } from "../../../@types/index.d";
+import { AccessToken, Post } from "../../../@types/index.d";
 import PublishForm from "../../molecules/post/PublishForm";
 
 const FormContainer = styled.div`
@@ -48,8 +48,8 @@ const Textarea = styled.textarea`
 `;
 
 interface PostProps {
-  posts: any[];
-  setPosts: (post: any[]) => void;
+  posts: Post[];
+  setPosts: (post: Post[]) => void;
   accessToken: AccessToken;
 }
 
@@ -60,8 +60,8 @@ interface CreatePostData {
 }
 
 const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
   const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);
 
   const createPostData = {

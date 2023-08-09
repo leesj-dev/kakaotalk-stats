@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PostList from "../organisms/post/PostList";
-import { AccessToken, UserData } from "../../@types/index.d";
+import { AccessToken, Comment, Post, UserData } from "../../@types/index.d";
 import { useSelector } from "react-redux";
 import PostForm from "../organisms/post/PostForm";
 
@@ -12,27 +12,10 @@ const PostPageContainer = styled.div`
   max-width: 1240px;
 `;
 
-const PostPageTitle = styled.h1`
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-`;
-
 const NonePostContainer = styled.div`
   margin-bottom: 30px;
   font-size: 2rem;
 `;
-
-interface currentPostProps {
-  accessToken: any;
-  userData: any;
-  currentPost: any;
-  setCurrentPost: any;
-  comments: any;
-  setComments: any;
-  posts: any;
-  setPosts: any;
-}
 
 const PostPage = () => {
   const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
@@ -40,9 +23,9 @@ const PostPage = () => {
     (state: { userLoginAccessTokenSlice: AccessToken }) => state.userLoginAccessTokenSlice
   );
 
-  const [posts, setPosts] = useState<any>([]);
-  const [currentPost, setCurrentPost] = useState<any>(null);
-  const [comments, setComments] = useState<any>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [currentPost, setCurrentPost] = useState<Post | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -59,7 +42,13 @@ const PostPage = () => {
     (async () => await loadPosts())();
   }, []);
 
-  const currentPostData: currentPostProps = {
+  const PostFormProps = {
+    accessToken,
+    posts,
+    setPosts,
+  };
+
+  const currentPostData = {
     accessToken,
     userData,
     currentPost,
@@ -73,9 +62,8 @@ const PostPage = () => {
   return (
     <PostPageContainer>
       {/* 게시글작성폼 */}
-      <PostForm accessToken={accessToken} posts={posts} setPosts={setPosts} />
+      <PostForm {...PostFormProps} />
       {/* 게시글 */}
-      <PostPageTitle>게시판</PostPageTitle>
       {posts ? (
         <PostList {...currentPostData} />
       ) : (

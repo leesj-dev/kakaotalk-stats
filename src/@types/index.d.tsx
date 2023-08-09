@@ -96,3 +96,27 @@ export interface LoginSuccessData extends UserData {
 export type AccessToken = {
   accessToken: string;
 };
+
+export interface Post {
+  content: string;
+  createdAt: string;
+  isPrivate: boolean;
+  nickname: string;
+  postId: number;
+  title: string;
+  userId: string;
+  __v: number;
+  _id: string;
+}
+
+export interface Comment {
+  comment: string;
+  createdAt: string;
+  isPrivate: boolean;
+  nickname: string;
+  postId: number;
+  replies: [];
+  userId: string;
+  __v: number;
+  _id: string;
+}
