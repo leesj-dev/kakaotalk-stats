@@ -51,10 +51,10 @@ const PostList = ({
   posts,
   setPosts,
 }: currentPostProps) => {
-  const handleClickPost = async (post: Post) => {
+  const handleClickPost = (post: Post) => {
     // 동일한 포스트를 클릭한 경우에는 viewPost를 다시 동작하지 않도록 함
-    if (currentPost && currentPost.postId !== post.postId) {
-      await viewPost(post);
+    if (currentPost?.postId !== post.postId) {
+      viewPost(post);
     }
   };
 
@@ -103,7 +103,7 @@ const PostList = ({
               onClick={() => handleClickPost(post)}
               currentPost={currentPost?.postId === post.postId}
             >
-              {currentPost && currentPost.postId === post.postId ? (
+              {currentPost?.postId === post.postId ? (
                 <PostItem {...PostItemProps} post={post} isSameAuthor={isSameAuthor} />
               ) : (
                 <PostItem {...PostItemProps} post={post} />
