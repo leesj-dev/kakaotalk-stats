@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FaRegComment } from "react-icons/fa";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
 import axios from "axios";
 import { AccessToken } from "../../../@types/index.d";
+import CurrentPost from "./CurrentPost";
 const PostListContainer = styled.div`
   margin-bottom: 20px;
   display: flex;
@@ -70,7 +71,37 @@ interface PostListProps {
   setCurrentPost: (post: any) => void;
 }
 
-const PostList = ({ accessToken, posts, comments, setCurrentPost }: PostListProps) => {
+interface currentPostProps {
+  accessToken: any;
+  userData: any;
+  currentPost: any;
+  setCurrentPost: any;
+  comments: any;
+  setComments: any;
+  posts: any;
+  setPosts: any;
+}
+
+const PostList = ({
+  accessToken,
+  userData,
+  currentPost,
+  setCurrentPost,
+  comments,
+  setComments,
+  posts,
+  setPosts,
+}: currentPostProps) => {
+  const currentPostData: currentPostProps = {
+    accessToken,
+    userData,
+    currentPost,
+    setCurrentPost,
+    comments,
+    setComments,
+    posts,
+    setPosts,
+  };
   const viewPost = async (post: any) => {
     try {
       const result = await axios.get(`/api/posts/${post.postId}`, {
@@ -86,19 +117,42 @@ const PostList = ({ accessToken, posts, comments, setCurrentPost }: PostListProp
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const loadComments = async () => {
+      try {
+        if (currentPost) {
+          const result = await axios.get(`/api/posts/${currentPost.postId}/comments`);
+          setComments([...result.data]);
+          return console.log(result.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadComments();
+    (async () => await loadComments())();
+  }, [currentPost]);
+
   return (
     <PostListContainer>
       {posts.map((post: any) => (
         <Post key={post.postId} onClick={() => viewPost(post)}>
-          <PostTitle>{post.title}</PostTitle>
-          <PostContent>{post.content}</PostContent>
-          <PostMeta>
-            <CommentIcon>
-              <FaRegComment /> {comments.length}
-            </CommentIcon>
-            <CommentDate>{displayCreatedAt(post.createdAt)}</CommentDate>
-            <CommentNick>{post.nickname}</CommentNick>
-          </PostMeta>
+          {currentPost && currentPost.postId === post.postId ? (
+            <CurrentPost {...currentPostData} />
+          ) : (
+            <>
+              <PostTitle>{post.title}</PostTitle>
+              <PostContent>{post.content}</PostContent>
+              <PostMeta>
+                <CommentIcon>
+                  <FaRegComment /> {comments.length}
+                </CommentIcon>
+                <CommentDate>{displayCreatedAt(post.createdAt)}</CommentDate>
+                <CommentNick>{post.nickname}</CommentNick>
+              </PostMeta>
+            </>
+          )}
         </Post>
       ))}
     </PostListContainer>

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import CurrentPost from "../organisms/post/CurrentPost";
 import PostList from "../organisms/post/PostList";
 import { AccessToken, UserData } from "../../@types/index.d";
 import { useSelector } from "react-redux";
@@ -35,15 +34,6 @@ interface currentPostProps {
   setPosts: any;
 }
 
-// interface CommentListFormProps extends CommentProps {
-//   comment: any;
-//   setComment: any;
-// }
-// interface CommentListProps extends CommentProps {
-//   userData: any;
-//   isPostEditing: any;
-// }
-
 const PostPage = () => {
   const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
   const accessToken = useSelector(
@@ -69,23 +59,6 @@ const PostPage = () => {
     (async () => await loadPosts())();
   }, []);
 
-  useEffect(() => {
-    const loadComments = async () => {
-      try {
-        if (currentPost) {
-          const result = await axios.get(`/api/posts/${currentPost.postId}/comments`);
-          setComments([...result.data]);
-
-          return console.log(result.data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadComments();
-    (async () => await loadComments())();
-  }, [currentPost]);
-
   const currentPostData: currentPostProps = {
     accessToken,
     userData,
@@ -101,17 +74,10 @@ const PostPage = () => {
     <PostPageContainer>
       {/* 게시글작성폼 */}
       <PostForm accessToken={accessToken} posts={posts} setPosts={setPosts} />
-
-      {currentPost ? <CurrentPost {...currentPostData} /> : null}
       {/* 게시글 */}
       <PostPageTitle>게시판</PostPageTitle>
       {posts ? (
-        <PostList
-          accessToken={accessToken}
-          posts={posts}
-          setCurrentPost={setCurrentPost}
-          comments={comments}
-        />
+        <PostList {...currentPostData} />
       ) : (
         <NonePostContainer>게시물이 없습니다.</NonePostContainer>
       )}

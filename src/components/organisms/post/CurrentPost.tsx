@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FlexRowDiv } from "../../atoms/FlexDiv";
-import { AccessToken, UserData } from "../../../@types/index.d";
 import axios from "axios";
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
-import PostForm from "./PostForm";
 import EditPostForm from "./EditPostForm";
 
 const PostContainer = styled.div`
@@ -15,7 +13,6 @@ const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 1px solid #ccc;
   border-radius: 5px;
 `;
 
@@ -108,26 +105,6 @@ const EditButton = styled.button`
 const CurrentPostBox = styled(FlexRowDiv)`
   justify-content: space-between;
 `;
-
-// interface PostProps {
-//   userData: UserData;
-//   accessToken: AccessToken;
-//   currentPost: {
-//     title: string;
-//     nickname: string;
-//     createdAt: string;
-//     content: string;
-//     userId: string;
-//   };
-//   setTitleEdit: any;
-//   setContentEdit: any;
-//   isPostEditing: boolean;
-//   setIsPostEditing: any;
-//   setIsPrivatePostEdit: any;
-//   setPosts: any;
-//   setCurrentPost: any;
-//   posts: any;
-// }
 
 interface currentPostProps {
   accessToken: any;

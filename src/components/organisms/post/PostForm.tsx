@@ -119,7 +119,6 @@ const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
     <FormContainer>
       <FormGroup onSubmit={(e) => handleSubmitCreatePost(e, createPostData)}>
         <TitleBox>
-          {/* <Label>제목</Label> */}
           <Input
             type="text"
             value={title}
@@ -127,8 +126,6 @@ const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
             placeholder="제목을 작성해주세요"
           />
         </TitleBox>
-
-        {/* <Label>내용</Label> */}
         <Textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
