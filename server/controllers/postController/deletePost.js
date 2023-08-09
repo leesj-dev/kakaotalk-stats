@@ -1,3 +1,4 @@
+const Comment = require("../../models/Comment");
 const Post = require("../../models/Post");
 
 const deletePost = async (req, res) => {
@@ -22,6 +23,11 @@ const deletePost = async (req, res) => {
 
     // 게시글 삭제
     const deletedPost = await Post.findOneAndDelete({ postId });
+
+    // 게시물에 작성되어 있던 댓글 삭제
+    const deletedComments = await Comment.deleteMany({ postId });
+    const deletedComment = await Comment.deleteMany({});
+    console.log(deletedComment, "댓글무더기");
 
     console.log(`게시글 삭제 성공: postId - ${postId}`);
     res.status(200).json({

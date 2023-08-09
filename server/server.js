@@ -7,12 +7,8 @@ const { authenticateToken } = require("./module/accessToken/authenticateToken");
 const { cleanUpExpiredTokens } = require("./module/accessToken/cleanUpExpiredTokens");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const { convertToKrTime } = require("./utilities/convertToKrTime");
-const { User } = require("./models/User");
 const userRouter = require("./routers/userRouter");
 const postRouter = require("./routers/postRouter");
-const Post = require("./models/Post");
-const Comment = require("./models/Comment");
 
 const app = express();
 const port = process.env.PORT || 3000;
