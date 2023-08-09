@@ -4,6 +4,7 @@ import axios from "axios";
 import { AccessToken, Comment, Post, UserData } from "../../../@types/index.d";
 import CurrentPost from "./CurrentPost";
 import PostItem from "../../molecules/post/PostItem";
+import Loading from "../../molecules/common/Loading";
 
 const PostListContainer = styled.div`
   display: flex;
@@ -28,6 +29,11 @@ const PostItemBox = styled.li<{ currentPost: boolean }>`
     background: ${(props) => (props.currentPost ? "#fff" : "#00000010")};
     cursor: ${(props) => (props.currentPost ? "auto" : "pointer")};
   }
+`;
+
+const NonePostContainer = styled.div`
+  margin-bottom: 30px;
+  font-size: 2rem;
 `;
 
 interface currentPostProps {
@@ -93,25 +99,29 @@ const PostList = ({
   return (
     <PostListContainer>
       <PostPageTitle>게시판</PostPageTitle>
-      <PostListBox>
-        {posts.map((post: Post) => {
-          const isSameAuthor = userData?.userId === currentPost?.userId;
+      {posts.length ? (
+        <PostListBox>
+          {posts.map((post: Post) => {
+            const isSameAuthor = userData?.userId === currentPost?.userId;
 
-          return (
-            <PostItemBox
-              key={post.postId}
-              onClick={() => handleClickPost(post)}
-              currentPost={currentPost?.postId === post.postId}
-            >
-              {currentPost?.postId === post.postId ? (
-                <PostItem {...PostItemProps} post={post} isSameAuthor={isSameAuthor} />
-              ) : (
-                <PostItem {...PostItemProps} post={post} />
-              )}
-            </PostItemBox>
-          );
-        })}
-      </PostListBox>
+            return (
+              <PostItemBox
+                key={post.postId}
+                onClick={() => handleClickPost(post)}
+                currentPost={currentPost?.postId === post.postId}
+              >
+                {currentPost?.postId === post.postId ? (
+                  <PostItem {...PostItemProps} post={post} isSameAuthor={isSameAuthor} />
+                ) : (
+                  <PostItem {...PostItemProps} post={post} />
+                )}
+              </PostItemBox>
+            );
+          })}
+        </PostListBox>
+      ) : (
+        <NonePostContainer>게시물이 없습니다.</NonePostContainer>
+      )}
     </PostListContainer>
   );
 };
