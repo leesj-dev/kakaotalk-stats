@@ -16,9 +16,11 @@ const FormContainer = styled.div`
 `;
 
 const FormGroup = styled.form`
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+`;
+const WriteForm = styled.div`
+  padding: 10px;
 `;
 
 const Label = styled.label`
@@ -29,7 +31,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding: 8px 12px;
   width: 100%;
   border: 1px solid #ccc;
@@ -130,10 +132,13 @@ const EditPostForm = ({
           editPost(e, currentPost);
         }}
       >
-        <Label>제목</Label>
-        <Input type="text" value={titleEdit} onChange={(e) => setTitleEdit(e.target.value)} />
-        <Label>내용</Label>
-        <Textarea value={contentEdit} onChange={(e) => setContentEdit(e.target.value)} />
+        <WriteForm>
+          <Label>제목</Label>
+          <Input type="text" value={titleEdit} onChange={(e) => setTitleEdit(e.target.value)} />
+          <Label>내용</Label>
+          <Textarea value={contentEdit} onChange={(e) => setContentEdit(e.target.value)} />
+        </WriteForm>
+
         <PublishForm
           isChecked={isPrivatePostEdit}
           onCheckboxChange={(e: { target: { checked: any } }) => setIsPrivatePostEdit(e.target.checked)}

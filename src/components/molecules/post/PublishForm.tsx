@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 const PublishBox = styled.div`
-  padding: 20px;
+  padding: 20px 10px;
   border-top: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
@@ -20,9 +20,7 @@ const Label = styled.label`
   font-weight: bold;
 `;
 
-const CheckBox = styled.input`
-  margin-bottom: 5px;
-`;
+const CheckBox = styled.input``;
 
 const SubmitButton = styled.button`
   padding: 8px 12px;

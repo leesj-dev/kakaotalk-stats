@@ -20,7 +20,9 @@ const PostContent = styled.div<{ isPostEditing?: boolean }>`
   justify-content: space-between;
 `;
 
-const PostInfo = styled.div``;
+const PostInfo = styled.div`
+  width: 100%;
+`;
 
 const UserContainer = styled(FlexRowDiv)`
   gap: 10px;
@@ -36,6 +38,10 @@ const CurrentPostProfile = styled.div`
 `;
 
 const UserBox = styled.div``;
+const CurrentPostInfoBox = styled.div``;
+const CurrentPostEditContainer = styled(FlexRowDiv)`
+  justify-content: space-between;
+`;
 
 const CurrentPostAuthor = styled.div`
   margin-bottom: 5px;
@@ -216,21 +222,23 @@ const PostItem = ({
           {isPostEditing ? (
             <EditPostForm {...editPostFormProps} />
           ) : (
-            <>
-              <CurrentPostTitle>{post.title}</CurrentPostTitle>
-              <CurrentPostContent>{post.content}</CurrentPostContent>
-            </>
+            <CurrentPostEditContainer>
+              <CurrentPostInfoBox>
+                <CurrentPostTitle>{post.title}</CurrentPostTitle>
+                <CurrentPostContent>{post.content}</CurrentPostContent>
+              </CurrentPostInfoBox>
+              {isSameAuthor && (
+                <PostButtonBox>
+                  <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
+                  <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
+                </PostButtonBox>
+              )}
+            </CurrentPostEditContainer>
           )}
           <CommentIcon>
             <FaRegComment /> {comments.length}
           </CommentIcon>
         </PostInfo>
-        {isSameAuthor && (
-          <PostButtonBox>
-            <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
-            <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
-          </PostButtonBox>
-        )}
       </PostContent>
       {currentPost && currentPost.postId === post.postId && (
         <>
