@@ -32,15 +32,6 @@ mongoose
     console.error("MongoDB 연결에 실패했습니다.", error);
   });
 
-const autoIncrementSchema = new mongoose.Schema({
-  model: String, // Auto-increment를 적용할 대상 컬렉션의 이름
-  field: String, // Auto-increment를 적용할 필드의 이름
-  count: { type: Number, default: 0 }, // 현재까지 사용된 숫자 카운트
-});
-
-// 모델 정의
-const Counter = mongoose.model("Counter", autoIncrementSchema);
-
 // 미들웨어
 app.use(cors());
 app.use(express.json());
@@ -51,102 +42,9 @@ app.use(bodyParser.json());
 app.use("/api/protected", authenticateToken(accessTokenSecretKey));
 
 app.use("/api/users", userRouter);
+app.use("/api/protected/users", userRouter);
 app.use("/api/posts", postRouter);
-
-//로그아웃
-app.post("/api/protected/users/signout", async (req, res) => {
-  console.log(req.path);
-  try {
-    const { userId } = res.locals;
-    console.log(`로그아웃 시도: userId - [${userId}]`);
-
-    // 클라이언트의 db에 존재하는 refreshToken 데이터 초기화
-    const updatedUser = await User.findOneAndUpdate(
-      { userId },
-      { tokenExpiresAt: "", refreshToken: "" },
-      { new: true } // 옵션을 설정하여 업데이트된 결과를 반환
-    );
-
-    // 로그아웃 성공 시
-    if (updatedUser) {
-      console.log(`로그아웃 성공: userId - [${userId}]`);
-      res.clearCookie("accessToken"); // 클라이언트 쿠키 초기화
-      return res.status(200).json({ message: "로그아웃 되었습니다." });
-    } else {
-      // 로그아웃 실패 시
-      return res.status(400).json({ error: "로그아웃에 실패하였습니다." });
-    }
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "서버 오류가 발생하였습니다." });
-  }
-});
-
-//회원 탈퇴
-app.delete("/api/protected/users/:userId/withdraw", async (req, res) => {
-  console.log(req.path);
-  try {
-    const { userId } = res.locals;
-    console.log(`회원탈퇴 시도: userId - [${userId}]`);
-
-    // db에 존재하는 user 데이터 삭제
-    await User.deleteOne({ userId });
-
-    // 클라이언트 쿠키 정리
-    res.clearCookie("accessToken");
-    console.log(`회원탈퇴 성공: userId - [${userId}]`);
-    res.status(200).json({ message: `${userId}님의 회원탈퇴가 완료되었습니다.` });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "회원탈퇴 작업 수행 중 문제가 발생하였습니다." });
-  }
-});
-
-// 게시글 작성
-app.post("/api/protected/posts/create", async (req, res) => {
-  console.log(req.path);
-  try {
-    const { title, content, isPrivate } = req.body;
-    const { userId, nickname } = res.locals;
-
-    console.log(`게시글 작성 시도: userId - ${userId}`);
-
-    // 작성될 게시글 정보
-    const currentCounter = await Counter.find({ model: "Post" });
-    const newPost = {
-      postId: currentCounter[0].count + 1,
-      userId,
-      nickname,
-      title,
-      content,
-      createdAt: convertToKrTime(new Date()), // 현재 시간을 한국 시간으로 변환하여 저장
-      isPrivate,
-    };
-
-    const postResult = await Post.create(newPost);
-
-    // count 값 증가 후, 현재 값을 가져옴
-    await Counter.findOneAndUpdate(
-      { model: "Post" },
-      { $inc: { count: 1 } },
-      { new: true, upsert: true }
-    );
-
-    // 게시글 작성 성공
-    console.log(`게시글 작성 성공: userId - ${userId}`);
-    res.status(200).json({
-      message: `게시글 (${title})의 작성이 완료되었습니다.`,
-      post: postResult,
-    });
-  } catch (error) {
-    if (error._message === "Post validation failed") {
-      return res.status(400).json({ message: "글 제목 또는 내용을 입력해야 합니다." });
-    }
-
-    console.error(error);
-    res.status(500).json({ message: "게시글 작성 작업 수행 중 문제가 발생하였습니다.", result: [] });
-  }
-});
+app.use("/api/protected/posts", postRouter);
 
 // 게시글 수정 권한 확인
 app.get("/api/protected/posts/:postId/edit/authorization", async (req, res) => {
@@ -375,27 +273,27 @@ app.put("/api/protected/posts/:postId/comments/:commentId", async (req, res) => 
   }
 });
 
-// 대댓글 작성
-app.post("/api/comments/:commentId/replies", async (req, res) => {
-  try {
-    const { commentId } = req.params;
-    const { comment, author } = req.body;
+// 대댓글 작성 (기능 미구현)
+// app.post("/api/comments/:commentId/replies", async (req, res) => {
+//   try {
+//     const { commentId } = req.params;
+//     const { comment, author } = req.body;
 
-    const parentComment = await Comment.findById(commentId);
-    if (!parentComment) {
-      return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
-    }
+//     const parentComment = await Comment.findById(commentId);
+//     if (!parentComment) {
+//       return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
+//     }
 
-    const newReply = { comment, author };
-    parentComment.replies.push(newReply);
-    await parentComment.save();
+//     const newReply = { comment, author };
+//     parentComment.replies.push(newReply);
+//     await parentComment.save();
 
-    res.status(201).json(parentComment);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "서버 에러" });
-  }
-});
+//     res.status(201).json(parentComment);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "서버 에러" });
+//   }
+// });
 
 // 댓글 삭제
 app.delete("/api/protected/posts/:postId/comments/:commentId", async (req, res) => {

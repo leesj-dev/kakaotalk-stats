@@ -1,4 +1,4 @@
-const { User } = require("../../models/User");
+const User = require("../../models/User");
 const { hashPassword } = require("../../module/hashPassword/hashPassword");
 
 const createUser = async (req, res) => {

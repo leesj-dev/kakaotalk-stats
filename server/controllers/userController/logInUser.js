@@ -5,7 +5,7 @@ const { createAccessToken } = require("../../module/accessToken/createAccessToke
 const { verifyToken } = require("../../module/accessToken/jwtVerifyToken");
 const User = require("../../models/User");
 
-const loginUser = async (req, res) => {
+const logInUser = async (req, res) => {
   console.log(req.path);
 
   try {
@@ -119,4 +119,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = loginUser;
+module.exports = logInUser;
