@@ -5,6 +5,7 @@ import { displayCreatedAt } from "../../../module/common/postTime";
 import { FlexColumnDiv, FlexRowDiv } from "../../atoms/FlexDiv";
 import { AccessToken, UserData } from "../../../@types/index.d";
 import axios from "axios";
+import PublishForm from "../../molecules/post/PublishForm";
 
 const CommentContainer = styled.div`
   border-radius: 5px;
@@ -97,50 +98,6 @@ const EditCommentInput = styled.input`
   width: 100%;
   border-radius: 4px;
   border: 1px solid #ccc;
-`;
-
-const PublishBox = styled(FlexRowDiv)`
-  padding: 10px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const CheckBoxWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-`;
-
-const CheckBox = styled.input`
-  margin-right: 5px;
-`;
-
-const Label = styled.label`
-  margin-right: 5px;
-  margin-bottom: 5px;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-`;
-// 버튼 스타일
-const Button = styled.button`
-  padding: 8px 12px;
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const SubmitCommentButton = styled(Button)`
-  width: 10%;
 `;
 
 interface CommentListProps {
@@ -292,17 +249,15 @@ const CommentList = ({
                       value={editComment}
                       onChange={(e) => setEditComment(e.target.value)}
                     />
-                    <PublishBox>
-                      <CheckBoxWrapper>
-                        <Label>비밀글</Label>
-                        <CheckBox
-                          type="checkbox"
-                          checked={editIsPrivateComment}
-                          onChange={(e) => handleEditPrivateCommentChange(e.target.checked)}
-                        />
-                      </CheckBoxWrapper>
-                      <SubmitCommentButton type="submit">댓글 수정하기</SubmitCommentButton>
-                    </PublishBox>
+
+                    <PublishForm
+                      isChecked={editIsPrivateComment}
+                      onCheckboxChange={(e: { target: { checked: any } }) =>
+                        handleEditPrivateCommentChange(e.target.checked)
+                      }
+                      current="댓글 수정하기"
+                      onSubmit={null}
+                    />
                   </FormGroup>
                 </CommentFormContainer>
               ) : (

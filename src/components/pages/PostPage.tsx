@@ -102,7 +102,7 @@ const PostPage = () => {
       {/* 게시글작성폼 */}
       <PostForm accessToken={accessToken} posts={posts} setPosts={setPosts} />
 
-      {currentPost ? <CurrentPost {...currentPostData} /> : <div>No post selected.</div>}
+      {currentPost ? <CurrentPost {...currentPostData} /> : null}
       {/* 게시글 */}
       <PostPageTitle>게시판</PostPageTitle>
       {posts ? (
