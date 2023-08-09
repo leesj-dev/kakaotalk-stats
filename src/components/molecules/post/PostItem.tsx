@@ -187,6 +187,21 @@ const PostItem = ({
     setComments,
   };
 
+  const editPostFormProps = {
+    accessToken,
+    posts,
+    currentPost,
+    contentEdit,
+    isPrivatePostEdit,
+    titleEdit,
+    setPosts,
+    setCurrentPost,
+    setIsPostEditing,
+    setContentEdit,
+    setIsPrivatePostEdit,
+    setTitleEdit,
+  };
+
   return (
     <CurrentPostBox>
       <PostContent>
@@ -199,20 +214,7 @@ const PostItem = ({
             </UserBox>
           </UserContainer>
           {isPostEditing ? (
-            <EditPostForm
-              accessToken={accessToken}
-              posts={posts}
-              setPosts={setPosts}
-              currentPost={currentPost}
-              setCurrentPost={setCurrentPost}
-              setIsPostEditing={setIsPostEditing}
-              contentEdit={contentEdit}
-              setContentEdit={setContentEdit}
-              isPrivatePostEdit={isPrivatePostEdit}
-              setIsPrivatePostEdit={setIsPrivatePostEdit}
-              titleEdit={titleEdit}
-              setTitleEdit={setTitleEdit}
-            />
+            <EditPostForm {...editPostFormProps} />
           ) : (
             <>
               <CurrentPostTitle>{post.title}</CurrentPostTitle>
