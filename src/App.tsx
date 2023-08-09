@@ -28,7 +28,6 @@ function App() {
   useEffect(() => {
     const cookieCheckForRememberLogin = async () => {
       const cookieAccessToken = getTokenFromCookie(document.cookie);
-      console.log(cookieAccessToken);
       if (cookieAccessToken) {
         const result = await axios.post("/api/users/login", null, {
           headers: {
@@ -41,10 +40,6 @@ function App() {
     };
     (async () => cookieCheckForRememberLogin())();
   }, []);
-
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
 
   return (
     <>

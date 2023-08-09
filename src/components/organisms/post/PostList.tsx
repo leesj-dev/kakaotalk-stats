@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import axios from "axios";
 import { AccessToken, Comment, Post, UserData } from "../../../@types/index.d";
 import CurrentPost from "./CurrentPost";
@@ -18,12 +18,16 @@ const PostPageTitle = styled.h1`
 
 const PostListBox = styled.ul``;
 
-const PostItemBox = styled.li`
+const PostItemBox = styled.li<{ currentPost: boolean }>`
   margin-bottom: 1rem;
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  cursor: pointer;
+
+  &:hover {
+    background: ${(props) => (props.currentPost ? "#fff" : "#00000010")};
+    cursor: ${(props) => (props.currentPost ? "auto" : "pointer")};
+  }
 `;
 
 interface currentPostProps {
@@ -47,21 +51,15 @@ const PostList = ({
   posts,
   setPosts,
 }: currentPostProps) => {
-  const currentPostProps: currentPostProps = {
-    accessToken,
-    userData,
-    currentPost,
-    setCurrentPost,
-    comments,
-    setComments,
-    posts,
-    setPosts,
+  const handleClickPost = async (post: Post) => {
+    // 동일한 포스트를 클릭한 경우에는 viewPost를 다시 동작하지 않도록 함
+    if (currentPost && currentPost.postId !== post.postId) {
+      await viewPost(post);
+    }
   };
 
-  const viewPost = async (e: React.MouseEvent, post: Post) => {
-    e.stopPropagation();
-    console.log("조회함");
-
+  // 게시물 조회 요청
+  const requestPostData = async (post: Post) => {
     try {
       const result = await axios.get(`/api/posts/${post.postId}`, {
         headers: {
@@ -70,11 +68,15 @@ const PostList = ({
       });
 
       console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
-      setCurrentPost(result.data.post);
-      return console.log(result);
+      return result.data.post;
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const viewPost = async (post: Post) => {
+    const postData = await requestPostData(post);
+    setCurrentPost(postData);
   };
 
   const PostItemProps = {
@@ -96,7 +98,11 @@ const PostList = ({
           const isSameAuthor = userData?.userId === currentPost?.userId;
 
           return (
-            <PostItemBox key={post.postId} onClick={(e) => viewPost(e, post)}>
+            <PostItemBox
+              key={post.postId}
+              onClick={() => handleClickPost(post)}
+              currentPost={currentPost?.postId === post.postId}
+            >
               {currentPost && currentPost.postId === post.postId ? (
                 <PostItem {...PostItemProps} post={post} isSameAuthor={isSameAuthor} />
               ) : (
