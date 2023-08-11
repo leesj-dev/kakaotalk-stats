@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import axios from "axios";
 import { AccessToken, Comment, Post, UserData } from "../../../@types/index.d";
-import CurrentPost from "./CurrentPost";
 import PostItem from "../../molecules/post/PostItem";
 import Loading from "../../molecules/common/Loading";
 
@@ -117,7 +116,6 @@ const PostList = ({
         <PostListBox>
           {posts.map((post: Post) => {
             const isSameAuthor = userData?.userId === currentPost?.userId;
-
             return (
               <PostItemBox
                 key={post.postId}

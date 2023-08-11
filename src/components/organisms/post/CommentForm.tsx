@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { AccessToken } from "../../../@types/index.d";
+import { AccessToken, Comment, Post } from "../../../@types/index.d";
 import PublishForm from "../../molecules/post/PublishForm";
 
 const CommentFormContainer = styled.div`
@@ -28,13 +28,15 @@ const TextArea = styled.textarea`
   }
 `;
 
-interface CommentProps {
+interface CommentFormProps {
   accessToken: AccessToken;
-  currentPost: any;
+  currentPost: Post | null;
   comment: string;
-  setComment: any;
-  comments: any;
-  setComments: any;
+  comments: Comment[];
+  commentCount: number;
+  setComment: (comment: string) => void;
+  setComments: (comment: Comment[]) => void;
+  setCommentCount: (commentCount: number) => void;
 }
 
 const CommentForm = ({
@@ -44,7 +46,9 @@ const CommentForm = ({
   setComment,
   comments,
   setComments,
-}: CommentProps) => {
+  commentCount,
+  setCommentCount,
+}: CommentFormProps) => {
   const [isPrivateComment, setIsPrivateComment] = useState<boolean>(false);
 
   const initializeCommentForm = () => {
@@ -79,6 +83,7 @@ const CommentForm = ({
 
       console.log(`${comment} 댓글 작성이 완료되었습니다.`);
       initializeCommentForm();
+      setCommentCount(commentCount + 1);
       setComments([...comments, result.data.comment]);
       return console.log(result);
     } catch (error) {

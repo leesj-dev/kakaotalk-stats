@@ -61,9 +61,7 @@ const PostPage = () => {
 
   return (
     <PostPageContainer>
-      {/* 게시글작성폼 */}
       <PostForm {...PostFormProps} />
-      {/* 게시글 */}
       {posts ? (
         <PostList {...currentPostData} />
       ) : (

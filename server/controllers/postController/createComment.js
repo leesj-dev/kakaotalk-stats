@@ -26,7 +26,7 @@ const createComment = async (req, res) => {
       createdAt: convertToKrTime(new Date()),
     });
 
-    await Post.findOneAndUpdate({ postId: postId }, { $inc: { commentCount: 1 } });
+    await Post.findOneAndUpdate({ postId }, { $inc: { commentCount: 1 } });
 
     // 댓글 작성 성공
     console.log(`댓글 작성 성공: userId - ${userId}`);

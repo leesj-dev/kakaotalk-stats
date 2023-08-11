@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexColumnDiv, FlexRowDiv } from "../../atoms/FlexDiv";
 import { displayCreatedAt } from "../../../module/common/postTime";
@@ -137,11 +137,12 @@ const PostItem = ({
   setPosts,
   setCurrentPost,
 }: PostItemProps) => {
-  const [titleEdit, setTitleEdit] = useState("");
-  const [contentEdit, setContentEdit] = useState("");
+  const [titleEdit, setTitleEdit] = useState<string>("");
+  const [contentEdit, setContentEdit] = useState<string>("");
   const [isPrivatePostEdit, setIsPrivatePostEdit] = useState<boolean>(false);
   const [isPostEditing, setIsPostEditing] = useState<boolean>(false);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState<string>("");
+  const [commentCount, setCommentCount] = useState<number>(post.commentCount);
 
   const clickEditPost = async (e: React.FormEvent<HTMLButtonElement>, post: Post | null) => {
     e.preventDefault();
@@ -236,14 +237,21 @@ const PostItem = ({
             </CurrentPostEditContainer>
           )}
           <CommentIcon>
-            <FaRegComment /> {comments.length}
+            <FaRegComment />
+            {commentCount}
           </CommentIcon>
         </PostInfo>
       </PostContent>
       {currentPost && currentPost.postId === post.postId && (
         <>
           <CommentList {...commonData} userData={userData} isPostEditing={isPostEditing} />
-          <CommentForm {...commonData} comment={comment} setComment={setComment} />
+          <CommentForm
+            {...commonData}
+            comment={comment}
+            setComment={setComment}
+            commentCount={commentCount}
+            setCommentCount={setCommentCount}
+          />
         </>
       )}
     </CurrentPostBox>
