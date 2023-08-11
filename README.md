@@ -68,9 +68,10 @@
 - Microsoft Edge
 
 
-## 업데이트
+## 릴리스 업데이트
+* [v0.2.5-beta - 23-08-12](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.5-beta)
+  * 게시물의 댓글 갯수 표시 기능 추가 
 * [v0.2.4 - 23-08-08](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.4)
-  * 댓글 기능 추가
 * [v0.2.3-beta - 23-08-02](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.3-beta)
   * 댓글 기능 추가
 * [v0.2.2 - 23-07-30](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.2)
