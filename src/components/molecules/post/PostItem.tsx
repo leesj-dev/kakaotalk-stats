@@ -115,14 +115,14 @@ const DeleteButton = styled.button`
 interface PostItemProps {
   post: Post;
   isSameAuthor?: boolean;
-  comments: Comment[];
   accessToken: AccessToken;
-  posts: Post[];
-  currentPost: Post | null;
   userData: UserData;
-  setComments: (comment: Comment[]) => void;
-  setPosts: (post: Post[]) => void;
-  setCurrentPost: (post: Post | null) => void;
+  comments: Comment[];
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  posts: Post[];
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
+  currentPost: Post | null;
+  setCurrentPost: React.Dispatch<React.SetStateAction<Post | null>>;
 }
 
 const PostItem = ({

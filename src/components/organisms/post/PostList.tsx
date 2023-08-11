@@ -18,15 +18,15 @@ const PostPageTitle = styled.h1`
 
 const PostListBox = styled.ul``;
 
-const PostItemBox = styled.li<{ currentPost: boolean }>`
+const PostItemBox = styled.li<{ isSamePost: boolean }>`
   margin-bottom: 1rem;
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 5px;
 
   &:hover {
-    background: ${(props) => (props.currentPost ? "#fff" : "#00000010")};
-    cursor: ${(props) => (props.currentPost ? "auto" : "pointer")};
+    background: ${(props) => (props.isSamePost ? "#fff" : "#00000010")};
+    cursor: ${(props) => (props.isSamePost ? "auto" : "pointer")};
   }
 `;
 
@@ -39,11 +39,11 @@ interface currentPostProps {
   accessToken: AccessToken;
   userData: UserData;
   currentPost: Post | null;
+  setCurrentPost: React.Dispatch<React.SetStateAction<Post | null>>;
   comments: Comment[];
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
   posts: Post[];
-  setCurrentPost: (post: Post | null) => void;
-  setComments: (comment: Comment[]) => void;
-  setPosts: (post: Post[]) => void;
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 }
 
 const PostList = ({
@@ -116,17 +116,14 @@ const PostList = ({
         <PostListBox>
           {posts.map((post: Post) => {
             const isSameAuthor = userData?.userId === currentPost?.userId;
+            const isSamePost = currentPost?.postId === post.postId;
             return (
               <PostItemBox
                 key={post.postId}
                 onClick={() => handleClickPost(post)}
-                currentPost={currentPost?.postId === post.postId}
+                isSamePost={isSamePost}
               >
-                {currentPost?.postId === post.postId ? (
-                  <PostItem {...PostItemProps} post={post} isSameAuthor={isSameAuthor} />
-                ) : (
-                  <PostItem {...PostItemProps} post={post} />
-                )}
+                <PostItem {...PostItemProps} post={post} isSameAuthor={isSameAuthor} />
               </PostItemBox>
             );
           })}

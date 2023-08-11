@@ -28,7 +28,7 @@ const PostPage = () => {
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
-    const loadPosts = async () => {
+    const loadInitialPosts = async () => {
       try {
         const result = await axios.get("/api/posts");
         console.log(`게시물 조회가 완료되었습니다.`);
@@ -39,7 +39,7 @@ const PostPage = () => {
       }
     };
 
-    (async () => await loadPosts())();
+    (async () => await loadInitialPosts())();
   }, []);
 
   const PostFormProps = {

@@ -34,9 +34,9 @@ interface CommentFormProps {
   comment: string;
   comments: Comment[];
   commentCount: number;
-  setComment: (comment: string) => void;
-  setComments: (comment: Comment[]) => void;
-  setCommentCount: (commentCount: number) => void;
+  setComment: React.Dispatch<React.SetStateAction<string>>;
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  setCommentCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const CommentForm = ({
