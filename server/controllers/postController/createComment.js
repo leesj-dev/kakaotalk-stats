@@ -1,4 +1,5 @@
 const Comment = require("../../models/Comment");
+const Post = require("../../models/Post");
 const { convertToKrTime } = require("../../utilities/convertToKrTime");
 
 const createComment = async (req, res) => {
@@ -24,6 +25,8 @@ const createComment = async (req, res) => {
       isPrivateComment,
       createdAt: convertToKrTime(new Date()),
     });
+
+    await Post.findOneAndUpdate({ postId: postId }, { $inc: { commentCount: 1 } });
 
     // 댓글 작성 성공
     console.log(`댓글 작성 성공: userId - ${userId}`);
