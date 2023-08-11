@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import styled, { css } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import { AccessToken, Comment, Post, UserData } from "../../../@types/index.d";
 import PostItem from "../../molecules/post/PostItem";
-import Loading from "../../molecules/common/Loading";
+import { useSelector } from "react-redux";
 
 const PostListContainer = styled.div`
   display: flex;
@@ -37,25 +37,16 @@ const NonePostContainer = styled.div`
 
 interface currentPostProps {
   accessToken: AccessToken;
-  userData: UserData;
-  currentPost: Post | null;
-  setCurrentPost: React.Dispatch<React.SetStateAction<Post | null>>;
-  comments: Comment[];
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
   posts: Post[];
   setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 }
 
-const PostList = ({
-  accessToken,
-  userData,
-  currentPost,
-  setCurrentPost,
-  comments,
-  setComments,
-  posts,
-  setPosts,
-}: currentPostProps) => {
+const PostList = ({ accessToken, posts, setPosts }: currentPostProps) => {
+  const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
+
+  const [currentPost, setCurrentPost] = useState<Post | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+
   const handleClickPost = (post: Post) => {
     // 동일한 포스트를 클릭한 경우에는 viewPost를 다시 동작하지 않도록 함
     if (currentPost?.postId !== post.postId) {
@@ -99,11 +90,11 @@ const PostList = ({
   };
 
   const PostItemProps = {
-    userData,
-    comments,
     accessToken,
-    posts,
-    currentPost,
+    userData, //
+    comments,
+    posts, //
+    currentPost, //
     setComments,
     setPosts,
     setCurrentPost,
@@ -115,7 +106,7 @@ const PostList = ({
       {posts.length ? (
         <PostListBox>
           {posts.map((post: Post) => {
-            const isSameAuthor = userData?.userId === currentPost?.userId;
+            const isSameAuthor = userData?.userId === post?.userId;
             const isSamePost = currentPost?.postId === post.postId;
             return (
               <PostItemBox
