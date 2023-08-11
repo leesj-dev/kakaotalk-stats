@@ -101,21 +101,25 @@ const EditCommentInput = styled.input`
 `;
 
 interface CommentListProps {
-  comments: Comment[];
   userData: UserData;
   accessToken: AccessToken;
   currentPost: Post | null;
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
   isPostEditing: boolean;
+  comments: Comment[];
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  commentCount: number;
+  setCommentCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const CommentList = ({
   accessToken,
-  comments,
   userData,
   currentPost,
-  setComments,
   isPostEditing,
+  comments,
+  setComments,
+  commentCount,
+  setCommentCount,
 }: CommentListProps) => {
   const [editingCommentId, setEditingCommentId] = useState<String>("");
   const [editComment, setEditComment] = useState<string>();
@@ -166,6 +170,7 @@ const CommentList = ({
       const copiedComments = [...comments];
       const afterDeletedComments = copiedComments.filter((item) => item._id !== comment._id);
       setComments([...afterDeletedComments]);
+      setCommentCount(commentCount - 1);
       return console.log(result);
     } catch (error) {
       console.error(error);

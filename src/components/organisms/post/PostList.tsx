@@ -114,7 +114,12 @@ const PostList = ({ accessToken, posts, setPosts }: currentPostProps) => {
                 onClick={() => handleClickPost(post)}
                 isSamePost={isSamePost}
               >
-                <PostItem {...PostItemProps} post={post} isSameAuthor={isSameAuthor} />
+                <PostItem
+                  {...PostItemProps}
+                  post={post}
+                  isSameAuthor={isSameAuthor}
+                  isSamePost={isSamePost}
+                />
               </PostItemBox>
             );
           })}

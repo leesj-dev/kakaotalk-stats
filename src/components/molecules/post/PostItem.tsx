@@ -118,10 +118,11 @@ interface PostItemProps {
   accessToken: AccessToken;
   userData: UserData;
   comments: Comment[];
-  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  isSamePost: boolean;
   posts: Post[];
-  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
   currentPost: Post | null;
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
   setCurrentPost: React.Dispatch<React.SetStateAction<Post | null>>;
 }
 
@@ -133,6 +134,7 @@ const PostItem = ({
   posts,
   currentPost,
   userData,
+  isSamePost,
   setComments,
   setPosts,
   setCurrentPost,
@@ -191,12 +193,12 @@ const PostItem = ({
     currentPost,
     comments,
     setComments,
+    commentCount,
+    setCommentCount,
   };
 
   const commentFormProps = {
     ...commonData,
-    commentCount,
-    setCommentCount,
   };
 
   const commentListProps = {
@@ -239,7 +241,7 @@ const PostItem = ({
                 <CurrentPostTitle>{post.title}</CurrentPostTitle>
                 <CurrentPostContent>{post.content}</CurrentPostContent>
               </CurrentPostInfoBox>
-              {isSameAuthor && (
+              {isSamePost && isSameAuthor && (
                 <PostButtonBox>
                   <EditButton onClick={(e) => clickEditPost(e, currentPost)}>수정</EditButton>
                   <DeleteButton onClick={(e) => deletePost(e, currentPost)}>삭제</DeleteButton>
