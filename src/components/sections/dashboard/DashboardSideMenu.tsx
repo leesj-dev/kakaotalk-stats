@@ -141,11 +141,17 @@ const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({
   const closeMenu = () => {
     dispatch(setIsSideMenuChatRoom(false));
   };
+
+  const graphProps = {
+    analyzedMessages,
+    selectedChatRoomIndex,
+  };
+
   return (
     <DashboardLayoutBox isSideMenu={isSideMenu}>
       <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
       <ChatroomGraphBox>
-        <SummaryPieGraph />
+        <SummaryPieGraph {...graphProps} />
       </ChatroomGraphBox>
       <ChatroomListBox>
         {chatRoomNames.map((name, index) => {
