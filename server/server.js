@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const userRouter = require("./routers/userRouter");
 const postRouter = require("./routers/postRouter");
+const getDummy = require("./controllers/postController/getDummy");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -42,30 +43,9 @@ app.use("/api/protected/users", userRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/protected/posts", postRouter);
 
-// 대댓글 작성 (기능 미구현)
-// app.post("/api/comments/:commentId/replies", async (req, res) => {
-//   try {
-//     const { commentId } = req.params;
-//     const { comment, author } = req.body;
-
-//     const parentComment = await Comment.findById(commentId);
-//     if (!parentComment) {
-//       return res.status(404).json({ message: "댓글을 찾을 수 없습니다." });
-//     }
-
-//     const newReply = { comment, author };
-//     parentComment.replies.push(newReply);
-//     await parentComment.save();
-
-//     res.status(201).json(parentComment);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "서버 에러" });
-//   }
-// });
+app.get("/api/dummy", getDummy);
 
 // 주기적으로 만료된 토큰 정리 작업 수행
-
 setInterval(() => {
   cleanUpExpiredTokens();
 }, 10 * 60 * 1000);
