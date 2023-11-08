@@ -154,12 +154,10 @@ const PostItem = ({
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log(`${post.title} 게시물 수정 권한 확인이 완료되었습니다.`);
         setTitleEdit(post.title);
         setContentEdit(post.content);
         setIsPrivatePostEdit(post.isPrivate);
         setIsPostEditing(!isPostEditing);
-        return console.log(result);
       }
     } catch (error) {
       console.error(error);
@@ -167,7 +165,6 @@ const PostItem = ({
   };
 
   const deletePost = async (e: React.FormEvent<HTMLButtonElement>, post: Post | null) => {
-    console.log(post, "??");
     e.preventDefault();
     try {
       if (post) {
@@ -177,11 +174,9 @@ const PostItem = ({
           },
         });
 
-        console.log(`${post.title} 게시물 삭제가 완료되었습니다.`);
         const deletedPostId = result.data.post.postId;
         setPosts(posts.filter((post: Post) => post.postId !== deletedPostId));
         setCurrentPost(null);
-        return console.log(result);
       }
     } catch (error) {
       console.error(error);

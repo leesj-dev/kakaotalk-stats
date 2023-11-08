@@ -59,7 +59,6 @@ const PostList = ({ accessToken, posts, setPosts }: currentPostProps) => {
         },
       });
 
-      console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
       const postData = result.data.post;
       return postData;
     } catch (error) {

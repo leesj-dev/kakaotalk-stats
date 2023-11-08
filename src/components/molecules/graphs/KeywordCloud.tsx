@@ -195,10 +195,6 @@ const KeywordCloud = () => {
   dispatch(setNfKeywordCount(chatRoomsNFKeywordCounts));
   dispatch(setSpeakersTopNKeywords(keywordData));
 
-  useEffect(() => {
-    console.log(keywordToFilter);
-  }, [keywordToFilter]);
-
   return (
     <ul>
       {/* 키워드

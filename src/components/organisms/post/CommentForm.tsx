@@ -88,7 +88,6 @@ const CommentForm = ({
     initializeCommentForm();
     setCommentCount(commentCount + 1);
     setComments([...comments, commentData]);
-    return console.log(commentData);
   };
 
   const handleSubmitComment = async (

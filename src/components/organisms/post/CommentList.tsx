@@ -141,7 +141,6 @@ const CommentList = ({
   };
 
   const successClickEditComment = (comment: Comment) => {
-    console.log(`${comment._id} 댓글 수정 권한 확인이 완료되었습니다.`);
     setEditComment(comment.comment);
     setEditIsPrivateComment(comment.isPrivate);
     setIsCommentEditing(!isPostEditing);
@@ -164,7 +163,6 @@ const CommentList = ({
       const afterDeletedComments = copiedComments.filter((item) => item._id !== comment._id);
       setComments([...afterDeletedComments]);
       setCommentCount(commentCount - 1);
-      return console.log(result);
     } catch (error) {
       console.error(error);
     }
@@ -197,7 +195,6 @@ const CommentList = ({
         }
       );
 
-      console.log(`댓글 수정이 완료되었습니다.`);
       const editedCommentId = result.data.comment._id;
       const editedCommentIndex = comments.findIndex((item: any) => item._id === editedCommentId);
 
@@ -208,7 +205,6 @@ const CommentList = ({
       };
       setComments(copiedComments);
       setIsCommentEditing(false);
-      return console.log(result);
     } catch (error) {
       console.error(error);
     }

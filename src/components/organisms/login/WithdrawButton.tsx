@@ -40,8 +40,6 @@ const WithdrawButton = ({ userData, setUserData, accessToken }: WithdrawProps) =
           },
         });
         setUserData(null);
-        console.log(userData.userId + "님의 회원탈퇴가 완료되었습니다.");
-        return console.log(result);
       }
     } catch (error) {
       console.error(error);

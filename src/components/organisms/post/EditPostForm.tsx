@@ -118,7 +118,6 @@ const EditPostForm = ({
         setPosts(copiedPosts);
         setCurrentPost(copiedPosts[editedPostIndex]);
         setIsPostEditing(false);
-        return console.log(result);
       }
     } catch (error) {
       console.error(error);
