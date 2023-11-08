@@ -8,20 +8,6 @@ const PublishBox = styled.div`
   align-items: center;
 `;
 
-const CheckBoxWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const Label = styled.label`
-  margin-bottom: 5px;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-`;
-
-const CheckBox = styled.input``;
-
 const SubmitButton = styled.button`
   padding: 8px 12px;
   background-color: #007bff;
@@ -47,10 +33,6 @@ interface PublishProps {
 const PublishForm = ({ isChecked, onCheckboxChange, onSubmit, current }: PublishProps) => {
   return (
     <PublishBox>
-      <CheckBoxWrapper>
-        <Label>비밀글</Label>
-        <CheckBox type="checkbox" checked={isChecked} onChange={onCheckboxChange} />
-      </CheckBoxWrapper>
       <SubmitButton type="submit" onClick={onSubmit}>
         {current}
       </SubmitButton>

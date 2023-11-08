@@ -97,7 +97,7 @@ const PostList = ({ accessToken, posts, setPosts }: currentPostProps) => {
 
   return (
     <PostListContainer>
-      <PostPageTitle>게시판</PostPageTitle>
+      <PostPageTitle>아무말 게시판</PostPageTitle>
       {posts.length ? (
         <PostListBox>
           {posts.map((post: Post) => {
