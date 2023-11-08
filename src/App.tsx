@@ -17,6 +17,7 @@ import LogInForm from "./components/organisms/login/LogInForm";
 import { UserData } from "./@types/index.d";
 import UserPage from "./components/pages/UserPage";
 import SignUpForm from "./components/organisms/login/SignUpForm";
+import DemoPage from "./components/pages/DemoPage";
 
 function App() {
   const location = useLocation();
@@ -57,6 +58,7 @@ function App() {
             </Route>
           </Route>
           <Route path="/posts" element={<PostPage />} />
+          <Route path="/demo" element={<DemoPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/detail" element={<DetailPage />} />
 

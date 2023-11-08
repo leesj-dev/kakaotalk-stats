@@ -121,3 +121,8 @@ export interface Comment {
   __v: number;
   _id: string;
 }
+
+export interface GraphPropsInterface {
+  analyzedMessages: AnalyzedMessage[];
+  selectedChatRoomIndex: number;
+}
