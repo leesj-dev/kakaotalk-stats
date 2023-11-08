@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { AnalyzedMessage } from "../../../@types/index.d";
+import { GraphPropsInterface } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import Span from "../../atoms/Span";
@@ -32,18 +32,17 @@ const Select = styled.select`
 
 const Option = styled.option``;
 
-interface SpeakerSelectProps {
+interface SpeakerSelectProps extends GraphPropsInterface {
   alignItems?: string;
 }
 
-const SpeakerSelect: React.FC<SpeakerSelectProps> = ({ alignItems }) => {
+const SpeakerSelect: React.FC<SpeakerSelectProps> = ({
+  analyzedMessages,
+  selectedChatRoomIndex,
+  alignItems,
+}) => {
   const dispatch = useDispatch();
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
+
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );

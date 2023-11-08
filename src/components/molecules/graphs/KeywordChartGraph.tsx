@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { AnalyzedMessage, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
+import { GraphPropsInterface, KeywordCounts, ValueCountPair } from "../../../@types/index.d";
 import { customTickColor, setRotationColor } from "../../../module/common/colorsForGraphArray";
 import { getKeywordCounts } from "../../../module/common/getProperties";
 import { getHighKeywords } from "./KeywordCloud";
@@ -47,15 +47,9 @@ let keywordCounts: KeywordCounts[][][];
 let currentKeywordCounts: KeywordCounts[][];
 let keywordData: ValueCountPair[][];
 
-const KeywordChartGraph = () => {
+const KeywordChartGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
@@ -73,7 +67,7 @@ const KeywordChartGraph = () => {
   }, [selectedChatRoomIndex]);
 
   if (!allKeywordData.length) {
-    keywordCounts = getKeywordCounts(results);
+    keywordCounts = getKeywordCounts(analyzedMessages);
     currentKeywordCounts = keywordCounts[selectedChatRoomIndex];
     keywordData = getHighKeywords(currentKeywordCounts, DISPLAY_KEYWORD_COUNT);
     setAllKeywordData(

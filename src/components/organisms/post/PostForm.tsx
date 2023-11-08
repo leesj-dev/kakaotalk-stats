@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FlexRowDiv } from "../../atoms/FlexDiv";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { AccessToken } from "../../../@types/index.d";
+import { AccessToken, Post } from "../../../@types/index.d";
+import PublishForm from "../../molecules/post/PublishForm";
 
 const FormContainer = styled.div`
   margin-bottom: 30px;
@@ -18,27 +17,9 @@ const TitleBox = styled.div`
   border-bottom: 1px solid #ddd;
 `;
 
-const CheckBoxWrapper = styled(FlexRowDiv)`
-  gap: 10px;
-`;
-
-const PublishBox = styled(FlexRowDiv)`
-  padding: 20px;
-  border-top: 1px solid #ddd;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const FormGroup = styled.form`
   display: flex;
   flex-direction: column;
-`;
-
-const Label = styled.label`
-  margin-bottom: 5px;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
 `;
 
 const Input = styled.input`
@@ -48,6 +29,9 @@ const Input = styled.input`
   border: none;
   border-radius: 5px;
   font-size: 14px;
+  color: var(--mainText);
+  background: var(--mainBackground);
+  transition: 0.3s background;
   &:focus {
     outline: none;
   }
@@ -61,33 +45,17 @@ const Textarea = styled.textarea`
   resize: none;
   border: none;
   font-size: 14px;
+  color: var(--mainText);
+  background: var(--mainBackground);
+  transition: 0.3s background;
   &:focus {
     outline: none;
   }
 `;
 
-const Checkbox = styled.input`
-  margin-bottom: 5px;
-`;
-// 버튼 스타일
-const Button = styled.button`
-  padding: 8px 12px;
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
 interface PostProps {
-  posts: any[];
-  setPosts: (post: any[]) => void;
+  posts: Post[];
+  setPosts: (post: Post[]) => void;
   accessToken: AccessToken;
 }
 
@@ -98,8 +66,8 @@ interface CreatePostData {
 }
 
 const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
   const [isPrivateContent, setIsPrivateContent] = useState<boolean>(false);
 
   const createPostData = {
@@ -117,7 +85,6 @@ const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
   // Create Post 요청 보내기
   const requestCreatePost = async (createPostData: CreatePostData) => {
     try {
-      console.log(createPostData);
       const result = await axios.post(
         "/api/protected/posts/create",
         { ...createPostData },
@@ -146,7 +113,6 @@ const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
       if (result) {
         setPosts([result.data.post, ...posts]);
         initializePostForm();
-        return console.log(result);
       }
     } catch (error) {
       console.error(error);
@@ -157,7 +123,6 @@ const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
     <FormContainer>
       <FormGroup onSubmit={(e) => handleSubmitCreatePost(e, createPostData)}>
         <TitleBox>
-          {/* <Label>제목</Label> */}
           <Input
             type="text"
             value={title}
@@ -165,25 +130,17 @@ const PostForm = ({ posts, setPosts, accessToken }: PostProps) => {
             placeholder="제목을 작성해주세요"
           />
         </TitleBox>
-
-        {/* <Label>내용</Label> */}
         <Textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="여기를 눌러서 글을 작성할 수 있습니다"
         />
-        <PublishBox>
-          <CheckBoxWrapper>
-            <Label>비밀글</Label>
-            <Checkbox
-              type="checkBox"
-              checked={isPrivateContent}
-              onChange={(e) => setIsPrivateContent(e.target.checked)}
-            />
-          </CheckBoxWrapper>
-
-          <Button type="submit">글쓰기</Button>
-        </PublishBox>
+        <PublishForm
+          isChecked={isPrivateContent}
+          onCheckboxChange={(e: { target: { checked: any } }) => setIsPrivateContent(e.target.checked)}
+          current="글쓰기"
+          onSubmit={null}
+        />
       </FormGroup>
     </FormContainer>
   );

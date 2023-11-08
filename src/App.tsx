@@ -17,6 +17,7 @@ import LogInForm from "./components/organisms/login/LogInForm";
 import { UserData } from "./@types/index.d";
 import UserPage from "./components/pages/UserPage";
 import SignUpForm from "./components/organisms/login/SignUpForm";
+import DemoPage from "./components/pages/DemoPage";
 
 function App() {
   const location = useLocation();
@@ -28,7 +29,6 @@ function App() {
   useEffect(() => {
     const cookieCheckForRememberLogin = async () => {
       const cookieAccessToken = getTokenFromCookie(document.cookie);
-      console.log(cookieAccessToken);
       if (cookieAccessToken) {
         const result = await axios.post("/api/users/login", null, {
           headers: {
@@ -41,10 +41,6 @@ function App() {
     };
     (async () => cookieCheckForRememberLogin())();
   }, []);
-
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
 
   return (
     <>
@@ -62,6 +58,7 @@ function App() {
             </Route>
           </Route>
           <Route path="/posts" element={<PostPage />} />
+          <Route path="/demo" element={<DemoPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/detail" element={<DetailPage />} />
 

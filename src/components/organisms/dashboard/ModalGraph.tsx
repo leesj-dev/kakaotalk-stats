@@ -5,16 +5,16 @@ import Icon from "../../atoms/Icon";
 import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { AnalyzedMessage } from "../../../@types/index.d";
+import { AnalyzedMessage, GraphPropsInterface } from "../../../@types/index.d";
 import { getDates } from "../../../module/common/getProperties";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
-import { graphContentData } from "../../pages/DetailPage";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { FlexCenterDiv, FlexColumnCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
 import SpeakerSelectContent from "./SpeakerSelectContent";
 import { borderRadius } from "../../../style/specifiedCss/borderRadius";
+import { getGraphContentData } from "./GraphDisplay";
 
 const ModalGraphBox = styled.div`
   padding: 20px 20px 30px 20px;
@@ -139,7 +139,11 @@ const ResponsiveGraphContentBox = styled.div`
   width: 100%;
 `;
 
-interface ModalGraphProps {
+interface FindModalDataByIdProps extends GraphPropsInterface {
+  id: number;
+}
+
+interface ModalGraphProps extends GraphPropsInterface {
   currentModalData: {
     id?: number;
     subject?: string;
@@ -152,7 +156,7 @@ interface ModalGraphProps {
   setCurrentModalData?: (data: any) => void;
 }
 
-const findModalDataById = (id: number) => {
+const findModalDataById = (graphContentData: any[], id: number) => {
   if (id === 0) {
     return graphContentData.find((item) => item.id === graphContentData.length);
   } else if (id > graphContentData.length) {
@@ -165,7 +169,12 @@ const findModalDataById = (id: number) => {
 let chatDates: any;
 let datePickerPeriodData: any;
 
-const ModalGraph = ({ currentModalData, setCurrentModalData }: ModalGraphProps) => {
+const ModalGraph = ({
+  analyzedMessages,
+  selectedChatRoomIndex,
+  currentModalData,
+  setCurrentModalData,
+}: ModalGraphProps) => {
   const isDetailPage = useLocation().pathname.includes("detail");
 
   const dispatch = useDispatch();
@@ -174,17 +183,10 @@ const ModalGraph = ({ currentModalData, setCurrentModalData }: ModalGraphProps) 
 
   const { subject, graph, h2, p } = currentModalData;
 
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
-
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
 
   if (!chatDates) {
-    chatDates = getDates(results)[selectedChatRoomIndex];
+    chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
     datePickerPeriodData = [chatDates.flat()[0], chatDates.flat().slice(-1)[0]];
   }
 
@@ -193,7 +195,8 @@ const ModalGraph = ({ currentModalData, setCurrentModalData }: ModalGraphProps) 
   };
 
   const handleClickFlipIcon = (nextId: number) => {
-    const toFlipModalData = findModalDataById(nextId);
+    const graphContentData = getGraphContentData({ analyzedMessages, selectedChatRoomIndex });
+    const toFlipModalData = findModalDataById(graphContentData.slice(1), nextId);
     if (setCurrentModalData && toFlipModalData) {
       setCurrentModalData(toFlipModalData);
     }
@@ -244,7 +247,12 @@ const ModalGraph = ({ currentModalData, setCurrentModalData }: ModalGraphProps) 
                   {!isDetailPage && <BsChevronRight />}
                 </FlipModalGraphIcon>
               </SubjectBox>
-              {subject === "종합 비교" ? null : <SpeakerSelectContent />}
+              {subject === "종합 비교" ? null : (
+                <SpeakerSelectContent
+                  analyzedMessages={analyzedMessages}
+                  selectedChatRoomIndex={selectedChatRoomIndex}
+                />
+              )}
               <PeriodBox>
                 {datePickerPeriodData[0]} ~ {datePickerPeriodData[1]}
               </PeriodBox>
@@ -273,7 +281,12 @@ const ModalGraph = ({ currentModalData, setCurrentModalData }: ModalGraphProps) 
                 </FlipModalGraphIcon>
               </SubjectBox>
             </ResponsiveSubjectBox>
-            {subject === "종합 비교" ? null : <SpeakerSelectContent />}
+            {subject === "종합 비교" ? null : (
+              <SpeakerSelectContent
+                analyzedMessages={analyzedMessages}
+                selectedChatRoomIndex={selectedChatRoomIndex}
+              />
+            )}
           </ResponsiveHeadBox>
           <ResponsiveGraphContentBox className="GraphContentBox">{graph}</ResponsiveGraphContentBox>
         </ResponsiveContentBox>

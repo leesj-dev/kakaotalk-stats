@@ -1,30 +1,23 @@
 import React, { useState } from "react";
-import { FaRegComment } from "react-icons/fa";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FlexColumnDiv, FlexRowDiv } from "../../atoms/FlexDiv";
-import { AccessToken, UserData } from "../../../@types/index.d";
+import { AccessToken, Comment, Post, UserData } from "../../../@types/index.d";
 import axios from "axios";
+import PublishForm from "../../molecules/post/PublishForm";
 
 const CommentContainer = styled.div`
   border-radius: 5px;
-`;
-const CommentIcon = styled.div`
-  margin-bottom: 10px;
-  padding: 5px;
-  display: flex;
-  gap: 5px;
-  font-size: 1.5rem;
 `;
 
 const CurrentPostProfile = styled.div`
   width: 30px;
   height: 30px;
-  border: 1px solid var(--mainBlack);
   border-radius: 50%;
+  background: no-repeat center center/cover url(${process.env.PUBLIC_URL + "/favicon.png"});
 `;
 
-const CommentList = styled.ul`
+const CommentUl = styled.ul`
   list-style: none;
   padding: 0;
 `;
@@ -50,6 +43,7 @@ const UserBox = styled(FlexColumnDiv)`
 const CommentContent = styled.div`
   padding: 20px 0;
   border-bottom: 1px solid #ddd;
+  font-size: 1.6rem;
 `;
 
 const CommentAuthor = styled.span`
@@ -57,7 +51,7 @@ const CommentAuthor = styled.span`
 `;
 
 const CommentTime = styled.span`
-  font-size: 12px;
+  font-size: 1.2rem;
   color: #777;
 `;
 
@@ -78,115 +72,86 @@ const DeleteCommentButton = styled.button`
 const CommentFormContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
-  width: 100%;
+  background-color: #fff;
 `;
 
 const FormGroup = styled.form`
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 `;
 
 const EditCommentInput = styled.input`
-  display: block;
   padding: 8px;
+  margin-bottom: 10px;
+  display: block;
   width: 100%;
   border-radius: 4px;
+  border: 1px solid #ccc;
 `;
-
-const CheckBoxWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  font-size: 14px;
-`;
-
-const CheckBox = styled.input`
-  margin-right: 5px;
-`;
-
-const Label = styled.label`
-  margin-bottom: 5px;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-`;
-// 버튼 스타일
-const Button = styled.button`
-  padding: 8px 12px;
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const SubmitCommentButton = styled(Button)``;
 
 interface CommentListProps {
-  comments: any[];
   userData: UserData;
   accessToken: AccessToken;
-  currentPost: any;
-  setComments: any;
+  currentPost: Post | null;
   isPostEditing: boolean;
+  comments: Comment[];
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  commentCount: number;
+  setCommentCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const CommentListForm = ({
+const CommentList = ({
   accessToken,
-  comments,
   userData,
   currentPost,
-  setComments,
   isPostEditing,
+  comments,
+  setComments,
+  commentCount,
+  setCommentCount,
 }: CommentListProps) => {
   const [editingCommentId, setEditingCommentId] = useState<String>("");
   const [editComment, setEditComment] = useState<string>();
   const [isCommentEditing, setIsCommentEditing] = useState<boolean>(false);
   const [editIsPrivateComment, setEditIsPrivateComment] = useState<boolean | undefined>();
 
-  const clickEditComment = async (
-    e: React.FormEvent<HTMLButtonElement>,
-    currentPost: any,
-    comment: any
-  ) => {
+  const clickEditComment = async (e: React.FormEvent<HTMLButtonElement>, comment: Comment) => {
     e.preventDefault();
+    requestCheckCommentAuthorization(comment);
+    successClickEditComment(comment);
+  };
+
+  const requestCheckCommentAuthorization = async (comment: Comment) => {
     try {
-      const result = await axios.get(
-        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}/authorization`,
+      await axios.get(
+        `/api/protected/posts/${currentPost?.postId}/comments/${comment._id}/authorization`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         }
       );
-      console.log(`${comment._id} 댓글 수정 권한 확인이 완료되었습니다.`);
-      setEditComment(comment.comment);
-      setEditIsPrivateComment(comment.isPrivateContent);
-      setIsCommentEditing(!isPostEditing);
-      setEditingCommentId(comment._id);
-      return console.log(result);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDeletedComment = async (e: any, comment: any) => {
+  const successClickEditComment = (comment: Comment) => {
+    setEditComment(comment.comment);
+    setEditIsPrivateComment(comment.isPrivate);
+    setIsCommentEditing(!isPostEditing);
+    setEditingCommentId(comment._id);
+  };
+
+  const handleDeletedComment = async (e: React.MouseEvent, comment: Comment) => {
     e.preventDefault();
     try {
       const result = await axios.delete(
-        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}`,
+        `/api/protected/posts/${currentPost?.postId}/comments/${comment._id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -194,12 +159,10 @@ const CommentListForm = ({
         }
       );
 
-      console.log(`${comment.comment} 댓글 삭제가 완료되었습니다.`);
-      console.log(result);
       const copiedComments = [...comments];
       const afterDeletedComments = copiedComments.filter((item) => item._id !== comment._id);
       setComments([...afterDeletedComments]);
-      return console.log(result);
+      setCommentCount(commentCount - 1);
     } catch (error) {
       console.error(error);
     }
@@ -212,8 +175,8 @@ const CommentListForm = ({
 
   const submitEditComment = async (
     e: React.FormEvent<HTMLFormElement>,
-    currentPost: any,
-    comment: any
+    currentPost: Post | null,
+    comment: Comment
   ) => {
     e.preventDefault();
     const toEditCommentData = {
@@ -223,7 +186,7 @@ const CommentListForm = ({
 
     try {
       const result = await axios.put(
-        `/api/protected/posts/${currentPost.postId}/comments/${comment._id}`,
+        `/api/protected/posts/${currentPost?.postId}/comments/${comment._id}`,
         { ...toEditCommentData },
         {
           headers: {
@@ -232,7 +195,6 @@ const CommentListForm = ({
         }
       );
 
-      console.log(`댓글 수정이 완료되었습니다.`);
       const editedCommentId = result.data.comment._id;
       const editedCommentIndex = comments.findIndex((item: any) => item._id === editedCommentId);
 
@@ -243,7 +205,6 @@ const CommentListForm = ({
       };
       setComments(copiedComments);
       setIsCommentEditing(false);
-      return console.log(result);
     } catch (error) {
       console.error(error);
     }
@@ -251,12 +212,9 @@ const CommentListForm = ({
 
   return (
     <CommentContainer>
-      <CommentIcon>
-        <FaRegComment /> {comments.length}
-      </CommentIcon>
-      <CommentList>
+      <CommentUl>
         {comments.length ? (
-          comments.map((comment: any) => (
+          comments.map((comment: Comment) => (
             <CommentItem key={comment._id}>
               <CommentBox>
                 <UserContainer>
@@ -268,7 +226,7 @@ const CommentListForm = ({
                 </UserContainer>
                 {userData?.userId === comment?.userId && (
                   <CommentButtonBox>
-                    <EditCommentButton onClick={(e) => clickEditComment(e, currentPost, comment)}>
+                    <EditCommentButton onClick={(e) => clickEditComment(e, comment)}>
                       수정
                     </EditCommentButton>
                     <DeleteCommentButton onClick={(e) => handleDeletedComment(e, comment)}>
@@ -285,15 +243,15 @@ const CommentListForm = ({
                       value={editComment}
                       onChange={(e) => setEditComment(e.target.value)}
                     />
-                    <CheckBoxWrapper>
-                      <Label>비밀글</Label>
-                      <CheckBox
-                        type="checkbox"
-                        checked={editIsPrivateComment}
-                        onChange={(e) => handleEditPrivateCommentChange(e.target.checked)}
-                      />
-                    </CheckBoxWrapper>
-                    <SubmitCommentButton type="submit">댓글 수정하기</SubmitCommentButton>
+
+                    <PublishForm
+                      isChecked={editIsPrivateComment}
+                      onCheckboxChange={(e: { target: { checked: any } }) =>
+                        handleEditPrivateCommentChange(e.target.checked)
+                      }
+                      current="댓글 수정하기"
+                      onSubmit={null}
+                    />
                   </FormGroup>
                 </CommentFormContainer>
               ) : (
@@ -304,9 +262,9 @@ const CommentListForm = ({
         ) : (
           <CommentItem>댓글이 없습니다.</CommentItem>
         )}
-      </CommentList>
+      </CommentUl>
     </CommentContainer>
   );
 };
 
-export default CommentListForm;
+export default CommentList;

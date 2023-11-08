@@ -13,6 +13,17 @@ import DarkModeButton from "../../molecules/navigation/DarkModeButton";
 import LogOutButton from "../login/LogOutButton";
 import { UserData } from "../../../@types/index.d";
 
+const NavHeadContainer = styled.div`
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1240px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  line-height: 8rem;
+`;
+
 const H1 = styled.h1`
   display: flex;
   align-items: center;
@@ -23,21 +34,6 @@ const H1 = styled.h1`
   }
   @media (max-width: 1200px) {
     justify-content: center;
-  }
-`;
-
-const NavHeadContainer = styled.div`
-  margin: 0 auto;
-  padding: 0 20px;
-  max-width: 1240px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 500;
-  line-height: 80px;
-
-  @media (max-width: 1200px) {
-    line-height: 70px;
   }
 `;
 
@@ -54,8 +50,8 @@ const MenuBox = styled.div`
 `;
 
 const Menus = styled(FlexCenterDiv)`
-  font-size: 2.2rem;
-  gap: 5.5rem;
+  font-size: 2rem;
+  gap: 4rem;
 `;
 
 const MobileMenuButton = styled.div`
@@ -121,6 +117,7 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
       </H1>
       <MenuBox>
         <Menus>
+          {!isAnalyzedMessagesExist && <Link to="/demo">미리보기</Link>}
           <Link to="/attachment">분석하기</Link>
           {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}

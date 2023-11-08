@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   BarChart,
@@ -7,11 +7,10 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Brush,
 } from "recharts";
-import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
+import { ChatTimes, GraphPropsInterface } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import NavigatorContainer from "../dashboard/GraphNavigatorContainer";
@@ -60,28 +59,10 @@ let chatDates: any;
 let chatTimes: any;
 let isParentGraphContentBox: any;
 
-const ChatVolumeByPeriodGraph = () => {
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
+const ChatVolumeByPeriodGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-
-  // const selectedChatRoomData = results[selectedChatRoomIndex];
-  // const speakerTotalChatCounts: Record<string, number> = {};
-  // Object.values(selectedChatRoomData).forEach((chatroom) => {
-  //   Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string; date: string }) => {
-  //     const speaker = chat.speaker;
-  //     const chatDays = chat.date;
-  //     if (!speakerTotalChatCounts[speaker]) {
-  //       speakerTotalChatCounts[speaker] = 0;
-  //     }
-  //   });
-  // });
 
   const parentRef = useRef<any>(null);
 
@@ -92,9 +73,9 @@ const ChatVolumeByPeriodGraph = () => {
   }, [selectedChatRoomIndex]);
 
   if (!data.length) {
-    chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
-    chatDates = getDates(results)[selectedChatRoomIndex];
-    chatTimes = getChatTimes(results)[selectedChatRoomIndex];
+    chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
+    chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
+    chatTimes = getChatTimes(analyzedMessages)[selectedChatRoomIndex];
     setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
 
     if (parentRef?.current?.current) {
@@ -102,11 +83,6 @@ const ChatVolumeByPeriodGraph = () => {
         parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
     }
   }
-
-  // +누르면 보여주는 기준점의 수를 줄이고
-  // -누르면 보여주는 기준점의 수를 늘린다
-
-  // 날짜제한
 
   return (
     <>
@@ -126,7 +102,6 @@ const ChatVolumeByPeriodGraph = () => {
           <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
           <YAxis fontSize={12} tick={customTickColor} />
           <Tooltip contentStyle={graphTooltipStyle} />
-          {/* <Legend /> */}
           {chatSpeakers.map((speaker: string, index: number) => {
             return (
               <Bar
@@ -171,7 +146,6 @@ const ChatVolumeByPeriodGraph = () => {
               <XAxis dataKey="name" fontSize={12} tick={customTickColor} />
               <YAxis fontSize={12} tick={customTickColor} />
               <Tooltip />
-              {/* <Legend /> */}
               {chatSpeakers.map((speaker: string, index: number) => {
                 return (
                   <Bar

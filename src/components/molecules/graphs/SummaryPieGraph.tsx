@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { getChatTimes, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { setSelectedChatRoomIndex } from "../../../store/reducer/dashboard/selectedRoomIndexSlice";
 import {
-  AnalyzedMessage,
   ChatTimes,
+  GraphPropsInterface,
   NameValuePair,
   ReplyTime,
   StringNumberTuple,
@@ -29,26 +29,7 @@ const Container = styled.div`
 
 const ArrowIcon = styled(Icon)`
   cursor: pointer;
-
-  // const ChatRoomIndexArrowBox = styled.div
 `;
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   display: flex;
-//   justify-content: space-between;
-//   width: 98%;
-//   z-index: 1;
-//   @media (max-width: 1200px) {
-//     width: 80%;
-//   }
-//   > * {
-//     cursor: pointer;
-//     font-weight: 200;
-//     font-size: 30px;
-//   }
-// `;
 
 export const getTotalChatCounts = (chatTimes: ChatTimes[][][]) => {
   let totalChatCounts: number[] = [];
@@ -120,22 +101,8 @@ let chatTimes: ChatTimes[][][];
 let totalChatCounts: number[];
 let pieGraphData: NameValuePair[] = [];
 
-const SummaryPieGraph = () => {
+const SummaryPieGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const dispatch = useDispatch();
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
-
-  const [selectedChatRoomData, setSelectedChatRoomData] = useState<{
-    totalChatCount: number;
-    speakerCount: number;
-    speakers: string[];
-    mostChattedTimes: [string, number][];
-    averageReplyTime: number[];
-  } | null>(null);
 
   if (!pieGraphData.length) {
     speakers = getSpeakers(analyzedMessages);
@@ -153,8 +120,6 @@ const SummaryPieGraph = () => {
   const mostChattedTimes: StringNumberTuple[][] = getMostChattedTimes(chatTimes);
   const replyTimes: ReplyTime[][][] = getReplyTimes(analyzedMessages);
   const averageReplyTime: number[][] = getAverageReplyTime(replyTimes);
-  // const mostChattedTimesNumbers: number[] =
-  //   mostChattedTimes[selectedChatRoomIndex]?.map(([_, number]) => number) || [];
 
   const handleClickChatRoom = (index: number) => {
     dispatch(setSelectedChatRoomIndex(index));
@@ -171,30 +136,14 @@ const SummaryPieGraph = () => {
   };
 
   useEffect(() => {
-    // setSelectedChatRoomData({
-    //   totalChatCount: totalChatCounts[selectedChatRoomIndex],
-    //   speakerCount: speakers[selectedChatRoomIndex].length,
-    //   speakers: speakers[selectedChatRoomIndex],
-    //   mostChattedTimes: mostChattedTimes[selectedChatRoomIndex],
-    //   averageReplyTime: averageReplyTime[selectedChatRoomIndex],
-    // });
-
     dispatch(setAverageReplyTime(averageReplyTime[selectedChatRoomIndex]));
     dispatch(setMostChattedTimes(mostChattedTimes[selectedChatRoomIndex]));
   }, [selectedChatRoomIndex]);
-
-  // const [activeIndex, setActiveIndex] = useState<number>(0);
-
-  // const handleClick = (data: any, index: number) => {
-  //   setActiveIndex(index);
-  //   handleClickChatRoom(index);
-  // };
 
   return (
     <>
       {pieGraphData && (
         <Container>
-          {/* <ChatRoomIndexArrowBox></ChatRoomIndexArrowBox> */}
           <ArrowIcon
             onClick={() => handleClickChatRoomIndexArray(selectedChatRoomIndex - 1)}
             fontSize="3rem"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { AnalyzedMessage, ChatTimes, ReplyStackedAreaGraph } from "../../../@types/index.d";
+import { ChatTimes, GraphPropsInterface, ReplyStackedAreaGraph } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
@@ -23,13 +23,7 @@ let speakers: string[];
 let speakerChatTimes: any;
 let stackedAreaData: ReplyStackedAreaGraph[];
 
-const ReplyCountByHourlyGraph = () => {
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
+const ReplyCountByHourlyGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );

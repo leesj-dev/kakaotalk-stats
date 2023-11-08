@@ -1,77 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { displayCreatedAt } from "../../../module/common/postTime";
-import { FaRegComment } from "react-icons/fa";
-import { FlexRowDiv } from "../../atoms/FlexDiv";
 import axios from "axios";
-import { AccessToken } from "../../../@types/index.d";
+import { AccessToken, Comment, Post, UserData } from "../../../@types/index.d";
+import PostItem from "../../molecules/post/PostItem";
+import { useSelector } from "react-redux";
+
 const PostListContainer = styled.div`
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 `;
 
-const Post = styled.div`
-  margin-bottom: 10px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-`;
-const CommentIcon = styled.div`
-  display: flex;
-`;
-const CommentDate = styled.div`
-  &::before {
-    content: "";
-    display: inline-block;
-    width: 1px;
-    height: 12px; /* 막대의 높이를 설정 */
-    background-color: #ccc; /* 막대의 색상을 설정 */
-    margin-right: 5px; /* 막대와 콘텐츠 사이의 간격을 설정 */
-    vertical-align: middle;
-  }
-`;
-const CommentNick = styled.div`
-  &::before {
-    content: "";
-    display: inline-block;
-    width: 1px;
-    height: 12px; /* 막대의 높이를 설정 */
-    background-color: #ccc; /* 막대의 색상을 설정 */
-    margin-right: 5px; /* 막대와 콘텐츠 사이의 간격을 설정 */
-    vertical-align: middle;
-  }
-`;
-
-const PostTitle = styled.h2`
-  margin-bottom: 10px;
-  font-size: 20px;
+const PostPageTitle = styled.h1`
+  margin-bottom: 2rem;
+  font-size: 2.4rem;
   font-weight: bold;
 `;
 
-const PostContent = styled.p`
-  margin-bottom: 20px;
-  font-size: 15px;
-  color: #555;
+const PostListBox = styled.ul``;
+
+const PostItemBox = styled.li<{ isSamePost: boolean }>`
+  margin-bottom: 1rem;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: ${(props) => (props.isSamePost ? "auto" : "pointer")};
 `;
 
-const PostMeta = styled(FlexRowDiv)`
-  gap: 5px;
-  margin-bottom: 5px;
-  font-size: 12px;
-  color: #888;
-  margin-top: 5px;
+const NonePostContainer = styled.div`
+  margin-bottom: 30px;
+  font-size: 2rem;
 `;
 
-interface PostListProps {
+interface currentPostProps {
   accessToken: AccessToken;
-  posts: [];
-  comments: Comment[];
-  setCurrentPost: (post: any) => void;
+  posts: Post[];
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 }
 
-const PostList = ({ accessToken, posts, comments, setCurrentPost }: PostListProps) => {
-  const viewPost = async (post: any) => {
+const PostList = ({ accessToken, posts, setPosts }: currentPostProps) => {
+  const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
+
+  const [currentPost, setCurrentPost] = useState<Post | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  const handleClickPost = (post: Post) => {
+    // 동일한 포스트를 클릭한 경우에는 viewPost를 다시 동작하지 않도록 함
+    if (currentPost?.postId !== post.postId) {
+      viewPost(post);
+    }
+  };
+
+  // 게시물 조회 요청
+  const requestPostData = async (post: Post) => {
     try {
       const result = await axios.get(`/api/posts/${post.postId}`, {
         headers: {
@@ -79,28 +59,69 @@ const PostList = ({ accessToken, posts, comments, setCurrentPost }: PostListProp
         },
       });
 
-      console.log(`${post.title} 게시물 조회가 완료되었습니다.`);
-      setCurrentPost(result.data.post);
-      return console.log(result);
+      const postData = result.data.post;
+      return postData;
     } catch (error) {
       console.error(error);
     }
   };
+
+  // 댓글 조회 요청
+  const requestCommentsData = async (post: Post) => {
+    try {
+      const result = await axios.get(`/api/posts/${post.postId}/comments`);
+      const commentsData: Comment[] = result.data;
+      return commentsData;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const viewPost = async (post: Post) => {
+    const postData: Post = await requestPostData(post);
+    const commentsData = await requestCommentsData(post);
+    setCurrentPost(postData);
+    setComments(commentsData!);
+  };
+
+  const PostItemProps = {
+    accessToken,
+    userData, //
+    comments,
+    posts, //
+    currentPost, //
+    setComments,
+    setPosts,
+    setCurrentPost,
+  };
+
   return (
     <PostListContainer>
-      {posts.map((post: any) => (
-        <Post key={post.postId} onClick={() => viewPost(post)}>
-          <PostTitle>{post.title}</PostTitle>
-          <PostContent>{post.content}</PostContent>
-          <PostMeta>
-            <CommentIcon>
-              <FaRegComment /> {comments.length}
-            </CommentIcon>
-            <CommentDate>{displayCreatedAt(post.createdAt)}</CommentDate>
-            <CommentNick>{post.nickname}</CommentNick>
-          </PostMeta>
-        </Post>
-      ))}
+      <PostPageTitle>아무말 게시판</PostPageTitle>
+      {posts.length ? (
+        <PostListBox>
+          {posts.map((post: Post) => {
+            const isSameAuthor = userData?.userId === post?.userId;
+            const isSamePost = currentPost?.postId === post.postId;
+            return (
+              <PostItemBox
+                key={post.postId}
+                onClick={() => handleClickPost(post)}
+                isSamePost={isSamePost}
+              >
+                <PostItem
+                  {...PostItemProps}
+                  post={post}
+                  isSameAuthor={isSameAuthor}
+                  isSamePost={isSamePost}
+                />
+              </PostItemBox>
+            );
+          })}
+        </PostListBox>
+      ) : (
+        <NonePostContainer>게시물이 없습니다.</NonePostContainer>
+      )}
     </PostListContainer>
   );
 };

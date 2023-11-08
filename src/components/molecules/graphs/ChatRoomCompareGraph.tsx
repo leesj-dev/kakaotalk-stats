@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
-  Legend,
   PolarAngleAxis,
   PolarGrid,
   PolarRadiusAxis,
@@ -16,7 +15,7 @@ import {
   getReplyTimes,
   getSpeakers,
 } from "../../../module/common/getProperties";
-import { AnalyzedMessage, ChatTimes, ReplyTime } from "../../../@types/index.d";
+import { ChatTimes, GraphPropsInterface, ReplyTime } from "../../../@types/index.d";
 import { getAverageReplyTime, getTotalChatCounts, getTwoLettersFromSpeakers } from "./SummaryPieGraph";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
@@ -98,13 +97,7 @@ let dates: string[][];
 let nfKeywordCountArray;
 let radarData: any[];
 
-const ChatRoomCompareGraph = () => {
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
+const ChatRoomCompareGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const nfKeywordCounts = useSelector(
     (state: { nfKeywordCountsSlice: number[][] }) => state.nfKeywordCountsSlice
   );
@@ -144,30 +137,8 @@ const ChatRoomCompareGraph = () => {
     radarData = getRadarData(nfKeywordCountArray);
 
     setRadarRankData(getRadarRankData(radarData));
-
-    // radarRankData = getRadarRankData(getRadarData(nfKeywordCountArray));
   }
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     const windowWidth = window.innerWidth;
-  //     let calculatedFontSize = 15;
 
-  //     // 여기에서 폰트 사이즈 계산 로직을 작성합니다.
-  //     // 예를 들어, 윈도우 너비가 1200px 이하인 경우에는 10px로 설정할 수 있습니다.
-  //     if (windowWidth <= 1200) {
-  //       calculatedFontSize = 10;
-  //     }
-  //     setFontSize(calculatedFontSize);
-  //   };
-
-  //   // 창 크기 변경 이벤트에 대한 이벤트 리스너를 추가합니다.
-  //   window.addEventListener("resize", handleResize);
-
-  //   // 컴포넌트가 언마운트되면 이벤트 리스너를 제거합니다.
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
   return (
     <>
       {radarRankData.length && (
@@ -210,7 +181,6 @@ const ChatRoomCompareGraph = () => {
                 />
               );
             })}
-            {/* <Legend iconType="line" /> */}
             <Tooltip contentStyle={graphTooltipStyle} />
           </RadarChart>
         </ResponsiveContainer>

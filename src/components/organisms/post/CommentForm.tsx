@@ -1,23 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FlexRowDiv } from "../../atoms/FlexDiv";
 import axios from "axios";
-import { AccessToken } from "../../../@types/index.d";
-
-const Label = styled.label`
-  margin-bottom: 5px;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-`;
+import { AccessToken, Comment, Post } from "../../../@types/index.d";
+import PublishForm from "../../molecules/post/PublishForm";
 
 const CommentFormContainer = styled.div`
   display: flex;
   flex-direction: column;
-
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
+  color: var(--mainText);
+  background: var(--mainBackground);
+  transition: 0.3s background;
+  cursor: auto;
 `;
 
 const TextArea = styled.textarea`
@@ -29,83 +25,51 @@ const TextArea = styled.textarea`
   border: none;
   border-radius: 5px;
   font-size: 14px;
+  color: var(--mainText);
+  background: var(--mainBackground);
+  transition: 0.3s background;
   &:focus {
     outline: none;
   }
 `;
 
-const CheckBoxWrapper = styled(FlexRowDiv)`
-  padding: 10px;
-  gap: 10px;
-`;
-
-const PublishBox = styled(FlexRowDiv)`
-  padding: 10px;
-  border-top: 1px solid #ddd;
-  justify-content: space-between;
-  align-items: center;
-`;
-const Checkbox = styled.input`
-  margin-right: 5px;
-`;
-
-// 버튼 스타일
-const Button = styled.button`
-  padding: 8px 12px;
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-interface CommentProps {
+interface CommentFormProps {
   accessToken: AccessToken;
-  currentPost: any;
-  comment: string;
-  setComment: any;
-  comments: any;
-  setComments: any;
+  currentPost: Post | null;
+  comments: Comment[];
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+  commentCount: number;
+  setCommentCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const CommentForm = ({
   accessToken,
   currentPost,
-  comment,
-  setComment,
   comments,
   setComments,
-}: CommentProps) => {
+  commentCount,
+  setCommentCount,
+}: CommentFormProps) => {
   const [isPrivateComment, setIsPrivateComment] = useState<boolean>(false);
+  const [commentInput, setCommentInput] = useState<string>("");
 
   const initializeCommentForm = () => {
-    setComment("");
+    setCommentInput("");
     setIsPrivateComment(false);
   };
 
   const handleWriteComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
-    setComment(e.target.value);
+    setCommentInput(e.target.value);
   };
 
-  const handleSubmitComment = async (
-    e: React.MouseEvent<HTMLButtonElement>,
-    currentPost: any,
-    comment: string
-  ) => {
-    e.preventDefault();
+  // 댓글 작성 post 요청 보내기
+  const requestCreateComment = async (currentPost: Post | null, commentInput: string) => {
     try {
       const result = await axios.post(
-        `/api/protected/posts/${currentPost.postId}/comments`,
+        `/api/protected/posts/${currentPost?.postId}/comments`,
         {
-          comment,
+          comment: commentInput,
           isPrivateComment,
         },
         {
@@ -114,14 +78,28 @@ const CommentForm = ({
           },
         }
       );
-
-      console.log(`${comment} 댓글 작성이 완료되었습니다.`);
-      initializeCommentForm();
-      setComments([...comments, result.data.comment]);
-      return console.log(result);
+      return result;
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const successCreateComment = (commentData: Comment) => {
+    initializeCommentForm();
+    setCommentCount(commentCount + 1);
+    setComments([...comments, commentData]);
+  };
+
+  const handleSubmitComment = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    currentPost: Post | null,
+    commentInput: string
+  ) => {
+    e.preventDefault();
+
+    const result = await requestCreateComment(currentPost, commentInput);
+    const commentData: Comment = result?.data.comment;
+    successCreateComment(commentData);
   };
 
   const handlePrivateCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,23 +110,20 @@ const CommentForm = ({
   return (
     <CommentFormContainer>
       <TextArea
-        value={comment}
+        value={commentInput}
         onChange={(e) => handleWriteComment(e)}
-        placeholder="댓글을 작성하세요"
+        placeholder="댓글 입력하기"
       />
-
-      <PublishBox>
-        <CheckBoxWrapper>
-          <Label>비밀글</Label>
-          <Checkbox
-            type="checkBox"
-            checked={isPrivateComment}
-            onChange={(e) => handlePrivateCommentChange(e)}
-          />
-        </CheckBoxWrapper>
-
-        <Button onClick={(e) => handleSubmitComment(e, currentPost, comment)}>댓글 작성하기</Button>
-      </PublishBox>
+      <PublishForm
+        isChecked={isPrivateComment}
+        onCheckboxChange={(e: { target: { checked: any } }) =>
+          handlePrivateCommentChange(e.target.checked)
+        }
+        current="댓글 작성하기"
+        onSubmit={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+          handleSubmitComment(e, currentPost, commentInput)
+        }
+      />
     </CommentFormContainer>
   );
 };

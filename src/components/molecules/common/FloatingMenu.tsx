@@ -44,7 +44,7 @@ const copyClipBoard = async (text: string) => {
     await navigator.clipboard.writeText(text);
     alert("클립보드에 주소가 복사되었어요.");
   } catch (err) {
-    console.log(err);
+    throw Error("클립보드 주소 복사 에러");
   }
 };
 

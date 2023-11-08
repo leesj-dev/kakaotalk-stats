@@ -10,7 +10,6 @@ export const speakersTopNKeywordsSlice = createSlice({
   reducers: {
     setSpeakersTopNKeywords: (state, action: PayloadAction<ValueCountPair[][]>) => {
       state = action.payload;
-      console.log(action.payload);
       return state;
     },
   },

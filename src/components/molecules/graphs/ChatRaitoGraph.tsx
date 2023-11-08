@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { AnalyzedMessage } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
@@ -56,7 +56,6 @@ const ChatRatioGraph = () => {
             outerRadius={40}
             dataKey="value"
             labelLine
-            // label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
             animationDuration={300}
           >
             {data.map((entry: any, index: number) => (
@@ -64,7 +63,6 @@ const ChatRatioGraph = () => {
             ))}
           </Pie>
           <Tooltip contentStyle={graphTooltipStyle} />
-          {/* <Legend layout="horizontal" /> */}
         </PieChart>
       </ResponsiveContainer>
     </>

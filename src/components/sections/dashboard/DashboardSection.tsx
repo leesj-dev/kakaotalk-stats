@@ -2,7 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../../module/common/scrollToEvent";
-import { AnalyzedMessage, ChatTimes, StringNumberTuple } from "../../../@types/index.d";
+import {
+  AnalyzedMessage,
+  ChatTimes,
+  GraphPropsInterface,
+  StringNumberTuple,
+} from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { getTotalChatCounts } from "../../molecules/graphs/SummaryPieGraph";
 import ModalGraph from "../../organisms/dashboard/ModalGraph";
@@ -112,18 +117,12 @@ const ModalBox = styled.div`
   }
 `;
 
-const DashboardSection = () => {
+const DashboardSection = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const dispatch = useDispatch();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
   const mostChattedTimes = useSelector(
     (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
   );
@@ -141,7 +140,13 @@ const DashboardSection = () => {
     {
       id: "selectSpeaker",
       headerTitle: "강조할 대화자",
-      headerContent: <SpeakerSelect alignItems="end" />,
+      headerContent: (
+        <SpeakerSelect
+          analyzedMessages={analyzedMessages}
+          selectedChatRoomIndex={selectedChatRoomIndex}
+          alignItems="end"
+        />
+      ),
     },
     {
       id: "speakerCount",
@@ -196,25 +201,22 @@ const DashboardSection = () => {
     }
   }, []);
 
-  console.log("");
+  const createGraphDisplayProps = (subject: string, zIndex: number) => {
+    return {
+      analyzedMessages,
+      selectedChatRoomIndex,
+      displaySubject: subject,
+      setCurrentModalData: setCurrentModalData,
+      zIndex,
+    };
+  };
+
   return (
     <DashboardSectionContainer>
       <AsideBox>
-        <GraphDisplay
-          displaySubject={"종합 비교"}
-          setCurrentModalData={setCurrentModalData}
-          zIndex={1}
-        />
-        <GraphDisplay
-          displaySubject={"기간 대화량"}
-          setCurrentModalData={setCurrentModalData}
-          zIndex={3}
-        />
-        <GraphDisplay
-          displaySubject={"대화 비율"}
-          setCurrentModalData={setCurrentModalData}
-          zIndex={2}
-        />
+        <GraphDisplay {...createGraphDisplayProps("종합 비교", 1)} />
+        <GraphDisplay {...createGraphDisplayProps("기간 대화량", 3)} />
+        <GraphDisplay {...createGraphDisplayProps("대화 비율", 2)} />
       </AsideBox>
       <ArticleBox>
         <HeadBox>
@@ -222,11 +224,7 @@ const DashboardSection = () => {
             return (
               <DashboardContainer key={data.id}>
                 {data.id === "selectSpeaker" && (
-                  <GraphDisplay
-                    displaySubject={"채팅방 대화 비율"}
-                    setCurrentModalData={setCurrentModalData}
-                    zIndex={1}
-                  />
+                  <GraphDisplay {...createGraphDisplayProps("채팅방 대화 비율", 1)} />
                 )}
                 <DashboardHeaderContent data={data} key={data.id} />
               </DashboardContainer>
@@ -236,34 +234,27 @@ const DashboardSection = () => {
         <BodyBox>
           <VerticalBox>
             <ReplySpeedGraphBox>
-              <GraphDisplay
-                displaySubject={"답장속도"}
-                setCurrentModalData={setCurrentModalData}
-                zIndex={3}
-              />
+              <GraphDisplay {...createGraphDisplayProps("답장속도", 3)} />
             </ReplySpeedGraphBox>
           </VerticalBox>
           <VerticalBox>
             <ReplyCountByHourlyGraphBox ref={containerRef}>
-              <GraphDisplay
-                displaySubject={"시간대별 대화량"}
-                zIndex={1}
-                setCurrentModalData={setCurrentModalData}
-              />
+              <GraphDisplay {...createGraphDisplayProps("시간대별 대화량", 1)} />
             </ReplyCountByHourlyGraphBox>
             <KeywordGraphBox>
-              <GraphDisplay
-                displaySubject={"키워드"}
-                setCurrentModalData={setCurrentModalData}
-                zIndex={1}
-              />
+              <GraphDisplay {...createGraphDisplayProps("키워드", 1)} />
             </KeywordGraphBox>
           </VerticalBox>
         </BodyBox>
       </ArticleBox>
       {isModalVisible && currentModalData && (
         <ModalBox ref={modalRef}>
-          <ModalGraph currentModalData={currentModalData} setCurrentModalData={setCurrentModalData} />
+          <ModalGraph
+            analyzedMessages={analyzedMessages}
+            selectedChatRoomIndex={selectedChatRoomIndex}
+            currentModalData={currentModalData}
+            setCurrentModalData={setCurrentModalData}
+          />
         </ModalBox>
       )}
     </DashboardSectionContainer>

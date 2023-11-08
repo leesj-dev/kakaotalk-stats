@@ -10,7 +10,7 @@ import {
   Tooltip,
   Brush,
 } from "recharts";
-import { AnalyzedMessage, ChatTimes, StackBarData } from "../../../@types/index.d";
+import { ChatTimes, GraphPropsInterface, StackBarData } from "../../../@types/index.d";
 import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getProperties";
 import { getNotDuplicatedChatDates } from "./ChatVolumeByPeriodGraph";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
@@ -79,13 +79,7 @@ let chatDates: any;
 let chatTimes: any;
 let isParentGraphContentBox: any;
 
-const ChatRateGraph = () => {
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
+const ChatRateGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
@@ -99,9 +93,9 @@ const ChatRateGraph = () => {
   }, [selectedChatRoomIndex]);
 
   if (!data.length) {
-    chatSpeakers = getSpeakers(results)[selectedChatRoomIndex];
-    chatDates = getDates(results)[selectedChatRoomIndex];
-    chatTimes = getChatTimes(results)[selectedChatRoomIndex];
+    chatSpeakers = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
+    chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
+    chatTimes = getChatTimes(analyzedMessages)[selectedChatRoomIndex];
     setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
   }
 

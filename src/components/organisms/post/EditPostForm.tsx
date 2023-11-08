@@ -1,34 +1,26 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { AccessToken } from "../../../@types/index.d";
-
-// 버튼 스타일
-const Button = styled.button`
-  padding: 8px 12px;
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
+import PublishForm from "../../molecules/post/PublishForm";
 
 // 입력 폼 스타일
 const FormContainer = styled.div`
-  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
 `;
 
 const FormGroup = styled.form`
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+`;
+const WriteForm = styled.div`
+  padding: 10px;
 `;
 
 const Label = styled.label`
@@ -39,7 +31,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding: 8px 12px;
   width: 100%;
   border: 1px solid #ccc;
@@ -54,11 +46,7 @@ const Textarea = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
-  resize: vertical;
-`;
-
-const Checkbox = styled.input`
-  margin-bottom: 5px;
+  resize: none;
 `;
 
 interface EditPostFormProps {
@@ -130,7 +118,6 @@ const EditPostForm = ({
         setPosts(copiedPosts);
         setCurrentPost(copiedPosts[editedPostIndex]);
         setIsPostEditing(false);
-        return console.log(result);
       }
     } catch (error) {
       console.error(error);
@@ -144,17 +131,19 @@ const EditPostForm = ({
           editPost(e, currentPost);
         }}
       >
-        <Label>제목</Label>
-        <Input type="text" value={titleEdit} onChange={(e) => setTitleEdit(e.target.value)} />
-        <Label>내용</Label>
-        <Textarea value={contentEdit} onChange={(e) => setContentEdit(e.target.value)} />
-        <Label>비밀글</Label>
-        <Checkbox
-          type="checkBox"
-          checked={isPrivatePostEdit}
-          onChange={(e) => setIsPrivatePostEdit(e.target.checked)}
-        ></Checkbox>
-        <Button type="submit">수정하기</Button>
+        <WriteForm>
+          <Label>제목</Label>
+          <Input type="text" value={titleEdit} onChange={(e) => setTitleEdit(e.target.value)} />
+          <Label>내용</Label>
+          <Textarea value={contentEdit} onChange={(e) => setContentEdit(e.target.value)} />
+        </WriteForm>
+
+        <PublishForm
+          isChecked={isPrivatePostEdit}
+          onCheckboxChange={(e: { target: { checked: any } }) => setIsPrivatePostEdit(e.target.checked)}
+          current="수정하기"
+          onSubmit={null}
+        />
       </FormGroup>
     </FormContainer>
   );

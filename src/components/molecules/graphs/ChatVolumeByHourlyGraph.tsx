@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
+import { ChatTimes, GraphPropsInterface, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
 import { customTickColor, setRotationColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
@@ -53,13 +53,65 @@ let mostValues: number[];
 let graph: any[];
 let totalTimezoneData;
 
-const ChatVolumeByHourlyGraph = () => {
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
+const getSpeakerTotalChatTimes = (selectedChatRoomData: any) => {
+  speakerTotalChatTimes = {};
+  Object.values(selectedChatRoomData).forEach((chatroom: any) => {
+    Object.values(chatroom).forEach((chat: any) => {
+      const speaker = chat.speaker;
+      const date = getDayIndex(chat.date);
+      if (!speakerTotalChatTimes[speaker]) {
+        speakerTotalChatTimes[speaker] = {};
+      }
+      if (!speakerTotalChatTimes[speaker][date]) {
+        speakerTotalChatTimes[speaker][date] = {};
+        for (let i = 0; i < 24; i++) {
+          speakerTotalChatTimes[speaker][date][i.toString()] = 0;
+        }
+      }
+      const chatTimes = chat.chatTimes;
+      if (chatTimes) {
+        Object.keys(chatTimes).forEach((time) => {
+          const hour = parseInt(time.split(":")[0]);
+          speakerTotalChatTimes[speaker][date][hour] += chatTimes[time];
+        });
+      }
+    });
+  });
+
+  return speakerTotalChatTimes;
+};
+
+const getWeekData = (speakerTotalChatTimes: any): any => {
+  mostValues = [];
+  graph = [];
+  Object.entries(speakerTotalChatTimes).forEach((speaker: any) => {
+    const weekData: WeekData[] = [];
+
+    const timeDataOfWeek: ChatTimes = speaker[1];
+    const timeTable: any[] = Object.values(timeDataOfWeek);
+
+    daysOfWeek.forEach((day: string, index: number) => {
+      weekData.push({
+        day: day,
+        values: [],
+      });
+      const timeTableDay = timeTable[index];
+      for (const timeNumber in timeTableDay) {
+        weekData.at(-1)?.values.push({
+          hour: timeNumber,
+          value: timeTableDay[timeNumber],
+          index: 1,
+        });
+      }
+    });
+    graph.push(weekData);
+    mostValues.push(getMostValue(weekData));
+  });
+
+  return { mostValues, graph };
+};
+
+const ChatVolumeByHourlyGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
@@ -75,59 +127,12 @@ const ChatVolumeByHourlyGraph = () => {
   }, [selectedChatRoomIndex]);
 
   if (!scatter.length) {
-    selectedChatRoomData = results[selectedChatRoomIndex];
-    speakerNames = getSpeakers(results)[selectedChatRoomIndex];
+    selectedChatRoomData = analyzedMessages[selectedChatRoomIndex];
+    speakerNames = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
     speakerNames.unshift("전체");
-    speakerTotalChatTimes = {};
 
-    Object.values(selectedChatRoomData).forEach((chatroom: any) => {
-      Object.values(chatroom).forEach((chat: any) => {
-        const speaker = chat.speaker;
-        const date = getDayIndex(chat.date);
-        if (!speakerTotalChatTimes[speaker]) {
-          speakerTotalChatTimes[speaker] = {};
-        }
-        if (!speakerTotalChatTimes[speaker][date]) {
-          speakerTotalChatTimes[speaker][date] = {};
-          for (let i = 0; i < 24; i++) {
-            speakerTotalChatTimes[speaker][date][i.toString()] = 0;
-          }
-        }
-        const chatTimes = chat.chatTimes;
-        if (chatTimes) {
-          Object.keys(chatTimes).forEach((time) => {
-            const hour = parseInt(time.split(":")[0]);
-            speakerTotalChatTimes[speaker][date][hour] += chatTimes[time];
-          });
-        }
-      });
-    });
-
-    mostValues = [];
-    graph = [];
-    Object.entries(speakerTotalChatTimes).forEach((speaker: any) => {
-      const weekData: WeekData[] = [];
-
-      const timeDataOfWeek: ChatTimes = speaker[1];
-      const timeTable: any[] = Object.values(timeDataOfWeek);
-
-      daysOfWeek.forEach((day: string, index: number) => {
-        weekData.push({
-          day: day,
-          values: [],
-        });
-        const timeTableDay = timeTable[index];
-        for (const timeNumber in timeTableDay) {
-          weekData.at(-1)?.values.push({
-            hour: timeNumber,
-            value: timeTableDay[timeNumber],
-            index: 1,
-          });
-        }
-      });
-      graph.push(weekData);
-      mostValues.push(getMostValue(weekData));
-    });
+    const speakerTotalChatTimes = getSpeakerTotalChatTimes(selectedChatRoomData);
+    const { mostValues, graph } = getWeekData(speakerTotalChatTimes);
 
     totalTimezoneData = JSON.parse(JSON.stringify(graph[0]));
     for (let i = 1; i < graph.length; i++) {
@@ -250,7 +255,10 @@ const ChatVolumeByHourlyGraph = () => {
             </ResponsiveContainer>
           );
         })}
-      <ReplyCountByHourlyGraph />
+      <ReplyCountByHourlyGraph
+        analyzedMessages={analyzedMessages}
+        selectedChatRoomIndex={selectedChatRoomIndex}
+      />
     </>
   );
 };

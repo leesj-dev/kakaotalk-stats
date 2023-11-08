@@ -117,16 +117,16 @@ const ToDetailLink = styled(Span)`
 
 interface DashboardSideMenuProps {
   isSideMenu?: Boolean;
+  analyzedMessages: AnalyzedMessage[];
+  selectedChatRoomIndex: number;
 }
 
-const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({ isSideMenu }) => {
+const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({
+  analyzedMessages,
+  selectedChatRoomIndex,
+  isSideMenu,
+}) => {
   const dispatch = useDispatch();
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
@@ -141,11 +141,17 @@ const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({ isSideMenu }) => 
   const closeMenu = () => {
     dispatch(setIsSideMenuChatRoom(false));
   };
+
+  const graphProps = {
+    analyzedMessages,
+    selectedChatRoomIndex,
+  };
+
   return (
     <DashboardLayoutBox isSideMenu={isSideMenu}>
       <ChatroomMenuTitleBox>채팅방 대화 비율</ChatroomMenuTitleBox>
       <ChatroomGraphBox>
-        <SummaryPieGraph />
+        <SummaryPieGraph {...graphProps} />
       </ChatroomGraphBox>
       <ChatroomListBox>
         {chatRoomNames.map((name, index) => {
