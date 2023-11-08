@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Line,
@@ -6,14 +6,13 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ReferenceLine,
   ResponsiveContainer,
   ComposedChart,
   Bar,
   Brush,
 } from "recharts";
-import { AnalyzedMessage } from "../../../@types/index.d";
+import { GraphPropsInterface } from "../../../@types/index.d";
 import { getDates, getReplyTimes, getSpeakers } from "../../../module/common/getProperties";
 import { ReplyTime } from "../../../@types/index.d";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
@@ -160,13 +159,7 @@ let chatDates: any;
 let averageReplyTime: any;
 let replySpeedData: any;
 
-const ReplySpeedGraph = () => {
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
+const ReplySpeedGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );

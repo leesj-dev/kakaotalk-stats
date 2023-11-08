@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { AnalyzedMessage, ChatTimes, WeekData } from "../../../@types/index.d";
+import { ChatTimes, GraphPropsInterface, WeekData } from "../../../@types/index.d";
 import { getSpeakers } from "../../../module/common/getProperties";
 import { customTickColor, setRotationColor } from "../../../module/common/colorsForGraphArray";
 import styled from "styled-components";
@@ -53,13 +53,7 @@ let mostValues: number[];
 let graph: any[];
 let totalTimezoneData;
 
-const ChatVolumeByHourlyGraph = () => {
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
+const ChatVolumeByHourlyGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
@@ -75,8 +69,8 @@ const ChatVolumeByHourlyGraph = () => {
   }, [selectedChatRoomIndex]);
 
   if (!scatter.length) {
-    selectedChatRoomData = results[selectedChatRoomIndex];
-    speakerNames = getSpeakers(results)[selectedChatRoomIndex];
+    selectedChatRoomData = analyzedMessages[selectedChatRoomIndex];
+    speakerNames = getSpeakers(analyzedMessages)[selectedChatRoomIndex];
     speakerNames.unshift("전체");
     speakerTotalChatTimes = {};
 
@@ -250,7 +244,10 @@ const ChatVolumeByHourlyGraph = () => {
             </ResponsiveContainer>
           );
         })}
-      <ReplyCountByHourlyGraph />
+      <ReplyCountByHourlyGraph
+        analyzedMessages={analyzedMessages}
+        selectedChatRoomIndex={selectedChatRoomIndex}
+      />
     </>
   );
 };

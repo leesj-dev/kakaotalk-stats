@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
-import { AnalyzedMessage } from "../../../@types/index.d";
+import { GraphPropsInterface } from "../../../@types/index.d";
 import { colorsForGraphArray } from "../../../module/common/colorsForGraphArray";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
@@ -71,7 +71,7 @@ const getValueForAngle = (data: any, selectedSpeakerIndex: number) => {
   return -1;
 };
 
-interface ChatRatioWithArrowGraphProps {
+interface ChatRatioWithArrowGraphProps extends GraphPropsInterface {
   justifyContent?: string;
 }
 
@@ -79,15 +79,13 @@ let selectedChatRoomData;
 let speakerTotalChatCounts: Record<string, number> = {};
 let totalChatCount: any;
 
-const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProps) => {
+const ChatRatioWithArrowGraph = ({
+  justifyContent,
+  analyzedMessages,
+  selectedChatRoomIndex,
+}: ChatRatioWithArrowGraphProps) => {
   const dispatch = useDispatch();
 
-  const results = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
@@ -114,7 +112,7 @@ const ChatRatioWithArrowGraph = ({ justifyContent }: ChatRatioWithArrowGraphProp
   }, [selectedChatRoomIndex]);
 
   if (!data.length) {
-    selectedChatRoomData = results[selectedChatRoomIndex];
+    selectedChatRoomData = analyzedMessages[selectedChatRoomIndex];
     Object.values(selectedChatRoomData).forEach((chatroom) => {
       Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
         const speaker = chat.speaker;

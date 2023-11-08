@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollToEvent";
 import DashboardSection from "../sections/dashboard/DashboardSection";
 import DashboardSideMenu from "../sections/dashboard/DashboardSideMenu";
 import { AnalyzedMessage } from "../../@types/index.d";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setIsAnalyzedMessagesExist } from "../../store/reducer/dashboard/isAnalyzedMessagesExistSlice";
 
 const DashboardBox = styled.div`
   margin-top: 80px;
@@ -28,7 +26,6 @@ const DashboardBox = styled.div`
 `;
 
 const DemoPage = () => {
-  const dispatch = useDispatch();
   const [dummyData, setDummyData] = useState<AnalyzedMessage[]>([]);
   const [selectedChatRoomIndex, setSelectedChatRoomIndex] = useState<number>(0);
 
