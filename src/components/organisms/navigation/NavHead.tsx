@@ -50,8 +50,8 @@ const MenuBox = styled.div`
 `;
 
 const Menus = styled(FlexCenterDiv)`
-  font-size: 2.2rem;
-  gap: 5.5rem;
+  font-size: 2rem;
+  gap: 4rem;
 `;
 
 const MobileMenuButton = styled.div`
@@ -117,6 +117,7 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
       </H1>
       <MenuBox>
         <Menus>
+          {!isAnalyzedMessagesExist && <Link to="/demo">미리보기</Link>}
           <Link to="/attachment">분석하기</Link>
           {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
           {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
