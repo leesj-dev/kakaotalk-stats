@@ -12,6 +12,7 @@ import ReplySpeedGraph from "../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../molecules/graphs/ChatVolumeByHourlyGraph";
 import { setVolumeHourlyBoxSize } from "../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
 import { FlexColumnDiv } from "../atoms/FlexDiv";
+import { AnalyzedMessage } from "../../@types/index.d";
 
 const GraphDetailContainer = styled.div`
   position: relative;
@@ -98,15 +99,21 @@ export const graphContentData = [
 ];
 
 const DetailPage = () => {
-  const isAnalyzedMessagesExist = useSelector(
-    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
-  );
-
   const dispatch = useDispatch();
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const isAnalyzedMessagesExist = useSelector(
+    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
+  );
+  const analyzedMessages = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  );
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
 
   useEffect(() => {
     scrollToEvent(0, "auto");
@@ -147,7 +154,12 @@ const DetailPage = () => {
 
   return (
     <GraphDetailContainer>
-      {windowWidth > 1200 && <DashboardSideMenu />}
+      {windowWidth > 1200 && (
+        <DashboardSideMenu
+          analyzedMessages={analyzedMessages}
+          selectedChatRoomIndex={selectedChatRoomIndex}
+        />
+      )}
       <ContentBox>
         {isAnalyzedMessagesExist &&
           graphContentData.map((item) => {

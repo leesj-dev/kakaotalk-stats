@@ -112,18 +112,17 @@ const ModalBox = styled.div`
   }
 `;
 
-const DashboardSection = () => {
+interface DashboardSectionProps {
+  analyzedMessages: AnalyzedMessage[];
+  selectedChatRoomIndex: number;
+}
+
+const DashboardSection = ({ analyzedMessages, selectedChatRoomIndex }: DashboardSectionProps) => {
   const dispatch = useDispatch();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
   const mostChattedTimes = useSelector(
     (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
   );

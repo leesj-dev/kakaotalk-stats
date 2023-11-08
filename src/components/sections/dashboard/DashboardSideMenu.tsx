@@ -117,16 +117,16 @@ const ToDetailLink = styled(Span)`
 
 interface DashboardSideMenuProps {
   isSideMenu?: Boolean;
+  analyzedMessages: AnalyzedMessage[];
+  selectedChatRoomIndex: number;
 }
 
-const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({ isSideMenu }) => {
+const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({
+  analyzedMessages,
+  selectedChatRoomIndex,
+  isSideMenu,
+}) => {
   const dispatch = useDispatch();
-  const analyzedMessages = useSelector(
-    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
-  );
-  const selectedChatRoomIndex = useSelector(
-    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
-  );
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);

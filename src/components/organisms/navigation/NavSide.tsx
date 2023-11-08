@@ -11,7 +11,7 @@ import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
-import { UserData } from "../../../@types/index.d";
+import { AnalyzedMessage, UserData } from "../../../@types/index.d";
 
 const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
@@ -111,6 +111,12 @@ const NavSide: React.FC<NavSideMenuProps> = ({
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
+  const analyzedMessages = useSelector(
+    (state: { analyzedMessagesSlice: AnalyzedMessage[] }) => state.analyzedMessagesSlice
+  );
+  const selectedChatRoomIndex = useSelector(
+    (state: { selectedRoomIndexSlice: number }) => state.selectedRoomIndexSlice
+  );
 
   const handleClickGoToDescription = () => {
     closeMenu();
@@ -177,7 +183,13 @@ const NavSide: React.FC<NavSideMenuProps> = ({
             </Link>
           )}
         </PageLink>
-        {isAnalyzedMessagesExist && !isWideScreen && <DashboardSideMenu isSideMenu />}
+        {isAnalyzedMessagesExist && !isWideScreen && (
+          <DashboardSideMenu
+            isSideMenu
+            analyzedMessages={analyzedMessages}
+            selectedChatRoomIndex={selectedChatRoomIndex}
+          />
+        )}
       </NavSideBox>
       <NavSideShadow onClick={closeMenu} isSideMenuVisible={isSideMenuVisible} />
     </NavSideContainer>
