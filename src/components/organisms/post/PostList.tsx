@@ -23,11 +23,7 @@ const PostItemBox = styled.li<{ isSamePost: boolean }>`
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-
-  &:hover {
-    background: ${(props) => (props.isSamePost ? "#fff" : "#00000010")};
-    cursor: ${(props) => (props.isSamePost ? "auto" : "pointer")};
-  }
+  cursor: ${(props) => (props.isSamePost ? "auto" : "pointer")};
 `;
 
 const NonePostContainer = styled.div`

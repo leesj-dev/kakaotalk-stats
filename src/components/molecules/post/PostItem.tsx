@@ -33,8 +33,8 @@ const UserContainer = styled(FlexRowDiv)`
 const CurrentPostProfile = styled.div`
   width: 50px;
   height: 50px;
-  border: 1px solid var(--mainBlack);
   border-radius: 50%;
+  background: no-repeat center center/cover url(${process.env.PUBLIC_URL + "/favicon.png"});
 `;
 
 const UserBox = styled.div``;

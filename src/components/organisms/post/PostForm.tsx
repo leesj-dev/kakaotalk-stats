@@ -29,6 +29,9 @@ const Input = styled.input`
   border: none;
   border-radius: 5px;
   font-size: 14px;
+  color: var(--mainText);
+  background: var(--mainBackground);
+  transition: 0.3s background;
   &:focus {
     outline: none;
   }
@@ -42,6 +45,9 @@ const Textarea = styled.textarea`
   resize: none;
   border: none;
   font-size: 14px;
+  color: var(--mainText);
+  background: var(--mainBackground);
+  transition: 0.3s background;
   &:focus {
     outline: none;
   }

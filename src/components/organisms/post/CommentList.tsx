@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaRegComment } from "react-icons/fa";
 import styled from "styled-components";
 import { displayCreatedAt } from "../../../module/common/postTime";
 import { FlexColumnDiv, FlexRowDiv } from "../../atoms/FlexDiv";
@@ -10,19 +9,12 @@ import PublishForm from "../../molecules/post/PublishForm";
 const CommentContainer = styled.div`
   border-radius: 5px;
 `;
-const CommentIcon = styled.div`
-  margin-bottom: 10px;
-  padding: 5px;
-  display: flex;
-  gap: 5px;
-  font-size: 1.5rem;
-`;
 
 const CurrentPostProfile = styled.div`
   width: 30px;
   height: 30px;
-  border: 1px solid var(--mainBlack);
   border-radius: 50%;
+  background: no-repeat center center/cover url(${process.env.PUBLIC_URL + "/favicon.png"});
 `;
 
 const CommentUl = styled.ul`
@@ -51,6 +43,7 @@ const UserBox = styled(FlexColumnDiv)`
 const CommentContent = styled.div`
   padding: 20px 0;
   border-bottom: 1px solid #ddd;
+  font-size: 1.6rem;
 `;
 
 const CommentAuthor = styled.span`
@@ -58,7 +51,7 @@ const CommentAuthor = styled.span`
 `;
 
 const CommentTime = styled.span`
-  font-size: 12px;
+  font-size: 1.2rem;
   color: #777;
 `;
 

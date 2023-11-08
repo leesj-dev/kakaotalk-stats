@@ -2,12 +2,12 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PostList from "../organisms/post/PostList";
-import { AccessToken, Comment, Post, UserData } from "../../@types/index.d";
+import { AccessToken, Post } from "../../@types/index.d";
 import { useSelector } from "react-redux";
 import PostForm from "../organisms/post/PostForm";
 
 const PostPageContainer = styled.div`
-  margin: 90px auto;
+  margin: 8rem auto 0 auto;
   padding: 20px;
   max-width: 1240px;
 `;

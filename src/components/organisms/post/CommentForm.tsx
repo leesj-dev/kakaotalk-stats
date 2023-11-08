@@ -10,7 +10,9 @@ const CommentFormContainer = styled.div`
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
-  background: #fff;
+  color: var(--mainText);
+  background: var(--mainBackground);
+  transition: 0.3s background;
   cursor: auto;
 `;
 
@@ -23,6 +25,9 @@ const TextArea = styled.textarea`
   border: none;
   border-radius: 5px;
   font-size: 14px;
+  color: var(--mainText);
+  background: var(--mainBackground);
+  transition: 0.3s background;
   &:focus {
     outline: none;
   }
@@ -108,7 +113,7 @@ const CommentForm = ({
       <TextArea
         value={commentInput}
         onChange={(e) => handleWriteComment(e)}
-        placeholder="댓글을 작성하세요"
+        placeholder="댓글 입력하기"
       />
       <PublishForm
         isChecked={isPrivateComment}
