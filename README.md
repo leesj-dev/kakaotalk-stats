@@ -41,7 +41,7 @@
 
 ## 주요 기능
 
-![](./public/functionCard.png)
+![kmg-dashboard](https://github.com/KakaoMagnifyingGlass/KMG/assets/90388461/38d125ea-b43b-41dd-97f9-4e3815c49038)
 
 - 채팅방 비교: 채팅방별 카톡 횟수, 평균답장속도, 인원 수, 대화 기간, 이모티콘이나 사진 공유 횟수를 비교합니다.
 - 대화량: 일간 대화량을 파악할 수 있습니다.
@@ -53,7 +53,7 @@
 
 
 
-## 사용 방법
+## 대화 분석 방법
 ![](./public/demo.gif)
 - 웹사이트에 접속합니다.
 - 메신저 대화 파일을 첨부합니다.
@@ -69,6 +69,8 @@
 
 
 ## 릴리스 업데이트
+* [v0.2.6 - 23-11-09](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.6)
+  * 데모 페이지 추가
 * [v0.2.5-beta - 23-08-12](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.5-beta)
   * 게시물의 댓글 갯수 표시 기능 추가 
 * [v0.2.4 - 23-08-08](https://github.com/KakaoMagnifyingGlass/KMG/releases/tag/v0.2.4)
