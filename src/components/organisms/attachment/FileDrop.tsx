@@ -5,7 +5,6 @@ import Paragraph from "../../atoms/Paragraph";
 import OsList from "./OsList";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
 import { borderRadius } from "../../../style/specifiedCss/borderRadius";
-import BlueButton from "../../atoms/BlueButton";
 
 const DropBox = styled(FlexColumnCenterDiv)`
   position: relative;
