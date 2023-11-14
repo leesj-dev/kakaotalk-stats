@@ -118,7 +118,7 @@ const MainDescriptionSection = ({ moveScrollPosition }: Props) => {
           <DescriptionBox>
             <Title subject>{data.subject}</Title>
             <SubTitle>{data.h3}</SubTitle>
-            <Img src={isDarkMode ? data.darkImg : data.img} />
+            <Img src={[data.img, data.darkImg]} />
           </DescriptionBox>
         </CardBox>
       ))}
