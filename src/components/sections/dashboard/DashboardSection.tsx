@@ -2,12 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../../module/common/scrollToEvent";
-import {
-  AnalyzedMessage,
-  ChatTimes,
-  GraphPropsInterface,
-  StringNumberTuple,
-} from "../../../@types/index.d";
+import { ChatTimes, GraphPropsInterface, StringNumberTuple } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import { getTotalChatCounts } from "../../molecules/graphs/SummaryPieGraph";
 import ModalGraph from "../../organisms/dashboard/ModalGraph";

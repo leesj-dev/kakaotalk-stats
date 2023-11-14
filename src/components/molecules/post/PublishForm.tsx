@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+
 const PublishBox = styled.div`
   padding: 20px 10px;
   border-top: 1px solid #ddd;

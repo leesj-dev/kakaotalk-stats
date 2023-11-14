@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import Span from "../../atoms/Span";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";

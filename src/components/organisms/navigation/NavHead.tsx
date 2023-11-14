@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Img from "../../atoms/Img";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setIsDarkMode } from "../../../store/reducer/common/isDarkModeSlice";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
 import { NavProps } from "../../sections/navigation/Navigation";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import DarkModeButton from "../../molecules/navigation/DarkModeButton";
-import { UserData } from "../../../@types/index.d";
 import NavMenus from "../../molecules/navigation/NavMenus";
 
 const NavHeadContainer = styled.div`

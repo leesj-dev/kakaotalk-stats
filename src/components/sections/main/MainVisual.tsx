@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import ScrollIndicator from "../../molecules/common/ScrollIndicator";
 import BlueButton from "../../atoms/BlueButton";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
-import { useSelector } from "react-redux";
 
 const MainVisualContainer = styled(FlexCenterDiv)`
   position: relative;

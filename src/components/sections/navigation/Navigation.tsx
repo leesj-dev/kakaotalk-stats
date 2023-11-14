@@ -5,7 +5,6 @@ import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMe
 import NavHead from "../../organisms/navigation/NavHead";
 import NavSideMenu from "../../organisms/navigation/NavSide";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
-import { UserData } from "../../../@types/index.d";
 
 const NavigationContainer = styled.div<{ isDarkMode: boolean }>`
   position: fixed;

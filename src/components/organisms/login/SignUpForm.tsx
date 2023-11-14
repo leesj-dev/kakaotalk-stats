@@ -6,13 +6,6 @@ import Span from "../../atoms/Span";
 import { Link } from "react-router-dom";
 import { SingUpData } from "../../../@types/index.d";
 
-// 이메일 정규식 : 영문자와 숫자만
-const regexID = /^[a-zA-Z0-9]{4,16}$/;
-// 비밀번호 형식
-const regexPass = /^[a-zA-Z가-힣!@#$%^&*()_+|<>?:{}]*.{4,16}$/;
-//  닉네임 형식
-const regexNickname = /^[가-힣a-zA-Z]{2,10}$/;
-
 const FormWrapper = styled.div`
   padding: 2rem;
   margin-top: 80px;
@@ -104,7 +97,12 @@ const SigUpContainer = styled.div`
 `;
 
 const SignUpForm = () => {
+  const regexID = /^[a-zA-Z0-9]{4,16}$/; // 이메일 정규식 : 영문자와 숫자만
+  const regexPass = /^[a-zA-Z가-힣!@#$%^&*()_+|<>?:{}]*.{4,16}$/; // 비밀번호 형식
+  const regexNickname = /^[가-힣a-zA-Z]{2,10}$/; //  닉네임 형식
+
   const navigate = useNavigate();
+
   const [nickname, setNickname] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");

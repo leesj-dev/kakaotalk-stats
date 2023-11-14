@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Img from "../../atoms/Img";
