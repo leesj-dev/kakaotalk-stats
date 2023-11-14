@@ -7,11 +7,10 @@ import { setIsDarkMode } from "../../../store/reducer/common/isDarkModeSlice";
 import { HiMenu } from "react-icons/hi";
 import Icon from "../../atoms/Icon";
 import { NavProps } from "../../sections/navigation/Navigation";
-import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import DarkModeButton from "../../molecules/navigation/DarkModeButton";
-import LogOutButton from "../login/LogOutButton";
 import { UserData } from "../../../@types/index.d";
+import NavMenus from "../../molecules/navigation/NavMenus";
 
 const NavHeadContainer = styled.div`
   margin: 0 auto;
@@ -37,23 +36,6 @@ const H1 = styled.h1`
   }
 `;
 
-const MenuBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  margin-left: auto;
-  margin-right: 5.5rem;
-
-  @media (max-width: 1200px) {
-    display: none;
-  }
-`;
-
-const Menus = styled(FlexCenterDiv)`
-  font-size: 2rem;
-  gap: 4rem;
-`;
-
 const MobileMenuButton = styled.div`
   display: none;
 
@@ -72,8 +54,6 @@ interface NavHeadProps extends NavProps {}
 
 const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMessagesExist }) => {
   const dispatch = useDispatch();
-
-  const userData = useSelector((state: { userLoginDataSlice: UserData }) => state.userLoginDataSlice);
 
   const debounceTimeoutRef = useRef<number | null>(null);
 
@@ -115,18 +95,7 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
           />
         </Link>
       </H1>
-      <MenuBox>
-        <Menus>
-          {!isAnalyzedMessagesExist && <Link to="/demo">미리보기</Link>}
-          <Link to="/attachment">분석하기</Link>
-          {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
-          {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}
-
-          {userData.userId ? <LogOutButton /> : <Link to="/users/login">로그인</Link>}
-
-          <Link to="/posts">게시판</Link>
-        </Menus>
-      </MenuBox>
+      <NavMenus isAnalyzedMessagesExist={isAnalyzedMessagesExist} />
       <DarkModeButton isDarkMode={isDarkMode} handleClickDarkModeButton={handleClickDarkModeButton} />
     </NavHeadContainer>
   );
