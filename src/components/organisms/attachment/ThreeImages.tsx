@@ -49,7 +49,7 @@ const ThreeImages = ({ srcAndText }: ThreeImagesProps) => {
       {srcAndText.map((item) => {
         return (
           <ImageCardBox key={item.id}>
-            <Image src={item.src} />
+            <Image src={[item.src]} />
             <Description>{item.text}</Description>
           </ImageCardBox>
         );

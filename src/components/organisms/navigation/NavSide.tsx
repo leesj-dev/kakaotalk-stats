@@ -152,9 +152,10 @@ const NavSide: React.FC<NavSideMenuProps> = ({
           <H2 as="h2">
             <Link to="/" onClick={closeMenu}>
               <Img
-                src={`${process.env.PUBLIC_URL}/images/logo/${
-                  isDarkMode ? "logoGray" : "logoBlack"
-                }.png`}
+                src={[
+                  `${process.env.PUBLIC_URL}/images/logo/logoBlack.png`,
+                  `${process.env.PUBLIC_URL}/images/logo/logoGray.png`,
+                ]}
               />
             </Link>
           </H2>

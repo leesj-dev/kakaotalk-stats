@@ -91,7 +91,10 @@ const NavHead: React.FC<NavHeadProps> = ({ closeMenu, isDarkMode, isAnalyzedMess
       <H1>
         <Link to="/">
           <Img
-            src={`${process.env.PUBLIC_URL}/images/logo/${isDarkMode ? "logoGray" : "logoBlack"}.png`}
+            src={[
+              `${process.env.PUBLIC_URL}/images/logo/logoBlack.png`,
+              `${process.env.PUBLIC_URL}/images/logo/logoGray.png`,
+            ]}
           />
         </Link>
       </H1>
