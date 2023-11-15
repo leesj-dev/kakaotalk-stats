@@ -18,6 +18,7 @@ import { UserData } from "./@types/index.d";
 import UserPage from "./components/pages/UserPage";
 import SignUpForm from "./components/organisms/login/SignUpForm";
 import DemoPage from "./components/pages/DemoPage";
+import NotFoundPage from "./components/pages/NotFoundPage";
 
 function App() {
   const location = useLocation();
@@ -62,24 +63,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/detail" element={<DetailPage />} />
 
-          <Route
-            path="*"
-            element={
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "center",
-                  height: "80vh",
-                  fontSize: "3rem",
-                }}
-              >
-                404 ERROR: 존재하지 않는 페이지입니다. <br /> <br />
-                준비중인 화면입니다.
-              </div>
-            }
-          />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         {isDashboardPage ? <Footer dashboard={true} /> : <Footer />}
       </Wrapper>
