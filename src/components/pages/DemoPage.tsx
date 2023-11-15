@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import scrollToEvent from "../../module/common/scrollToEvent";
 import DashboardSection from "../sections/dashboard/DashboardSection";
 import DashboardSideMenu from "../sections/dashboard/DashboardSideMenu";
 import { AnalyzedMessage } from "../../@types/index.d";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const DashboardBox = styled.div`
   margin-top: 80px;
@@ -26,8 +28,23 @@ const DashboardBox = styled.div`
 `;
 
 const DemoPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [dummyData, setDummyData] = useState<AnalyzedMessage[]>([]);
-  const [selectedChatRoomIndex, setSelectedChatRoomIndex] = useState<number>(0);
+  const demoChatRoomIndex = useRef<number>(0);
+
+  const { pathname } = location;
+  const isDemoPage = pathname.includes("/demo");
+
+  const isAnalyzedMessagesExist = useSelector(
+    (state: { isAnalyzedMessagesExistSlice: boolean }) => state.isAnalyzedMessagesExistSlice
+  );
+
+  // 분석된 메시지가 존재할 시 대시보드로 이동
+  if (isAnalyzedMessagesExist && isDemoPage) {
+    navigate("/dashboard", { state: pathname });
+  }
 
   useEffect(() => {
     (async () => {
@@ -42,8 +59,18 @@ const DemoPage = () => {
 
   return (
     <DashboardBox>
-      <DashboardSideMenu analyzedMessages={dummyData} selectedChatRoomIndex={selectedChatRoomIndex} />
-      <DashboardSection analyzedMessages={dummyData} selectedChatRoomIndex={selectedChatRoomIndex} />
+      {!isAnalyzedMessagesExist && (
+        <>
+          <DashboardSideMenu
+            analyzedMessages={dummyData}
+            selectedChatRoomIndex={demoChatRoomIndex.current}
+          />
+          <DashboardSection
+            analyzedMessages={dummyData}
+            selectedChatRoomIndex={demoChatRoomIndex.current}
+          />
+        </>
+      )}
     </DashboardBox>
   );
 };
