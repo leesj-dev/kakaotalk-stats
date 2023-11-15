@@ -1,4 +1,3 @@
-import React from "react";
 import { BsFillBrightnessHighFill, BsFillMoonStarsFill } from "react-icons/bs";
 import styled, { css } from "styled-components";
 import { borderRadius } from "../../../style/specifiedCss/borderRadius";

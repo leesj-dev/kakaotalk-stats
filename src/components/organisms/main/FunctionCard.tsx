@@ -259,7 +259,7 @@ const FunctionCard = ({ moveScrollPosition }: Props) => {
               <H3 fontSize="24px" lineHeight="1.5">
                 {data.h3}
               </H3>
-              <Img src={data.img} />
+              <Img src={[data.img]} />
               <Paragraph>{data.p}</Paragraph>
             </SideContent>
           ))}

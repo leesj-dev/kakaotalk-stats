@@ -15,6 +15,7 @@ import { getChatTimes, getDates, getSpeakers } from "../../../module/common/getP
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import NavigatorContainer from "../dashboard/GraphNavigatorContainer";
 import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
+import getIsParentGraphContentBox from "../../../module/common/getIsParentGraphContentBox";
 
 type StackBarData = {
   name: string;
@@ -57,16 +58,17 @@ const createStackBarData = (chatSpeakers: string[], chatDates: string[], chatTim
 let chatSpeakers: any;
 let chatDates: any;
 let chatTimes: any;
-let isParentGraphContentBox: any;
 
 const ChatVolumeByPeriodGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
+  const parentRef = useRef<React.RefObject<HTMLElement>>(null);
+
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  const parentRef = useRef<any>(null);
-
   const [data, setData] = useState<StackBarData[]>([]);
+
+  const isParentGraphContentBox: boolean = getIsParentGraphContentBox(parentRef);
 
   useEffect(() => {
     setData([]);
@@ -77,11 +79,6 @@ const ChatVolumeByPeriodGraph = ({ analyzedMessages, selectedChatRoomIndex }: Gr
     chatDates = getDates(analyzedMessages)[selectedChatRoomIndex];
     chatTimes = getChatTimes(analyzedMessages)[selectedChatRoomIndex];
     setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
-
-    if (parentRef?.current?.current) {
-      isParentGraphContentBox =
-        parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
-    }
   }
 
   return (

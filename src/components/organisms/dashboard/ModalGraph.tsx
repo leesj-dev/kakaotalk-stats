@@ -4,8 +4,8 @@ import Span from "../../atoms/Span";
 import Icon from "../../atoms/Icon";
 import { useLocation } from "react-router";
 import { MdClose } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { AnalyzedMessage, GraphPropsInterface } from "../../../@types/index.d";
+import { useDispatch } from "react-redux";
+import { GraphPropsInterface } from "../../../@types/index.d";
 import { getDates } from "../../../module/common/getProperties";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
@@ -138,10 +138,6 @@ const ResponsiveGraphContentBox = styled.div`
   height: calc(100% - 119px);
   width: 100%;
 `;
-
-interface FindModalDataByIdProps extends GraphPropsInterface {
-  id: number;
-}
 
 interface ModalGraphProps extends GraphPropsInterface {
   currentModalData: {

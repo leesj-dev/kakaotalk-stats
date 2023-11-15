@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { FlexCenterDiv } from "../../atoms/FlexDiv";
 import SpeakerSelect from "../../molecules/dashboard/SpeakerSelect";

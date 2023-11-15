@@ -7,7 +7,6 @@ import ChatRatioWithArrowGraph from "../../molecules/graphs/ChatRatioWithArrowGr
 import ChatRoomCompareGraph from "../../molecules/graphs/ChatRoomCompareGraph";
 import ChatVolumeByPeriodGraph from "../../molecules/graphs/ChatVolumeByPeriodGraph";
 import ChatRateGraph from "../../molecules/graphs/ChatRateGraph";
-import ReplyCountByHourlyGraph from "../../molecules/graphs/ReplyCountByHourlyGraph";
 import KeywordChartGraph from "../../molecules/graphs/KeywordChartGraph";
 import ReplySpeedGraph from "../../molecules/graphs/ReplySpeedGraph";
 import ChatVolumeByHourlyGraph from "../../molecules/graphs/ChatVolumeByHourlyGraph";
@@ -18,7 +17,7 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import Tooltip from "../../atoms/Tooltip";
 import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 import { GraphPropsInterface } from "../../../@types/index.d";
-import { useLocation, useParams } from "react-router";
+import { useLocation } from "react-router";
 
 const GraphDisplayBox = styled(FlexColumnCenterDiv)`
   position: relative;

@@ -1,12 +1,16 @@
+import React from "react";
+import { useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 
 interface BlueButtonProps {
+  children: any;
   inactive?: boolean;
   disabled?: boolean;
   isDarkMode?: boolean;
+  onClick?: () => void;
 }
 
-const BlueButton = styled.button<BlueButtonProps>`
+const BlueButtonBox = styled.button<BlueButtonProps>`
   margin: 0 auto;
   padding: 1.7rem 3.4rem;
   display: flex;
@@ -48,5 +52,16 @@ const BlueButton = styled.button<BlueButtonProps>`
       }
     `};
 `;
+
+const BlueButton = (props: BlueButtonProps) => {
+  const { children, inactive, disabled, onClick } = props;
+  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
+
+  return (
+    <BlueButtonBox inactive={inactive} isDarkMode={isDarkMode} disabled={disabled} onClick={onClick}>
+      {children}
+    </BlueButtonBox>
+  );
+};
 
 export default BlueButton;

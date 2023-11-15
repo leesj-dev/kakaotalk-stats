@@ -6,7 +6,6 @@ import ThreeImages, { CardData } from "../../organisms/attachment/ThreeImages";
 import scrollToEvent from "../../../module/common/scrollToEvent";
 import { useLocation } from "react-router";
 import { FlexCenterDiv, FlexColumnCenterDiv } from "../../atoms/FlexDiv";
-import { useSelector } from "react-redux";
 
 const AttachDescriptionBox = styled(FlexColumnCenterDiv)`
   padding: 80px 0;
@@ -71,8 +70,6 @@ const AttachmentDescriptionSection = () => {
   const isAnalysisIndex = location.hash.includes("analysis");
   const AttachDescriptionBoxRef = useRef<HTMLDivElement>(null);
 
-  const isDarkMode = useSelector((state: { isDarkModeSlice: boolean }) => state.isDarkModeSlice);
-
   const [cardData, setCardData] = useState<CardData[]>(pcCardData);
 
   const osData = [
@@ -103,7 +100,6 @@ const AttachmentDescriptionSection = () => {
           <BlueButton
             key={item.label}
             inactive={cardData !== item.data}
-            isDarkMode={isDarkMode}
             onClick={() => setCardData(item.data)}
           >
             {item.label}

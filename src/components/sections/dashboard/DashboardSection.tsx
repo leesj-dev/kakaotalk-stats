@@ -2,23 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import scrollToEvent from "../../../module/common/scrollToEvent";
-import {
-  AnalyzedMessage,
-  ChatTimes,
-  GraphPropsInterface,
-  StringNumberTuple,
-} from "../../../@types/index.d";
-import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
-import { getTotalChatCounts } from "../../molecules/graphs/SummaryPieGraph";
+import { GraphPropsInterface, StringNumberTuple } from "../../../@types/index.d";
 import ModalGraph from "../../organisms/dashboard/ModalGraph";
 import GraphDisplay from "../../organisms/dashboard/GraphDisplay";
-import DashboardHeaderContent from "../../molecules/dashboard/DashboardHeaderContent";
 import { setVolumeHourlyBoxSize } from "../../../store/reducer/dashboard/volumeHourlyBoxSizeSlice";
-import SpeakerSelect from "../../molecules/dashboard/SpeakerSelect";
 import { setIsModalVisible } from "../../../store/reducer/dashboard/isModalVisibleSlice";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
-import { borderRadius } from "../../../style/specifiedCss/borderRadius";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
+import DashBoardHeader from "../../organisms/dashboard/DashBoardHeader";
 
 const DashboardSectionContainer = styled(FlexCenterDiv)`
   padding: 10px;
@@ -49,31 +40,6 @@ const ArticleBox = styled(FlexColumnDiv)`
   height: 100%;
   width: calc(100% - 25% - 10px);
   gap: 10px;
-`;
-
-const HeadBox = styled.div`
-  display: flex;
-  height: calc((100% - 10px) * 0.15);
-  gap: 10px;
-
-  > * {
-    background: var(--mainWhite);
-    padding: 10px 20px 10px 15px;
-    text-align: left;
-    border-radius: ${borderRadius.medium};
-    flex: 1;
-  }
-  > :nth-child(1) {
-    flex: 1.3;
-    flex-direction: row;
-  }
-`;
-
-const DashboardContainer = styled(FlexColumnDiv)`
-  width: 100%;
-  height: 100%;
-  gap: 15px;
-  transition: background 0.3s;
 `;
 
 const BodyBox = styled(FlexColumnDiv)`
@@ -123,55 +89,20 @@ const DashboardSection = ({ analyzedMessages, selectedChatRoomIndex }: GraphProp
   const containerRef = useRef<HTMLDivElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const mostChattedTimes = useSelector(
-    (state: { mostChattedTimesSlice: StringNumberTuple[] }) => state.mostChattedTimesSlice
-  );
   const isModalVisible = useSelector(
     (state: { isModalVisibleSlice: StringNumberTuple[] }) => state.isModalVisibleSlice
   );
 
   const [currentModalData, setCurrentModalData] = useState<any>();
-
-  const speakers: string[][] = getSpeakers(analyzedMessages);
-  const chatTimes: ChatTimes[][][] = getChatTimes(analyzedMessages);
-  const totalChatCounts: number[] = getTotalChatCounts(chatTimes);
-
-  const HeaderData = [
-    {
-      id: "selectSpeaker",
-      headerTitle: "강조할 대화자",
-      headerContent: (
-        <SpeakerSelect
-          analyzedMessages={analyzedMessages}
-          selectedChatRoomIndex={selectedChatRoomIndex}
-          alignItems="end"
-        />
-      ),
-    },
-    {
-      id: "speakerCount",
-      headerTitle: "대화자 수",
-      headerContent: ` ${speakers[selectedChatRoomIndex]?.length || 0}`,
-    },
-    {
-      id: "totalChatCount",
-      headerTitle: "총 대화수",
-      headerContent: `${totalChatCounts[selectedChatRoomIndex]?.toLocaleString() || 0}`,
-    },
-    {
-      id: "mostChatTime",
-      headerTitle: "주 대화 시간대",
-      headerContent: `${mostChattedTimes[selectedChatRoomIndex]?.[0]?.[0] || 0}시`,
-    },
-  ];
-
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  if (!isModalVisible && containerRef?.current?.offsetHeight) {
-    dispatch(
-      setVolumeHourlyBoxSize([containerRef?.current?.offsetWidth, containerRef?.current?.offsetHeight])
-    );
-  }
+  useEffect(() => {
+    if (!isModalVisible && containerRef?.current?.offsetHeight) {
+      dispatch(
+        setVolumeHourlyBoxSize([containerRef?.current?.offsetWidth, containerRef?.current?.offsetHeight])
+      );
+    }
+  }, [dispatch, isModalVisible]);
 
   useEffect(() => {
     dispatch(setIsModalVisible(false));
@@ -219,18 +150,10 @@ const DashboardSection = ({ analyzedMessages, selectedChatRoomIndex }: GraphProp
         <GraphDisplay {...createGraphDisplayProps("대화 비율", 2)} />
       </AsideBox>
       <ArticleBox>
-        <HeadBox>
-          {HeaderData.map((data) => {
-            return (
-              <DashboardContainer key={data.id}>
-                {data.id === "selectSpeaker" && (
-                  <GraphDisplay {...createGraphDisplayProps("채팅방 대화 비율", 1)} />
-                )}
-                <DashboardHeaderContent data={data} key={data.id} />
-              </DashboardContainer>
-            );
-          })}
-        </HeadBox>
+        <DashBoardHeader
+          {...createGraphDisplayProps("채팅방 대화 비율", 1)}
+          createGraphDisplayProps={createGraphDisplayProps}
+        />
         <BodyBox>
           <VerticalBox>
             <ReplySpeedGraphBox>
