@@ -9,7 +9,7 @@ import { AnalyzedMessage, ChatTimes } from "../../../@types/index.d";
 import { getChatTimes, getSpeakers } from "../../../module/common/getProperties";
 import Span from "../../atoms/Span";
 import { setSelectedChatRoomIndex } from "../../../store/reducer/dashboard/selectedRoomIndexSlice";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/selectedSpeakerIndexSlice";
 import { setIsSideMenuChatRoom } from "../../../store/reducer/dashboard/isSideMenuChatRoomSelectSlice";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
@@ -103,11 +103,10 @@ const ChatRoomHead = styled(Span)`
   font-weight: 500;
 `;
 
-const ChatroomName = styled(Span)`
-  margin-bottom: 5px;
-`;
+const ChatroomName = styled(Span)``;
 
 const ToDetailLink = styled(Span)`
+  margin-top: 5px;
   font-weight: 700;
 
   &:hover {
@@ -127,6 +126,8 @@ const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({
   isSideMenu,
 }) => {
   const dispatch = useDispatch();
+  const pathname = useLocation().pathname;
+  const isDemoPage = pathname.includes("/demo");
 
   const speakers: string[][] = getSpeakers(analyzedMessages);
   const chatRoomNames: string[] = getTwoLettersFromSpeakers(speakers);
@@ -167,11 +168,13 @@ const DashboardSideMenu: React.FC<DashboardSideMenuProps> = ({
                 채팅방{index + 1} ({totalChatCounts[index]})
               </ChatRoomHead>
               <ChatroomName>{name}</ChatroomName>
-              <ToDetailLink>
-                <Link to={`/detail`} onClick={closeMenu}>
-                  상세보기 {">"}
-                </Link>
-              </ToDetailLink>
+              {!isDemoPage && (
+                <ToDetailLink>
+                  <Link to={`/detail`} onClick={closeMenu}>
+                    상세보기 {">"}
+                  </Link>
+                </ToDetailLink>
+              )}
             </ChatRoomBox>
           );
         })}
