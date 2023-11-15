@@ -7,6 +7,7 @@ import { setSelectedSpeakerIndex } from "../../../store/reducer/dashboard/select
 import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import styled from "styled-components";
 import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
+import useChatRatioWithArrowGraphData from "../../../hooks/useChatRatioWithArrowGraphData";
 
 const ChatRatioWithArrowGraphBox = styled.div<{ justifyContent?: string }>`
   display: flex;
@@ -75,10 +76,6 @@ interface ChatRatioWithArrowGraphProps extends GraphPropsInterface {
   justifyContent?: string;
 }
 
-let selectedChatRoomData;
-let speakerTotalChatCounts: Record<string, number> = {};
-let totalChatCount: any;
-
 const ChatRatioWithArrowGraph = ({
   justifyContent,
   analyzedMessages,
@@ -90,51 +87,21 @@ const ChatRatioWithArrowGraph = ({
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
 
-  const [data, setData] = useState<any[]>([]);
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
+
+  const { arrowGraphData } = useChatRatioWithArrowGraphData({ analyzedMessages, selectedChatRoomIndex });
 
   const handleResize = () => {
     setScreenWidth(window.innerWidth);
   };
 
+  let angle = arrowGraphData.length && getValueForAngle(arrowGraphData, selectedSpeakerIndex);
   let scale = 1;
-  if (screenWidth < 480) {
-    scale = 0.8;
-  }
-
+  if (screenWidth < 480) scale = 0.8;
   const cx = 50 * scale,
     cy = 50 * scale,
     iR = 25 * scale,
     oR = 50 * scale;
-
-  useEffect(() => {
-    setData([]);
-  }, [selectedChatRoomIndex]);
-
-  if (!data.length) {
-    selectedChatRoomData = analyzedMessages[selectedChatRoomIndex];
-    Object.values(selectedChatRoomData).forEach((chatroom) => {
-      Object.values(chatroom).forEach((chat: { chatTimes: any; speaker: string }) => {
-        const speaker = chat.speaker;
-        if (!speakerTotalChatCounts[speaker]) {
-          speakerTotalChatCounts[speaker] = 0;
-        }
-        const chatTimes = chat.chatTimes;
-        const chatCounts = chatTimes ? Object.values(chatTimes) : [];
-        const totalChatCount = reduceAPlusB(chatCounts);
-        speakerTotalChatCounts[speaker] += Number(totalChatCount);
-      });
-    });
-    totalChatCount = reduceAPlusB(Object.values(speakerTotalChatCounts));
-    const result = Object.entries(speakerTotalChatCounts).map(([name, value], index) => ({
-      name,
-      value: Number(((value / totalChatCount) * 100).toFixed(0)),
-      color: colorsForGraphArray[index % colorsForGraphArray.length],
-    }));
-    setData(result);
-  }
-
-  let angle = data.length && getValueForAngle(data, selectedSpeakerIndex);
 
   const handleClickSpeakerCell = (index: number) => {
     dispatch(setSelectedSpeakerIndex(index));
@@ -155,7 +122,7 @@ const ChatRatioWithArrowGraph = ({
           dataKey="value"
           startAngle={180}
           endAngle={0}
-          data={data}
+          data={arrowGraphData}
           cx={cx}
           cy={cy}
           innerRadius={iR}
@@ -164,7 +131,7 @@ const ChatRatioWithArrowGraph = ({
           stroke="none"
           animationDuration={300}
         >
-          {data.map((entry, index) => (
+          {arrowGraphData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
               onClick={() => handleClickSpeakerCell(index)}
@@ -177,7 +144,7 @@ const ChatRatioWithArrowGraph = ({
           ))}
         </Pie>
 
-        {needle(angle, data, cx, cy, iR, oR, "#FF414D")}
+        {needle(angle, arrowGraphData, cx, cy, iR, oR, "#FF414D")}
       </PieChart>
     </ChatRatioWithArrowGraphBox>
   );

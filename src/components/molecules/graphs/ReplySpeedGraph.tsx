@@ -19,6 +19,7 @@ import { reduceAPlusB } from "../../../module/common/reduceAPlusB";
 import { colorsForGraphArray, customTickColor } from "../../../module/common/colorsForGraphArray";
 import NavigatorContainer from "../dashboard/GraphNavigatorContainer";
 import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
+import getIsParentGraphContentBox from "../../../module/common/getIsParentGraphContentBox";
 
 type LineGraphData = {
   name: string;
@@ -160,6 +161,8 @@ let averageReplyTime: any;
 let replySpeedData: any;
 
 const ReplySpeedGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
+  const parentRef = useRef<React.RefObject<HTMLElement>>(null);
+
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
@@ -181,13 +184,7 @@ const ReplySpeedGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphProps
     setDisplayData(replySpeedData);
   }
 
-  const parentRef = useRef<any>(null);
-
-  let isParentGraphContentBox;
-  if (parentRef?.current?.current) {
-    isParentGraphContentBox =
-      parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
-  }
+  const isParentGraphContentBox: boolean = getIsParentGraphContentBox(parentRef);
 
   return (
     <>

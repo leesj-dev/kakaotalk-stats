@@ -11,7 +11,7 @@ import { NavProps } from "../../sections/navigation/Navigation";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Paragraph from "../../atoms/Paragraph";
 import { zIndex } from "../../../style/specifiedCss/zIndex";
-import { AnalyzedMessage, UserData } from "../../../@types/index.d";
+import { AnalyzedMessage } from "../../../@types/index.d";
 
 const NavSideBox = styled(FlexColumnDiv)<{ isSideMenuChatRoom: boolean }>`
   position: absolute;
@@ -102,12 +102,7 @@ interface NavSideMenuProps extends NavProps {
 const scrollY = window.scrollY;
 const bodyStyle = document.body.style;
 
-const NavSide: React.FC<NavSideMenuProps> = ({
-  closeMenu,
-  isWideScreen,
-  isDarkMode,
-  isAnalyzedMessagesExist,
-}) => {
+const NavSide: React.FC<NavSideMenuProps> = ({ closeMenu, isWideScreen, isAnalyzedMessagesExist }) => {
   const isSideMenuChatRoom = useSelector(
     (state: { isSideMenuChatRoomSelectSlice: boolean }) => state.isSideMenuChatRoomSelectSlice
   );
@@ -152,9 +147,10 @@ const NavSide: React.FC<NavSideMenuProps> = ({
           <H2 as="h2">
             <Link to="/" onClick={closeMenu}>
               <Img
-                src={`${process.env.PUBLIC_URL}/images/logo/${
-                  isDarkMode ? "logoGray" : "logoBlack"
-                }.png`}
+                src={[
+                  `${process.env.PUBLIC_URL}/images/logo/logoBlack.png`,
+                  `${process.env.PUBLIC_URL}/images/logo/logoGray.png`,
+                ]}
               />
             </Link>
           </H2>

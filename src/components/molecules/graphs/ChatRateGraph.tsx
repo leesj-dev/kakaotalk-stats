@@ -17,6 +17,7 @@ import { colorsForGraphArray, customTickColor } from "../../../module/common/col
 import styled from "styled-components";
 import NavigatorContainer from "../dashboard/GraphNavigatorContainer";
 import { graphTooltipStyle } from "../../../style/specifiedCss/graphTooltip";
+import getIsParentGraphContentBox from "../../../module/common/getIsParentGraphContentBox";
 
 const TooltipBox = styled.div`
   border: 1px solid #ddd;
@@ -77,14 +78,13 @@ const renderTooltipContent = (o: any) => {
 let chatSpeakers: any;
 let chatDates: any;
 let chatTimes: any;
-let isParentGraphContentBox: any;
 
 const ChatRateGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsInterface) => {
+  const parentRef = useRef<React.RefObject<HTMLElement>>(null);
+
   const selectedSpeakerIndex = useSelector(
     (state: { selectedSpeakerIndexSlice: number }) => state.selectedSpeakerIndexSlice
   );
-
-  const parentRef = useRef<any>(null);
 
   const [data, setData] = useState<StackBarData[]>([]);
 
@@ -99,10 +99,7 @@ const ChatRateGraph = ({ analyzedMessages, selectedChatRoomIndex }: GraphPropsIn
     setData(createStackBarData(chatSpeakers, chatDates, chatTimes));
   }
 
-  if (parentRef?.current?.current) {
-    isParentGraphContentBox =
-      parentRef?.current?.current.offsetParent.className.includes("GraphContentBox");
-  }
+  const isParentGraphContentBox: boolean = getIsParentGraphContentBox(parentRef);
 
   return (
     <>

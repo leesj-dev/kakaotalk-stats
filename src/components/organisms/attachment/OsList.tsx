@@ -1,4 +1,3 @@
-import React from "react";
 import Span from "../../atoms/Span";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";

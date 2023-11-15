@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { FlexCenterDiv, FlexColumnDiv } from "../../atoms/FlexDiv";
 import Img from "../../atoms/Img";
@@ -49,7 +48,7 @@ const ThreeImages = ({ srcAndText }: ThreeImagesProps) => {
       {srcAndText.map((item) => {
         return (
           <ImageCardBox key={item.id}>
-            <Image src={item.src} />
+            <Image src={[item.src]} />
             <Description>{item.text}</Description>
           </ImageCardBox>
         );
