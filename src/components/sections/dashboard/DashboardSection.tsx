@@ -96,11 +96,13 @@ const DashboardSection = ({ analyzedMessages, selectedChatRoomIndex }: GraphProp
   const [currentModalData, setCurrentModalData] = useState<any>();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  if (!isModalVisible && containerRef?.current?.offsetHeight) {
-    dispatch(
-      setVolumeHourlyBoxSize([containerRef?.current?.offsetWidth, containerRef?.current?.offsetHeight])
-    );
-  }
+  useEffect(() => {
+    if (!isModalVisible && containerRef?.current?.offsetHeight) {
+      dispatch(
+        setVolumeHourlyBoxSize([containerRef?.current?.offsetWidth, containerRef?.current?.offsetHeight])
+      );
+    }
+  }, [dispatch, isModalVisible]);
 
   useEffect(() => {
     dispatch(setIsModalVisible(false));
