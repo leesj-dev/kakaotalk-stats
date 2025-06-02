@@ -24,7 +24,6 @@ const NavMenus = ({ isAnalyzedMessagesExist }: { isAnalyzedMessagesExist: boolea
   return (
     <MenuBox>
       <Menus>
-        {!isAnalyzedMessagesExist && <Link to="/demo">미리보기</Link>}
         <Link to="/attachment">분석하기</Link>
         {isAnalyzedMessagesExist && <Link to="/dashboard">대시보드</Link>}
         {isAnalyzedMessagesExist && <Link to="/detail">상세보기</Link>}

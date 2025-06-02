@@ -29,6 +29,7 @@ const Image = styled(Img)`
 `;
 
 const Description = styled(Paragraph)`
+  margin-top: 10px;
   margin-bottom: 10px;
 `;
 

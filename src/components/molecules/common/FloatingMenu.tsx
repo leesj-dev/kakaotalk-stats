@@ -3,7 +3,6 @@ import styled from "styled-components";
 import scrollToEvent from "../../../module/common/scrollToEvent";
 import Icon from "../../atoms/Icon";
 import { FiArrowUp } from "react-icons/fi";
-import { BsShareFill } from "react-icons/bs";
 import { lightTheme } from "../../../style/Theme";
 import { FlexColumnDiv } from "../../atoms/FlexDiv";
 import { borderRadius } from "../../../style/specifiedCss/borderRadius";
@@ -39,25 +38,7 @@ const FloatingMenuContainer = styled(FlexColumnDiv)<{ isFloatingMenuVisible?: bo
 
 const FloatingMenuItem = styled(Icon)``;
 
-const copyClipBoard = async (text: string) => {
-  try {
-    await navigator.clipboard.writeText(text);
-    alert("클립보드에 주소가 복사되었어요.");
-  } catch (err) {
-    throw Error("클립보드 주소 복사 에러");
-  }
-};
-
-const handleClickCShareButton = () => {
-  const url = "쥬희무쩅이넹~ㅇㅅㅇ~";
-  copyClipBoard(url);
-};
-
 const menuItems = [
-  {
-    onClick: () => handleClickCShareButton(),
-    icon: <BsShareFill />,
-  },
   {
     onClick: () => scrollToEvent(0, "smooth"),
     icon: <FiArrowUp />,

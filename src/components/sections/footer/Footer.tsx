@@ -97,7 +97,7 @@ const Footer = (props: FooterProps) => {
             );
           })}
         </DeveloperDescriptionBox>
-        <ProjectName>카카오 돋보기(Kakao Magnifying Glass) 2023</ProjectName>
+        <ProjectName>© 2023–2025 카카오돋보기</ProjectName>
       </ContentBox>
     </FooterContainer>
   );
