@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/kakaotalk-stats/static/js/main.ba5be5ef.js",
+    "main.js": "/kakaotalk-stats/static/js/main.6583f296.js",
     "index.html": "/kakaotalk-stats/index.html",
-    "main.ba5be5ef.js.map": "/kakaotalk-stats/static/js/main.ba5be5ef.js.map"
+    "main.6583f296.js.map": "/kakaotalk-stats/static/js/main.6583f296.js.map"
   },
   "entrypoints": [
-    "static/js/main.ba5be5ef.js"
+    "static/js/main.6583f296.js"
   ]
 }
