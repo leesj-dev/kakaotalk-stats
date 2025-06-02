@@ -15,9 +15,6 @@
  |Code Quality|<img src="https://img.shields.io/badge/prettier-2C414F?style=for-the-badge&logo=prettier&logoColor=white"> <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white">|
  |Design Tool|<img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">|
   
-## 사이트 URL
-- ### http://kmg-env-1.eba-332qe2dv.ap-northeast-2.elasticbeanstalk.com/
-
 ## 주요 기능
 ![kmg-dashboard](https://github.com/KakaoMagnifyingGlass/KMG/assets/90388461/38d125ea-b43b-41dd-97f9-4e3815c49038)
 
