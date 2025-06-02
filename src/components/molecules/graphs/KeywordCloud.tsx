@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { TagCloud } from "react-tagcloud";
 import { AnalyzedMessage, ValueCountPair } from "../../../@types/index.d";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useState } from "react";
 import { getKeywordCounts, getSpeakers } from "../../../module/common/getProperties";
 import { KeywordCounts } from "../../../@types/index.d";
-import styled from "styled-components";
 import { setNfKeywordCount } from "../../../store/reducer/dashboard/nfKeywordCountSlice";
 import { setSpeakersTopNKeywords } from "../../../store/reducer/dashboard/speakersTopNKeywordsSlice";
 

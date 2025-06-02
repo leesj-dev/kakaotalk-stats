@@ -14,8 +14,6 @@ import { volumeHourlyBoxSizeSlice } from "./reducer/dashboard/volumeHourlyBoxSiz
 import { isDarkModeSlice } from "./reducer/common/isDarkModeSlice";
 import { isModalVisibleSlice } from "./reducer/dashboard/isModalVisibleSlice";
 import { isSideMenuChatRoomSelectSlice } from "./reducer/dashboard/isSideMenuChatRoomSelectSlice";
-import { userLoginDataSlice } from "./reducer/userData/userLoginDataSlice";
-import { userLoginAccessTokenSlice } from "./reducer/userData/userLoginAccessTokenSlice";
 
 export default configureStore({
   reducer: {
@@ -37,10 +35,6 @@ export default configureStore({
 
     // darkMode slice
     isDarkModeSlice: isDarkModeSlice.reducer,
-
-    // userData slice
-    userLoginDataSlice: userLoginDataSlice.reducer,
-    userLoginAccessTokenSlice: userLoginAccessTokenSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

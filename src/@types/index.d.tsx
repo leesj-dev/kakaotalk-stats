@@ -78,49 +78,6 @@ export type StackBarData = {
   [key: string]: number | string | undefined;
 };
 
-export interface UserData {
-  userId: string;
-  nickname: string;
-}
-export interface SingUpData extends UserData {
-  password: string;
-}
-export interface LoginFormData {
-  userId: string;
-  password: string;
-  isRememberMe: boolean;
-}
-export interface LoginSuccessData extends UserData {
-  accessToken: AccessToken;
-}
-export type AccessToken = {
-  accessToken: string;
-};
-
-export interface Post {
-  content: string;
-  createdAt: string;
-  isPrivate: boolean;
-  nickname: string;
-  postId: number;
-  title: string;
-  userId: string;
-  commentCount: number;
-  __v: number;
-  _id: string;
-}
-
-export interface Comment {
-  comment: string;
-  createdAt: string;
-  isPrivate: boolean;
-  nickname: string;
-  postId: number;
-  replies: [];
-  userId: string;
-  __v: number;
-  _id: string;
-}
 
 export interface GraphPropsInterface {
   analyzedMessages: AnalyzedMessage[];
