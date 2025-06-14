@@ -81,8 +81,6 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
     var confirmed = window.confirm("테스트용 텍스트 파일(MacOS)을 다운로드하시겠습니까?");
     if (!confirmed) {
       e.preventDefault(); // 다운로드 취소
-    } else {
-      window.alert("파일 다운로드가 실행되었습니다.");
     }
   };
 
@@ -112,10 +110,10 @@ const FileDrop = ({ handleChangeFile }: DropZoneProps) => {
         <AttachmentBox>
           <DownloadTestFileButton
             as="a"
-            href="https://docs.google.com/uc?export=download&id=1VOWOaMGSOnCS9_sIq0tsA1DdCcMIIkD4&confirm=t"
+            href="../testChat.txt"
             onClick={clickDownloadTestFile}
           >
-            다운로드 테스트 파일 (MacOS)
+           테스트 파일 다운로드 (MacOS)
           </DownloadTestFileButton>
           <AttachmentButton onChange={handleChangeFile}>파일 첨부하기</AttachmentButton>
         </AttachmentBox>
